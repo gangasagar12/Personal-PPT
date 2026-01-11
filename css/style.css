@@ -128,3 +128,27 @@ section {
   padding-top: 40px;
 }
 
+
+.home-left h3.muted {
+  color:rgb(76, 59, 68);
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.home-left .name {
+  font-size: 3rem;
+  color: black;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.home-left .role {
+  font-size: 1.5rem;
+  color:rgb(56, 101, 197);
+  margin-bottom: 20px;
+}
+
+.home-left .role span {
+  color:#0a0809;
+  font-weight: 600;
+}
