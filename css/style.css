@@ -152,3 +152,38 @@ section {
   color:#0a0809;
   font-weight: 600;
 }
+
+
+.cta-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.btn {
+  padding: 12px 30px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition:0.3 ease;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn-primary {
+  background:rgb(193, 8, 113);
+  color: white;
+}
+
+.btn-primary:hover {
+  background:rgb(238, 237, 237);
+  transform: translateY(-3px);
+}
+
+.btn-outline {
+  border: 2px solid rgb(246, 242, 243);
+  color:rgb(4, 1, 2);
+  background: transparent;
+}
