@@ -257,3 +257,39 @@ section {
   animation: glowPulse 2.5s infinite ease-in-out;
   z-index: 1;
 }
+
+.neon-ring {
+ position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  border: 5px solid #a855f7;
+  animation: ringSpin 8s linear infinite, ringPulse 3s ease-in-out infinite;
+  z-index: 2;
+}
+/*  floating animation */
+.photo-wrap {
+  animation: floatUpDown 4s ease-in-out infinite;
+}
+
+
+/* Keyframes */
+@keyframes ringSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+@keyframes ringPulse {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.05) rotate(180deg); }
+}
+
+@keyframes floatUpDown {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
