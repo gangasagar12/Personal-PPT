@@ -347,3 +347,45 @@ section {
   z-index: 1;
   animation: glowPulse 2.5s infinite alternate;
 }
+
+/* Animated rotating border */
+.animated-border {
+  position: absolute;
+  top: -4px; left: -4px;
+  width: calc(100% + 8px);
+  height: calc(100% + 8px);
+  border-radius: 50%;
+  border: 4px solid;
+  border-image-slice: 1;
+  border-width: 4px;
+  z-index: 2;
+  border-image-source: linear-gradient(45deg, #0ef, #a855f7, #0ef);
+  animation: rotateBorder 6s linear infinite;
+}
+
+/* Text Section */
+.about-right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.about-title {
+  font-size: 2.5rem;
+  color: rgb(16, 24, 138);
+  animation: slideInLeft 1s forwards;
+}
+
+.about-role {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #059ab8;
+  animation: slideInLeft 1.2s forwards;
+}
+
+.about-description {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #0a0606;
+  animation: slideInLeft 1.4s forwards;
+}
