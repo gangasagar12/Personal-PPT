@@ -389,3 +389,38 @@ section {
   color: #0a0606;
   animation: slideInLeft 1.4s forwards;
 }
+
+.about-description.cta {
+  font-weight: 600;
+  color: rgb(117, 10, 94);
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+@keyframes glowPulse {
+  0% { filter: blur(20px); opacity: 0.7; }
+  100% { filter: blur(40px); opacity: 1; }
+}
+
+@keyframes rotateBorder {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes slideInLeft {
+  0% { opacity: 0; transform: translateX(-50px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+/* Responsive */
+@media(max-width: 900px) {
+  .about-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 40px;
+  }
+}
