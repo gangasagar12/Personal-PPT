@@ -501,26 +501,84 @@ color: #0a0606;
   font-size: 20px;
   margin-bottom: 18px;
 }
+/*  for the  project section */
 
-/* BAR */
-.progress-bar {
+
+.projectsection{
   width: 100%;
-  height: 6px;
-  background: rgba(255,255,255,0.15);
+  height: 850px;
+  background-color: #d3d3dd;
+}
+/* Projects Section */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.project-card {
+  background:#b3b3b6;
+  border-radius: 15px;
   overflow: hidden;
-  margin-bottom: 14px;
+  box-shadow:#0ef;
+  transition:0.3s ease;
 }
 
-.progress-bar span {
-  display: block;
+.project-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(36, 122, 192, 0.15);
+}
+
+.project-image {
+  height: 200px;
+  overflow: hidden;
+}
+
+.project-image img {
+  width: 100%;
   height: 100%;
-  width: 0;
-  background: linear-gradient(90deg, #0ef, #7c3aed);
-  transition: width 1.6s ease;
+  object-fit: cover;
+  transition:0.3s ease;
 }
 
-/* TEXT */
-.skill-card p {
-  font-size: 20px;
-  color: #2c07d2;
+.project-card:hover .project-image img {
+  transform: scale(1.11);
+}
+
+.project-content {
+  padding: 25px;
+}
+
+.project-content h3 {
+  font-size: 1.5rem;
+  color:#0a0809;
+  margin-bottom: 15px;
+}
+
+.project-content p {
+  color:black;
+  margin-bottom: 20px;
+  line-height: 1.7;
+}
+
+.project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.project-tech span {
+  background: rgb(156, 225, 216);
+  color:rgb(7, 6, 6);
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.contactsection{
+  width: 100%;
+  height: 800px;
+  background-color: #b3b3b6;
 }
