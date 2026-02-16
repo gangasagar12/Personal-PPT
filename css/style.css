@@ -582,3 +582,137 @@ color: #0a0606;
   height: 800px;
   background-color: #b3b3b6;
 }
+
+
+/* Contact Section */
+.contact-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 60px;
+  margin-top: 50px;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 15px 20px;
+  border: 3px solid rgb(90, 83, 175);
+  border-radius: 10px;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  transition:0.3s ease;
+  background: rgb(185, 181, 181);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color:#05acdf;
+  box-shadow: 0 0 0 3px rgba(143, 137, 19, 0.2);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 20px;
+  background:#bcd2e3;
+  border-radius: 10px;
+  transition: 0.3 ease;
+}
+
+.info-item:hover {
+  transform: translateX(10px);
+  background:#5f7584;
+}
+
+.info-item i {
+  font-size: 1.5rem;
+  color:black;
+  margin-top: 5px;
+}
+
+.info-item h3 {
+  font-size: 1.2rem;
+  color: black;
+  margin-bottom: 5px;
+}
+
+.info-item p {
+  color:rgb(232, 4, 126);
+  font-size: 0.95rem;
+}
+
+/* Footer */
+.footer {
+  background:rgb(70, 62, 67);
+  color:white;
+  padding: 50px 0;
+  text-align: center;
+}
+
+.footer .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.footer p {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-social {
+  display: flex;
+  gap: 15px;
+}
+
+.footer-social a {
+  color: white;
+  font-size: 1.5rem;
+  transition: 0.3 ease;
+}
+
+.footer-social a:hover {
+  color: rgb(25, 165, 225);
+  transform: translateY(-5px);
+}
+
+/* Reveal Animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
