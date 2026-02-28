@@ -1,289 +1,196 @@
-// ===== MOBILE MENU TOGGLE =====
-const hamburger = document.querySelector('.hamburger');
-const navbar = document.querySelector('.navbar');
+/* ================================================================
+   app.js — Ganga Sagar Joshi Portfolio
+   Covers: scroll-progress · header shrink · hamburger drawer ·
+           active nav · scroll-reveal · typed.js · form handler
+   ================================================================ */
+
+'use strict';
+
+/* ─── 1. Typed.js ───────────────────────────────────────────────── */
+new Typed('.typed-text', {
+  strings: [
+    'Django Developer',
+    'Python Enthusiast',
+    'ML Explorer',
+    'Backend Engineer',
+    'BCA Student',
+  ],
+  typeSpeed:  65,
+  backSpeed:  35,
+  backDelay: 1800,
+  loop: true,
+});
+
+/* ─── 2. Year in footer ─────────────────────────────────────────── */
+const yearEl = document.getElementById('year');
+if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+/* ─── 3. Scroll-progress bar ────────────────────────────────────── */
+const progressBar = document.getElementById('scrollProgress');
+
+function updateProgress() {
+  const scrollTop    = document.documentElement.scrollTop  || document.body.scrollTop;
+  const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const pct          = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+  if (progressBar) progressBar.style.width = pct + '%';
+}
+
+/* ─── 4. Header shrink on scroll ────────────────────────────────── */
+const header = document.getElementById('header');
+
+function onScroll() {
+  updateProgress();
+  if (header) header.classList.toggle('scrolled', window.scrollY > 50);
+  setActiveLink();
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+
+/* ─── 5. Mobile drawer ──────────────────────────────────────────── */
+const hamburger      = document.getElementById('hamburger');
+const drawer         = document.getElementById('mobileDrawer');
+const backdrop       = document.getElementById('drawerBackdrop');
+
+function openDrawer() {
+  drawer  .classList.add('open');
+  backdrop.classList.add('open');
+  hamburger.classList.add('open');
+  hamburger.setAttribute('aria-expanded', 'true');
+  drawer.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';   // prevent page scroll behind drawer
+}
+
+function closeDrawer() {
+  drawer  .classList.remove('open');
+  backdrop.classList.remove('open');
+  hamburger.classList.remove('open');
+  hamburger.setAttribute('aria-expanded', 'false');
+  drawer.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+if (hamburger && drawer && backdrop) {
+  hamburger.addEventListener('click', () => {
+    drawer.classList.contains('open') ? closeDrawer() : openDrawer();
+  });
+
+  backdrop.addEventListener('click', closeDrawer);
+
+  // Close on any drawer link click
+  drawer.querySelectorAll('.drawer-link').forEach(link => {
+    link.addEventListener('click', closeDrawer);
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer();
+  });
+}
+
+/* ─── 6. Active nav link on scroll ─────────────────────────────── */
+const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-link');
 
-hamburger.addEventListener('click', () => {
-  hamburger.classList.toggle('active');
-  navbar.classList.toggle('active');
-  document.body.style.overflow = navbar.classList.contains('active') ? 'hidden' : '';
-});
+function setActiveLink() {
+  let current = '';
+  const offset = parseFloat(getComputedStyle(document.documentElement)
+    .getPropertyValue('--nav-h')) || 70;
 
-navLinks.forEach(link => {
-  link.addEventListener('click', () => {
-    hamburger.classList.remove('active');
-    navbar.classList.remove('active');
-    document.body.style.overflow = '';
-  });
-});
-
-// ===== TYPED.JS INITIALIZATION =====
-document.addEventListener('DOMContentLoaded', () => {
-  const typed = new Typed('.typed-text', {
-    strings: ['Django Developer', 'Python Developer', 'Backend Developer', 'Web Developer'],
-    typeSpeed: 60,
-    backSpeed: 40,
-    backDelay: 1500,
-    loop: true,
-    smartBackspace: true,
-    cursorChar: '|',
-    fadeOut: false
-  });
-
-  // ===== SCROLL REVEAL ANIMATION =====
-  const revealElements = document.querySelectorAll('.reveal');
-  
-  const revealOnScroll = () => {
-    const windowHeight = window.innerHeight;
-    const revealPoint = 150;
-    
-    revealElements.forEach(element => {
-      const revealTop = element.getBoundingClientRect().top;
-      
-      if (revealTop < windowHeight - revealPoint) {
-        element.classList.add('active');
-      }
-    });
-  };
-  
-  window.addEventListener('scroll', revealOnScroll);
-  revealOnScroll(); // Initial check
-
-  // ===== ACTIVE NAV LINK ON SCROLL =====
-  const sections = document.querySelectorAll('section[id]');
-  
-  const highlightNavLink = () => {
-    const scrollY = window.pageYOffset;
-    
-    sections.forEach(section => {
-      const sectionHeight = section.offsetHeight;
-      const sectionTop = section.offsetTop - 100;
-      const sectionId = section.getAttribute('id');
-      const navLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
-      
-      if (navLink) {
-        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-          navLink.classList.add('active');
-        } else {
-          navLink.classList.remove('active');
-        }
-      }
-    });
-  };
-  
-  window.addEventListener('scroll', highlightNavLink);
-
-  // ===== ANIMATED COUNTER FOR SKILLS =====
-  const skillCards = document.querySelectorAll('.skill-card');
-  const counters = document.querySelectorAll('.counter');
-  const progressBars = document.querySelectorAll('.progress-bar span');
-  
-  const animateCounters = () => {
-    skillCards.forEach((card, index) => {
-      const cardTop = card.getBoundingClientRect().top;
-      const windowHeight = window.innerHeight;
-      
-      if (cardTop < windowHeight - 100) {
-        const percent = card.getAttribute('data-percent');
-        const counter = counters[index];
-        const progressBar = progressBars[index];
-        
-        let count = 0;
-        const duration = 2000; // 2 seconds
-        const increment = percent / (duration / 16); // 60fps
-        
-        const updateCounter = () => {
-          count += increment;
-          if (count < percent) {
-            counter.textContent = Math.floor(count);
-            progressBar.style.width = count + '%';
-            setTimeout(updateCounter, 16);
-          } else {
-            counter.textContent = percent;
-            progressBar.style.width = percent + '%';
-          }
-        };
-        
-        updateCounter();
-        
-        // Remove event listener after animation
-        window.removeEventListener('scroll', animateCounters);
-      }
-    });
-  };
-  
-  window.addEventListener('scroll', animateCounters);
-  animateCounters(); // Initial check
-
-  // ===== SMOOTH SCROLL FOR NAV LINKS =====
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-      e.preventDefault();
-      
-      const targetId = this.getAttribute('href');
-      if (targetId === '#') return;
-      
-      const targetElement = document.querySelector(targetId);
-      if (targetElement) {
-        window.scrollTo({
-          top: targetElement.offsetTop - 80,
-          behavior: 'smooth'
-        });
-      }
-    });
-  });
-
-
-  // ===== PARALLAX EFFECT =====
-  const parallaxElements = document.querySelectorAll('.photo-wrap, .profile-wrap');
-  
-  window.addEventListener('mousemove', (e) => {
-    const mouseX = e.clientX / window.innerWidth;
-    const mouseY = e.clientY / window.innerHeight;
-    
-    parallaxElements.forEach(element => {
-      const speed = 20;
-      const x = (mouseX - 0.5) * speed;
-      const y = (mouseY - 0.5) * speed;
-      
-      element.style.transform = `translate(${x}px, ${y}px)`;
-    });
-  });
-
-  // ===== GLOW EFFECT ON HOVER =====
-  const buttons = document.querySelectorAll('.btn-primary');
-  
-  buttons.forEach(button => {
-    button.addEventListener('mouseenter', (e) => {
-      const rect = button.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      
-      button.style.setProperty('--x', `${x}px`);
-      button.style.setProperty('--y', `${y}px`);
-    });
-  });
-
-  // ===== THEME TOGGLE (Optional - can be added later) =====
-  const themeToggle = document.createElement('button');
-  themeToggle.className = 'theme-toggle';
-  themeToggle.innerHTML = '<i class="bx bx-moon"></i>';
-  themeToggle.style.cssText = `
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: var(--gradient);
-    border: none;
-    color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 5px 15px rgba(0, 217, 255, 0.3);
-    transition: all 0.3s ease;
-  `;
-  
-  document.body.appendChild(themeToggle);
-  
-  themeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('light-mode');
-    
-    if (document.body.classList.contains('light-mode')) {
-      themeToggle.innerHTML = '<i class="bx bx-sun"></i>';
-      document.documentElement.style.setProperty('--dark', '#f8f9fa');
-      document.documentElement.style.setProperty('--darker', '#e9ecef');
-      document.documentElement.style.setProperty('--light', '#212529');
-      document.documentElement.style.setProperty('--gray', '#6c757d');
-    } else {
-      themeToggle.innerHTML = '<i class="bx bx-moon"></i>';
-      document.documentElement.style.setProperty('--dark', '#0a0a0f');
-      document.documentElement.style.setProperty('--darker', '#050508');
-      document.documentElement.style.setProperty('--light', '#f0f0f0');
-      document.documentElement.style.setProperty('--gray', '#8a8aa3');
+  sections.forEach(sec => {
+    if (window.scrollY >= sec.offsetTop - offset - 10) {
+      current = sec.id;
     }
   });
 
-  // ===== LOADING ANIMATION =====
-  window.addEventListener('load', () => {
-    document.body.classList.add('loaded');
+  navLinks.forEach(link => {
+    link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
   });
+}
 
-  // ===== CURSOR EFFECT (Optional) =====
-  const cursor = document.createElement('div');
-  cursor.className = 'custom-cursor';
-  cursor.style.cssText = `
-    position: fixed;
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--primary);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: width 0.3s, height 0.3s, background 0.3s;
-  `;
-  document.body.appendChild(cursor);
-  
-  document.addEventListener('mousemove', (e) => {
-    cursor.style.left = `${e.clientX}px`;
-    cursor.style.top = `${e.clientY}px`;
-  });
-  
-  document.addEventListener('mousedown', () => {
-    cursor.style.width = '15px';
-    cursor.style.height = '15px';
-  });
-  
-  document.addEventListener('mouseup', () => {
-    cursor.style.width = '20px';
-    cursor.style.height = '20px';
-  });
-  
-  const clickableElements = document.querySelectorAll('a, button, .project-card');
-  clickableElements.forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      cursor.style.width = '40px';
-      cursor.style.height = '40px';
-      cursor.style.background = 'rgba(0, 217, 255, 0.1)';
+// Run once on load
+setActiveLink();
+
+/* ─── 7. Scroll Reveal (IntersectionObserver) ──────────────────── */
+const revealEls = document.querySelectorAll('.reveal');
+
+const revealObserver = new IntersectionObserver(
+  entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+
+      // Stagger children inside grid containers
+      const parent = entry.target.parentElement;
+      const isInGrid = parent &&
+        (parent.classList.contains('skills-grid') ||
+         parent.classList.contains('projects-grid'));
+
+      const index  = isInGrid
+        ? Array.from(parent.children).indexOf(entry.target)
+        : 0;
+      const delay  = index * 90; // ms
+
+      setTimeout(() => {
+        entry.target.classList.add('visible');
+      }, delay);
+
+      revealObserver.unobserve(entry.target);
     });
-    
-    el.addEventListener('mouseleave', () => {
-      cursor.style.width = '20px';
-      cursor.style.height = '20px';
-      cursor.style.background = 'transparent';
+  },
+  { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+);
+
+revealEls.forEach(el => revealObserver.observe(el));
+
+/* ─── 8. Contact Form (EmailJS) ─────────────────────────────────── */
+/*
+  Replace the three placeholder strings below with your real
+  EmailJS credentials from https://dashboard.emailjs.com
+*/
+emailjs.init('YOUR_PUBLIC_KEY');
+
+const contactForm = document.getElementById('contactForm');
+
+if (contactForm) {
+  contactForm.addEventListener('submit', async e => {
+    e.preventDefault();
+
+    const btn     = contactForm.querySelector('.send-btn');
+    const btnText = btn.querySelector('span');
+
+    // Basic client-side validation
+    const required = contactForm.querySelectorAll('[required]');
+    let valid = true;
+    required.forEach(field => {
+      field.style.borderColor = '';
+      if (!field.value.trim()) {
+        field.style.borderColor = '#e05555';
+        valid = false;
+      }
     });
-  });
-});
+    if (!valid) return;
 
-//  for the services of contact form
+    // Loading state
+    btnText.textContent = 'Sending…';
+    btn.disabled = true;
 
-// Initialize EmailJS
-(function () {
-  emailjs.init("OAkGZN_XUBWCjNlGn"); // paste public key here
-})();
+    try {
+      await emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', contactForm);
 
-const form = document.getElementById("contact-form");
+      btnText.textContent = '✓ Message Sent!';
+      btn.style.background = 'linear-gradient(135deg,#00d4aa,#009e7f)';
+      contactForm.reset();
 
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  emailjs.sendForm(
-    "service_0hd5syd",     // service id
-    "template_hprhgrp",    // template id
-    this
-  ).then(
-    function () {
-      alert("✅ Message sent successfully!");
-      form.reset();
-    },
-    function (error) {
-      alert("❌ Failed to send message");
-      console.log(error);
+    } catch (err) {
+      console.error('EmailJS error:', err);
+      btnText.textContent = 'Failed — Try Again';
+      btn.style.background = 'linear-gradient(135deg,#e05555,#b03030)';
     }
-  );
-});
+
+    // Reset button after 4 s
+    setTimeout(() => {
+      btnText.textContent = 'Send Message';
+      btn.disabled        = false;
+      btn.style.background = '';
+    }, 4000);
+  });
+}
