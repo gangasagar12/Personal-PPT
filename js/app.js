@@ -1,8 +1,8 @@
-/* ================================================================
-   app.js — Ganga Sagar Joshi Portfolio
-   Covers: scroll-progress · header shrink · hamburger drawer ·
-           active nav · scroll-reveal · typed.js · form handler
-   ================================================================ */
+
+  //  app.js — Ganga Sagar Joshi Portfolio
+  //  Covers: scroll-progress · header shrink · hamburger drawer ·
+  //          active nav · scroll-reveal · typed.js · form handler
+
 
 'use strict';
 
