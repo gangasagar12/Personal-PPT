@@ -93,7 +93,7 @@
       <a href="#about" class="drawer-link"><i class="bx bx-user"></i><span>About</span></a>
       <a href="#skills" class="drawer-link"><i class="bx bx-layer"></i><span>Skills</span></a>
       <a href="#services" class="drawer-link"><i class="bx bx-wrench"></i><span>Services</span></a>
-      <a href="projects.html" class="drawer-link"><i class="bx bx-folder"></i><span>Projects</span></a>
+      <a href="#projects" class="drawer-link"><i class="bx bx-folder"></i><span>Projects</span></a>
       <a href="#profile" class="drawer-link"><i class="bx bx-user-pin"></i><span>Profile</span></a>
       <a href="#insights" class="drawer-link"><i class="bx bx-bulb"></i><span>Insights</span></a>
       <a href="#contact" class="drawer-link"><i class="bx bx-envelope"></i><span>Contact</span></a>
@@ -160,7 +160,7 @@
 
           <!-- Action Buttons -->
           <div class="hero-actions">
-            <a href="projects.html" class="btn btn-primary hero-btn">
+            <a href="#projects" class="btn btn-primary hero-btn">
               <span>Explore Projects</span>
               <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
             </a>
@@ -288,7 +288,7 @@
 
         <!-- Section Heading -->
         <div class="section-heading-block text-center">
-          <span class="section-tag">about</span>
+          <span class="section-tag">About Me</span>
           <h2 class="section-main-title">
             Get To Know <span class="gradient-text">Me</span>
           </h2>
@@ -317,15 +317,10 @@
 
           <!-- Right Column: Description & Story -->
           <div class="about-content-column">
-            <!-- Editorial Pre-header with horizontal rule matching reference image -->
-            <div class="about-kicker-line">
-              <span class="about-kicker-rule" aria-hidden="true"></span>
-              <span class="about-kicker-text">Django Backend Developer</span>
+            <div class="about-role-badge">
+              <i class="bx bx-code-alt" aria-hidden="true"></i>
+              <span>Django Backend Developer &bull; Kathmandu, Nepal</span>
             </div>
-
-            <h3 class="about-headline-name">
-              Ganga Sagar <span class="gradient-text">Joshi</span>
-            </h3>
 
             <!-- 2-Column Editorial Paragraphs matching the user's reference -->
             <div class="about-columns-wrap">
@@ -700,38 +695,246 @@
 
 
 
-    <!-- ── Featured Projects Teaser Bridge (Full Showcase on projects.html) ── -->
-    <section class="featured-projects-preview" id="projects">
+    <!-- ── Featured Projects Section (All Projects Displayed on Home Page) ── -->
+    <section class="projects-section" id="projects">
       <div class="container">
-        <div class="featured-projects-bridge-box">
-          <div class="bridge-content">
-            <span class="section-tag">Featured Work</span>
-            <h2 class="bridge-title">Software Projects &amp; <span class="gradient-text">Systems</span></h2>
-            <p class="bridge-desc">
-              Explore my production dental practice operating systems (Oralix, CareFirst Dental), high-throughput Django REST APIs, relational database architectures, and open-source civic platforms on the dedicated Projects showcase.
-            </p>
-            <div class="bridge-stats">
-              <div class="bridge-stat-item">
-                <span class="bridge-stat-num">6+</span>
-                <span class="bridge-stat-label">Full Systems</span>
-              </div>
-              <div class="bridge-stat-item">
-                <span class="bridge-stat-num">2</span>
-                <span class="bridge-stat-label">Production OS</span>
-              </div>
-              <div class="bridge-stat-item">
-                <span class="bridge-stat-num">100%</span>
-                <span class="bridge-stat-label">Verified Code</span>
+
+        <!-- Section Heading -->
+        <div class="section-heading-block text-center">
+          <span class="section-tag">Portfolio</span>
+          <h2 class="section-main-title">
+            Featured <span class="gradient-text">Projects</span>
+          </h2>
+          <p class="section-subtitle">
+            A comprehensive showcase of production clinical operating platforms, scalable Django backend architectures, relational database schemas, and open-source software engineering.
+          </p>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="home-projects-grid">
+
+          <!-- Project 1: Oralix -->
+          <article class="home-project-card">
+            <div class="home-project-image">
+              <img src="images/projectcard1.jpg" alt="Oralix — Dental Practice OS" loading="lazy" />
+            </div>
+            <div class="home-project-body">
+              <h3 class="home-project-title">Oralix — Dental Practice OS</h3>
+              <p class="home-project-desc">
+                Multi-chair clinical operations platform engineered for modern dental practices. Unifies real-time operatory chair scheduling, electronic health records (EHR), dental charting, and automated billing.
+              </p>
+              <div class="home-project-footer">
+                <a href="https://github.com/gangasaagar" target="_blank" rel="noopener noreferrer" class="live-site-link">
+                  <span>Live Site</span>
+                  <i class="bx bx-link-external" aria-hidden="true"></i>
+                </a>
               </div>
             </div>
-          </div>
-          <div class="bridge-cta-wrap">
-            <a href="projects.html" class="btn btn-primary">
-              <span>View All Projects</span>
-              <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
-            </a>
+          </article>
+
+          <!-- Project 2: CareFirst Dental -->
+          <article class="home-project-card">
+            <div class="home-project-image">
+              <img src="images/projectcard2.jpg" alt="CareFirst Dental Management" loading="lazy" />
+            </div>
+            <div class="home-project-body">
+              <h3 class="home-project-title">CareFirst Dental Management</h3>
+              <p class="home-project-desc">
+                Specialized clinical management suite designed to streamline dental front-desk check-ins, chair appointment queues, and dental inventory with relational database consistency.
+              </p>
+              <div class="home-project-footer">
+                <a href="https://github.com/gangasaagar" target="_blank" rel="noopener noreferrer" class="live-site-link">
+                  <span>Live Site</span>
+                  <i class="bx bx-link-external" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 3: Smart Library Management -->
+          <article class="home-project-card">
+            <div class="home-project-image">
+              <img src="images/project1.jpg" alt="Smart Library Management System" loading="lazy" />
+            </div>
+            <div class="home-project-body">
+              <h3 class="home-project-title">Smart Library Management System</h3>
+              <p class="home-project-desc">
+                End-to-end automated library cataloging and circulation tracking portal. Handles book inventory categorization, student member checkouts, and fine calculation engines.
+              </p>
+              <div class="home-project-footer">
+                <a href="https://github.com/gangasaagar" target="_blank" rel="noopener noreferrer" class="live-site-link">
+                  <span>Live Site</span>
+                  <i class="bx bx-link-external" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 4: Scalable E-Commerce REST APIs -->
+          <article class="home-project-card">
+            <div class="home-project-image">
+              <img src="images/project2.jpg" alt="Scalable E-Commerce REST APIs" loading="lazy" />
+            </div>
+            <div class="home-project-body">
+              <h3 class="home-project-title">Scalable E-Commerce REST APIs</h3>
+              <p class="home-project-desc">
+                High-throughput enterprise e-commerce backend built with Django REST Framework. Architected with normalized PostgreSQL models, stateless JWT authentication, and order transactions.
+              </p>
+              <div class="home-project-footer">
+                <a href="https://github.com/gangasaagar" target="_blank" rel="noopener noreferrer" class="live-site-link">
+                  <span>Live Site</span>
+                  <i class="bx bx-link-external" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 5: Data Analysis Dashboard -->
+          <article class="home-project-card">
+            <div class="home-project-image">
+              <img src="images/project3.jpg" alt="Data Analytics & Visualization Dashboard" loading="lazy" />
+            </div>
+            <div class="home-project-body">
+              <h3 class="home-project-title">Data Analytics &amp; Visualization Dashboard</h3>
+              <p class="home-project-desc">
+                Interactive exploratory analytics dashboard designed to parse, clean, and visualize multi-dimensional datasets with Pandas, Plotly, and Matplotlib.
+              </p>
+              <div class="home-project-footer">
+                <a href="https://github.com/gangasaagar" target="_blank" rel="noopener noreferrer" class="live-site-link">
+                  <span>Live Site</span>
+                  <i class="bx bx-link-external" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 6: Sarkari Information Portal -->
+          <article class="home-project-card">
+            <div class="home-project-image">
+              <img src="images/projectcard3.webp" alt="Sarkari Information & Citizen Portal" loading="lazy" />
+            </div>
+            <div class="home-project-body">
+              <h3 class="home-project-title">Sarkari Information &amp; Citizen Portal</h3>
+              <p class="home-project-desc">
+                Civic technology information portal built to centralize government procedures, municipal document checklists, public service requirements, and citizen inquiry guidelines.
+              </p>
+              <div class="home-project-footer">
+                <a href="https://github.com/gangasaagar/sarkari-information-portal.git" target="_blank" rel="noopener noreferrer" class="live-site-link">
+                  <span>Live Site</span>
+                  <i class="bx bx-link-external" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- ── Key Academic Project (Exact Structure & Content from Reference) ── -->
+        <div class="academic-projects-block">
+          <h3 class="academic-section-title">Key Academic Project</h3>
+
+          <div class="academic-items-grid">
+
+            <!-- Item 1: Barcode -based Student Attendance System -->
+            <div class="academic-project-item">
+              <div class="academic-item-header">
+                <i class="bx bx-git-repo-forked" aria-hidden="true"></i>
+                <h4 class="academic-item-title">Barcode -based Student Attendance System</h4>
+              </div>
+              <p class="academic-item-desc">
+                A desktop-based attendance management system developed using C# .NET and MySQL that automates student attendance recording through barcode-enabled student identification cards.
+              </p>
+            </div>
+
+            <!-- Item 2: Income and Expense Tracker System -->
+            <div class="academic-project-item">
+              <div class="academic-item-header">
+                <i class="bx bx-git-repo-forked" aria-hidden="true"></i>
+                <h4 class="academic-item-title">Income and Expense Tracker System</h4>
+              </div>
+              <p class="academic-item-desc">
+                Personal finance management software application built as a 3rd Semester Project with ,featuring income and expense tracking, budgeting, reporting, data visualization, and secure user authentication.
+              </p>
+            </div>
+
+            <!-- Item 3: Social Media CLI Simulator -->
+            <div class="academic-project-item">
+              <div class="academic-item-header">
+                <i class="bx bx-git-repo-forked" aria-hidden="true"></i>
+                <h4 class="academic-item-title">Social Media CLI Simulator</h4>
+              </div>
+              <p class="academic-item-desc">
+                A terminal-based social media simulator built in C++ as a 2nd semester project.it modular CMake version with features like user registration, posting, and following.
+              </p>
+            </div>
+
+            <!-- Item 4: Who Wants to Be a Millionaire Quiz Game -->
+            <div class="academic-project-item">
+              <div class="academic-item-header">
+                <i class="bx bx-git-repo-forked" aria-hidden="true"></i>
+                <h4 class="academic-item-title">Who Wants to Be a Millionaire Quiz Game</h4>
+              </div>
+              <p class="academic-item-desc">
+                A terminal-based quiz game inspired by Who Wants to Be a Millionaire, built in C as a 1st semester project. Features timed questions, lifelines, multiple categories, a live scoreboard, and audio feedback — all running in the Windows console.
+              </p>
+            </div>
+
           </div>
         </div>
+
+        <!-- ── Key Academic Project (Exact Structure & Content from Reference) ── -->
+        <div class="academic-projects-block">
+          <h3 class="academic-section-title">Key Academic Project</h3>
+
+          <div class="academic-items-grid">
+
+            <!-- Item 1: Barcode -based Student Attendance System -->
+            <div class="academic-project-item">
+              <div class="academic-item-header">
+                <i class="bx bx-git-repo-forked" aria-hidden="true"></i>
+                <h4 class="academic-item-title">Barcode -based Student Attendance System</h4>
+              </div>
+              <p class="academic-item-desc">
+                A desktop-based attendance management system developed using C# .NET and MySQL that automates student attendance recording through barcode-enabled student identification cards.
+              </p>
+            </div>
+
+            <!-- Item 2: Income and Expense Tracker System -->
+            <div class="academic-project-item">
+              <div class="academic-item-header">
+                <i class="bx bx-git-repo-forked" aria-hidden="true"></i>
+                <h4 class="academic-item-title">Income and Expense Tracker System</h4>
+              </div>
+              <p class="academic-item-desc">
+                Personal finance management software application built as a 3rd Semester Project with ,featuring income and expense tracking, budgeting, reporting, data visualization, and secure user authentication.
+              </p>
+            </div>
+
+            <!-- Item 3: Social Media CLI Simulator -->
+            <div class="academic-project-item">
+              <div class="academic-item-header">
+                <i class="bx bx-git-repo-forked" aria-hidden="true"></i>
+                <h4 class="academic-item-title">Social Media CLI Simulator</h4>
+              </div>
+              <p class="academic-item-desc">
+                A terminal-based social media simulator built in C++ as a 2nd semester project.it modular CMake version with features like user registration, posting, and following.
+              </p>
+            </div>
+
+            <!-- Item 4: Who Wants to Be a Millionaire Quiz Game -->
+            <div class="academic-project-item">
+              <div class="academic-item-header">
+                <i class="bx bx-git-repo-forked" aria-hidden="true"></i>
+                <h4 class="academic-item-title">Who Wants to Be a Millionaire Quiz Game</h4>
+              </div>
+              <p class="academic-item-desc">
+                A terminal-based quiz game inspired by Who Wants to Be a Millionaire, built in C as a 1st semester project. Features timed questions, lifelines, multiple categories, a live scoreboard, and audio feedback — all running in the Windows console.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
       </div>
     </section>
 
