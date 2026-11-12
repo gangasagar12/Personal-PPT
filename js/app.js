@@ -7,19 +7,21 @@
 'use strict';
 
 /* ─── 1. Typed.js ───────────────────────────────────────────────── */
-new Typed('.typed-text', {
-  strings: [
-    'Django Developer',
-    'Python Enthusiast',
-    'ML Explorer',
-    'Backend Engineer',
-    'BCA Student',
-  ],
-  typeSpeed:  65,
-  backSpeed:  35,
-  backDelay: 1800,
-  loop: true,
-});
+if (document.querySelector('.typed-text')) {
+  new Typed('.typed-text', {
+    strings: [
+      'Django Backend Developer',
+      'Python & Cloud Enthusiast',
+      'Machine Learning Explorer',
+      'Full Stack Engineer',
+      'Tech Entrepreneur & Builder',
+    ],
+    typeSpeed: 60,
+    backSpeed: 35,
+    backDelay: 1900,
+    loop: true,
+  });
+}
 
 /* ─── 2. Year in footer ─────────────────────────────────────────── */
 const yearEl = document.getElementById('year');
@@ -35,12 +37,12 @@ function updateProgress() {
   if (progressBar) progressBar.style.width = pct + '%';
 }
 
-/* ─── 4. Header shrink on scroll ────────────────────────────────── */
+/* ─── 4. Header blur & shadow on scroll ─────────────────────────── */
 const header = document.getElementById('header');
 
 function onScroll() {
   updateProgress();
-  if (header) header.classList.toggle('scrolled', window.scrollY > 50);
+  if (header) header.classList.toggle('scrolled', window.scrollY > 25);
   setActiveLink();
 }
 
@@ -50,18 +52,21 @@ window.addEventListener('scroll', onScroll, { passive: true });
 const hamburger      = document.getElementById('hamburger');
 const drawer         = document.getElementById('mobileDrawer');
 const backdrop       = document.getElementById('drawerBackdrop');
+const drawerCloseBtn = document.getElementById('drawerClose');
 
 function openDrawer() {
-  drawer  .classList.add('open');
+  if (!drawer || !backdrop || !hamburger) return;
+  drawer.classList.add('open');
   backdrop.classList.add('open');
   hamburger.classList.add('open');
   hamburger.setAttribute('aria-expanded', 'true');
   drawer.setAttribute('aria-hidden', 'false');
-  document.body.style.overflow = 'hidden';   // prevent page scroll behind drawer
+  document.body.style.overflow = 'hidden'; // prevent background scrolling
 }
 
 function closeDrawer() {
-  drawer  .classList.remove('open');
+  if (!drawer || !backdrop || !hamburger) return;
+  drawer.classList.remove('open');
   backdrop.classList.remove('open');
   hamburger.classList.remove('open');
   hamburger.setAttribute('aria-expanded', 'false');
@@ -76,6 +81,10 @@ if (hamburger && drawer && backdrop) {
 
   backdrop.addEventListener('click', closeDrawer);
 
+  if (drawerCloseBtn) {
+    drawerCloseBtn.addEventListener('click', closeDrawer);
+  }
+
   // Close on any drawer link click
   drawer.querySelectorAll('.drawer-link').forEach(link => {
     link.addEventListener('click', closeDrawer);
@@ -87,24 +96,94 @@ if (hamburger && drawer && backdrop) {
   });
 }
 
-/* ─── 6. Active nav link on scroll ─────────────────────────────── */
+/* ─── 6. Active nav link on scroll & Smooth Navigation ─────────── */
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-link');
+const drawerLinks = document.querySelectorAll('.drawer-link');
 
 function setActiveLink() {
   let current = '';
   const offset = parseFloat(getComputedStyle(document.documentElement)
-    .getPropertyValue('--nav-h')) || 70;
+    .getPropertyValue('--nav-h')) || 74;
 
   sections.forEach(sec => {
-    if (window.scrollY >= sec.offsetTop - offset - 10) {
+    if (window.scrollY >= sec.offsetTop - offset - 40) {
       current = sec.id;
     }
   });
 
   navLinks.forEach(link => {
-    link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
+    const href = link.getAttribute('href');
+    link.classList.toggle('active', href === `#${current}`);
   });
+
+  drawerLinks.forEach(link => {
+    const href = link.getAttribute('href');
+    link.classList.toggle('active', href === `#${current}`);
+  });
+}
+
+// Intercept clicks on links for graceful handling
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    const targetId = this.getAttribute('href');
+    if (targetId === '#' || !targetId) return;
+
+    const targetEl = document.querySelector(targetId);
+    if (targetEl) {
+      e.preventDefault();
+      const offset = parseFloat(getComputedStyle(document.documentElement)
+        .getPropertyValue('--nav-h')) || 74;
+      const targetPos = targetEl.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({
+        top: targetPos,
+        behavior: 'smooth'
+      });
+    } else {
+      // Future section notification placeholder
+      e.preventDefault();
+      showToast(`${targetId.replace('#', '').toUpperCase()} section will be unlocked in the next step!`);
+    }
+  });
+});
+
+// Toast notification helper
+function showToast(message) {
+  let toast = document.getElementById('portfolioToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'portfolioToast';
+    toast.style.cssText = `
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.2);
+      z-index: 2000;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-left: 4px solid #2563eb;
+    `;
+    document.body.appendChild(toast);
+  }
+  toast.innerHTML = `<i class='bx bx-info-circle' style='color:#38bdf8;font-size:1.1rem;'></i> ${message}`;
+  toast.style.opacity = '1';
+  toast.style.transform = 'translateY(0)';
+
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(12px)';
+  }, 3200);
 }
 
 // Run once on load
