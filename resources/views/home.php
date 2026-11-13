@@ -637,88 +637,60 @@
       </div>
     </section>
 
-    <!-- ── Professional Experience Section ── -->
+    <!-- ── Professional Experience Section (Serpentine Snake Timeline UI) ── -->
     <section class="experience-section" id="experience">
       <div class="container">
 
-        <div class="section-heading-block">
-          <span class="section-tag">Career History</span>
-          <h2 class="section-main-title">
-            Professional <span class="gradient-text">Experience</span>
-          </h2>
-          <p class="section-subtitle">
-            Hands-on software engineering, technical leadership, and production backend systems developed across companies and platforms.
-          </p>
+        <div class="serpentine-header">
+          <h2 class="serpentine-title">Experiences</h2>
         </div>
 
-        <!-- Vertical Connected Timeline Structure (First 2 Highlights on Home) -->
-        <div class="experience-timeline-tree">
+        <!-- Serpentine S-Curve Timeline Structure (First 2 Highlights on Home) -->
+        <div class="serpentine-timeline">
           <?php 
             $home_experiences = array_slice($experiences ?? [], 0, 2);
             if (!empty($home_experiences)): 
+              foreach ($home_experiences as $index => $exp):
+                $isEven = ($index % 2 !== 0);
+                $stepNum = $index + 1;
           ?>
-            <?php foreach ($home_experiences as $index => $exp): ?>
-              <div class="exp-timeline-item <?= ($exp['status'] === 'Active') ? 'timeline-active' : '' ?>">
+            <div class="serpentine-block <?= $isEven ? 'block-right' : 'block-left' ?>">
+              
+              <!-- Numbered Circle Node (1 on Left, 2 on Right) -->
+              <div class="serpentine-node"><?= $stepNum ?></div>
+
+              <!-- Main Content (Exact typography matching reference image) -->
+              <div class="serpentine-content">
+                <h3 class="serpentine-role"><?= htmlspecialchars($exp['role']) ?></h3>
+                <div class="serpentine-company"><?= htmlspecialchars($exp['company']) ?></div>
+                <div class="serpentine-meta"><?= htmlspecialchars($exp['period']) ?>, <?= htmlspecialchars($exp['location']) ?></div>
                 
-                <!-- Timeline Spine Node -->
-                <div class="exp-timeline-node">
-                  <div class="exp-node-icon">
-                    <i class="bx <?= ($index === 0) ? 'bx-briefcase-alt-2' : (($index === 1) ? 'bx-code-alt' : 'bx-layer') ?>" aria-hidden="true"></i>
-                  </div>
-                  <?php if ($exp['status'] === 'Active'): ?>
-                    <span class="exp-node-pulse" aria-hidden="true"></span>
-                  <?php endif; ?>
-                </div>
+                <p class="serpentine-desc"><?= htmlspecialchars($exp['description']) ?></p>
 
-                <!-- Timeline Content Card -->
-                <div class="exp-timeline-content">
-                  
-                  <div class="exp-content-header">
-                    <div class="exp-badge-row">
-                      <span class="exp-timeline-date">
-                        <i class="bx bx-calendar" aria-hidden="true"></i> <?= htmlspecialchars($exp['period']) ?>
-                      </span>
-                      <?php if ($exp['status'] === 'Active'): ?>
-                        <span class="exp-timeline-status status-active">
-                          <i class="bx bx-radio-circle-marked" aria-hidden="true"></i> Present
-                        </span>
-                      <?php endif; ?>
-                    </div>
-                    
-                    <h3 class="exp-role-title"><?= htmlspecialchars($exp['role']) ?></h3>
-                    <div class="exp-company-line">
-                      <span class="exp-company-name"><?= htmlspecialchars($exp['company']) ?></span>
-                      <span class="exp-dot">&bull;</span>
-                      <span class="exp-location"><i class="bx bx-map" aria-hidden="true"></i> <?= htmlspecialchars($exp['location']) ?></span>
-                    </div>
-                  </div>
-
-                  <p class="exp-lead-desc"><?= htmlspecialchars($exp['description']) ?></p>
-
-                  <?php if (!empty($exp['responsibilities_array'])): ?>
-                    <ul class="exp-points-list">
-                      <?php foreach ($exp['responsibilities_array'] as $resp): ?>
-                        <li>
-                          <i class="bx bx-check-circle" aria-hidden="true"></i>
-                          <span><?= htmlspecialchars($resp) ?></span>
-                        </li>
-                      <?php endforeach; ?>
-                    </ul>
-                  <?php endif; ?>
-
-                  <?php if (!empty($exp['skills_array'])): ?>
-                    <div class="exp-tech-tags">
-                      <?php foreach ($exp['skills_array'] as $skill): ?>
-                        <span class="exp-tech-tag"><?= htmlspecialchars($skill) ?></span>
-                      <?php endforeach; ?>
-                    </div>
-                  <?php endif; ?>
-
-                </div>
-
+                <?php if (!empty($exp['responsibilities_array'])): ?>
+                  <div class="serpentine-resp-label">Responsibilities:</div>
+                  <ul class="serpentine-bullets">
+                    <?php foreach ($exp['responsibilities_array'] as $resp): ?>
+                      <li><?= htmlspecialchars($resp) ?></li>
+                    <?php endforeach; ?>
+                  </ul>
+                <?php endif; ?>
               </div>
-            <?php endforeach; ?>
-          <?php endif; ?>
+
+              <!-- Connecting Line between Item 1 and Item 2 -->
+              <?php if (!$isEven && isset($home_experiences[$index + 1])): ?>
+                <div class="serpentine-turn turn-left-to-right" aria-hidden="true">
+                  <div class="turn-corner-left"></div>
+                  <div class="turn-bar"></div>
+                  <div class="turn-corner-right"></div>
+                </div>
+              <?php endif; ?>
+
+            </div>
+          <?php 
+              endforeach;
+            endif; 
+          ?>
         </div>
 
         <!-- View All Career History & Awards CTA -->

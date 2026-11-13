@@ -86,3 +86,4 @@ class Award extends Model {
         ];
     }
 }
+

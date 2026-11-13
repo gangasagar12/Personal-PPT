@@ -9,10 +9,19 @@ class RouteTest {
     public function testViewTemplatesExist(): bool {
         $home = file_exists(dirname(__DIR__) . '/resources/views/home.php');
         $profile = file_exists(dirname(__DIR__) . '/resources/views/profile.php');
+        $experience = file_exists(dirname(__DIR__) . '/resources/views/experience.php');
         $insights = file_exists(dirname(__DIR__) . '/resources/views/insights.php');
         $insightDetail = file_exists(dirname(__DIR__) . '/resources/views/insight_detail.php');
         $projectDetail = file_exists(dirname(__DIR__) . '/resources/views/project_detail.php');
-        return $home && $profile && $insights && $insightDetail && $projectDetail;
+        return $home && $profile && $experience && $insights && $insightDetail && $projectDetail;
+    }
+
+    public function testExperienceController(): bool {
+        $controller = new \App\Controllers\ExperienceController();
+        ob_start();
+        $controller->index();
+        $output = ob_get_clean();
+        return strpos($output, 'Career Journey') !== false && strpos($output, 'Honors Gallery') !== false;
     }
 
     public function testDynamicProjectController(): bool {

@@ -1990,270 +1990,256 @@ h6 {
 
 
 /* ──────────────────────────────────────────────────────────────────
-   PROFESSIONAL EXPERIENCE TIMELINE SECTION
+   SERPENTINE S-CURVE EXPERIENCES TIMELINE (MATCHING REFERENCE UI)
    ────────────────────────────────────────────────────────────────── */
 .experience-section {
-  background: var(--bg-alt);
+  background: var(--bg);
   padding: clamp(4.5rem, 7vw, 6.5rem) 0;
   position: relative;
   z-index: 2;
   border-top: 1px solid var(--bdr);
 }
 
-.experience-timeline-tree {
+.serpentine-header {
+  text-align: center;
+  margin-bottom: clamp(2.5rem, 5vw, 3.75rem);
+}
+
+.serpentine-title {
+  font-family: var(--ff-h);
+  font-size: clamp(2.2rem, 4vw, 2.85rem);
+  font-weight: 600;
+  color: #1e293b;
+  letter-spacing: -0.01em;
+}
+
+.serpentine-timeline {
   position: relative;
   max-width: 860px;
   margin: 0 auto;
-  padding-left: 3.5rem;
   width: 100%;
 }
 
-/* Continuous vertical timeline spine connecting all nodes */
-.experience-timeline-tree::before {
+.serpentine-block {
+  position: relative;
+  width: 100%;
+}
+
+/* Block 1 (Left): Node on far left, vertical line on left */
+.serpentine-block.block-left {
+  padding-left: 65px;
+  padding-right: 65px;
+  padding-bottom: 4.5rem;
+}
+
+.serpentine-block.block-left::before {
   content: '';
   position: absolute;
-  top: 15px;
-  bottom: 30px;
-  left: 20px;
-  width: 2px;
-  background: linear-gradient(180deg, var(--accent) 0%, rgba(99, 102, 241, 0.45) 60%, rgba(203, 213, 225, 0.4) 100%);
-  border-radius: 2px;
+  top: 18px;
+  left: 17.5px;
+  bottom: 0;
+  width: 2.5px;
+  background: #1b85a6;
+  z-index: 1;
 }
 
-.exp-timeline-item {
-  position: relative;
-  margin-bottom: 2.75rem;
+/* Block 2 (Right): Node on far right, vertical line on right */
+.serpentine-block.block-right {
+  padding-left: 65px;
+  padding-right: 65px;
+  padding-bottom: 3.5rem;
+  padding-top: 1.5rem;
 }
 
-.exp-timeline-item:last-child {
-  margin-bottom: 0;
-}
-
-/* Timeline Node / Circle on the spine */
-.exp-timeline-node {
+.serpentine-block.block-right::before {
+  content: '';
   position: absolute;
-  left: -3.5rem;
-  top: 2px;
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 3;
+  top: 0;
+  right: 17.5px;
+  bottom: 0;
+  width: 2.5px;
+  background: #1b85a6;
+  z-index: 1;
 }
 
-.exp-node-icon {
-  width: 42px;
-  height: 42px;
+/* Circular Node with Step Number (1, 2) */
+.serpentine-node {
+  position: absolute;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  background: var(--bg-card);
-  border: 2px solid var(--accent);
-  color: var(--accent);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.25rem;
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12), 0 4px 12px rgba(15, 23, 42, 0.08);
-  transition: all 0.3s ease;
-}
-
-.timeline-active .exp-node-icon {
-  background: var(--accent);
+  background: #1b85a6;
   color: #ffffff;
-  border-color: #ffffff;
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.25), 0 6px 18px rgba(37, 99, 235, 0.35);
-}
-
-.exp-node-pulse {
-  position: absolute;
-  inset: -3px;
-  border-radius: 50%;
-  border: 2px solid var(--accent);
-  animation: nodePulse 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  pointer-events: none;
-}
-
-@keyframes nodePulse {
-  0% {
-    transform: scale(0.9);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(1.45);
-    opacity: 0;
-  }
-}
-
-/* Content card connected to the spine */
-.exp-timeline-content {
-  background: var(--bg-card);
-  border: 1px solid var(--bdr);
-  border-radius: var(--r);
-  padding: clamp(1.4rem, 2.5vw, 2.1rem);
-  box-shadow: var(--shadow-sm);
-  position: relative;
-  transition: transform 0.28s var(--ease), box-shadow 0.28s var(--ease), border-color 0.28s var(--ease);
-}
-
-/* Small pointer arrow connecting card to spine node */
-.exp-timeline-content::before {
-  content: '';
-  position: absolute;
-  top: 14px;
-  left: -8px;
-  width: 14px;
-  height: 14px;
-  background: var(--bg-card);
-  border-left: 1px solid var(--bdr);
-  border-bottom: 1px solid var(--bdr);
-  transform: rotate(45deg);
-  transition: border-color 0.28s var(--ease);
-}
-
-.exp-timeline-item:hover .exp-timeline-content {
-  transform: translateX(5px);
-  box-shadow: var(--shadow);
-  border-color: var(--bdr-h);
-}
-
-.exp-timeline-item:hover .exp-timeline-content::before {
-  border-color: var(--bdr-h);
-}
-
-.timeline-active .exp-timeline-content {
-  border-left: 3px solid var(--accent);
-}
-
-.exp-content-header {
-  margin-bottom: 1.15rem;
-}
-
-.exp-badge-row {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  margin-bottom: 0.55rem;
-  flex-wrap: wrap;
-}
-
-.exp-timeline-date {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: 0.84rem;
-  font-weight: 700;
-  color: var(--accent);
-  background: var(--accent-soft);
-  padding: 0.3rem 0.85rem;
-  border-radius: var(--r-full);
-  border: 1px solid rgba(37, 99, 235, 0.15);
-}
-
-.exp-timeline-status.status-active {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: #16a34a;
-  background: rgba(22, 163, 74, 0.1);
-  padding: 0.28rem 0.75rem;
-  border-radius: var(--r-full);
-  border: 1px solid rgba(22, 163, 74, 0.22);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.exp-role-title {
+  justify-content: center;
   font-family: var(--ff-h);
-  font-size: 1.25rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  color: var(--t1);
-  line-height: 1.3;
+  z-index: 3;
+  box-shadow: 0 0 0 4px var(--bg);
 }
 
-.exp-company-line {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.95rem;
-  color: var(--t2);
+.block-left .serpentine-node {
+  top: 0;
+  left: 0;
+}
+
+.block-right .serpentine-node {
+  top: 1.5rem;
+  right: 0;
+}
+
+/* Connecting S-Curve Turn from Left to Right */
+.serpentine-turn.turn-left-to-right {
+  position: absolute;
+  bottom: 0;
+  left: 17.5px;
+  right: 17.5px;
+  height: 40px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.turn-left-to-right .turn-corner-left {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 25px;
+  height: 25px;
+  border-left: 2.5px solid #1b85a6;
+  border-bottom: 2.5px solid #1b85a6;
+  border-bottom-left-radius: 20px;
+}
+
+.turn-left-to-right .turn-bar {
+  position: absolute;
+  left: 23px;
+  right: 23px;
+  top: 22.5px;
+  height: 2.5px;
+  background: #1b85a6;
+}
+
+.turn-left-to-right .turn-corner-right {
+  position: absolute;
+  right: 0;
+  top: 22.5px;
+  width: 25px;
+  height: 25px;
+  border-top: 2.5px solid #1b85a6;
+  border-right: 2.5px solid #1b85a6;
+  border-top-right-radius: 20px;
+}
+
+/* Connecting S-Curve Turn from Right to Left (for Item 2 -> Item 3) */
+.serpentine-turn.turn-right-to-left {
+  position: absolute;
+  bottom: 0;
+  left: 17.5px;
+  right: 17.5px;
+  height: 40px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.turn-right-to-left .turn-corner-right {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 25px;
+  height: 25px;
+  border-right: 2.5px solid #1b85a6;
+  border-bottom: 2.5px solid #1b85a6;
+  border-bottom-right-radius: 20px;
+}
+
+.turn-right-to-left .turn-bar {
+  position: absolute;
+  left: 23px;
+  right: 23px;
+  top: 22.5px;
+  height: 2.5px;
+  background: #1b85a6;
+}
+
+.turn-right-to-left .turn-corner-left {
+  position: absolute;
+  left: 0;
+  top: 22.5px;
+  width: 25px;
+  height: 25px;
+  border-top: 2.5px solid #1b85a6;
+  border-left: 2.5px solid #1b85a6;
+  border-top-left-radius: 20px;
+}
+
+/* Content Typography matching the reference screenshot */
+.serpentine-content {
+  text-align: left;
+}
+
+.serpentine-role {
+  font-family: var(--ff-h);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.25;
+  margin-bottom: 0.35rem;
+}
+
+.serpentine-company {
+  font-family: var(--ff-b);
+  font-size: 1.02rem;
   font-weight: 600;
-  margin-top: 0.25rem;
-  flex-wrap: wrap;
+  color: #1b85a6;
+  margin-bottom: 0.35rem;
 }
 
-.exp-company-name {
-  color: var(--accent);
-}
-
-.exp-dot {
-  color: var(--t-muted);
-}
-
-.exp-location {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-size: 0.85rem;
-  color: var(--t3);
-  font-weight: 500;
-}
-
-.exp-lead-desc {
-  font-size: 0.96rem;
-  line-height: 1.65;
-  color: var(--t2);
+.serpentine-meta {
+  font-size: 0.9rem;
+  color: #64748b;
+  font-weight: 400;
   margin-bottom: 1.15rem;
 }
 
-.exp-points-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-  margin-bottom: 1.35rem;
-  padding-left: 0.2rem;
+.serpentine-desc {
+  font-size: 0.96rem;
+  line-height: 1.68;
+  color: #475569;
+  margin-bottom: 1.1rem;
 }
 
-.exp-points-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.65rem;
-  font-size: 0.92rem;
-  line-height: 1.55;
-  color: var(--t2);
-}
-
-.exp-points-list li i {
-  color: var(--accent);
-  font-size: 1.15rem;
-  margin-top: 0.15rem;
-  flex-shrink: 0;
-}
-
-.exp-tech-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  padding-top: 0.95rem;
-  border-top: 1px dashed rgba(203, 213, 225, 0.8);
-}
-
-.exp-tech-tag {
-  font-size: 0.8rem;
+.serpentine-resp-label {
+  font-size: 0.94rem;
   font-weight: 600;
-  color: var(--accent-indigo);
-  background: rgba(99, 102, 241, 0.08);
-  padding: 0.28rem 0.75rem;
-  border-radius: var(--r-xs);
-  transition: all 0.2s ease;
+  color: #334155;
+  margin-bottom: 0.55rem;
 }
 
-.exp-tech-tag:hover {
-  background: var(--accent-indigo);
-  color: #fff;
-  transform: translateY(-1px);
+.serpentine-bullets {
+  list-style: none;
+  padding-left: 0.2rem;
+  margin: 0;
+}
+
+.serpentine-bullets li {
+  position: relative;
+  padding-left: 1.25rem;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: #475569;
+  margin-bottom: 0.45rem;
+}
+
+.serpentine-bullets li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #334155;
+  font-size: 1.15rem;
+  line-height: 1.5;
 }
 
 .exp-timeline-action {
@@ -2295,29 +2281,33 @@ h6 {
   transform: translateX(4px);
 }
 
-@media (max-width: 640px) {
-  .experience-timeline-tree {
-    padding-left: 2.5rem;
+/* Responsive on Mobile (≤ 768px) */
+@media (max-width: 768px) {
+  .serpentine-block.block-left,
+  .serpentine-block.block-right {
+    padding-left: 50px;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 2.5rem;
   }
 
-  .experience-timeline-tree::before {
-    left: 15px;
+  .serpentine-block.block-right::before {
+    left: 17.5px;
+    right: auto;
   }
 
-  .exp-timeline-node {
-    left: -2.5rem;
-    width: 34px;
-    height: 34px;
+  .block-right .serpentine-node {
+    left: 0;
+    right: auto;
+    top: 0;
   }
 
-  .exp-node-icon {
-    width: 32px;
-    height: 32px;
-    font-size: 1rem;
-  }
-
-  .exp-timeline-content::before {
+  .serpentine-turn {
     display: none;
+  }
+
+  .serpentine-block.block-left::before {
+    bottom: -2.5rem;
   }
 }
 

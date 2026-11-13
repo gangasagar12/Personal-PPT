@@ -51,6 +51,7 @@ $routeTest = new \Tests\RouteTest();
 runTest('RouteTest', 'testRoutesFileExists', [$routeTest, 'testRoutesFileExists']);
 runTest('RouteTest', 'testViewTemplatesExist', [$routeTest, 'testViewTemplatesExist']);
 runTest('RouteTest', 'testDynamicProjectController', [$routeTest, 'testDynamicProjectController']);
+runTest('RouteTest', 'testExperienceController', [$routeTest, 'testExperienceController']);
 runTest('RouteTest', 'testAdminAuthCredentials', [$routeTest, 'testAdminAuthCredentials']);
 
 echo "---------------------------------------------\n";

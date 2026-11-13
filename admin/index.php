@@ -970,6 +970,14 @@ $awards_list = \App\Models\Award::allWithDetails();
                     <span class="nav-badge"><?= count($blog_list) ?></span>
                 </button>
 
+                <button class="nav-link" onclick="switchTab('tab-awards', 'Awards & Gallery', this)">
+                    <div class="nav-link-left">
+                        <i class="bx bx-trophy"></i>
+                        <span>Awards &amp; Gallery</span>
+                    </div>
+                    <span class="nav-badge"><?= count($awards_list) ?></span>
+                </button>
+
                 <button class="nav-link" onclick="switchTab('tab-inquiries', 'Contact Inquiries', this)">
                     <div class="nav-link-left">
                         <i class="bx bx-envelope"></i>
@@ -1594,6 +1602,100 @@ $awards_list = \App\Models\Award::allWithDetails();
                 </div>
             </section>
 
+            <!-- ───────────────────────────────────────────────────────────── -->
+            <!-- COMPONENT TAB: AWARDS & GALLERY -->
+            <!-- ───────────────────────────────────────────────────────────── -->
+            <section id="tab-awards" class="tab-panel">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <div class="panel-header-info">
+                            <h2>Awards, Distinctions &amp; Honors Gallery</h2>
+                            <p>Academic excellence, hackathon achievements, and verified industry recognitions</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="toggleForm('form-add-award')">
+                            <i class="bx bx-plus"></i> Add New Award
+                        </button>
+                    </div>
+
+                    <!-- Slide-in / Collapsible Drawer Form for Awards -->
+                    <div id="form-add-award" class="drawer-form-wrap" style="display:none; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:1.5rem; margin-bottom:1.5rem;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+                            <h3 id="award_form_title" style="font-size:1.1rem; font-weight:700; color:var(--text-main);">Add New Award / Milestone</h3>
+                            <button type="button" class="btn btn-outline btn-sm" onclick="toggleForm('form-add-award')">&times; Close</button>
+                        </div>
+                        <form method="POST" action="">
+                            <input type="hidden" name="save_award" value="1">
+                            <input type="hidden" name="award_id" id="award_id" value="0">
+
+                            <div class="form-grid">
+                                <div class="form-group full">
+                                    <label>Award / Honor Title</label>
+                                    <input type="text" name="title" id="award_title" class="form-control" required placeholder="Excellence in Software Engineering">
+                                </div>
+                                <div class="form-group">
+                                    <label>Granting Organization / Issuer</label>
+                                    <input type="text" name="issuer" id="award_issuer" class="form-control" placeholder="Kantipur City College &amp; Purbanchal University">
+                                </div>
+                                <div class="form-group">
+                                    <label>Date / Year</label>
+                                    <input type="text" name="date" id="award_date" class="form-control" placeholder="2025">
+                                </div>
+                                <div class="form-group full">
+                                    <label>Certificate / Showcase Image Path</label>
+                                    <input type="text" name="image" id="award_image" class="form-control" required value="images/projectcard1.jpg" placeholder="images/projectcard1.jpg">
+                                    <small style="color:var(--text-muted); font-size:0.8rem; margin-top:0.3rem; display:block;">Enter path within public/ (e.g. images/projectcard1.jpg, images/projectcard2.jpg)</small>
+                                </div>
+                                <div class="form-group full">
+                                    <label>Short Description of Award / Achievement</label>
+                                    <textarea name="description" id="award_description" class="form-control" rows="3" placeholder="Brief summary of why this award or honor was granted..."></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Display Order</label>
+                                    <input type="number" name="display_order" id="award_display_order" class="form-control" value="0">
+                                </div>
+                            </div>
+
+                            <div style="display:flex; gap:0.75rem; margin-top:1.25rem;">
+                                <button type="submit" class="btn btn-primary btn-sm"><i class="bx bx-check"></i> Save Award</button>
+                                <button type="button" class="btn btn-outline btn-sm" onclick="resetAwardForm()">Reset</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Title</th>
+                                    <th>Issuer / Institution</th>
+                                    <th>Year</th>
+                                    <th>Order</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($awards_list as $aw): ?>
+                                <tr>
+                                    <td><img src="/<?= htmlspecialchars($aw['image'] ?: 'images/projectcard1.jpg') ?>" class="img-thumb" alt="" onerror="this.src='/images/projectcard1.jpg'"></td>
+                                    <td><strong><?= htmlspecialchars($aw['title']) ?></strong></td>
+                                    <td><?= htmlspecialchars($aw['issuer'] ?? '—') ?></td>
+                                    <td><span class="badge badge-info"><?= htmlspecialchars($aw['date'] ?? '—') ?></span></td>
+                                    <td><?= intval($aw['display_order']) ?></td>
+                                    <td>
+                                        <div class="actions-cell">
+                                            <button type="button" class="btn btn-outline btn-sm" onclick='editAward(<?= json_encode($aw) ?>)' title="Edit"><i class="bx bx-edit"></i></button>
+                                            <a href="?del_award=<?= $aw['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Delete this award?')" title="Delete"><i class="bx bx-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
         </main>
     </div>
 
@@ -1764,6 +1866,32 @@ $awards_list = \App\Models\Award::allWithDetails();
             drawer.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
+        function editAward(item) {
+            switchTab('tab-awards', 'Awards & Gallery');
+            const drawer = document.getElementById('form-add-award');
+            drawer.style.display = 'block';
+            document.getElementById('award_id').value = item.id || 0;
+            document.getElementById('award_title').value = item.title || '';
+            document.getElementById('award_issuer').value = item.issuer || '';
+            document.getElementById('award_date').value = item.date || '';
+            document.getElementById('award_image').value = item.image || 'images/projectcard1.jpg';
+            document.getElementById('award_description').value = item.description || '';
+            document.getElementById('award_display_order').value = item.display_order || 0;
+            document.getElementById('award_form_title').textContent = 'Edit Award: ' + (item.title || '');
+            drawer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function resetAwardForm() {
+            document.getElementById('award_id').value = 0;
+            document.getElementById('award_title').value = '';
+            document.getElementById('award_issuer').value = '';
+            document.getElementById('award_date').value = '';
+            document.getElementById('award_image').value = 'images/projectcard1.jpg';
+            document.getElementById('award_description').value = '';
+            document.getElementById('award_display_order').value = 0;
+            document.getElementById('award_form_title').textContent = 'Add New Award / Milestone';
+        }
+
         // On Page Load: Restore tab from hash if present
         window.addEventListener('DOMContentLoaded', () => {
             const hash = window.location.hash.replace('#', '');
@@ -1773,6 +1901,7 @@ $awards_list = \App\Models\Award::allWithDetails();
                     'tab-products': 'Strataflow Products',
                     'tab-academic': 'Academic Projects',
                     'tab-blog': 'Insights & Articles',
+                    'tab-awards': 'Awards & Gallery',
                     'tab-inquiries': 'Contact Inquiries'
                 };
                 if (map[hash]) {
