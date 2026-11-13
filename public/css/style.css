@@ -1990,7 +1990,7 @@ h6 {
 
 
 /* ──────────────────────────────────────────────────────────────────
-   PROFESSIONAL EXPERIENCE SECTION
+   PROFESSIONAL EXPERIENCE TIMELINE SECTION
    ────────────────────────────────────────────────────────────────── */
 .experience-section {
   background: var(--bg-alt);
@@ -2000,62 +2000,168 @@ h6 {
   border-top: 1px solid var(--bdr);
 }
 
-.experience-timeline {
-  display: flex;
-  flex-direction: column;
-  gap: 1.65rem;
-  max-width: 960px;
+.experience-timeline-tree {
+  position: relative;
+  max-width: 860px;
   margin: 0 auto;
+  padding-left: 3.5rem;
   width: 100%;
 }
 
-.experience-card {
-  background: var(--bg-card);
-  border: 1px solid var(--bdr);
-  border-radius: var(--r);
-  padding: clamp(1.4rem, 2.8vw, 2.2rem);
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.28s var(--ease), box-shadow 0.28s var(--ease), border-color 0.28s var(--ease);
+/* Continuous vertical timeline spine connecting all nodes */
+.experience-timeline-tree::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  bottom: 30px;
+  left: 20px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent) 0%, rgba(99, 102, 241, 0.45) 60%, rgba(203, 213, 225, 0.4) 100%);
+  border-radius: 2px;
+}
+
+.exp-timeline-item {
   position: relative;
-  overflow: hidden;
+  margin-bottom: 2.75rem;
 }
 
-.experience-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow);
-  border-color: var(--bdr-h);
+.exp-timeline-item:last-child {
+  margin-bottom: 0;
 }
 
-.experience-card.exp-card-active {
-  border-left: 4px solid var(--accent);
-}
-
-.exp-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 1.15rem;
-}
-
-.exp-role-wrap {
+/* Timeline Node / Circle on the spine */
+.exp-timeline-node {
+  position: absolute;
+  left: -3.5rem;
+  top: 2px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  justify-content: center;
+  z-index: 3;
 }
 
-.exp-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: var(--accent-soft);
+.exp-node-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 2px solid var(--accent);
   color: var(--accent);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
-  flex-shrink: 0;
+  font-size: 1.25rem;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12), 0 4px 12px rgba(15, 23, 42, 0.08);
+  transition: all 0.3s ease;
+}
+
+.timeline-active .exp-node-icon {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.25), 0 6px 18px rgba(37, 99, 235, 0.35);
+}
+
+.exp-node-pulse {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  animation: nodePulse 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes nodePulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+}
+
+/* Content card connected to the spine */
+.exp-timeline-content {
+  background: var(--bg-card);
+  border: 1px solid var(--bdr);
+  border-radius: var(--r);
+  padding: clamp(1.4rem, 2.5vw, 2.1rem);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  transition: transform 0.28s var(--ease), box-shadow 0.28s var(--ease), border-color 0.28s var(--ease);
+}
+
+/* Small pointer arrow connecting card to spine node */
+.exp-timeline-content::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: -8px;
+  width: 14px;
+  height: 14px;
+  background: var(--bg-card);
+  border-left: 1px solid var(--bdr);
+  border-bottom: 1px solid var(--bdr);
+  transform: rotate(45deg);
+  transition: border-color 0.28s var(--ease);
+}
+
+.exp-timeline-item:hover .exp-timeline-content {
+  transform: translateX(5px);
+  box-shadow: var(--shadow);
+  border-color: var(--bdr-h);
+}
+
+.exp-timeline-item:hover .exp-timeline-content::before {
+  border-color: var(--bdr-h);
+}
+
+.timeline-active .exp-timeline-content {
+  border-left: 3px solid var(--accent);
+}
+
+.exp-content-header {
+  margin-bottom: 1.15rem;
+}
+
+.exp-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.exp-timeline-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 0.3rem 0.85rem;
+  border-radius: var(--r-full);
+  border: 1px solid rgba(37, 99, 235, 0.15);
+}
+
+.exp-timeline-status.status-active {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #16a34a;
+  background: rgba(22, 163, 74, 0.1);
+  padding: 0.28rem 0.75rem;
+  border-radius: var(--r-full);
+  border: 1px solid rgba(22, 163, 74, 0.22);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .exp-role-title {
@@ -2073,7 +2179,7 @@ h6 {
   font-size: 0.95rem;
   color: var(--t2);
   font-weight: 600;
-  margin-top: 0.2rem;
+  margin-top: 0.25rem;
   flex-wrap: wrap;
 }
 
@@ -2094,41 +2200,6 @@ h6 {
   font-weight: 500;
 }
 
-.exp-meta-badge {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  flex-wrap: wrap;
-}
-
-.exp-period-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.84rem;
-  font-weight: 600;
-  color: var(--t3);
-  background: var(--bg-alt);
-  padding: 0.35rem 0.85rem;
-  border-radius: var(--r-full);
-  border: 1px solid var(--bdr);
-}
-
-.exp-status-pill.status-active {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: #16a34a;
-  background: rgba(22, 163, 74, 0.1);
-  padding: 0.32rem 0.8rem;
-  border-radius: var(--r-full);
-  border: 1px solid rgba(22, 163, 74, 0.22);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
 .exp-lead-desc {
   font-size: 0.96rem;
   line-height: 1.65;
@@ -2142,7 +2213,7 @@ h6 {
   flex-direction: column;
   gap: 0.65rem;
   margin-bottom: 1.35rem;
-  padding-left: 0.25rem;
+  padding-left: 0.2rem;
 }
 
 .exp-points-list li {
@@ -2183,6 +2254,71 @@ h6 {
   background: var(--accent-indigo);
   color: #fff;
   transform: translateY(-1px);
+}
+
+.exp-timeline-action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2.75rem;
+}
+
+.btn-timeline-view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1.95rem;
+  border-radius: var(--r-full);
+  font-family: var(--ff-h);
+  font-size: 0.94rem;
+  font-weight: 700;
+  text-decoration: none;
+  background: var(--accent);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);
+  transition: all 0.28s var(--ease);
+}
+
+.btn-timeline-view-all:hover {
+  background: var(--accent-dk);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(37, 99, 235, 0.38);
+  color: #ffffff;
+}
+
+.btn-timeline-view-all i {
+  font-size: 1.25rem;
+  transition: transform 0.25s ease;
+}
+
+.btn-timeline-view-all:hover i {
+  transform: translateX(4px);
+}
+
+@media (max-width: 640px) {
+  .experience-timeline-tree {
+    padding-left: 2.5rem;
+  }
+
+  .experience-timeline-tree::before {
+    left: 15px;
+  }
+
+  .exp-timeline-node {
+    left: -2.5rem;
+    width: 34px;
+    height: 34px;
+  }
+
+  .exp-node-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+
+  .exp-timeline-content::before {
+    display: none;
+  }
 }
 
 

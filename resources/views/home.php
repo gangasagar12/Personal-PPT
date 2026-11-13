@@ -651,42 +651,55 @@
           </p>
         </div>
 
-        <div class="experience-timeline">
-          <?php if (!empty($experiences)): ?>
-            <?php foreach ($experiences as $exp): ?>
-              <article class="experience-card <?= ($exp['status'] === 'Active') ? 'exp-card-active' : '' ?>">
+        <!-- Vertical Connected Timeline Structure (First 2 Highlights on Home) -->
+        <div class="experience-timeline-tree">
+          <?php 
+            $home_experiences = array_slice($experiences ?? [], 0, 2);
+            if (!empty($home_experiences)): 
+          ?>
+            <?php foreach ($home_experiences as $index => $exp): ?>
+              <div class="exp-timeline-item <?= ($exp['status'] === 'Active') ? 'timeline-active' : '' ?>">
                 
-                <div class="exp-card-header">
-                  <div class="exp-role-wrap">
-                    <span class="exp-icon"><i class="bx bx-briefcase-alt-2" aria-hidden="true"></i></span>
-                    <div>
-                      <h3 class="exp-role-title"><?= htmlspecialchars($exp['role']) ?></h3>
-                      <div class="exp-company-line">
-                        <span class="exp-company-name"><?= htmlspecialchars($exp['company']) ?></span>
-                        <span class="exp-dot">&bull;</span>
-                        <span class="exp-location"><i class="bx bx-map" aria-hidden="true"></i> <?= htmlspecialchars($exp['location']) ?></span>
-                      </div>
+                <!-- Timeline Spine Node -->
+                <div class="exp-timeline-node">
+                  <div class="exp-node-icon">
+                    <i class="bx <?= ($index === 0) ? 'bx-briefcase-alt-2' : (($index === 1) ? 'bx-code-alt' : 'bx-layer') ?>" aria-hidden="true"></i>
+                  </div>
+                  <?php if ($exp['status'] === 'Active'): ?>
+                    <span class="exp-node-pulse" aria-hidden="true"></span>
+                  <?php endif; ?>
+                </div>
+
+                <!-- Timeline Content Card -->
+                <div class="exp-timeline-content">
+                  
+                  <div class="exp-content-header">
+                    <div class="exp-badge-row">
+                      <span class="exp-timeline-date">
+                        <i class="bx bx-calendar" aria-hidden="true"></i> <?= htmlspecialchars($exp['period']) ?>
+                      </span>
+                      <?php if ($exp['status'] === 'Active'): ?>
+                        <span class="exp-timeline-status status-active">
+                          <i class="bx bx-radio-circle-marked" aria-hidden="true"></i> Present
+                        </span>
+                      <?php endif; ?>
+                    </div>
+                    
+                    <h3 class="exp-role-title"><?= htmlspecialchars($exp['role']) ?></h3>
+                    <div class="exp-company-line">
+                      <span class="exp-company-name"><?= htmlspecialchars($exp['company']) ?></span>
+                      <span class="exp-dot">&bull;</span>
+                      <span class="exp-location"><i class="bx bx-map" aria-hidden="true"></i> <?= htmlspecialchars($exp['location']) ?></span>
                     </div>
                   </div>
 
-                  <div class="exp-meta-badge">
-                    <span class="exp-period-badge">
-                      <i class="bx bx-calendar" aria-hidden="true"></i> <?= htmlspecialchars($exp['period']) ?>
-                    </span>
-                    <?php if ($exp['status'] === 'Active'): ?>
-                      <span class="exp-status-pill status-active"><i class="bx bx-radio-circle-marked" aria-hidden="true"></i> Present</span>
-                    <?php endif; ?>
-                  </div>
-                </div>
-
-                <div class="exp-card-body">
                   <p class="exp-lead-desc"><?= htmlspecialchars($exp['description']) ?></p>
 
                   <?php if (!empty($exp['responsibilities_array'])): ?>
                     <ul class="exp-points-list">
                       <?php foreach ($exp['responsibilities_array'] as $resp): ?>
                         <li>
-                          <i class="bx bx-check-shield" aria-hidden="true"></i>
+                          <i class="bx bx-check-circle" aria-hidden="true"></i>
                           <span><?= htmlspecialchars($resp) ?></span>
                         </li>
                       <?php endforeach; ?>
@@ -700,11 +713,20 @@
                       <?php endforeach; ?>
                     </div>
                   <?php endif; ?>
+
                 </div>
 
-              </article>
+              </div>
             <?php endforeach; ?>
           <?php endif; ?>
+        </div>
+
+        <!-- View All Career History & Awards CTA -->
+        <div class="exp-timeline-action">
+          <a href="/experience" class="btn-timeline-view-all">
+            <span>View All Career History &amp; Awards</span>
+            <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+          </a>
         </div>
 
       </div>

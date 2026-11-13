@@ -144,6 +144,31 @@ class Database {
             display_order INTEGER DEFAULT 0,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )");
+
+        $pdo->exec("CREATE TABLE IF NOT EXISTS experiences (
+            id {$autoIncrement},
+            company {$textType} NOT NULL,
+            role {$textType} NOT NULL,
+            period {$textType} NOT NULL,
+            location {$textType} NOT NULL,
+            status {$textType} DEFAULT 'Active',
+            description {$longTextType} NOT NULL,
+            responsibilities {$longTextType} NOT NULL,
+            skills {$textType} NOT NULL,
+            display_order INTEGER DEFAULT 0,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )");
+
+        $pdo->exec("CREATE TABLE IF NOT EXISTS awards (
+            id {$autoIncrement},
+            title {$textType} NOT NULL,
+            issuer {$textType} NOT NULL,
+            date {$textType} NOT NULL,
+            image {$textType} NOT NULL,
+            description {$longTextType} NOT NULL,
+            display_order INTEGER DEFAULT 0,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )");
     }
 }
 

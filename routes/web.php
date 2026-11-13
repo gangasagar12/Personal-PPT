@@ -6,10 +6,16 @@ use App\Controllers\ProfileController;
 use App\Controllers\ContactController;
 use App\Controllers\BlogController;
 use App\Controllers\ProjectController;
+use App\Controllers\ExperienceController;
 
 // 1. Home Portfolio
 Router::get('/', [HomeController::class, 'index']);
 Router::get('/index.php', [HomeController::class, 'index']);
+
+// 2. Career Experience & Awards History
+Router::get('/experience', [ExperienceController::class, 'index']);
+Router::get('/experience.html', [ExperienceController::class, 'index']);
+Router::get('/career', [ExperienceController::class, 'index']);
 
 // 2. Entrepreneurship Profile (Strataflow Technologies)
 Router::get('/profile', [ProfileController::class, 'index']);

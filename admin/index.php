@@ -140,6 +140,38 @@ if (isset($_GET['del_msg'])) {
     $message = 'Contact inquiry removed.';
 }
 
+// Action: Delete Award / Recognition
+if (isset($_GET['del_award'])) {
+    $del_id = intval($_GET['del_award']);
+    $pdo->prepare("DELETE FROM awards WHERE id = ?")->execute([$del_id]);
+    $message = 'Award / Recognition deleted successfully.';
+}
+
+// Action: Add / Update Award
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_award'])) {
+    require_once __DIR__ . '/../app/Core/Autoloader.php';
+    \App\Core\Autoloader::register();
+
+    $title = trim($_POST['title'] ?? '');
+    $issuer = trim($_POST['issuer'] ?? '');
+    $date = trim($_POST['date'] ?? '');
+    $image = trim($_POST['image'] ?? 'images/projectcard1.jpg');
+    $desc = trim($_POST['description'] ?? '');
+    $order = intval($_POST['display_order'] ?? 0);
+    $award_id = intval($_POST['award_id'] ?? 0);
+
+    \App\Models\Award::saveItem([
+        'id' => $award_id,
+        'title' => $title,
+        'issuer' => $issuer,
+        'date' => $date,
+        'image' => $image,
+        'description' => $desc,
+        'display_order' => $order
+    ]);
+    $message = "Award / Recognition '{$title}' saved successfully.";
+}
+
 // Action: Add / Update Featured Project
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_featured'])) {
     require_once __DIR__ . '/../app/Core/Autoloader.php';
@@ -258,6 +290,7 @@ $academic_list = get_academic_projects();
 $blog_list = $pdo->query("SELECT * FROM blog_insights ORDER BY display_order ASC, id DESC")->fetchAll();
 $inquiries_list = $pdo->query("SELECT * FROM contact_inquiries ORDER BY id DESC")->fetchAll();
 $company_products_list = \App\Models\CompanyProduct::allWithFeaturesAndPills();
+$awards_list = \App\Models\Award::allWithDetails();
 ?>
 <!DOCTYPE html>
 <html lang="en">
