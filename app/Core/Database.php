@@ -49,14 +49,52 @@ class Database {
         // Create tables if they do not exist
         $pdo->exec("CREATE TABLE IF NOT EXISTS featured_projects (
             id {$autoIncrement},
+            slug {$textType},
             title {$textType} NOT NULL,
+            short_description {$longTextType},
             description {$longTextType} NOT NULL,
+            category {$textType},
+            category_badge {$textType},
+            official_site {$textType},
+            impact {$longTextType},
+            screenshots {$longTextType},
             image {$textType} NOT NULL,
             skills {$textType} NOT NULL,
+            client_name {$textType},
+            location {$textType},
+            features {$longTextType},
             live_url {$textType} NOT NULL,
             display_order INTEGER DEFAULT 0,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )");
+
+        // Ensure missing columns exist in featured_projects
+        $fpCols = [];
+        if ($driver === 'sqlite') {
+            $stmt = $pdo->query("PRAGMA table_info(featured_projects)");
+            while ($r = $stmt->fetch()) {
+                $fpCols[] = strtolower($r['name']);
+            }
+        }
+        $neededCols = [
+            'slug' => $textType,
+            'short_description' => $longTextType,
+            'category' => $textType,
+            'category_badge' => $textType,
+            'official_site' => $textType,
+            'impact' => $longTextType,
+            'screenshots' => $longTextType,
+            'client_name' => $textType,
+            'location' => $textType,
+            'features' => $longTextType
+        ];
+        foreach ($neededCols as $c => $type) {
+            if (!empty($fpCols) && !in_array($c, $fpCols)) {
+                try {
+                    $pdo->exec("ALTER TABLE featured_projects ADD COLUMN {$c} {$type}");
+                } catch (\Exception $e) {}
+            }
+        }
 
         $pdo->exec("CREATE TABLE IF NOT EXISTS academic_projects (
             id {$autoIncrement},

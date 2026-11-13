@@ -5,14 +5,14 @@
  */
 
 $title = $project['title'] ?? 'Project Case Study';
-$categoryBadge = !empty($project['category_badge']) ? $project['category_badge'] : 'FEATURED PROJECT';
-$category = !empty($project['category']) ? $project['category'] : 'Healthcare Website';
-$officialSite = !empty($project['official_site']) ? $project['official_site'] : (parse_url($project['live_url'] ?? '', PHP_URL_HOST) ?: 'github.com/gangasaagar');
-$clientName = !empty($project['client_name']) ? $project['client_name'] : 'Production Client';
-$location = !empty($project['location']) ? $project['location'] : 'Kathmandu, Nepal';
+$categoryBadge = !empty($project['category_badge']) ? $project['category_badge'] : 'PROJECT';
+$category = !empty($project['category']) ? $project['category'] : '';
+$officialSite = !empty($project['official_site']) ? $project['official_site'] : '';
+$clientName = !empty($project['client_name']) ? $project['client_name'] : '';
+$location = !empty($project['location']) ? $project['location'] : '';
 $liveUrl = !empty($project['live_url']) ? $project['live_url'] : '#';
 $description = !empty($project['description']) ? $project['description'] : ($project['short_description'] ?? '');
-$impact = !empty($project['impact']) ? $project['impact'] : 'Engineered with high relational integrity and responsive modern architecture to streamline business workflows and enhance digital client accessibility.';
+$impact = !empty($project['impact']) ? $project['impact'] : '';
 $features = !empty($project['features_array']) ? $project['features_array'] : [];
 $screenshots = !empty($project['screenshots_array']) ? $project['screenshots_array'] : [];
 $skills = !empty($project['skills_array']) ? $project['skills_array'] : [];
@@ -66,8 +66,8 @@ if (!function_exists('getTechBadgeInfo')) {
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="<?= $rootPrefix ?>css/style.css" />
-  <link rel="stylesheet" href="<?= $rootPrefix ?>css/insights.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/insights.css" />
 
   <style>
     /* ─── Hero Dark Banner with Navbar Clearance ─── */
@@ -628,7 +628,7 @@ if (!function_exists('getTechBadgeInfo')) {
   <!-- ─── Standard Header & Navigation ────────────────────────── -->
   <header class="header" id="header">
     <div class="header-container">
-      <a class="brand" href="<?= $rootPrefix ?>index.php#home" aria-label="Ganga Sagar Joshi Home">
+      <a class="brand" href="/" aria-label="Ganga Sagar Joshi Home">
         <div class="brand-monogram">
           <span class="monogram-text">GSJ</span>
         </div>
@@ -640,19 +640,19 @@ if (!function_exists('getTechBadgeInfo')) {
 
       <!-- Center/Right: Navigation Links -->
       <nav class="navbar" id="desktopNav" aria-label="Primary navigation">
-        <a href="<?= $rootPrefix ?>index.php#home" class="nav-link">Home</a>
-        <a href="<?= $rootPrefix ?>index.php#about" class="nav-link">About</a>
-        <a href="<?= $rootPrefix ?>index.php#skills" class="nav-link">Skills</a>
-        <a href="<?= $rootPrefix ?>index.php#services" class="nav-link">Services</a>
-        <a href="<?= $rootPrefix ?>index.php#projects" class="nav-link active">Projects</a>
-        <a href="<?= $rootPrefix ?>profile.html" class="nav-link">Profile</a>
-        <a href="<?= $rootPrefix ?>insights.html" class="nav-link">Insights</a>
-        <a href="<?= $rootPrefix ?>index.php#contact" class="nav-link">Contact</a>
+        <a href="/" class="nav-link">Home</a>
+        <a href="/#about" class="nav-link">About</a>
+        <a href="/#skills" class="nav-link">Skills</a>
+        <a href="/#services" class="nav-link">Services</a>
+        <a href="/#projects" class="nav-link active">Projects</a>
+        <a href="/profile" class="nav-link">Profile</a>
+        <a href="/insights" class="nav-link">Insights</a>
+        <a href="/#contact" class="nav-link">Contact</a>
       </nav>
 
       <!-- Right: Highlighted Let's Talk button & Mobile Hamburger -->
       <div class="nav-actions">
-        <a href="<?= $rootPrefix ?>index.php#contact" class="btn-talk" aria-label="Let's Talk">
+        <a href="/#contact" class="btn-talk" aria-label="Let's Talk">
           <span>Let's Talk</span>
           <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
         </a>
@@ -683,14 +683,14 @@ if (!function_exists('getTechBadgeInfo')) {
     </div>
 
     <nav class="drawer-nav" aria-label="Mobile navigation">
-      <a href="<?= $rootPrefix ?>index.php#home" class="drawer-link"><i class="bx bx-home-alt-2"></i><span>Home</span></a>
-      <a href="<?= $rootPrefix ?>index.php#about" class="drawer-link"><i class="bx bx-user"></i><span>About</span></a>
-      <a href="<?= $rootPrefix ?>index.php#skills" class="drawer-link"><i class="bx bx-layer"></i><span>Skills</span></a>
-      <a href="<?= $rootPrefix ?>index.php#services" class="drawer-link"><i class="bx bx-wrench"></i><span>Services</span></a>
-      <a href="<?= $rootPrefix ?>index.php#projects" class="drawer-link active"><i class="bx bx-folder"></i><span>Projects</span></a>
-      <a href="<?= $rootPrefix ?>profile.html" class="drawer-link"><i class="bx bx-user-pin"></i><span>Profile</span></a>
-      <a href="<?= $rootPrefix ?>insights.html" class="drawer-link"><i class="bx bx-bulb"></i><span>Insights</span></a>
-      <a href="<?= $rootPrefix ?>index.php#contact" class="drawer-link"><i class="bx bx-envelope"></i><span>Contact</span></a>
+      <a href="/" class="drawer-link"><i class="bx bx-home-alt-2"></i><span>Home</span></a>
+      <a href="/#about" class="drawer-link"><i class="bx bx-user"></i><span>About</span></a>
+      <a href="/#skills" class="drawer-link"><i class="bx bx-layer"></i><span>Skills</span></a>
+      <a href="/#services" class="drawer-link"><i class="bx bx-wrench"></i><span>Services</span></a>
+      <a href="/#projects" class="drawer-link active"><i class="bx bx-folder"></i><span>Projects</span></a>
+      <a href="/profile" class="drawer-link"><i class="bx bx-user-pin"></i><span>Profile</span></a>
+      <a href="/insights" class="drawer-link"><i class="bx bx-bulb"></i><span>Insights</span></a>
+      <a href="/#contact" class="drawer-link"><i class="bx bx-envelope"></i><span>Contact</span></a>
     </nav>
   </div>
 
@@ -698,26 +698,36 @@ if (!function_exists('getTechBadgeInfo')) {
   <section class="project-hero-banner">
     <div class="container">
       <div class="project-hero-breadcrumbs">
-        <a href="<?= $rootPrefix ?>index.php#home">Home</a>
+        <a href="/">Home</a>
         <span class="crumb-sep">/</span>
-        <a href="<?= $rootPrefix ?>index.php#projects">Works</a>
+        <a href="/#projects">Works</a>
         <span class="crumb-sep">/</span>
         <span class="crumb-active"><?= htmlspecialchars($project['title']) ?></span>
       </div>
 
       <div class="project-hero-tags">
         <span class="project-tag-pill tag-category"><?= htmlspecialchars($categoryBadge) ?></span>
+        <?php if (!empty($officialSite)): ?>
         <span class="project-tag-pill tag-domain"><?= htmlspecialchars($officialSite) ?></span>
+        <?php endif; ?>
       </div>
 
       <h1 class="project-hero-title">
         <?= htmlspecialchars($project['title']) ?>
       </h1>
 
+      <?php if (!empty($clientName) || !empty($officialSite) || (!empty($liveUrl) && $liveUrl !== '#')): ?>
       <div class="project-hero-meta">
+        <?php if (!empty($clientName)): ?>
         <div>Client: <strong><?= htmlspecialchars($clientName) ?></strong></div>
+        <?php endif; ?>
+        <?php if (!empty($officialSite)): ?>
         <div>Official Site: <a href="https://<?= htmlspecialchars($officialSite) ?>" target="_blank" rel="noopener noreferrer"><?= htmlspecialchars($officialSite) ?></a></div>
+        <?php elseif (!empty($liveUrl) && $liveUrl !== '#'): ?>
+        <div>Live Preview: <a href="<?= htmlspecialchars($liveUrl) ?>" target="_blank" rel="noopener noreferrer"><?= htmlspecialchars(parse_url($liveUrl, PHP_URL_HOST) ?: 'Live Demo') ?></a></div>
+        <?php endif; ?>
       </div>
+      <?php endif; ?>
     </div>
   </section>
 
@@ -730,7 +740,7 @@ if (!function_exists('getTechBadgeInfo')) {
         <div class="project-main-col">
           <!-- Main Hero Showcase Screenshot -->
           <div class="project-main-showcase">
-            <img src="<?= $rootPrefix ?><?= htmlspecialchars($project['image']) ?>" alt="<?= htmlspecialchars($project['title']) ?>" />
+            <img src="/<?= ltrim(htmlspecialchars($project['image']), '/') ?>" alt="<?= htmlspecialchars($project['title']) ?>" onerror="this.src='/images/projectcard1.jpg'" />
           </div>
 
           <!-- Section 1: Project Introduction -->
@@ -764,7 +774,7 @@ if (!function_exists('getTechBadgeInfo')) {
 
             <div class="project-screenshots-grid">
               <?php foreach ($screenshots as $s): 
-                $sSrc = $rootPrefix . htmlspecialchars($s['src']);
+                $sSrc = '/' . ltrim(htmlspecialchars($s['src']), '/');
                 $sTitle = htmlspecialchars($s['title'] ?? 'Interface Preview');
               ?>
               <div class="screenshot-thumb-card" onclick="openLightbox('<?= $sSrc ?>', '<?= addslashes($sTitle) ?>')">
@@ -779,13 +789,15 @@ if (!function_exists('getTechBadgeInfo')) {
           </section>
           <?php endif; ?>
 
-          <!-- Section 4: Business Impact & Results -->
+          <!-- Section 4: Business Impact & Results (Optional) -->
+          <?php if (!empty($impact)): ?>
           <section class="project-sec-block">
             <h2 class="project-sec-heading">Business Impact &amp; Results</h2>
             <div class="project-impact-box">
               <p><?= nl2br(htmlspecialchars($impact)) ?></p>
             </div>
           </section>
+          <?php endif; ?>
         </div>
 
         <!-- Right Column: Sticky Sidebar -->
@@ -797,26 +809,32 @@ if (!function_exists('getTechBadgeInfo')) {
 
             <div class="overview-meta-list">
               <div class="overview-meta-item">
+                <span class="meta-label">PROJECT CATEGORY</span>
+                <span class="meta-val"><?= htmlspecialchars(!empty($category) ? $category : 'Software Engineering') ?></span>
+              </div>
+
+              <?php if (!empty($clientName)): ?>
+              <div class="overview-meta-item">
                 <span class="meta-label">ORGANIZATION / CLIENT</span>
                 <span class="meta-val"><?= htmlspecialchars($clientName) ?></span>
               </div>
+              <?php endif; ?>
 
+              <?php if (!empty($officialSite)): ?>
               <div class="overview-meta-item">
                 <span class="meta-label">OFFICIAL SITE</span>
                 <a href="https://<?= htmlspecialchars($officialSite) ?>" target="_blank" rel="noopener noreferrer" class="meta-val">
                   <?= htmlspecialchars($officialSite) ?>
                 </a>
               </div>
+              <?php endif; ?>
 
-              <div class="overview-meta-item">
-                <span class="meta-label">PROJECT CATEGORY</span>
-                <span class="meta-val"><?= htmlspecialchars($category) ?></span>
-              </div>
-
+              <?php if (!empty($location)): ?>
               <div class="overview-meta-item">
                 <span class="meta-label">LOCATION</span>
                 <span class="meta-val"><?= htmlspecialchars($location) ?></span>
               </div>
+              <?php endif; ?>
             </div>
 
             <hr class="sidebar-divider" />
@@ -853,7 +871,7 @@ if (!function_exists('getTechBadgeInfo')) {
                 <i class="bx bx-link-external" aria-hidden="true"></i>
               </a>
 
-              <a href="<?= $rootPrefix ?>index.php#projects" class="btn-back-works">
+              <a href="/#projects" class="btn-back-works">
                 <span>&larr; Back to Works</span>
               </a>
             </div>
@@ -865,7 +883,7 @@ if (!function_exists('getTechBadgeInfo')) {
             <p class="similar-card-desc">
               We can architect and engineer a custom system tailored for your business workflow.
             </p>
-            <a href="<?= $rootPrefix ?>index.php#contact" class="btn-get-touch">
+            <a href="/#contact" class="btn-get-touch">
               Get in Touch
             </a>
           </div>

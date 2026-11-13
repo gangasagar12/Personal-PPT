@@ -100,16 +100,10 @@ exit;
 }
 
 // ─────────────────────────────────────────────────────────────
-// LOGGED IN ACTIONS (CRUD Operations & Static HTML Exporter)
+// LOGGED IN ACTIONS (CRUD Operations)
 // ─────────────────────────────────────────────────────────────
 $message = '';
 $message_type = 'success';
-
-// Action: Export Static HTML (Both Portfolio and Entrepreneurship Profile)
-if (isset($_GET['action']) && $_GET['action'] === 'export_static') {
-    require_once __DIR__ . '/../backend/export_static.php';
-    $message = 'Successfully synchronized index.html & profile.html from dynamic database!';
-}
 
 // Action: Delete Company Product (Strataflow)
 if (isset($_GET['del_prod'])) {
@@ -148,22 +142,34 @@ if (isset($_GET['del_msg'])) {
 
 // Action: Add / Update Featured Project
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_featured'])) {
-    $title = trim($_POST['title'] ?? '');
-    $desc = trim($_POST['description'] ?? '');
-    $image = trim($_POST['image'] ?? 'images/project1.jpg');
-    $skills = trim($_POST['skills'] ?? '');
-    $live_url = trim($_POST['live_url'] ?? 'https://github.com/gangasaagar');
-    $order = intval($_POST['display_order'] ?? 0);
-    $feat_id = intval($_POST['feat_id'] ?? 0);
+    require_once __DIR__ . '/../app/Core/Autoloader.php';
+    \App\Core\Autoloader::register();
 
-    if ($feat_id > 0) {
-        $stmt = $pdo->prepare("UPDATE featured_projects SET title=?, description=?, image=?, skills=?, live_url=?, display_order=? WHERE id=?");
-        $stmt->execute([$title, $desc, $image, $skills, $live_url, $order, $feat_id]);
-        $message = "Project '{$title}' updated successfully.";
+    $title = trim($_POST['title'] ?? '');
+    $saveData = [
+        'id' => intval($_POST['feat_id'] ?? 0),
+        'title' => $title,
+        'slug' => trim($_POST['slug'] ?? ''),
+        'category_badge' => trim($_POST['category_badge'] ?? 'FEATURED PROJECT'),
+        'category' => trim($_POST['category'] ?? 'Web Application & Systems'),
+        'official_site' => trim($_POST['official_site'] ?? ''),
+        'client_name' => trim($_POST['client_name'] ?? ''),
+        'location' => trim($_POST['location'] ?? 'Kathmandu, Nepal'),
+        'short_description' => trim($_POST['short_description'] ?? ''),
+        'description' => trim($_POST['description'] ?? ''),
+        'impact' => trim($_POST['impact'] ?? ''),
+        'features' => trim($_POST['features'] ?? ''),
+        'screenshots' => trim($_POST['screenshots'] ?? ''),
+        'image' => trim($_POST['image'] ?? 'images/projectcard1.jpg'),
+        'skills' => trim($_POST['skills'] ?? ''),
+        'live_url' => trim($_POST['live_url'] ?? 'https://github.com/gangasaagar'),
+        'display_order' => intval($_POST['display_order'] ?? 0),
+    ];
+
+    if (\App\Models\FeaturedProject::saveItem($saveData)) {
+        $message = "Project '{$title}' saved successfully with complete dynamic details.";
     } else {
-        $stmt = $pdo->prepare("INSERT INTO featured_projects (title, description, image, skills, live_url, display_order) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$title, $desc, $image, $skills, $live_url, $order]);
-        $message = "New Project '{$title}' added successfully.";
+        $error = "Failed to save project.";
     }
 }
 
@@ -247,7 +253,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_company_product'
 require_once __DIR__ . '/../app/Core/Autoloader.php';
 \App\Core\Autoloader::register();
 
-$featured_list = get_featured_projects();
+$featured_list = \App\Models\FeaturedProject::allWithSkills();
 $academic_list = get_academic_projects();
 $blog_list = $pdo->query("SELECT * FROM blog_insights ORDER BY display_order ASC, id DESC")->fetchAll();
 $inquiries_list = $pdo->query("SELECT * FROM contact_inquiries ORDER BY id DESC")->fetchAll();
@@ -941,16 +947,12 @@ $company_products_list = \App\Models\CompanyProduct::allWithFeaturesAndPills();
 
                 <div class="sidebar-section-title">Quick Actions &amp; Links</div>
 
-                <a href="?action=export_static" class="nav-link" title="Export database to static index.html and profile.html for GitHub Pages">
+                <a href="/" target="_blank" class="nav-link">
                     <div class="nav-link-left">
-                        <i class="bx bx-sync"></i>
-                        <span>Sync Static HTML</span>
+                        <i class="bx bx-link-external"></i>
+                        <span>Live Portfolio</span>
                     </div>
-                    <span class="nav-badge" style="background:#10b981; color:#fff;">Build</span>
                 </a>
-
-                <a href="../index.php" target="_blank" class="nav-link">
-                    <div class="nav-link-left">
                         <i class="bx bx-globe"></i>
                         <span>Live Portfolio</span>
                     </div>
@@ -998,13 +1000,9 @@ $company_products_list = \App\Models\CompanyProduct::allWithFeaturesAndPills();
                 </div>
             </div>
             <div class="topbar-actions">
-                <a href="?action=export_static" class="btn btn-success btn-sm" title="Rebuild static files for GitHub Pages">
-                    <i class="bx bx-sync"></i>
-                    <span>Sync Static</span>
-                </a>
-                <a href="../index.php" target="_blank" class="btn btn-secondary btn-sm">
+                <a href="/" target="_blank" class="btn btn-primary btn-sm">
                     <i class="bx bx-link-external"></i>
-                    <span>View Site</span>
+                    <span>View Live Site</span>
                 </a>
             </div>
         </header>
@@ -1089,27 +1087,67 @@ $company_products_list = \App\Models\CompanyProduct::allWithFeaturesAndPills();
                             <div class="form-grid">
                                 <div>
                                     <label class="form-label">Project Title</label>
-                                    <input type="text" name="title" id="feat_title" class="form-control" required placeholder="e.g. Oralix — Dental Practice OS">
+                                    <input type="text" name="title" id="feat_title" class="form-control" required placeholder="e.g. Oralix — Dental Practice OS" onkeyup="autoFillSlug(this.value)">
                                 </div>
                                 <div>
-                                    <label class="form-label">Image Path</label>
-                                    <input type="text" name="image" id="feat_image" class="form-control" required value="images/projectcard1.jpg">
+                                    <label class="form-label">URL Slug (e.g. /works/oralix-dental-practice-os)</label>
+                                    <input type="text" name="slug" id="feat_slug" class="form-control" placeholder="auto-generated-if-empty">
                                 </div>
                                 <div>
-                                    <label class="form-label">Skills (comma-separated)</label>
-                                    <input type="text" name="skills" id="feat_skills" class="form-control" required placeholder="Python, Django, PostgreSQL, Docker">
+                                    <label class="form-label">Category Badge</label>
+                                    <input type="text" name="category_badge" id="feat_category_badge" class="form-control" placeholder="e.g. FEATURED PROJECT or HEALTHCARE">
+                                </div>
+                                <div>
+                                    <label class="form-label">Project Category</label>
+                                    <input type="text" name="category" id="feat_category" class="form-control" placeholder="e.g. Healthcare Website & Practice OS">
+                                </div>
+                                <div>
+                                    <label class="form-label">Client / Organization</label>
+                                    <input type="text" name="client_name" id="feat_client_name" class="form-control" placeholder="e.g. Niko Dental & Aesthetics">
+                                </div>
+                                <div>
+                                    <label class="form-label">Location</label>
+                                    <input type="text" name="location" id="feat_location" class="form-control" placeholder="e.g. Kathmandu & Dhangadi, Nepal">
+                                </div>
+                                <div>
+                                    <label class="form-label">Official Site / Domain</label>
+                                    <input type="text" name="official_site" id="feat_official_site" class="form-control" placeholder="e.g. nikodentistry.com">
                                 </div>
                                 <div>
                                     <label class="form-label">Live Site URL</label>
                                     <input type="text" name="live_url" id="feat_live_url" class="form-control" required value="https://github.com/gangasaagar">
                                 </div>
                                 <div>
+                                    <label class="form-label">Cover Image Path</label>
+                                    <input type="text" name="image" id="feat_image" class="form-control" required value="images/projectcard1.jpg">
+                                </div>
+                                <div>
                                     <label class="form-label">Display Order</label>
                                     <input type="number" name="display_order" id="feat_order" class="form-control" value="1">
                                 </div>
                                 <div class="form-col-full">
-                                    <label class="form-label">Short Description</label>
-                                    <textarea name="description" id="feat_desc" class="form-control" required placeholder="Multi-chair clinical practice platform..."></textarea>
+                                    <label class="form-label">Technologies &amp; Skills (comma-separated)</label>
+                                    <input type="text" name="skills" id="feat_skills" class="form-control" required placeholder="Python, Django, MySQL, HTML5, CSS3, JavaScript, Docker">
+                                </div>
+                                <div class="form-col-full">
+                                    <label class="form-label">Short Summary (Homepage Card)</label>
+                                    <textarea name="short_description" id="feat_short_desc" class="form-control" rows="2" placeholder="Brief 1-2 sentence summary displayed on the homepage project card..."></textarea>
+                                </div>
+                                <div class="form-col-full">
+                                    <label class="form-label">Full Project Introduction (Case Study Section 1)</label>
+                                    <textarea name="description" id="feat_desc" class="form-control" rows="4" required placeholder="Comprehensive background, context, client requirements, and solution overview..."></textarea>
+                                </div>
+                                <div class="form-col-full">
+                                    <label class="form-label">Core Features &amp; System Capabilities (1 per line)</label>
+                                    <textarea name="features" id="feat_features" class="form-control" rows="4" placeholder="Real-time chair scheduling and appointment booking&#10;Electronic Health Records (EHR) with digital dental charting&#10;Multi-tier billing and invoice calculation"></textarea>
+                                </div>
+                                <div class="form-col-full">
+                                    <label class="form-label">Business Impact &amp; Results (Case Study Section 4)</label>
+                                    <textarea name="impact" id="feat_impact" class="form-control" rows="3" placeholder="Measurable outcomes, improvements, operational results..."></textarea>
+                                </div>
+                                <div class="form-col-full">
+                                    <label class="form-label">Demo Screenshots (Format: image_path | Caption per line, or JSON array)</label>
+                                    <textarea name="screenshots" id="feat_screenshots" class="form-control" rows="3" placeholder="images/dental_preview1.jpg | Video Guides & Patient Care&#10;images/dental_preview2.jpg | Treatment Pricing & Procedures"></textarea>
                                 </div>
                             </div>
                             <div class="form-actions">
@@ -1125,20 +1163,27 @@ $company_products_list = \App\Models\CompanyProduct::allWithFeaturesAndPills();
                             <thead>
                                 <tr>
                                     <th>Preview</th>
-                                    <th>Project Title</th>
-                                    <th>Technologies &amp; Skills</th>
-                                    <th>Live URL</th>
+                                    <th>Project Title &amp; Slug</th>
+                                    <th>Category &amp; Client</th>
+                                    <th>Technologies</th>
+                                    <th>Case Study</th>
                                     <th>Order</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($featured_list as $fp): ?>
+                                <?php foreach ($featured_list as $fp): 
+                                    $pSlug = !empty($fp['slug']) ? $fp['slug'] : \App\Models\FeaturedProject::slugify($fp['title']);
+                                ?>
                                 <tr>
-                                    <td><img src="../<?= htmlspecialchars($fp['image']) ?>" class="img-thumb" alt="" onerror="this.src='../images/projectcard1.jpg'"></td>
+                                    <td><img src="/<?= htmlspecialchars($fp['image']) ?>" class="img-thumb" alt="" onerror="this.src='/images/projectcard1.jpg'"></td>
                                     <td>
                                         <strong><?= htmlspecialchars($fp['title']) ?></strong>
-                                        <div style="font-size:0.75rem; color:#94a3b8; margin-top:2px;"><?= htmlspecialchars($fp['slug'] ?? '') ?></div>
+                                        <div style="font-size:0.75rem; color:#38bdf8; font-family:monospace; margin-top:2px;">/works/<?= htmlspecialchars($pSlug) ?></div>
+                                    </td>
+                                    <td>
+                                        <div style="font-weight:600; font-size:0.85rem; color:#0f172a;"><?= htmlspecialchars($fp['category'] ?? 'Web App') ?></div>
+                                        <div style="font-size:0.75rem; color:#64748b;"><?= htmlspecialchars($fp['client_name'] ?? 'Production Client') ?></div>
                                     </td>
                                     <td>
                                         <?php foreach ($fp['skills_array'] as $s): ?>
@@ -1146,14 +1191,14 @@ $company_products_list = \App\Models\CompanyProduct::allWithFeaturesAndPills();
                                         <?php endforeach; ?>
                                     </td>
                                     <td>
-                                        <a href="<?= htmlspecialchars($fp['live_url']) ?>" target="_blank" style="color:var(--primary); font-size:0.84rem; text-decoration:none;">
-                                            Link <i class="bx bx-link-external" style="font-size:0.75rem;"></i>
+                                        <a href="/works/<?= htmlspecialchars($pSlug) ?>" target="_blank" class="btn btn-secondary btn-sm" style="display:inline-flex; align-items:center; gap:0.3rem;" title="View Live Dynamic Case Study">
+                                            <i class="bx bx-show"></i> View
                                         </a>
                                     </td>
                                     <td><span style="font-weight:600; font-size:0.84rem;"><?= intval($fp['display_order']) ?></span></td>
                                     <td>
                                         <div class="actions-cell">
-                                            <button class="btn btn-secondary btn-sm" onclick='editFeatured(<?= json_encode($fp) ?>)' title="Edit"><i class="bx bx-edit"></i></button>
+                                            <button class="btn btn-secondary btn-sm" onclick='editFeatured(<?= json_encode($fp, JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' title="Edit"><i class="bx bx-edit"></i></button>
                                             <a href="?del_feat=<?= $fp['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Delete this project?')" title="Delete"><i class="bx bx-trash"></i></a>
                                         </div>
                                     </td>
@@ -1250,7 +1295,7 @@ $company_products_list = \App\Models\CompanyProduct::allWithFeaturesAndPills();
                             <tbody>
                                 <?php foreach ($company_products_list as $prod): ?>
                                 <tr>
-                                    <td><img src="../<?= htmlspecialchars($prod['image']) ?>" class="img-thumb" alt="" onerror="this.src='../images/projectcard1.jpg'"></td>
+                                    <td><img src="/<?= htmlspecialchars($prod['image']) ?>" class="img-thumb" alt="" onerror="this.src='/images/projectcard1.jpg'"></td>
                                     <td>
                                         <strong><?= htmlspecialchars($prod['title']) ?></strong>
                                         <div style="font-size:0.75rem; color:#94a3b8; margin-top:2px;"><?= htmlspecialchars($prod['category']) ?></div>
@@ -1438,7 +1483,7 @@ $company_products_list = \App\Models\CompanyProduct::allWithFeaturesAndPills();
                             <tbody>
                                 <?php foreach ($blog_list as $bp): ?>
                                 <tr>
-                                    <td><img src="../<?= htmlspecialchars($bp['image'] ?? 'images/projectcard1.jpg') ?>" class="img-thumb" alt="" onerror="this.src='../images/projectcard1.jpg'"></td>
+                                    <td><img src="/<?= htmlspecialchars($bp['image'] ?? 'images/projectcard1.jpg') ?>" class="img-thumb" alt="" onerror="this.src='/images/projectcard1.jpg'"></td>
                                     <td><span class="pill-badge"><?= htmlspecialchars($bp['category']) ?></span></td>
                                     <td>
                                         <strong><?= htmlspecialchars($bp['title']) ?></strong>
@@ -1577,17 +1622,66 @@ $company_products_list = \App\Models\CompanyProduct::allWithFeaturesAndPills();
             formContainer.style.display = 'none';
         }
 
+        function autoFillSlug(val) {
+            const idInput = document.getElementById('feat_id');
+            const slugInput = document.getElementById('feat_slug');
+            if (idInput && (idInput.value === '0' || idInput.value === '')) {
+                slugInput.value = val.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+            }
+        }
+
         function editFeatured(item) {
             switchTab('tab-featured', 'Featured Projects');
             const drawer = document.getElementById('form-add-featured');
             drawer.style.display = 'block';
-            document.getElementById('feat_id').value = item.id;
-            document.getElementById('feat_title').value = item.title;
-            document.getElementById('feat_image').value = item.image;
-            document.getElementById('feat_skills').value = item.skills;
-            document.getElementById('feat_live_url').value = item.live_url;
-            document.getElementById('feat_order').value = item.display_order;
-            document.getElementById('feat_desc').value = item.description;
+            document.getElementById('feat_id').value = item.id || 0;
+            document.getElementById('feat_title').value = item.title || '';
+            document.getElementById('feat_slug').value = item.slug || '';
+            document.getElementById('feat_category_badge').value = item.category_badge || '';
+            document.getElementById('feat_category').value = item.category || '';
+            document.getElementById('feat_client_name').value = item.client_name || '';
+            document.getElementById('feat_location').value = item.location || '';
+            document.getElementById('feat_official_site').value = item.official_site || '';
+            document.getElementById('feat_live_url').value = item.live_url || '';
+            document.getElementById('feat_image').value = item.image || '';
+            document.getElementById('feat_order').value = item.display_order || 0;
+            document.getElementById('feat_skills').value = item.skills || '';
+            document.getElementById('feat_short_desc').value = item.short_description || '';
+            document.getElementById('feat_desc').value = item.description || '';
+            document.getElementById('feat_impact').value = item.impact || '';
+
+            // Format features as newline-separated
+            let featText = '';
+            if (Array.isArray(item.features_array) && item.features_array.length > 0) {
+                featText = item.features_array.join('\n');
+            } else if (typeof item.features === 'string') {
+                try {
+                    const parsed = JSON.parse(item.features);
+                    featText = Array.isArray(parsed) ? parsed.join('\n') : item.features;
+                } catch(e) {
+                    featText = item.features;
+                }
+            }
+            document.getElementById('feat_features').value = featText;
+
+            // Format screenshots
+            let shotText = '';
+            if (Array.isArray(item.screenshots_array) && item.screenshots_array.length > 0) {
+                shotText = item.screenshots_array.map(s => (s.src || '') + ' | ' + (s.title || '')).join('\n');
+            } else if (typeof item.screenshots === 'string') {
+                try {
+                    const parsed = JSON.parse(item.screenshots);
+                    if (Array.isArray(parsed)) {
+                        shotText = parsed.map(s => (s.src || '') + ' | ' + (s.title || '')).join('\n');
+                    } else {
+                        shotText = item.screenshots;
+                    }
+                } catch(e) {
+                    shotText = item.screenshots;
+                }
+            }
+            document.getElementById('feat_screenshots').value = shotText;
+
             drawer.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 

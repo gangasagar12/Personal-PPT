@@ -22,8 +22,8 @@
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
 
   <!-- Base Stylesheet & Dedicated Profile Stylesheet -->
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/profile.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/profile.css" />
 </head>
 
 <body>
@@ -46,19 +46,19 @@
 
       <!-- Desktop Navigation -->
       <nav class="navbar" id="desktopNav" aria-label="Primary navigation">
-        <a href="index.html#home" class="nav-link">Home</a>
-        <a href="index.html#about" class="nav-link">About</a>
-        <a href="index.html#skills" class="nav-link">Skills</a>
-        <a href="index.html#services" class="nav-link">Services</a>
-        <a href="index.html#projects" class="nav-link">Projects</a>
-        <a href="profile.html" class="nav-link active">Profile</a>
-        <a href="insights.html" class="nav-link">Insights</a>
-        <a href="index.html#contact" class="nav-link">Contact</a>
+        <a href="/" class="nav-link">Home</a>
+        <a href="/#about" class="nav-link">About</a>
+        <a href="/#skills" class="nav-link">Skills</a>
+        <a href="/#services" class="nav-link">Services</a>
+        <a href="/#projects" class="nav-link">Projects</a>
+        <a href="/profile" class="nav-link active">Profile</a>
+        <a href="/insights" class="nav-link">Insights</a>
+        <a href="/#contact" class="nav-link">Contact</a>
       </nav>
 
       <!-- Right Action Button & Hamburger -->
       <div class="nav-actions">
-        <a href="index.html#contact" class="btn-talk" aria-label="Let's Talk">
+        <a href="/#contact" class="btn-talk" aria-label="Let's Talk">
           <span>Let's Talk</span>
           <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
         </a>
@@ -89,18 +89,18 @@
     </div>
 
     <nav class="drawer-nav" aria-label="Mobile navigation">
-      <a href="index.html#home" class="drawer-link"><i class="bx bx-home-alt-2"></i><span>Home</span></a>
-      <a href="index.html#about" class="drawer-link"><i class="bx bx-user"></i><span>About</span></a>
-      <a href="index.html#skills" class="drawer-link"><i class="bx bx-layer"></i><span>Skills</span></a>
-      <a href="index.html#services" class="drawer-link"><i class="bx bx-wrench"></i><span>Services</span></a>
-      <a href="index.html#projects" class="drawer-link"><i class="bx bx-folder"></i><span>Projects</span></a>
-      <a href="profile.html" class="drawer-link active"><i class="bx bx-user-pin"></i><span>Profile</span></a>
-      <a href="insights.html" class="drawer-link"><i class="bx bx-bulb"></i><span>Insights</span></a>
-      <a href="index.html#contact" class="drawer-link"><i class="bx bx-envelope"></i><span>Contact</span></a>
+      <a href="/" class="drawer-link"><i class="bx bx-home-alt-2"></i><span>Home</span></a>
+      <a href="/#about" class="drawer-link"><i class="bx bx-user"></i><span>About</span></a>
+      <a href="/#skills" class="drawer-link"><i class="bx bx-layer"></i><span>Skills</span></a>
+      <a href="/#services" class="drawer-link"><i class="bx bx-wrench"></i><span>Services</span></a>
+      <a href="/#projects" class="drawer-link"><i class="bx bx-folder"></i><span>Projects</span></a>
+      <a href="/profile" class="drawer-link active"><i class="bx bx-user-pin"></i><span>Profile</span></a>
+      <a href="/insights" class="drawer-link"><i class="bx bx-bulb"></i><span>Insights</span></a>
+      <a href="/#contact" class="drawer-link"><i class="bx bx-envelope"></i><span>Contact</span></a>
     </nav>
 
     <div class="drawer-footer">
-      <a href="index.html#contact" class="drawer-cta drawer-link">
+      <a href="/#contact" class="drawer-cta drawer-link">
         <span>Let's Talk</span>
         <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
       </a>
@@ -113,7 +113,7 @@
 
       <!-- Breadcrumb Navigation -->
       <nav class="profile-breadcrumb" aria-label="Breadcrumb">
-        <a href="index.html" class="breadcrumb-back-link">
+        <a href="/" class="breadcrumb-back-link">
           <i class="bx bx-arrow-back"></i>
           <span>Portfolio</span>
         </a>
@@ -416,7 +416,7 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="js/app.js"></script>
+  <script src="/js/app.js"></script>
 </body>
 
 </html>

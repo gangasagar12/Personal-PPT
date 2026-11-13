@@ -23,8 +23,8 @@
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
 
   <!-- Your CSS -->
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/insights.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/insights.css" />
 </head>
 
 <body>
@@ -52,8 +52,8 @@
         <a href="#skills" class="nav-link">Skills</a>
         <a href="#services" class="nav-link">Services</a>
         <a href="#projects" class="nav-link">Projects</a>
-        <a href="profile.html" class="nav-link">Profile</a>
-        <a href="insights.html" class="nav-link">Insights</a>
+        <a href="/profile" class="nav-link">Profile</a>
+        <a href="/insights" class="nav-link">Insights</a>
         <a href="#contact" class="nav-link">Contact</a>
       </nav>
 
@@ -95,8 +95,8 @@
       <a href="#skills" class="drawer-link"><i class="bx bx-layer"></i><span>Skills</span></a>
       <a href="#services" class="drawer-link"><i class="bx bx-wrench"></i><span>Services</span></a>
       <a href="#projects" class="drawer-link"><i class="bx bx-folder"></i><span>Projects</span></a>
-      <a href="profile.html" class="drawer-link"><i class="bx bx-user-pin"></i><span>Profile</span></a>
-      <a href="insights.html" class="drawer-link"><i class="bx bx-bulb"></i><span>Insights</span></a>
+      <a href="/profile" class="drawer-link"><i class="bx bx-user-pin"></i><span>Profile</span></a>
+      <a href="/insights" class="drawer-link"><i class="bx bx-bulb"></i><span>Insights</span></a>
       <a href="#contact" class="drawer-link"><i class="bx bx-envelope"></i><span>Contact</span></a>
     </nav>
 
@@ -224,7 +224,7 @@
 
             <!-- Transparent Cutout Portrait (no box border, no badges over image) -->
             <div class="transparent-portrait-box">
-              <img src="images/profile_transparent.png" alt="Ganga Sagar Joshi - Professional Portrait" class="hero-transparent-photo"
+              <img src="/images/profile_transparent.png" alt="Ganga Sagar Joshi - Professional Portrait" class="hero-transparent-photo"
                 width="960" height="1280" loading="eager" />
             </div>
           </div>
@@ -450,13 +450,13 @@
           <!-- Left Column: Portrait Photograph + Original Transparent Signature -->
           <div class="about-visual-column">
             <div class="about-transparent-photo-wrap">
-              <img src="images/gangasagar_transparent.png" alt="Ganga Sagar Joshi" class="about-transparent-portrait"
+              <img src="/images/gangasagar_transparent.png" alt="Ganga Sagar Joshi" class="about-transparent-portrait"
                 width="340" height="453" loading="lazy" />
             </div>
 
             <!-- Original Transparent Signature (No Hover Effect) -->
             <div class="about-signature-block">
-              <img src="images/signature.png" alt="Ganga Sagar Joshi Signature" class="about-signature-img" width="220"
+              <img src="/images/signature.png" alt="Ganga Sagar Joshi Signature" class="about-signature-img" width="220"
                 height="94" loading="lazy" />
               <span class="signature-caption">Ganga Sagar Joshi</span>
             </div>
@@ -863,13 +863,13 @@
           $displayProjects = array_slice($featured_projects, 0, 6);
           foreach ($displayProjects as $p): 
             $shortDesc = !empty($p['short_description']) ? $p['short_description'] : $p['description'];
-            $slug = !empty($p['slug']) ? $p['slug'] : 'project-' . $p['id'];
-            $detailUrl = "project-detail.php?slug=" . urlencode($slug);
+            $slug = !empty($p['slug']) ? $p['slug'] : \App\Models\FeaturedProject::slugify($p['title']);
+            $detailUrl = "/works/" . urlencode($slug);
           ?>
           <article class="home-project-card">
             <a href="<?= $detailUrl ?>" class="home-project-image-link" aria-label="<?= htmlspecialchars($p['title']) ?>">
               <div class="home-project-image">
-                <img src="<?= htmlspecialchars($p['image']) ?>" alt="<?= htmlspecialchars($p['title']) ?>" loading="lazy" />
+                <img src="/<?= ltrim(htmlspecialchars($p['image']), '/') ?>" alt="<?= htmlspecialchars($p['title']) ?>" loading="lazy" onerror="this.src='/images/projectcard1.jpg'" />
               </div>
             </a>
 
@@ -941,12 +941,12 @@
         <!-- Insights Grid (Image & Title Cards) -->
         <div class="insights-cards-grid">
           <?php foreach ($blog_insights as $post): ?>
-          <a href="insight-detail.html?slug=<?= urlencode($post['slug']) ?>" class="blog-post-card" title="<?= htmlspecialchars($post['title']) ?>">
+          <a href="/insights/<?= urlencode($post['slug']) ?>" class="blog-post-card" title="<?= htmlspecialchars($post['title']) ?>">
             <div class="blog-card-image-wrap">
-              <img src="<?= htmlspecialchars($post['image'] ?? 'images/projectcard1.jpg') ?>" 
+              <img src="/<?= ltrim(htmlspecialchars($post['image'] ?? 'images/projectcard1.jpg'), '/') ?>" 
                    alt="<?= htmlspecialchars($post['title']) ?>" 
                    loading="lazy" 
-                   onerror="this.src='images/projectcard1.jpg'" />
+                   onerror="this.src='/images/projectcard1.jpg'" />
             </div>
             <div class="blog-card-content">
               <h3 class="blog-card-title"><?= htmlspecialchars($post['title']) ?></h3>
@@ -956,14 +956,7 @@
         </div>
 
         <div style="text-align: center; margin-top: 2.5rem;">
-          <a href="insights.html" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.6rem; border-radius: 9999px; font-size: 0.88rem; font-weight: 600; text-decoration: none; border: 1px solid #cbd5e1; color: #0f172a; background: #fff; transition: all 0.2s;">
-            <span>Explore All Insights</span>
-            <i class="bx bx-right-arrow-alt"></i>
-          </a>
-        </div>
-
-        <div style="text-align: center; margin-top: 2.5rem;">
-          <a href="insights.html" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.6rem; border-radius: 9999px; font-size: 0.88rem; font-weight: 600; text-decoration: none; border: 1px solid #cbd5e1; color: #0f172a; background: #fff; transition: all 0.2s;">
+          <a href="/insights" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.6rem; border-radius: 9999px; font-size: 0.88rem; font-weight: 600; text-decoration: none; border: 1px solid #cbd5e1; color: #0f172a; background: #fff; transition: all 0.2s;">
             <span>Explore All Insights</span>
             <i class="bx bx-right-arrow-alt"></i>
           </a>
@@ -1084,7 +1077,7 @@
   <!-- EmailJS -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <!-- Your app JS -->
-  <script src="js/app.js"></script>
+  <script src="/js/app.js"></script>
 
 </body>
 
