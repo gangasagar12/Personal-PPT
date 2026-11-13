@@ -869,7 +869,7 @@
           <article class="home-project-card">
             <a href="<?= $detailUrl ?>" class="home-project-image-link" aria-label="<?= htmlspecialchars($p['title']) ?>">
               <div class="home-project-image">
-                <img src="/<?= ltrim(htmlspecialchars($p['image']), '/') ?>" alt="<?= htmlspecialchars($p['title']) ?>" loading="lazy" onerror="this.src='/images/projectcard1.jpg'" />
+                <img src="/<?= ltrim(htmlspecialchars($p['image']), '/') ?>" alt="<?= htmlspecialchars($p['title']) ?>" loading="lazy" onerror="this.onerror=null; this.src='/images/projectcard1.jpg'" />
               </div>
             </a>
 
@@ -946,7 +946,7 @@
               <img src="/<?= ltrim(htmlspecialchars($post['image'] ?? 'images/projectcard1.jpg'), '/') ?>" 
                    alt="<?= htmlspecialchars($post['title']) ?>" 
                    loading="lazy" 
-                   onerror="this.src='/images/projectcard1.jpg'" />
+                   onerror="this.onerror=null; this.src='/images/projectcard1.jpg'" />
             </div>
             <div class="blog-card-content">
               <h3 class="blog-card-title"><?= htmlspecialchars($post['title']) ?></h3>

@@ -24,7 +24,7 @@
   <!-- ── Standard Portfolio Header & Navigation ── -->
   <header class="header" id="header">
     <div class="header-container">
-      <a class="brand" href="index.html#home" aria-label="Ganga Sagar Joshi Home">
+      <a class="brand" href="/" aria-label="Ganga Sagar Joshi Home">
         <div class="brand-monogram">
           <span class="monogram-text">GSJ</span>
         </div>
@@ -124,7 +124,7 @@
 
               <div class="article-meta-row">
                 <div class="article-author-info">
-                  <img src="/images/profile.jpeg" alt="Ganga Sagar Joshi" class="article-author-avatar" onerror="this.src='/images/gangasagar.jpeg'" />
+                  <img src="/images/profile.jpeg" alt="Ganga Sagar Joshi" class="article-author-avatar" onerror="this.onerror=null; this.src='/images/gangasagar.jpeg'" />
                   <span>Ganga Sagar Joshi</span>
                 </div>
                 <div class="article-meta-item">
@@ -143,7 +143,7 @@
               <img src="/<?= ltrim(htmlspecialchars($post['image'] ?? 'images/projectcard1.jpg'), '/') ?>" 
                    id="articleImage" 
                    alt="<?= htmlspecialchars($post['title'] ?? '') ?>" 
-                   onerror="this.src='/images/projectcard1.jpg'" />
+                   onerror="this.onerror=null; this.src='/images/projectcard1.jpg'" />
             </div>
 
             <!-- Full Article Body (Small, professional typography) -->
@@ -182,7 +182,7 @@
                     <img src="/<?= ltrim(htmlspecialchars($rec['image'] ?? 'images/projectcard1.jpg'), '/') ?>" 
                          alt="<?= htmlspecialchars($rec['title']) ?>" 
                          loading="lazy" 
-                         onerror="this.src='/images/projectcard1.jpg'" />
+                         onerror="this.onerror=null; this.src='/images/projectcard1.jpg'" />
                   </div>
                   <div class="recent-article-info">
                     <h4 class="recent-article-title"><?= htmlspecialchars($rec['title']) ?></h4>
@@ -200,7 +200,7 @@
                 <span>About Author</span>
               </div>
               <div class="sidebar-author-card">
-                <img src="images/profile.jpeg" alt="Ganga Sagar Joshi" class="sidebar-author-img" onerror="this.src='images/gangasagar.jpeg'" />
+                <img src="/images/profile.jpeg" alt="Ganga Sagar Joshi" class="sidebar-author-img" onerror="this.onerror=null; this.src='/images/gangasagar.jpeg'" />
                 <div class="sidebar-author-details">
                   <h4>Ganga Sagar Joshi</h4>
                   <p>Co-Founder &amp; Software Engineer at Strataflow Technologies Pvt. Ltd. Specializing in Python, Django, scalable relational databases, and enterprise systems.</p>
@@ -222,20 +222,15 @@
       <div class="container footer-content">
         <p>&copy; <?= date('Y') ?> Ganga Sagar Joshi &bull; Engineering &amp; Technology Portfolio. All rights reserved.</p>
         <div class="footer-links">
-          <a href="index.html">Home</a>
-          <a href="profile.html">Profile</a>
-          <a href="insights.html">Insights</a>
-          <a href="index.html#contact">Contact</a>
+          <a href="/">Home</a>
+          <a href="/profile">Profile</a>
+          <a href="/insights">Insights</a>
+          <a href="/#contact">Contact</a>
         </div>
       </div>
     </footer>
 
   </div>
-
-  <!-- Embedded All Posts Payload for Zero-Config Static / GitHub Pages Compatibility -->
-  <script id="allPostsPayload" type="application/json">
-    <?= json_encode($all_posts ?? [$post]) ?>
-  </script>
 
   <script>
     // Header scroll & Hamburger Drawer logic
@@ -267,71 +262,6 @@
         hamburger.setAttribute('aria-expanded', 'false');
       });
     }
-
-    // Client-side hydration for static GitHub Pages serving (reading ?slug= from URL)
-    (function() {
-      try {
-        const urlParams = new URLSearchParams(window.location.search);
-        const slug = urlParams.get('slug');
-        const payloadEl = document.getElementById('allPostsPayload');
-        
-        if (!slug || !payloadEl) return;
-        
-        const allPosts = JSON.parse(payloadEl.textContent || '[]');
-        const target = allPosts.find(p => p.slug === slug);
-        
-        if (target) {
-          document.title = target.title + ' — Ganga Sagar Joshi';
-          const metaTitle = document.getElementById('metaTitle');
-          if (metaTitle) metaTitle.textContent = target.title + ' — Ganga Sagar Joshi';
-          
-          const breadcrumbTitle = document.getElementById('breadcrumbTitle');
-          if (breadcrumbTitle) breadcrumbTitle.textContent = target.title;
-          
-          const articleTitle = document.getElementById('articleTitle');
-          if (articleTitle) articleTitle.textContent = target.title;
-          
-          const articleCategory = document.getElementById('articleCategory');
-          if (articleCategory) articleCategory.textContent = target.category;
-          
-          const articleDate = document.getElementById('articleDate');
-          if (articleDate) articleDate.textContent = target.date;
-          
-          const articleReadTime = document.getElementById('articleReadTime');
-          if (articleReadTime) articleReadTime.textContent = target.read_time;
-          
-          const articleImage = document.getElementById('articleImage');
-          if (articleImage) {
-            articleImage.src = target.image || 'images/projectcard1.jpg';
-            articleImage.alt = target.title;
-          }
-          
-          const articleContent = document.getElementById('articleContent');
-          if (articleContent && target.content) {
-            articleContent.innerHTML = target.content;
-          }
-          
-          // Refresh Recent Articles in sidebar to exclude currently active post
-          const recentList = document.getElementById('recentArticlesList');
-          if (recentList) {
-            const others = allPosts.filter(p => p.slug !== slug).slice(0, 5);
-            recentList.innerHTML = others.map(rec => `
-              <a href="insight-detail.html?slug=${encodeURIComponent(rec.slug)}" class="recent-article-item">
-                <div class="recent-article-thumb">
-                  <img src="${rec.image || 'images/projectcard1.jpg'}" alt="${rec.title}" loading="lazy" onerror="this.src='images/projectcard1.jpg'" />
-                </div>
-                <div class="recent-article-info">
-                  <h4 class="recent-article-title">${rec.title}</h4>
-                  <span class="recent-article-date">${rec.date || ''} &bull; ${rec.read_time || ''}</span>
-                </div>
-              </a>
-            `).join('');
-          }
-        }
-      } catch (err) {
-        console.error('Insight hydration error:', err);
-      }
-    })();
   </script>
 </body>
 </html>

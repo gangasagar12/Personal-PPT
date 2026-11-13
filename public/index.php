@@ -31,6 +31,7 @@ if (php_sapi_name() === 'cli-server') {
                     'webp' => 'image/webp',
                     'svg'  => 'image/svg+xml',
                     'ico'  => 'image/x-icon',
+                    'pdf'  => 'application/pdf',
                     'txt'  => 'text/plain',
                     'xml'  => 'application/xml',
                 ];

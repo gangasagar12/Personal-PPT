@@ -34,7 +34,7 @@
   <!-- ── Header & Navigation ── -->
   <header class="header" id="header">
     <div class="header-container">
-      <a class="brand" href="index.html#home" aria-label="Ganga Sagar Joshi Home">
+      <a class="brand" href="/" aria-label="Ganga Sagar Joshi Home">
         <div class="brand-monogram">
           <span class="monogram-text">GSJ</span>
         </div>
@@ -338,7 +338,7 @@
             <?php foreach ($company_products as $prod): ?>
               <article class="product-feature-card">
                 <div class="product-thumb-wrap">
-                  <img src="<?= htmlspecialchars($prod['image'] ?: 'images/projectcard1.jpg') ?>" alt="<?= htmlspecialchars($prod['title']) ?>" loading="lazy" />
+                  <img src="/<?= ltrim(htmlspecialchars($prod['image'] ?: 'images/projectcard1.jpg'), '/') ?>" alt="<?= htmlspecialchars($prod['title']) ?>" loading="lazy" onerror="this.onerror=null; this.src='/images/projectcard1.jpg'" />
                   <span class="product-status-badge">
                     <i class="bx bx-check-circle"></i> <?= htmlspecialchars($prod['status_text'] ?: 'Active Product') ?>
                   </span>
@@ -388,11 +388,11 @@
           </p>
         </div>
         <div class="cta-action-btns">
-          <a href="index.html#contact" class="btn-primary-compact">
+          <a href="/#contact" class="btn-primary-compact">
             <span>Get in Touch</span>
             <i class="bx bx-right-arrow-alt"></i>
           </a>
-          <a href="index.html#projects" class="btn-secondary-compact">
+          <a href="/#projects" class="btn-secondary-compact">
             <span>View Portfolio</span>
           </a>
         </div>
@@ -409,7 +409,7 @@
         &copy; <span id="year"></span> Ganga Sagar Joshi &bull; Co-Founder at Strataflow Technologies Pvt. Ltd.
         Crafted with <i class="bx bx-heart" aria-hidden="true"></i> in Nepal.
       </p>
-      <a href="profile.html#" class="back-to-top" aria-label="Back to top">
+      <a href="#" class="back-to-top" aria-label="Back to top">
         <i class="bx bx-up-arrow-alt" aria-hidden="true"></i>
       </a>
     </div>

@@ -1176,7 +1176,7 @@ $company_products_list = \App\Models\CompanyProduct::allWithFeaturesAndPills();
                                     $pSlug = !empty($fp['slug']) ? $fp['slug'] : \App\Models\FeaturedProject::slugify($fp['title']);
                                 ?>
                                 <tr>
-                                    <td><img src="/<?= htmlspecialchars($fp['image']) ?>" class="img-thumb" alt="" onerror="this.src='/images/projectcard1.jpg'"></td>
+                                    <td><img src="/<?= htmlspecialchars($fp['image']) ?>" class="img-thumb" alt="" onerror="this.onerror=null; this.src='/images/projectcard1.jpg'"></td>
                                     <td>
                                         <strong><?= htmlspecialchars($fp['title']) ?></strong>
                                         <div style="font-size:0.75rem; color:#38bdf8; font-family:monospace; margin-top:2px;">/works/<?= htmlspecialchars($pSlug) ?></div>

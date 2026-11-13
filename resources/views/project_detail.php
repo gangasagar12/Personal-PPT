@@ -740,7 +740,7 @@ if (!function_exists('getTechBadgeInfo')) {
         <div class="project-main-col">
           <!-- Main Hero Showcase Screenshot -->
           <div class="project-main-showcase">
-            <img src="/<?= ltrim(htmlspecialchars($project['image']), '/') ?>" alt="<?= htmlspecialchars($project['title']) ?>" onerror="this.src='/images/projectcard1.jpg'" />
+            <img src="/<?= ltrim(htmlspecialchars($project['image']), '/') ?>" alt="<?= htmlspecialchars($project['title']) ?>" onerror="this.onerror=null; this.src='/images/projectcard1.jpg'" />
           </div>
 
           <!-- Section 1: Project Introduction -->

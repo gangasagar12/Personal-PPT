@@ -24,7 +24,7 @@
   <!-- ── Standard Portfolio Header & Navigation ── -->
   <header class="header" id="header">
     <div class="header-container">
-      <a class="brand" href="index.html#home" aria-label="Ganga Sagar Joshi Home">
+      <a class="brand" href="/" aria-label="Ganga Sagar Joshi Home">
         <div class="brand-monogram">
           <span class="monogram-text">GSJ</span>
         </div>
@@ -90,7 +90,7 @@
     </nav>
 
     <div class="drawer-footer">
-      <a href="index.html#contact" class="drawer-cta drawer-link">
+      <a href="/#contact" class="drawer-cta drawer-link">
         <span>Let's Talk</span>
         <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
       </a>
@@ -134,7 +134,7 @@
               <img src="/<?= ltrim(htmlspecialchars($post['image'] ?? 'images/projectcard1.jpg'), '/') ?>" 
                    alt="<?= htmlspecialchars($post['title']) ?>" 
                    loading="lazy" 
-                   onerror="this.src='/images/projectcard1.jpg'" />
+                   onerror="this.onerror=null; this.src='/images/projectcard1.jpg'" />
             </div>
             <div class="blog-card-content">
               <h3 class="blog-card-title"><?= htmlspecialchars($post['title']) ?></h3>
@@ -153,10 +153,10 @@
       <div class="container footer-content">
         <p>&copy; <?= date('Y') ?> Ganga Sagar Joshi &bull; Engineering &amp; Technology Portfolio. All rights reserved.</p>
         <div class="footer-links">
-          <a href="index.html#home">Home</a>
-          <a href="profile.html">Profile</a>
-          <a href="insights.html">Insights</a>
-          <a href="index.html#contact">Contact</a>
+          <a href="/">Home</a>
+          <a href="/profile">Profile</a>
+          <a href="/insights">Insights</a>
+          <a href="/#contact">Contact</a>
         </div>
       </div>
     </footer>
@@ -191,16 +191,6 @@
         mobileDrawer.classList.remove('open');
         hamburger.classList.remove('active');
         hamburger.setAttribute('aria-expanded', 'false');
-      });
-    }
-
-    // Dynamic routing adapter: if running on local PHP server without .html
-    if (window.location.pathname.indexOf('.html') === -1 && window.location.port !== '') {
-      document.querySelectorAll('.blog-post-card').forEach(card => {
-        const slug = card.getAttribute('data-slug');
-        if (slug) {
-          card.setAttribute('href', 'insights/' + slug);
-        }
       });
     }
   </script>

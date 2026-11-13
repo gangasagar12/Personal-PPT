@@ -106,12 +106,13 @@ composer test
 # Recommended: Serve from public/ (Standard DocumentRoot)
 php -S localhost:8000 -t public
 
-# Alternative: Serve from project root
-php -S localhost:8000
+# Alternative: Serve from project root with built-in router
+php -S localhost:8000 index.php
 ```
 
 - **Home Portfolio:** [http://localhost:8000](http://localhost:8000)
 - **Entrepreneurship Profile:** [http://localhost:8000/profile](http://localhost:8000/profile)
+- **Technical Insights:** [http://localhost:8000/insights](http://localhost:8000/insights)
 - **Admin Dashboard:** [http://localhost:8000/admin](http://localhost:8000/admin)
 
 ---
