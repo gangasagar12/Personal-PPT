@@ -213,19 +213,22 @@
           </div>
         </div>
 
-        <!-- ── Right: Professional Photograph & Visual Composition (Transparent Cutout) ── -->
+        <!-- ── Right: Professional Photograph & Visual Composition ── -->
         <div class="hero-visual">
-          <div class="visual-wrapper transparent-photo-wrapper">
+          <div class="visual-wrapper">
             <!-- Decorative aura & shapes -->
             <div class="visual-aura aura-blue" aria-hidden="true"></div>
             <div class="visual-aura aura-purple" aria-hidden="true"></div>
-            <div class="visual-aura aura-center-glow" aria-hidden="true"></div>
             <div class="visual-pattern-dots" aria-hidden="true"></div>
 
-            <!-- Transparent Cutout Portrait (no box border, no badges over image) -->
-            <div class="transparent-portrait-box">
-              <img src="images/gangasagar_transparent.png" alt="Ganga Sagar Joshi - Professional Portrait" class="hero-transparent-photo"
-                width="720" height="960" loading="eager" />
+            <!-- Photograph card (Clean presentation, NO badges over photo) -->
+            <div class="photo-container">
+              <div class="photo-frame">
+                <img src="images/profile.jpeg" alt="Ganga Sagar Joshi - Professional Portrait" class="hero-photo"
+                  width="460" height="580" loading="eager" />
+                <div class="photo-gradient-overlay" aria-hidden="true"></div>
+              </div>
+              <div class="frame-border-glow" aria-hidden="true"></div>
             </div>
           </div>
         </div>
@@ -241,152 +244,190 @@
       </a>
     </section>
 
-    <!-- ── Continuous Flowing Tech & Capabilities Marquee (Right to Left Transparent Theme) ── -->
+    <!-- ── Continuous Flowing Tech & Capabilities Marquee (Flowing directly on page, NO separate cards) ── -->
     <div class="hero-tech-marquee" aria-label="Key Technologies and Strengths">
       <div class="marquee-track">
         <!-- Sequence 1 -->
-        <div class="marquee-badge-pill">
-          <div class="badge-icon python-theme"><i class="bx bxl-python"></i></div>
-          <div class="badge-content">
-            <span class="badge-title">Python &amp; Django</span>
-            <span class="badge-subtitle">Backend Engineering</span>
+        <div class="marquee-flow-item">
+          <div class="flow-icon python-theme"><i class="bx bxl-python"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">Python &amp; Django</span>
+            <span class="flow-sub">Backend Engineering</span>
           </div>
         </div>
-        <div class="marquee-badge-pill">
-          <div class="badge-icon pill-rocket-theme"><span class="pill-icon">🚀</span></div>
-          <div class="badge-content">
-            <span class="badge-title">High-Impact Solutions</span>
-            <span class="badge-subtitle">Production Systems</span>
-          </div>
-        </div>
-        <div class="marquee-badge-pill">
-          <div class="badge-icon aws-theme"><i class="bx bxl-aws"></i></div>
-          <div class="badge-content">
-            <span class="badge-title">AWS &amp; Cloud</span>
-            <span class="badge-subtitle">DevOps &amp; Infra</span>
-          </div>
-        </div>
-        <div class="marquee-badge-pill">
-          <div class="badge-icon api-theme"><i class="bx bx-server"></i></div>
-          <div class="badge-content">
-            <span class="badge-title">Scalable APIs</span>
-            <span class="badge-subtitle">REST &amp; PostgreSQL</span>
-          </div>
-        </div>
-        <div class="marquee-badge-pill">
-          <div class="badge-icon db-theme"><i class="bx bx-data"></i></div>
-          <div class="badge-content">
-            <span class="badge-title">Relational Databases</span>
-            <span class="badge-subtitle">Schema Design &amp; 3NF</span>
-          </div>
-        </div>
-        <div class="marquee-badge-pill">
-          <div class="badge-icon docker-theme"><i class="bx bxl-docker"></i></div>
-          <div class="badge-content">
-            <span class="badge-title">Docker &amp; Containers</span>
-            <span class="badge-subtitle">Microservices &amp; CI/CD</span>
-          </div>
-        </div>
-        <div class="marquee-badge-pill">
-          <div class="badge-icon ml-theme"><i class="bx bx-brain"></i></div>
-          <div class="badge-content">
-            <span class="badge-title">Machine Learning</span>
-            <span class="badge-subtitle">AI &amp; Predictive Models</span>
-          </div>
-        </div>
-        <div class="marquee-badge-pill">
-          <div class="badge-icon security-theme"><i class="bx bx-shield-quarter"></i></div>
-          <div class="badge-content">
-            <span class="badge-title">JWT &amp; RBAC</span>
-            <span class="badge-subtitle">Secure Authentication</span>
-          </div>
-        </div>
-        <div class="marquee-badge-pill">
-          <div class="badge-icon perf-theme"><i class="bx bx-line-chart"></i></div>
-          <div class="badge-content">
-            <span class="badge-title">Query Optimization</span>
-            <span class="badge-subtitle">Eliminating N+1 Latency</span>
-          </div>
-        </div>
-        <div class="marquee-badge-pill">
-          <div class="badge-icon saas-theme"><i class="bx bx-layer"></i></div>
-          <div class="badge-content">
-            <span class="badge-title">Enterprise SaaS</span>
-            <span class="badge-subtitle">Scalable Architectures</span>
-          </div>
-        </div>
+        <span class="flow-divider" aria-hidden="true">✦</span>
 
-        <!-- Sequence 2 (Duplicate for continuous loop) -->
-        <div class="marquee-badge-pill" aria-hidden="true">
-          <div class="badge-icon python-theme"><i class="bx bxl-python"></i></div>
-          <div class="badge-content">
-            <span class="badge-title">Python &amp; Django</span>
-            <span class="badge-subtitle">Backend Engineering</span>
+        <div class="marquee-flow-item">
+          <div class="flow-icon pill-rocket-theme"><span class="pill-icon">🚀</span></div>
+          <div class="flow-text">
+            <span class="flow-title">High-Impact Solutions</span>
+            <span class="flow-sub">Production Systems</span>
           </div>
         </div>
-        <div class="marquee-badge-pill" aria-hidden="true">
-          <div class="badge-icon pill-rocket-theme"><span class="pill-icon">🚀</span></div>
-          <div class="badge-content">
-            <span class="badge-title">High-Impact Solutions</span>
-            <span class="badge-subtitle">Production Systems</span>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item">
+          <div class="flow-icon aws-theme"><i class="bx bxl-aws"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">AWS &amp; Cloud</span>
+            <span class="flow-sub">DevOps &amp; Infra</span>
           </div>
         </div>
-        <div class="marquee-badge-pill" aria-hidden="true">
-          <div class="badge-icon aws-theme"><i class="bx bxl-aws"></i></div>
-          <div class="badge-content">
-            <span class="badge-title">AWS &amp; Cloud</span>
-            <span class="badge-subtitle">DevOps &amp; Infra</span>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item">
+          <div class="flow-icon api-theme"><i class="bx bx-server"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">Scalable APIs</span>
+            <span class="flow-sub">REST &amp; PostgreSQL</span>
           </div>
         </div>
-        <div class="marquee-badge-pill" aria-hidden="true">
-          <div class="badge-icon api-theme"><i class="bx bx-server"></i></div>
-          <div class="badge-content">
-            <span class="badge-title">Scalable APIs</span>
-            <span class="badge-subtitle">REST &amp; PostgreSQL</span>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item">
+          <div class="flow-icon db-theme"><i class="bx bx-data"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">Relational Databases</span>
+            <span class="flow-sub">Schema Design &amp; 3NF</span>
           </div>
         </div>
-        <div class="marquee-badge-pill" aria-hidden="true">
-          <div class="badge-icon db-theme"><i class="bx bx-data"></i></div>
-          <div class="badge-content">
-            <span class="badge-title">Relational Databases</span>
-            <span class="badge-subtitle">Schema Design &amp; 3NF</span>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item">
+          <div class="flow-icon docker-theme"><i class="bx bxl-docker"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">Docker &amp; Containers</span>
+            <span class="flow-sub">Microservices &amp; CI/CD</span>
           </div>
         </div>
-        <div class="marquee-badge-pill" aria-hidden="true">
-          <div class="badge-icon docker-theme"><i class="bx bxl-docker"></i></div>
-          <div class="badge-content">
-            <span class="badge-title">Docker &amp; Containers</span>
-            <span class="badge-subtitle">Microservices &amp; CI/CD</span>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item">
+          <div class="flow-icon ml-theme"><i class="bx bx-brain"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">Machine Learning</span>
+            <span class="flow-sub">AI &amp; Predictive Models</span>
           </div>
         </div>
-        <div class="marquee-badge-pill" aria-hidden="true">
-          <div class="badge-icon ml-theme"><i class="bx bx-brain"></i></div>
-          <div class="badge-content">
-            <span class="badge-title">Machine Learning</span>
-            <span class="badge-subtitle">AI &amp; Predictive Models</span>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item">
+          <div class="flow-icon security-theme"><i class="bx bx-shield-quarter"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">JWT &amp; RBAC</span>
+            <span class="flow-sub">Secure Authentication</span>
           </div>
         </div>
-        <div class="marquee-badge-pill" aria-hidden="true">
-          <div class="badge-icon security-theme"><i class="bx bx-shield-quarter"></i></div>
-          <div class="badge-content">
-            <span class="badge-title">JWT &amp; RBAC</span>
-            <span class="badge-subtitle">Secure Authentication</span>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item">
+          <div class="flow-icon perf-theme"><i class="bx bx-line-chart"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">Query Optimization</span>
+            <span class="flow-sub">Eliminating N+1 Latency</span>
           </div>
         </div>
-        <div class="marquee-badge-pill" aria-hidden="true">
-          <div class="badge-icon perf-theme"><i class="bx bx-line-chart"></i></div>
-          <div class="badge-content">
-            <span class="badge-title">Query Optimization</span>
-            <span class="badge-subtitle">Eliminating N+1 Latency</span>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item">
+          <div class="flow-icon saas-theme"><i class="bx bx-layer"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">Enterprise SaaS</span>
+            <span class="flow-sub">Scalable Architectures</span>
           </div>
         </div>
-        <div class="marquee-badge-pill" aria-hidden="true">
-          <div class="badge-icon saas-theme"><i class="bx bx-layer"></i></div>
-          <div class="badge-content">
-            <span class="badge-title">Enterprise SaaS</span>
-            <span class="badge-subtitle">Scalable Architectures</span>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <!-- Sequence 2 (Duplicate for continuous seamless loop) -->
+        <div class="marquee-flow-item" aria-hidden="true">
+          <div class="flow-icon python-theme"><i class="bx bxl-python"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">Python &amp; Django</span>
+            <span class="flow-sub">Backend Engineering</span>
           </div>
         </div>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item" aria-hidden="true">
+          <div class="flow-icon pill-rocket-theme"><span class="pill-icon">🚀</span></div>
+          <div class="flow-text">
+            <span class="flow-title">High-Impact Solutions</span>
+            <span class="flow-sub">Production Systems</span>
+          </div>
+        </div>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item" aria-hidden="true">
+          <div class="flow-icon aws-theme"><i class="bx bxl-aws"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">AWS &amp; Cloud</span>
+            <span class="flow-sub">DevOps &amp; Infra</span>
+          </div>
+        </div>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item" aria-hidden="true">
+          <div class="flow-icon api-theme"><i class="bx bx-server"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">Scalable APIs</span>
+            <span class="flow-sub">REST &amp; PostgreSQL</span>
+          </div>
+        </div>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item" aria-hidden="true">
+          <div class="flow-icon db-theme"><i class="bx bx-data"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">Relational Databases</span>
+            <span class="flow-sub">Schema Design &amp; 3NF</span>
+          </div>
+        </div>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item" aria-hidden="true">
+          <div class="flow-icon docker-theme"><i class="bx bxl-docker"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">Docker &amp; Containers</span>
+            <span class="flow-sub">Microservices &amp; CI/CD</span>
+          </div>
+        </div>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item" aria-hidden="true">
+          <div class="flow-icon ml-theme"><i class="bx bx-brain"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">Machine Learning</span>
+            <span class="flow-sub">AI &amp; Predictive Models</span>
+          </div>
+        </div>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item" aria-hidden="true">
+          <div class="flow-icon security-theme"><i class="bx bx-shield-quarter"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">JWT &amp; RBAC</span>
+            <span class="flow-sub">Secure Authentication</span>
+          </div>
+        </div>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item" aria-hidden="true">
+          <div class="flow-icon perf-theme"><i class="bx bx-line-chart"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">Query Optimization</span>
+            <span class="flow-sub">Eliminating N+1 Latency</span>
+          </div>
+        </div>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item" aria-hidden="true">
+          <div class="flow-icon saas-theme"><i class="bx bx-layer"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">Enterprise SaaS</span>
+            <span class="flow-sub">Scalable Architectures</span>
+          </div>
+        </div>
+        <span class="flow-divider" aria-hidden="true">✦</span>
       </div>
     </div>
 

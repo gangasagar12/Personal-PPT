@@ -1302,29 +1302,28 @@ h6 {
 
 /* ──────────────────────────────────────────────────────────────────
    HERO TECH & CAPABILITIES CONTINUOUS MARQUEE (RIGHT TO LEFT)
-   Continuous flowing ticker band in transparent glassmorphic style
+   Flows seamlessly on the normal page canvas (NO separate cards or box borders)
    ────────────────────────────────────────────────────────────────── */
 .hero-tech-marquee {
   position: relative;
   width: 100%;
   overflow: hidden;
-  padding: 1.15rem 0;
-  margin-top: -0.5rem;
+  padding: 1.25rem 0;
+  margin-top: 0.25rem;
   margin-bottom: 0.5rem;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(248, 250, 252, 0.6) 50%, rgba(255, 255, 255, 0) 100%);
-  border-top: 1px solid rgba(226, 232, 240, 0.75);
-  border-bottom: 1px solid rgba(226, 232, 240, 0.75);
-  mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+  background: transparent;
+  border: none;
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
   z-index: 5;
 }
 
 .marquee-track {
   display: flex;
-  gap: 1.25rem;
+  gap: 1.75rem;
   width: max-content;
   align-items: center;
-  animation: marqueeRightToLeft 34s linear infinite;
+  animation: marqueeRightToLeft 32s linear infinite;
   will-change: transform;
 }
 
@@ -1341,59 +1340,84 @@ h6 {
   }
 }
 
-.marquee-badge-pill {
+/* Individual flow item: seamless on page canvas, no boxed card style */
+.marquee-flow-item {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.6rem 1.2rem;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(226, 232, 240, 0.85);
-  border-radius: 9999px;
-  box-shadow: 0 4px 14px -2px rgba(15, 23, 42, 0.04);
+  padding: 0.35rem 0.5rem;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
   cursor: default;
 }
 
-.marquee-badge-pill:hover {
-  transform: translateY(-3px);
-  background: rgba(255, 255, 255, 0.96);
-  border-color: rgba(37, 99, 235, 0.4);
-  box-shadow: 0 10px 24px -4px rgba(37, 99, 235, 0.16), 0 4px 8px -2px rgba(15, 23, 42, 0.05);
+.marquee-flow-item:hover {
+  transform: translateY(-2px);
 }
 
-.marquee-badge-pill .badge-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  display: flex;
+.flow-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   font-size: 1.25rem;
   flex-shrink: 0;
+  transition: transform 0.3s ease;
 }
 
-.marquee-badge-pill .badge-content {
+.marquee-flow-item:hover .flow-icon {
+  transform: scale(1.12);
+}
+
+.flow-text {
   display: flex;
   flex-direction: column;
 }
 
-.marquee-badge-pill .badge-title {
+.flow-title {
   font-family: var(--ff-h);
-  font-size: 0.85rem;
+  font-size: 0.92rem;
   font-weight: 700;
   color: var(--t1);
   line-height: 1.25;
+  letter-spacing: -0.01em;
 }
 
-.marquee-badge-pill .badge-subtitle {
-  font-size: 0.72rem;
+.flow-sub {
+  font-family: var(--ff);
+  font-size: 0.74rem;
   font-weight: 500;
   color: var(--t3);
   line-height: 1.2;
+}
+
+/* Subtle glowing separator between items */
+.flow-divider {
+  font-size: 0.65rem;
+  color: var(--accent);
+  opacity: 0.45;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+/* Backward-compatible pill alias */
+.marquee-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.35rem 0.5rem;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .pill-rocket-theme {
@@ -3561,26 +3585,32 @@ h6 {
     gap: 1rem;
   }
 
-  .transparent-photo-wrapper {
-    width: clamp(260px, 80vw, 330px);
-    height: clamp(320px, 88vw, 400px);
-  }
-
   .hero-tech-marquee {
     padding: 0.85rem 0;
+  }
+
+  .marquee-flow-item {
+    gap: 0.6rem;
+    padding: 0.2rem 0.35rem;
+  }
+
+  .flow-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 1.05rem;
+  }
+
+  .flow-title {
+    font-size: 0.82rem;
+  }
+
+  .flow-sub {
+    font-size: 0.68rem;
   }
 
   .marquee-badge-pill {
     padding: 0.5rem 0.95rem;
     gap: 0.6rem;
-  }
-
-  .marquee-badge-pill .badge-title {
-    font-size: 0.8rem;
-  }
-
-  .marquee-badge-pill .badge-subtitle {
-    font-size: 0.68rem;
   }
 
   .highlight-val {
