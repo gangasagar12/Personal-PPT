@@ -101,3 +101,38 @@ if (file_exists($detailView)) {
     }
     echo "Successfully generated standalone static HTML files for " . count($all_posts) . " insight articles.\n";
 }
+
+// 6. Export Project Detail Template
+$projectDetailView = __DIR__ . '/../resources/views/project_detail.php';
+if (file_exists($projectDetailView)) {
+    $all_projects = \App\Models\FeaturedProject::allWithSkills();
+    $project = !empty($all_projects) ? $all_projects[0] : null;
+    $is_subdir = false;
+
+    ob_start();
+    require $projectDetailView;
+    $projectDetailHtml = ob_get_clean();
+
+    file_put_contents(__DIR__ . '/../project-detail.html', $projectDetailHtml);
+    if (is_dir(__DIR__ . '/../public')) {
+        file_put_contents(__DIR__ . '/../public/project-detail.html', $projectDetailHtml);
+    }
+    echo "Successfully exported Project Detail view to project-detail.html (" . strlen($projectDetailHtml) . " bytes)\n";
+}
+
+// 7. Sync projects.html
+$indexContent = file_get_contents(__DIR__ . '/../index.html');
+if (file_exists(__DIR__ . '/../projects.html')) {
+    preg_match('/<div class="home-projects-grid">.*?<\/div>\s*<!-- ── Key Academic/s', $indexContent, $gridMatch);
+    if (!empty($gridMatch[0])) {
+        $cleanGrid = str_replace('<!-- ── Key Academic', '', $gridMatch[0]);
+        $phtml = file_get_contents(__DIR__ . '/../projects.html');
+        $phtml = preg_replace('/<div class="home-projects-grid">.*?<\/div>\s*<!-- ── Key Academic/s', $cleanGrid . '<!-- ── Key Academic', $phtml);
+
+        file_put_contents(__DIR__ . '/../projects.html', $phtml);
+        if (is_dir(__DIR__ . '/../public')) {
+            file_put_contents(__DIR__ . '/../public/projects.html', $phtml);
+        }
+        echo "Successfully synced projects.html (" . strlen($phtml) . " bytes)\n";
+    }
+}

@@ -859,21 +859,32 @@
 
         <!-- Projects Grid -->
         <div class="home-projects-grid">
-          <?php foreach ($featured_projects as $p): ?>
+          <?php 
+          $displayProjects = array_slice($featured_projects, 0, 6);
+          foreach ($displayProjects as $p): 
+            $shortDesc = !empty($p['short_description']) ? $p['short_description'] : $p['description'];
+            $slug = !empty($p['slug']) ? $p['slug'] : 'project-' . $p['id'];
+            $detailUrl = "project-detail.php?slug=" . urlencode($slug);
+          ?>
           <article class="home-project-card">
-            <div class="home-project-image">
-              <img src="<?= htmlspecialchars($p['image']) ?>" alt="<?= htmlspecialchars($p['title']) ?>" loading="lazy" />
-            </div>
-            <div class="home-project-body">
-              <h3 class="home-project-title"><?= htmlspecialchars($p['title']) ?></h3>
-              <p class="home-project-desc">
-                <?= htmlspecialchars($p['description']) ?>
-              </p>
-              <div class="project-skills-pills">
-                <?php foreach ($p['skills_array'] as $sk): ?>
-                <span><?= htmlspecialchars($sk) ?></span>
-                <?php endforeach; ?>
+            <a href="<?= $detailUrl ?>" class="home-project-image-link" aria-label="<?= htmlspecialchars($p['title']) ?>">
+              <div class="home-project-image">
+                <img src="<?= htmlspecialchars($p['image']) ?>" alt="<?= htmlspecialchars($p['title']) ?>" loading="lazy" />
               </div>
+            </a>
+
+            <div class="home-project-body">
+              <h3 class="home-project-title">
+                <a href="<?= $detailUrl ?>" class="project-title-link">
+                  <?= htmlspecialchars($p['title']) ?>
+                </a>
+              </h3>
+              
+              <p class="home-project-desc">
+                <?= htmlspecialchars($shortDesc) ?>
+              </p>
+
+              <!-- Footer with Live Site link (no technology pills on card face) -->
               <div class="home-project-footer">
                 <a href="<?= htmlspecialchars($p['live_url']) ?>" target="_blank" rel="noopener noreferrer" class="live-site-link">
                   <span>Live Site</span>

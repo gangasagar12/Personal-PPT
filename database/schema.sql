@@ -17,14 +17,25 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- ----------------------------------------------------------------------------
 CREATE TABLE `featured_projects` (
   `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `slug` VARCHAR(255) NULL,
   `title` VARCHAR(255) NOT NULL,
+  `short_description` TEXT NULL,
   `description` TEXT NOT NULL,
+  `category` VARCHAR(255) NULL,
+  `category_badge` VARCHAR(255) NULL,
+  `official_site` VARCHAR(255) NULL,
+  `impact` TEXT NULL,
+  `screenshots` TEXT NULL,
   `image` VARCHAR(255) NOT NULL DEFAULT 'images/projectcard1.jpg',
   `skills` VARCHAR(500) NOT NULL,
+  `client_name` VARCHAR(255) NULL,
+  `location` VARCHAR(255) NULL,
+  `features` TEXT NULL,
   `live_url` VARCHAR(500) NOT NULL DEFAULT 'https://github.com/gangasaagar',
   `display_order` INT NOT NULL DEFAULT 0,
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  INDEX `idx_featured_order` (`display_order`)
+  INDEX `idx_featured_order` (`display_order`),
+  INDEX `idx_featured_slug` (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------------------------------------------------------

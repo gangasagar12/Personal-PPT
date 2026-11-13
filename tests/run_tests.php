@@ -44,10 +44,13 @@ runTest('DatabaseTest', 'testBlogInsightsCount', [$dbTest, 'testBlogInsightsCoun
 runTest('DatabaseTest', 'testCompanyProductsCount', [$dbTest, 'testCompanyProductsCount']);
 runTest('DatabaseTest', 'testBlogInsightFindBySlug', [$dbTest, 'testBlogInsightFindBySlug']);
 runTest('DatabaseTest', 'testBlogInsightRecent', [$dbTest, 'testBlogInsightRecent']);
+runTest('DatabaseTest', 'testFeaturedProjectFindBySlug', [$dbTest, 'testFeaturedProjectFindBySlug']);
 
 $routeTest = new \Tests\RouteTest();
 runTest('RouteTest', 'testRoutesFileExists', [$routeTest, 'testRoutesFileExists']);
 runTest('RouteTest', 'testViewTemplatesExist', [$routeTest, 'testViewTemplatesExist']);
+runTest('RouteTest', 'testDynamicProjectController', [$routeTest, 'testDynamicProjectController']);
+runTest('RouteTest', 'testAdminAuthCredentials', [$routeTest, 'testAdminAuthCredentials']);
 
 echo "---------------------------------------------\n";
 echo "Results: {$passed} Passed, {$failed} Failed\n";

@@ -15,7 +15,7 @@ class DatabaseTest {
 
     public function testFeaturedProjectsCount(): bool {
         $projects = FeaturedProject::allWithSkills();
-        return count($projects) === 6;
+        return count($projects) >= 6;
     }
 
     public function testAcademicProjectsCount(): bool {
@@ -41,6 +41,11 @@ class DatabaseTest {
     public function testBlogInsightRecent(): bool {
         $recent = BlogInsight::recent(2);
         return count($recent) === 2;
+    }
+
+    public function testFeaturedProjectFindBySlug(): bool {
+        $project = FeaturedProject::findBySlug('oralix-dental-practice-os');
+        return is_array($project) && !empty($project['client_name']) && !empty($project['location']) && !empty($project['features_array']);
     }
 }
 
