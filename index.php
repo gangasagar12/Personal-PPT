@@ -219,22 +219,19 @@ $blog_insights = get_blog_insights();
           </div>
         </div>
 
-        <!-- ── Right: Professional Photograph & Visual Composition ── -->
+        <!-- ── Right: Professional Photograph & Visual Composition (Transparent Cutout) ── -->
         <div class="hero-visual">
-          <div class="visual-wrapper">
+          <div class="visual-wrapper transparent-photo-wrapper">
             <!-- Decorative aura & shapes -->
             <div class="visual-aura aura-blue" aria-hidden="true"></div>
             <div class="visual-aura aura-purple" aria-hidden="true"></div>
+            <div class="visual-aura aura-center-glow" aria-hidden="true"></div>
             <div class="visual-pattern-dots" aria-hidden="true"></div>
 
-            <!-- Photograph card (Clean presentation, NO badges over photo) -->
-            <div class="photo-container">
-              <div class="photo-frame">
-                <img src="images/profile.jpeg" alt="Ganga Sagar Joshi - Professional Portrait" class="hero-photo"
-                  width="460" height="580" loading="eager" />
-                <div class="photo-gradient-overlay" aria-hidden="true"></div>
-              </div>
-              <div class="frame-border-glow" aria-hidden="true"></div>
+            <!-- Transparent Cutout Portrait (no box border, no badges over image) -->
+            <div class="transparent-portrait-box">
+              <img src="images/profile_transparent.png" alt="Ganga Sagar Joshi - Professional Portrait" class="hero-transparent-photo"
+                width="960" height="1280" loading="eager" />
             </div>
           </div>
         </div>
