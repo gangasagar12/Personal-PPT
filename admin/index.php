@@ -1,9 +1,15 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
+if (session_status() === PHP_SESSION_NONE && !headers_sent()) {
     session_start();
 }
 require_once __DIR__ . '/../backend/db.php';
 require_once __DIR__ . '/../backend/functions.php';
+
+if (!isset($pdo) || !$pdo) {
+    require_once __DIR__ . '/../app/Core/Database.php';
+    $pdo = \App\Core\Database::getConnection();
+}
+$GLOBALS['pdo'] = $pdo;
 
 // Authentication Config (Loaded from .env / config/app.php with fallback)
 require_once __DIR__ . '/../config/env.php';
@@ -286,7 +292,7 @@ require_once __DIR__ . '/../app/Core/Autoloader.php';
 \App\Core\Autoloader::register();
 
 $featured_list = \App\Models\FeaturedProject::allWithSkills();
-$academic_list = get_academic_projects();
+$academic_list = \App\Models\AcademicProject::allWithSkills();
 $blog_list = $pdo->query("SELECT * FROM blog_insights ORDER BY display_order ASC, id DESC")->fetchAll();
 $inquiries_list = $pdo->query("SELECT * FROM contact_inquiries ORDER BY id DESC")->fetchAll();
 $company_products_list = \App\Models\CompanyProduct::allWithFeaturesAndPills();

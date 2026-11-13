@@ -53,6 +53,7 @@ runTest('RouteTest', 'testViewTemplatesExist', [$routeTest, 'testViewTemplatesEx
 runTest('RouteTest', 'testDynamicProjectController', [$routeTest, 'testDynamicProjectController']);
 runTest('RouteTest', 'testExperienceController', [$routeTest, 'testExperienceController']);
 runTest('RouteTest', 'testAdminAuthCredentials', [$routeTest, 'testAdminAuthCredentials']);
+runTest('RouteTest', 'testAdminDashboardRendering', [$routeTest, 'testAdminDashboardRendering']);
 
 echo "---------------------------------------------\n";
 echo "Results: {$passed} Passed, {$failed} Failed\n";

@@ -36,19 +36,19 @@
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  color: #2563eb;
+  color: #4B86A5;
   padding: 0.3rem 0.75rem;
-  background: #eff6ff;
-  border: 1px solid #dbeafe;
+  background: rgba(75, 134, 165, 0.08);
+  border: 1px solid rgba(75, 134, 165, 0.20);
   border-radius: 6px;
   text-decoration: none;
   transition: all 0.2s ease;
 }
 
 .breadcrumb-back-link:hover {
-  background: #2563eb;
+  background: #4B86A5;
   color: #ffffff;
-  border-color: #2563eb;
+  border-color: #4B86A5;
 }
 
 .breadcrumb-separator {
@@ -190,7 +190,7 @@
 }
 
 .about-card-brand-logo span {
-  color: #2563eb;
+  color: #4B86A5;
 }
 
 /* Right Column (iMac / Desktop Mockup Panel) */
@@ -262,7 +262,7 @@
 }
 
 .monitor-screen-brand span {
-  color: #2563eb;
+  color: #4B86A5;
 }
 
 .monitor-screen-tagline {
@@ -337,9 +337,9 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #2563eb;
-  background: #eff6ff;
-  border: 1px solid #dbeafe;
+  color: #4B86A5;
+  background: rgba(75, 134, 165, 0.08);
+  border: 1px solid rgba(75, 134, 165, 0.20);
   padding: 0.25rem 0.65rem;
   border-radius: 4px;
   margin-bottom: 0.45rem;
@@ -388,7 +388,7 @@
 
 .founder-name-group span {
   font-size: 0.85rem;
-  color: #2563eb;
+  color: #4B86A5;
   font-weight: 600;
 }
 
@@ -450,7 +450,7 @@
 }
 
 .role-mini-title i {
-  color: #2563eb;
+  color: #4B86A5;
   font-size: 1.15rem;
 }
 
@@ -494,7 +494,7 @@
 }
 
 .service-clean-card:hover {
-  border-color: #2563eb;
+  border-color: #4B86A5;
   transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(37, 99, 235, 0.08);
 }
@@ -503,8 +503,8 @@
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background: #eff6ff;
-  color: #2563eb;
+  background: rgba(75, 134, 165, 0.08);
+  color: #4B86A5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -604,7 +604,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #2563eb;
+  color: #4B86A5;
   margin-bottom: 0.35rem;
 }
 
@@ -681,7 +681,7 @@
 .product-live-link {
   font-size: 0.82rem;
   font-weight: 600;
-  color: #2563eb;
+  color: #4B86A5;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -690,7 +690,7 @@
 }
 
 .product-live-link:hover {
-  color: #1d4ed8;
+  color: #3d6f8a;
   transform: translateX(2px);
 }
 
@@ -738,7 +738,7 @@
   font-size: 0.84rem;
   font-weight: 600;
   color: #ffffff !important;
-  background: #2563eb;
+  background: #4B86A5;
   padding: 0.6rem 1.25rem;
   border-radius: 8px;
   text-decoration: none;
@@ -747,7 +747,7 @@
 }
 
 .btn-primary-compact:hover {
-  background: #1d4ed8;
+  background: #3d6f8a;
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.32);
 }
 

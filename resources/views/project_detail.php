@@ -240,7 +240,7 @@ if (!function_exists('getTechBadgeInfo')) {
       color: #334155;
     }
     .project-features-list li i {
-      color: #2563eb;
+      color: #4B86A5;
       font-size: 1.35rem;
       margin-top: 0.15rem;
       flex-shrink: 0;
@@ -363,7 +363,7 @@ if (!function_exists('getTechBadgeInfo')) {
       transition: color 0.2s;
     }
     .overview-meta-item a.meta-val:hover {
-      color: #2563eb;
+      color: #4B86A5;
     }
 
     .sidebar-divider {
@@ -437,16 +437,16 @@ if (!function_exists('getTechBadgeInfo')) {
       color: #ca8a04;
     }
     .tech-mysql .tech-tool-icon-box {
-      background: #eff6ff;
-      color: #2563eb;
+      background: rgba(75, 134, 165, 0.1);
+      color: #4B86A5;
     }
     .tech-postgres .tech-tool-icon-box {
-      background: #eff6ff;
-      color: #1d4ed8;
+      background: rgba(75, 134, 165, 0.1);
+      color: #3d6f8a;
     }
     .tech-sqlite .tech-tool-icon-box {
-      background: #f0f9ff;
-      color: #0284c7;
+      background: rgba(75, 134, 165, 0.1);
+      color: #4B86A5;
     }
     .tech-html .tech-tool-icon-box {
       background: #fef2f2;
@@ -456,8 +456,8 @@ if (!function_exists('getTechBadgeInfo')) {
       font-size: 1.25rem;
     }
     .tech-css .tech-tool-icon-box {
-      background: #eff6ff;
-      color: #2563eb;
+      background: rgba(75, 134, 165, 0.1);
+      color: #4B86A5;
       font-weight: 800;
       font-family: sans-serif;
       font-size: 1.25rem;

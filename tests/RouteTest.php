@@ -38,5 +38,18 @@ class RouteTest {
         $pass = $app_config['admin']['pass'] ?? env('ADMIN_PASSWORD', 'admin123');
         return $user === 'admin' && $pass === 'admin123';
     }
+
+    public function testAdminDashboardRendering(): bool {
+        $_SESSION['admin_logged_in'] = true;
+        $_SERVER['REQUEST_URI'] = '/admin';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        
+        ob_start();
+        include dirname(__DIR__) . '/admin/index.php';
+        $output = ob_get_clean();
+        
+        unset($_SESSION['admin_logged_in']);
+        return strpos($output, 'Admin Workspace') !== false && strpos($output, 'Academic Projects') !== false;
+    }
 }
 

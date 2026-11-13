@@ -13,7 +13,7 @@
 
 /* ── Hero Banner ── */
 .exp-hero-banner {
-  background: radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.09) 0%, transparent 65%), var(--bg);
+  background: var(--bg);
   padding: calc(var(--nav-h) + 2.2rem) 0 3.25rem;
   border-bottom: 1px solid var(--bdr);
 }
@@ -104,7 +104,7 @@
   border-color: var(--accent);
   color: var(--accent);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+  box-shadow: 0 4px 12px rgba(75, 134, 165, 0.20);
 }
 
 /* ── Full Working History Section ── */
@@ -256,7 +256,7 @@
 }
 
 .exp-cta-card {
-  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+  background: #0f172a;
   border-radius: var(--r-lg);
   padding: clamp(2.2rem, 5vw, 3.5rem);
   color: #ffffff;
@@ -278,7 +278,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--accent-cyan);
+  color: var(--accent);
   margin-bottom: 0.65rem;
 }
 
