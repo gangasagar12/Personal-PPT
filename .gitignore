@@ -1,0 +1,30 @@
+# Environment files (contains credentials)
+.env
+.env.backup
+.env.local
+
+# Database SQLite files (local instance)
+database/*.sqlite
+database/*.sqlite-journal
+
+# Vendor & Dependencies
+/vendor/*
+!vendor/.gitkeep
+
+# Storage logs and caches
+storage/logs/*.log
+storage/cache/*
+!storage/cache/.gitkeep
+!storage/logs/.gitkeep
+
+# IDEs & OS files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+*.bak
+

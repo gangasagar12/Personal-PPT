@@ -1,0 +1,686 @@
+/* ==========================================================================
+   STRATAFLOW TECHNOLOGIES — ENTREPRENEURSHIP PROFILE STYLESHEET
+   Standard, Minimalist, High-Precision Tech Typography & Clean Corporate UI
+   ========================================================================== */
+
+/* ── Base & Main Layout ── */
+.profile-page-main {
+  min-height: 100vh;
+  padding-top: clamp(6.25rem, 8vw, 7.5rem);
+  padding-bottom: 5rem;
+  background: #f8fafc;
+  color: #0f172a;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.68;
+}
+
+.profile-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ── Minimal Breadcrumb ── */
+.profile-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.75rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #64748b;
+}
+
+.breadcrumb-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #2563eb;
+  padding: 0.3rem 0.75rem;
+  background: #eff6ff;
+  border: 1px solid #dbeafe;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.breadcrumb-back-link:hover {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+.breadcrumb-separator {
+  color: #cbd5e1;
+}
+
+.breadcrumb-current {
+  color: #334155;
+  font-weight: 500;
+}
+
+/* ── Hero Section with STRATAFLOW Ambient Shadow / Watermark ── */
+.strataflow-hero {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: clamp(2rem, 4vw, 3rem);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04), 0 8px 24px -6px rgba(15, 23, 42, 0.04);
+  margin-bottom: 2.25rem;
+  overflow: hidden;
+}
+
+/* Accent top highlight line */
+.strataflow-hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #2563eb 0%, #4f46e5 100%);
+}
+
+/* Ambient STRATAFLOW Watermark / Subtle Shadow in Background */
+.strataflow-shadow-watermark {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(3rem, 9.5vw, 6.8rem);
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: rgba(15, 23, 42, 0.038);
+  text-shadow: 0 0 50px rgba(37, 99, 235, 0.06);
+  user-select: none;
+  pointer-events: none;
+  line-height: 0.9;
+  z-index: 0;
+}
+
+.strataflow-hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Company Identity Bar */
+.company-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.company-logo-identity {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.company-badge-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+  flex-shrink: 0;
+}
+
+.company-heading-text h1 {
+  font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.025em;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.company-heading-text p {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #64748b;
+  margin: 0.2rem 0 0;
+  letter-spacing: 0.02em;
+}
+
+.company-cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #2563eb;
+  padding: 0.45rem 0.95rem;
+  border: 1px solid #dbeafe;
+  border-radius: 8px;
+  background: #f8fafc;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.company-cta-link:hover {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+/* Hero Intro Typography */
+.hero-mission-lead {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #1e293b;
+  line-height: 1.6;
+  margin-bottom: 1.1rem;
+}
+
+.hero-body-text {
+  font-size: 0.9rem;
+  color: #475569;
+  line-height: 1.72;
+  margin-bottom: 1.85rem;
+  max-width: 940px;
+}
+
+/* Metadata Strip */
+.company-quick-specs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  padding: 1.15rem 1.35rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+@media (max-width: 768px) {
+  .company-quick-specs {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+  }
+}
+
+.spec-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.spec-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #64748b;
+}
+
+.spec-value {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.spec-value i {
+  color: #2563eb;
+  font-size: 1rem;
+}
+
+/* ── Section Blocks ── */
+.profile-content-section {
+  margin-bottom: 2.75rem;
+}
+
+.section-title-wrap {
+  margin-bottom: 1.5rem;
+}
+
+.section-kicker {
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #2563eb;
+  background: #eff6ff;
+  border: 1px solid #dbeafe;
+  padding: 0.25rem 0.65rem;
+  border-radius: 4px;
+  margin-bottom: 0.45rem;
+}
+
+.section-heading-h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.35rem;
+}
+
+.section-caption-p {
+  font-size: 0.88rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── Founder Role Box ── */
+.founder-profile-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: clamp(1.5rem, 3.5vw, 2.25rem);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+}
+
+.founder-header-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.founder-name-group h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0 0 0.2rem;
+}
+
+.founder-name-group span {
+  font-size: 0.84rem;
+  color: #2563eb;
+  font-weight: 500;
+}
+
+.founder-tag {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #475569;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.founder-narrative {
+  font-size: 0.9rem;
+  color: #475569;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+/* 4 Responsibility Pillars */
+.founder-roles-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .founder-roles-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.role-mini-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 1.15rem 1.25rem;
+  transition: all 0.2s ease;
+}
+
+.role-mini-card:hover {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.role-mini-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 0.4rem;
+}
+
+.role-mini-title i {
+  color: #2563eb;
+  font-size: 1.1rem;
+}
+
+.role-mini-card p {
+  font-size: 0.84rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── 5 Core Focus Areas (Digital Services) ── */
+.services-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.1rem;
+}
+
+@media (max-width: 860px) {
+  .services-card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 580px) {
+  .services-card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.service-clean-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.35rem;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.02);
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.service-clean-card:hover {
+  border-color: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.08);
+}
+
+.service-icon-box {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: #eff6ff;
+  color: #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  margin-bottom: 0.85rem;
+}
+
+.service-clean-card h3 {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0 0 0.45rem;
+}
+
+.service-clean-card p {
+  font-size: 0.84rem;
+  color: #64748b;
+  line-height: 1.62;
+  margin: 0;
+}
+
+/* ── Flagship Products & Solutions ── */
+.products-clean-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.product-feature-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  transition: all 0.2s ease;
+}
+
+@media (max-width: 860px) {
+  .product-feature-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+.product-feature-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+}
+
+.product-thumb-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  background: #f1f5f9;
+  overflow: hidden;
+}
+
+.product-thumb-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.product-feature-card:hover .product-thumb-wrap img {
+  transform: scale(1.02);
+}
+
+.product-status-badge {
+  position: absolute;
+  top: 0.85rem;
+  left: 0.85rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: rgba(16, 185, 129, 0.95);
+  padding: 0.22rem 0.65rem;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.product-details-wrap {
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-cat-kicker {
+  font-size: 0.74rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #2563eb;
+  margin-bottom: 0.35rem;
+}
+
+.product-details-wrap h3 {
+  font-size: 1.22rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0 0 0.65rem;
+  line-height: 1.3;
+}
+
+.product-details-wrap p {
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.68;
+  margin-bottom: 1.15rem;
+}
+
+.product-points-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.45rem 1rem;
+  margin-bottom: 1.25rem;
+  list-style: none;
+  padding: 0;
+}
+
+@media (max-width: 600px) {
+  .product-points-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.product-points-grid li {
+  font-size: 0.82rem;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.product-points-grid li i {
+  color: #10b981;
+  font-size: 0.95rem;
+}
+
+.product-card-footer {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.product-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.product-pills span {
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 0.18rem 0.55rem;
+  border-radius: 4px;
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+}
+
+.product-live-link {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #2563eb;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: all 0.2s ease;
+}
+
+.product-live-link:hover {
+  color: #1d4ed8;
+  transform: translateX(2px);
+}
+
+/* ── Minimal Corporate CTA ── */
+.clean-corporate-cta {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 2rem 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+}
+
+.cta-left-text h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0 0 0.3rem;
+}
+
+.cta-left-text p {
+  font-size: 0.86rem;
+  color: #64748b;
+  margin: 0;
+  max-width: 600px;
+}
+
+.cta-action-btns {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.btn-primary-compact {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: #ffffff !important;
+  background: #2563eb;
+  padding: 0.55rem 1.15rem;
+  border-radius: 8px;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+  transition: all 0.2s ease;
+}
+
+.btn-primary-compact:hover {
+  background: #1d4ed8;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.32);
+}
+
+.btn-secondary-compact {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: #334155 !important;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 0.55rem 1.15rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary-compact:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}

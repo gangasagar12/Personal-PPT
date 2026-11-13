@@ -1,0 +1,35 @@
+# Root .htaccess — Ganga Sagar Joshi Portfolio
+# Security & Shared Hosting Rewrite Rules
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Prevent direct access to sensitive files and directories
+    RewriteRule ^(\.env|\.git|composer\.(json|lock)|database/.*\.sqlite|app/|config/|storage/) - [F,L,NC]
+
+    # If public directory exists and isn't requested, rewrite to public/
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteCond %{REQUEST_URI} !^/css/
+    RewriteCond %{REQUEST_URI} !^/js/
+    RewriteCond %{REQUEST_URI} !^/images/
+    RewriteCond %{REQUEST_URI} !^/admin/
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# Block access to hidden files
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block access to SQLite database files
+<FilesMatch "\.sqlite$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Disable Directory Index Browsing
+Options -Indexes
+

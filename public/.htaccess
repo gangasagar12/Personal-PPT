@@ -1,0 +1,29 @@
+# Apache Configuration for public/ DocumentRoot
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Prevent direct access to hidden files/directories (except .well-known)
+    RewriteRule "(^|/)\.(?!well-known)" - [F]
+
+    # Handle Front Controller
+    # If the requested filename exists as a file or directory, serve it directly
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# Security Headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Disable Directory Index Browsing
+Options -Indexes
+
+# Custom Error Documents
+ErrorDocument 404 /index.php
+

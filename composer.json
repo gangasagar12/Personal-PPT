@@ -1,0 +1,36 @@
+{
+    "name": "gangasagar/portfolio",
+    "description": "Ganga Sagar Joshi Developer Portfolio & Clinical Systems Platform",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ganga Sagar Joshi",
+            "email": "contact@gangasagar.com.np",
+            "homepage": "https://gangasagar.com.np"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "ext-pdo": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        },
+        "files": [
+            "config/env.php"
+        ]
+    },
+    "scripts": {
+        "test": "php tests/run_tests.php",
+        "export": "php backend/export_static.php",
+        "serve": "php -S localhost:8000 -t public"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    }
+}

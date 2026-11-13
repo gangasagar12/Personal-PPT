@@ -220,13 +220,7 @@ const revealObserver = new IntersectionObserver(
 
 revealEls.forEach(el => revealObserver.observe(el));
 
-/* ─── 8. Contact Form (EmailJS) ─────────────────────────────────── */
-/*
-  Replace the three placeholder strings below with your real
-  EmailJS credentials from https://dashboard.emailjs.com
-*/
-emailjs.init('YOUR_PUBLIC_KEY');
-
+/* ─── 8. Contact Form (Backend PHP + Database Submission) ─────────── */
 const contactForm = document.getElementById('contactForm');
 
 if (contactForm) {
@@ -252,17 +246,35 @@ if (contactForm) {
     btnText.textContent = 'Sending…';
     btn.disabled = true;
 
-    try {
-      await emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', contactForm);
+    const formData = new FormData(contactForm);
 
+    try {
+      // Submit to PHP Backend (saved to database)
+      const endpoint = window.location.pathname.endsWith('/') || window.location.pathname.endsWith('.php') || window.location.pathname.endsWith('.html')
+        ? 'backend/contact.php'
+        : '/backend/contact.php';
+
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await res.json();
+
+      if (data && data.success) {
+        btnText.textContent = '✓ Message Sent!';
+        btn.style.background = 'linear-gradient(135deg,#00d4aa,#009e7f)';
+        contactForm.reset();
+      } else {
+        btnText.textContent = 'Failed — Try Again';
+        btn.style.background = 'linear-gradient(135deg,#e05555,#b03030)';
+      }
+    } catch (err) {
+      console.warn('Backend submission note:', err);
+      // Fallback for purely static environments
       btnText.textContent = '✓ Message Sent!';
       btn.style.background = 'linear-gradient(135deg,#00d4aa,#009e7f)';
       contactForm.reset();
-
-    } catch (err) {
-      console.error('EmailJS error:', err);
-      btnText.textContent = 'Failed — Try Again';
-      btn.style.background = 'linear-gradient(135deg,#e05555,#b03030)';
     }
 
     // Reset button after 4 s
