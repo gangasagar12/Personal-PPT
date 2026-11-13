@@ -45,6 +45,7 @@ runTest('DatabaseTest', 'testCompanyProductsCount', [$dbTest, 'testCompanyProduc
 runTest('DatabaseTest', 'testBlogInsightFindBySlug', [$dbTest, 'testBlogInsightFindBySlug']);
 runTest('DatabaseTest', 'testBlogInsightRecent', [$dbTest, 'testBlogInsightRecent']);
 runTest('DatabaseTest', 'testFeaturedProjectFindBySlug', [$dbTest, 'testFeaturedProjectFindBySlug']);
+runTest('DatabaseTest', 'testExperienceCount', [$dbTest, 'testExperienceCount']);
 
 $routeTest = new \Tests\RouteTest();
 runTest('RouteTest', 'testRoutesFileExists', [$routeTest, 'testRoutesFileExists']);

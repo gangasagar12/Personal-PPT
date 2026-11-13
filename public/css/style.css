@@ -943,6 +943,35 @@ h6 {
   justify-content: center;
 }
 
+/* Hero Visual Typography Watermark (Stacked on Right Column Behind Portrait) */
+.hero-visual-watermark {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 0.84;
+  font-family: var(--ff-h);
+  font-size: clamp(3.8rem, 7.5vw, 6.4rem);
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(99, 102, 241, 0.045);
+  -webkit-text-stroke: 1.5px rgba(99, 102, 241, 0.18);
+  text-shadow: 0 16px 36px rgba(99, 102, 241, 0.12);
+  pointer-events: none;
+  user-select: none;
+  z-index: 2;
+  white-space: nowrap;
+}
+
+.hero-visual-watermark span {
+  display: block;
+}
+
 /* Layered glowing aura */
 .visual-aura {
   position: absolute;
@@ -1556,8 +1585,6 @@ h6 {
   border: none !important;
   box-shadow: none !important;
   cursor: default;
-  pointer-events: none;
-  /* Disables all hover triggers */
 }
 
 .about-signature-img {
@@ -1568,6 +1595,7 @@ h6 {
   filter: contrast(1.1);
   transform: none !important;
   transition: none !important;
+  pointer-events: none;
 }
 
 .signature-caption {
@@ -1578,6 +1606,45 @@ h6 {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   margin-top: 0.4rem;
+}
+
+/* Minimal text contact display under signature (no card/box) */
+.signature-contact-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.65rem;
+}
+
+.signature-contact-label {
+  font-family: var(--ff-h);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--t3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.15rem;
+}
+
+.signature-contact-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--ff-b);
+  font-size: 0.84rem;
+  color: var(--t2);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.signature-contact-item i {
+  font-size: 0.95rem;
+  color: var(--p1);
+}
+
+.signature-contact-item:hover {
+  color: var(--p1);
 }
 
 /* Right Content Column */
@@ -1919,6 +1986,203 @@ h6 {
   line-height: 1.65;
   color: var(--t2);
   margin-top: 0.25rem;
+}
+
+
+/* ──────────────────────────────────────────────────────────────────
+   PROFESSIONAL EXPERIENCE SECTION
+   ────────────────────────────────────────────────────────────────── */
+.experience-section {
+  background: var(--bg-alt);
+  padding: clamp(4.5rem, 7vw, 6.5rem) 0;
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid var(--bdr);
+}
+
+.experience-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.65rem;
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.experience-card {
+  background: var(--bg-card);
+  border: 1px solid var(--bdr);
+  border-radius: var(--r);
+  padding: clamp(1.4rem, 2.8vw, 2.2rem);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.28s var(--ease), box-shadow 0.28s var(--ease), border-color 0.28s var(--ease);
+  position: relative;
+  overflow: hidden;
+}
+
+.experience-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+  border-color: var(--bdr-h);
+}
+
+.experience-card.exp-card-active {
+  border-left: 4px solid var(--accent);
+}
+
+.exp-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.15rem;
+}
+
+.exp-role-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.exp-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.exp-role-title {
+  font-family: var(--ff-h);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--t1);
+  line-height: 1.3;
+}
+
+.exp-company-line {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--t2);
+  font-weight: 600;
+  margin-top: 0.2rem;
+  flex-wrap: wrap;
+}
+
+.exp-company-name {
+  color: var(--accent);
+}
+
+.exp-dot {
+  color: var(--t-muted);
+}
+
+.exp-location {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  color: var(--t3);
+  font-weight: 500;
+}
+
+.exp-meta-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.exp-period-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--t3);
+  background: var(--bg-alt);
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--r-full);
+  border: 1px solid var(--bdr);
+}
+
+.exp-status-pill.status-active {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #16a34a;
+  background: rgba(22, 163, 74, 0.1);
+  padding: 0.32rem 0.8rem;
+  border-radius: var(--r-full);
+  border: 1px solid rgba(22, 163, 74, 0.22);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.exp-lead-desc {
+  font-size: 0.96rem;
+  line-height: 1.65;
+  color: var(--t2);
+  margin-bottom: 1.15rem;
+}
+
+.exp-points-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-bottom: 1.35rem;
+  padding-left: 0.25rem;
+}
+
+.exp-points-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--t2);
+}
+
+.exp-points-list li i {
+  color: var(--accent);
+  font-size: 1.15rem;
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+}
+
+.exp-tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-top: 0.95rem;
+  border-top: 1px dashed rgba(203, 213, 225, 0.8);
+}
+
+.exp-tech-tag {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent-indigo);
+  background: rgba(99, 102, 241, 0.08);
+  padding: 0.28rem 0.75rem;
+  border-radius: var(--r-xs);
+  transition: all 0.2s ease;
+}
+
+.exp-tech-tag:hover {
+  background: var(--accent-indigo);
+  color: #fff;
+  transform: translateY(-1px);
 }
 
 

@@ -6,6 +6,7 @@ use App\Models\FeaturedProject;
 use App\Models\AcademicProject;
 use App\Models\BlogInsight;
 use App\Models\CompanyProduct;
+use App\Models\Experience;
 
 class DatabaseTest {
     public function testConnection(): bool {
@@ -46,6 +47,11 @@ class DatabaseTest {
     public function testFeaturedProjectFindBySlug(): bool {
         $project = FeaturedProject::findBySlug('oralix-dental-practice-os');
         return is_array($project) && !empty($project['client_name']) && !empty($project['location']) && !empty($project['features_array']);
+    }
+
+    public function testExperienceCount(): bool {
+        $experiences = Experience::allWithDetails();
+        return count($experiences) >= 3 && !empty($experiences[0]['role']);
     }
 }
 

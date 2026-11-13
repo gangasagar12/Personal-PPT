@@ -642,6 +642,7 @@ if (!function_exists('getTechBadgeInfo')) {
       <nav class="navbar" id="desktopNav" aria-label="Primary navigation">
         <a href="/" class="nav-link">Home</a>
         <a href="/#about" class="nav-link">About</a>
+        <a href="/#experience" class="nav-link">Experience</a>
         <a href="/#skills" class="nav-link">Skills</a>
         <a href="/#services" class="nav-link">Services</a>
         <a href="/#projects" class="nav-link active">Projects</a>
@@ -685,6 +686,7 @@ if (!function_exists('getTechBadgeInfo')) {
     <nav class="drawer-nav" aria-label="Mobile navigation">
       <a href="/" class="drawer-link"><i class="bx bx-home-alt-2"></i><span>Home</span></a>
       <a href="/#about" class="drawer-link"><i class="bx bx-user"></i><span>About</span></a>
+      <a href="/#experience" class="drawer-link"><i class="bx bx-briefcase"></i><span>Experience</span></a>
       <a href="/#skills" class="drawer-link"><i class="bx bx-layer"></i><span>Skills</span></a>
       <a href="/#services" class="drawer-link"><i class="bx bx-wrench"></i><span>Services</span></a>
       <a href="/#projects" class="drawer-link active"><i class="bx bx-folder"></i><span>Projects</span></a>

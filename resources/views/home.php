@@ -49,6 +49,7 @@
       <nav class="navbar" id="desktopNav" aria-label="Primary navigation">
         <a href="#home" class="nav-link active">Home</a>
         <a href="#about" class="nav-link">About</a>
+        <a href="#experience" class="nav-link">Experience</a>
         <a href="#skills" class="nav-link">Skills</a>
         <a href="#services" class="nav-link">Services</a>
         <a href="#projects" class="nav-link">Projects</a>
@@ -92,6 +93,7 @@
     <nav class="drawer-nav" aria-label="Mobile navigation">
       <a href="#home" class="drawer-link active"><i class="bx bx-home-alt-2"></i><span>Home</span></a>
       <a href="#about" class="drawer-link"><i class="bx bx-user"></i><span>About</span></a>
+      <a href="#experience" class="drawer-link"><i class="bx bx-briefcase"></i><span>Experience</span></a>
       <a href="#skills" class="drawer-link"><i class="bx bx-layer"></i><span>Skills</span></a>
       <a href="#services" class="drawer-link"><i class="bx bx-wrench"></i><span>Services</span></a>
       <a href="#projects" class="drawer-link"><i class="bx bx-folder"></i><span>Projects</span></a>
@@ -216,6 +218,13 @@
         <!-- ── Right: Professional Photograph & Visual Composition (Transparent Cutout) ── -->
         <div class="hero-visual">
           <div class="visual-wrapper transparent-photo-wrapper">
+            <!-- Background Watermark Typography for Right Column (Behind Portrait) -->
+            <div class="hero-visual-watermark" aria-hidden="true">
+              <span>GANGA</span>
+              <span>SAGAR</span>
+              <span>JOSHI</span>
+            </div>
+
             <!-- Decorative aura & shapes -->
             <div class="visual-aura aura-blue" aria-hidden="true"></div>
             <div class="visual-aura aura-purple" aria-hidden="true"></div>
@@ -459,6 +468,16 @@
               <img src="/images/signature.png" alt="Ganga Sagar Joshi Signature" class="about-signature-img" width="220"
                 height="94" loading="lazy" />
               <span class="signature-caption">Ganga Sagar Joshi</span>
+
+              <div class="signature-contact-info">
+                <span class="signature-contact-label">Contact Me</span>
+                <a href="tel:+9779746332963" class="signature-contact-item">
+                  <i class="bx bx-phone" aria-hidden="true"></i> +977 9746332963
+                </a>
+                <a href="mailto:gangasaagar62@gmail.com" class="signature-contact-item">
+                  <i class="bx bx-envelope" aria-hidden="true"></i> gangasaagar62@gmail.com
+                </a>
+              </div>
             </div>
           </div>
 
@@ -618,6 +637,78 @@
       </div>
     </section>
 
+    <!-- ── Professional Experience Section ── -->
+    <section class="experience-section" id="experience">
+      <div class="container">
+
+        <div class="section-heading-block">
+          <span class="section-tag">Career History</span>
+          <h2 class="section-main-title">
+            Professional <span class="gradient-text">Experience</span>
+          </h2>
+          <p class="section-subtitle">
+            Hands-on software engineering, technical leadership, and production backend systems developed across companies and platforms.
+          </p>
+        </div>
+
+        <div class="experience-timeline">
+          <?php if (!empty($experiences)): ?>
+            <?php foreach ($experiences as $exp): ?>
+              <article class="experience-card <?= ($exp['status'] === 'Active') ? 'exp-card-active' : '' ?>">
+                
+                <div class="exp-card-header">
+                  <div class="exp-role-wrap">
+                    <span class="exp-icon"><i class="bx bx-briefcase-alt-2" aria-hidden="true"></i></span>
+                    <div>
+                      <h3 class="exp-role-title"><?= htmlspecialchars($exp['role']) ?></h3>
+                      <div class="exp-company-line">
+                        <span class="exp-company-name"><?= htmlspecialchars($exp['company']) ?></span>
+                        <span class="exp-dot">&bull;</span>
+                        <span class="exp-location"><i class="bx bx-map" aria-hidden="true"></i> <?= htmlspecialchars($exp['location']) ?></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="exp-meta-badge">
+                    <span class="exp-period-badge">
+                      <i class="bx bx-calendar" aria-hidden="true"></i> <?= htmlspecialchars($exp['period']) ?>
+                    </span>
+                    <?php if ($exp['status'] === 'Active'): ?>
+                      <span class="exp-status-pill status-active"><i class="bx bx-radio-circle-marked" aria-hidden="true"></i> Present</span>
+                    <?php endif; ?>
+                  </div>
+                </div>
+
+                <div class="exp-card-body">
+                  <p class="exp-lead-desc"><?= htmlspecialchars($exp['description']) ?></p>
+
+                  <?php if (!empty($exp['responsibilities_array'])): ?>
+                    <ul class="exp-points-list">
+                      <?php foreach ($exp['responsibilities_array'] as $resp): ?>
+                        <li>
+                          <i class="bx bx-check-shield" aria-hidden="true"></i>
+                          <span><?= htmlspecialchars($resp) ?></span>
+                        </li>
+                      <?php endforeach; ?>
+                    </ul>
+                  <?php endif; ?>
+
+                  <?php if (!empty($exp['skills_array'])): ?>
+                    <div class="exp-tech-tags">
+                      <?php foreach ($exp['skills_array'] as $skill): ?>
+                        <span class="exp-tech-tag"><?= htmlspecialchars($skill) ?></span>
+                      <?php endforeach; ?>
+                    </div>
+                  <?php endif; ?>
+                </div>
+
+              </article>
+            <?php endforeach; ?>
+          <?php endif; ?>
+        </div>
+
+      </div>
+    </section>
 
     <!-- ── Skills Section (Icons / Logos Only) ── -->
     <section class="skills-section" id="skills">
