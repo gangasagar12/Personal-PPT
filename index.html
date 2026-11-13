@@ -24,6 +24,7 @@
 
   <!-- Your CSS -->
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/insights.css" />
 </head>
 
 <body>
@@ -938,57 +939,49 @@
           </p>
         </div>
 
-        <!-- Insights Grid -->
-        <div class="insights-grid">
-                    <article class="insight-card" onclick="window.location.href='insight-detail.html?slug=architecting-scalable-relational-database-schemas'" style="cursor: pointer;">
-            <div class="insight-meta-row">
-              <span class="insight-category-pill">Database Architecture</span>
-              <span class="insight-date-info">
-                <i class="bx bx-time-five" aria-hidden="true"></i>
-                5 min read &bull; Nov 2026              </span>
+        <!-- Insights Grid (Image & Title Cards) -->
+        <div class="insights-cards-grid">
+                    <a href="insight-detail.html?slug=architecting-scalable-relational-database-schemas" class="blog-post-card" title="Architecting Scalable Relational Database Schemas for High-Traffic Applications">
+            <div class="blog-card-image-wrap">
+              <img src="images/projectcard1.jpg" 
+                   alt="Architecting Scalable Relational Database Schemas for High-Traffic Applications" 
+                   loading="lazy" 
+                   onerror="this.src='images/projectcard1.jpg'" />
             </div>
-            <h3 class="insight-card-title">Architecting Scalable Relational Database Schemas for High-Traffic Applications</h3>
-            <p class="insight-card-excerpt">How indexing strategies, foreign key constraints, and 3NF normalization prevent latency spikes in production database backends.</p>
-            <div class="insight-card-footer">
-              <a href="insight-detail.html?slug=architecting-scalable-relational-database-schemas" class="live-site-link" onclick="event.stopPropagation();">
-                <span>Read Article</span>
-                <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
-              </a>
+            <div class="blog-card-content">
+              <h3 class="blog-card-title">Architecting Scalable Relational Database Schemas for High-Traffic Applications</h3>
             </div>
-          </article>
-                    <article class="insight-card" onclick="window.location.href='insight-detail.html?slug=designing-bulletproof-restful-apis-drf-jwt'" style="cursor: pointer;">
-            <div class="insight-meta-row">
-              <span class="insight-category-pill">Backend Engineering</span>
-              <span class="insight-date-info">
-                <i class="bx bx-time-five" aria-hidden="true"></i>
-                6 min read &bull; Oct 2026              </span>
+          </a>
+                    <a href="insight-detail.html?slug=designing-bulletproof-restful-apis-drf-jwt" class="blog-post-card" title="Designing Bulletproof RESTful APIs with Django REST Framework and JWT">
+            <div class="blog-card-image-wrap">
+              <img src="images/projectcard2.jpg" 
+                   alt="Designing Bulletproof RESTful APIs with Django REST Framework and JWT" 
+                   loading="lazy" 
+                   onerror="this.src='images/projectcard1.jpg'" />
             </div>
-            <h3 class="insight-card-title">Designing Bulletproof RESTful APIs with Django REST Framework and JWT</h3>
-            <p class="insight-card-excerpt">A pragmatic guide to architecting decoupled, stateless authentication microservices with token refreshing and role-based permissions.</p>
-            <div class="insight-card-footer">
-              <a href="insight-detail.html?slug=designing-bulletproof-restful-apis-drf-jwt" class="live-site-link" onclick="event.stopPropagation();">
-                <span>Read Article</span>
-                <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
-              </a>
+            <div class="blog-card-content">
+              <h3 class="blog-card-title">Designing Bulletproof RESTful APIs with Django REST Framework and JWT</h3>
             </div>
-          </article>
-                    <article class="insight-card" onclick="window.location.href='insight-detail.html?slug=optimizing-django-querysets-n-plus-1'" style="cursor: pointer;">
-            <div class="insight-meta-row">
-              <span class="insight-category-pill">Python &amp; Django</span>
-              <span class="insight-date-info">
-                <i class="bx bx-time-five" aria-hidden="true"></i>
-                4 min read &bull; Sep 2026              </span>
+          </a>
+                    <a href="insight-detail.html?slug=optimizing-django-querysets-n-plus-1" class="blog-post-card" title="Optimizing Django QuerySets &amp; Eliminating the Dreaded N+1 Problem">
+            <div class="blog-card-image-wrap">
+              <img src="images/projectcard3.webp" 
+                   alt="Optimizing Django QuerySets &amp; Eliminating the Dreaded N+1 Problem" 
+                   loading="lazy" 
+                   onerror="this.src='images/projectcard1.jpg'" />
             </div>
-            <h3 class="insight-card-title">Optimizing Django QuerySets &amp; Eliminating the Dreaded N+1 Problem</h3>
-            <p class="insight-card-excerpt">Mastering select_related and prefetch_related to drastically reduce SQL roundtrips and improve application throughput.</p>
-            <div class="insight-card-footer">
-              <a href="insight-detail.html?slug=optimizing-django-querysets-n-plus-1" class="live-site-link" onclick="event.stopPropagation();">
-                <span>Read Article</span>
-                <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
-              </a>
+            <div class="blog-card-content">
+              <h3 class="blog-card-title">Optimizing Django QuerySets &amp; Eliminating the Dreaded N+1 Problem</h3>
             </div>
-          </article>
+          </a>
                   </div>
+
+        <div style="text-align: center; margin-top: 2.5rem;">
+          <a href="insights.html" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.6rem; border-radius: 9999px; font-size: 0.88rem; font-weight: 600; text-decoration: none; border: 1px solid #cbd5e1; color: #0f172a; background: #fff; transition: all 0.2s;">
+            <span>Explore All Insights</span>
+            <i class="bx bx-right-arrow-alt"></i>
+          </a>
+        </div>
 
       </div>
     </section>

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title><?= htmlspecialchars($page_title ?? 'Engineering Insights — Ganga Sagar Joshi') ?></title>
-  <meta name="description" content="Technical write-ups, backend architecture case studies, and engineering notes on systems design and relational databases by Ganga Sagar Joshi." />
+  <title><?= htmlspecialchars($page_title ?? 'Insights — Ganga Sagar Joshi') ?></title>
+  <meta name="description" content="Technical engineering insights, backend architecture case studies, and systems design notes by Ganga Sagar Joshi." />
 
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -12,16 +12,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
 
-  <!-- Base & Shared Stylesheet -->
+  <!-- Shared & Dedicated Styles -->
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/insights.css" />
 </head>
-<body>
+<body class="insights-page-body">
 
   <!-- Scroll progress indicator -->
   <div class="scroll-progress" id="scrollProgress"></div>
 
-  <!-- ── Header & Navigation (Matching Exact Portfolio Header) ── -->
+  <!-- ── Standard Portfolio Header & Navigation ── -->
   <header class="header" id="header">
     <div class="header-container">
       <a class="brand" href="index.html#home" aria-label="Ganga Sagar Joshi Home">
@@ -97,69 +97,71 @@
     </div>
   </div>
 
-  <!-- ── Main Insights Showcase (Exact UI Matching Reference) ── -->
-  <main class="insights-page-main">
-    <div class="container">
+  <div class="insights-wrapper">
 
-      <!-- Breadcrumb Navigation -->
-      <nav class="profile-breadcrumb" aria-label="Breadcrumb">
-        <a href="index.html#home" class="breadcrumb-back-link">
-          <i class="bx bx-arrow-back"></i>
-          <span>Portfolio</span>
-        </a>
-        <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">Engineering Insights</span>
-      </nav>
-
-      <!-- Section Heading Block (Identical to reference screenshot) -->
-      <div class="section-heading-block text-center" style="margin-bottom: 2.75rem;">
-        <span class="section-tag">Blog &amp; Knowledge</span>
-        <h1 class="section-main-title">
-          Engineering <span class="gradient-text">Insights</span>
-        </h1>
-        <p class="section-subtitle">
-          Technical write-ups, backend architecture case studies, and engineering notes on systems design and relational databases.
+    <!-- ══════════════════════════════════════════════════════════
+         1. HERO SECTION (RELATED BACKGROUND IMAGE WITH INSIGHTS TITLE)
+         ══════════════════════════════════════════════════════════ -->
+    <section class="insights-hero-banner" id="heroBanner">
+      <div class="insights-hero-overlay"></div>
+      <div class="insights-hero-content">
+        <h1 class="insights-hero-title">Insights</h1>
+        <p class="insights-hero-subtitle">
+          Engineering case studies, database architecture, and production backend practices.
         </p>
       </div>
+    </section>
 
-      <!-- Insights Grid (Identical to reference screenshot) -->
-      <div class="insights-grid">
-        <?php foreach ($posts as $post): ?>
-        <article class="insight-card" onclick="window.location.href='insight-detail.html?slug=<?= urlencode($post['slug']) ?>'" style="cursor: pointer;">
-          <div class="insight-meta-row">
-            <span class="insight-category-pill"><?= htmlspecialchars($post['category']) ?></span>
-            <span class="insight-date-info">
-              <i class="bx bx-time-five" aria-hidden="true"></i>
-              <?= htmlspecialchars($post['read_time']) ?> &bull; <?= htmlspecialchars($post['date']) ?>
-            </span>
+    <!-- ══════════════════════════════════════════════════════════
+         2. BLOG LISTING GRID (ONLY IMAGE AND TITLE ON CARDS)
+         ══════════════════════════════════════════════════════════ -->
+    <main class="insights-main-section">
+      <div class="insights-container">
+
+        <div class="insights-section-header">
+          <div class="insights-section-count">
+            <i class="bx bx-layer"></i> All Published Insights (<?= count($posts) ?>)
           </div>
-          <h2 class="insight-card-title"><?= htmlspecialchars($post['title']) ?></h2>
-          <p class="insight-card-excerpt"><?= htmlspecialchars($post['excerpt']) ?></p>
-          <div class="insight-card-footer">
-            <a href="insight-detail.html?slug=<?= urlencode($post['slug']) ?>" class="live-site-link" onclick="event.stopPropagation();">
-              <span>Read Article</span>
-              <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
-            </a>
-          </div>
-        </article>
-        <?php endforeach; ?>
-      </div>
+        </div>
 
-    </div>
-  </main>
+        <div class="insights-cards-grid">
+          <?php foreach ($posts as $post): ?>
+          <a href="insight-detail.html?slug=<?= urlencode($post['slug']) ?>" 
+             data-slug="<?= htmlspecialchars($post['slug']) ?>" 
+             class="blog-post-card" 
+             title="<?= htmlspecialchars($post['title']) ?>">
+            <div class="blog-card-image-wrap">
+              <img src="<?= htmlspecialchars($post['image'] ?? 'images/projectcard1.jpg') ?>" 
+                   alt="<?= htmlspecialchars($post['title']) ?>" 
+                   loading="lazy" 
+                   onerror="this.src='images/projectcard1.jpg'" />
+            </div>
+            <div class="blog-card-content">
+              <h3 class="blog-card-title"><?= htmlspecialchars($post['title']) ?></h3>
+            </div>
+          </a>
+          <?php endforeach; ?>
+        </div>
 
-  <!-- ── Footer ── -->
-  <footer class="footer">
-    <div class="container footer-content">
-      <p>&copy; <?= date('Y') ?> Ganga Sagar Joshi &bull; Software &amp; Systems. All rights reserved.</p>
-      <div class="footer-links">
-        <a href="index.html#home">Home</a>
-        <a href="profile.html">Profile</a>
-        <a href="insights.html">Insights</a>
-        <a href="index.html#contact">Contact</a>
       </div>
-    </div>
-  </footer>
+    </main>
+
+    <!-- ══════════════════════════════════════════════════════════
+         FOOTER
+         ══════════════════════════════════════════════════════════ -->
+    <footer class="footer">
+      <div class="container footer-content">
+        <p>&copy; <?= date('Y') ?> Ganga Sagar Joshi &bull; Engineering &amp; Technology Portfolio. All rights reserved.</p>
+        <div class="footer-links">
+          <a href="index.html#home">Home</a>
+          <a href="profile.html">Profile</a>
+          <a href="insights.html">Insights</a>
+          <a href="index.html#contact">Contact</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
 
   <script>
     // Header scroll & Hamburger Drawer logic
@@ -194,15 +196,10 @@
 
     // Dynamic routing adapter: if running on local PHP server without .html
     if (window.location.pathname.indexOf('.html') === -1 && window.location.port !== '') {
-      document.querySelectorAll('.insight-card').forEach(card => {
-        const link = card.querySelector('.live-site-link');
-        if (link) {
-          const href = link.getAttribute('href');
-          const slugMatch = href.match(/slug=([^&]+)/);
-          if (slugMatch && slugMatch[1]) {
-            card.onclick = () => window.location.href = 'insights/' + decodeURIComponent(slugMatch[1]);
-            link.setAttribute('href', 'insights/' + decodeURIComponent(slugMatch[1]));
-          }
+      document.querySelectorAll('.blog-post-card').forEach(card => {
+        const slug = card.getAttribute('data-slug');
+        if (slug) {
+          card.setAttribute('href', 'insights/' + slug);
         }
       });
     }

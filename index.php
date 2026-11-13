@@ -30,6 +30,7 @@ $blog_insights = get_blog_insights();
 
   <!-- Your CSS -->
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/insights.css" />
 </head>
 
 <body>
@@ -786,27 +787,28 @@ $blog_insights = get_blog_insights();
           </p>
         </div>
 
-        <!-- Insights Grid -->
-        <div class="insights-grid">
+        <!-- Insights Grid (Image & Title Cards) -->
+        <div class="insights-cards-grid">
           <?php foreach ($blog_insights as $post): ?>
-          <article class="insight-card" onclick="window.location.href='insight-detail.html?slug=<?= urlencode($post['slug']) ?>'" style="cursor: pointer;">
-            <div class="insight-meta-row">
-              <span class="insight-category-pill"><?= htmlspecialchars($post['category']) ?></span>
-              <span class="insight-date-info">
-                <i class="bx bx-time-five" aria-hidden="true"></i>
-                <?= htmlspecialchars($post['read_time']) ?> &bull; <?= htmlspecialchars($post['date']) ?>
-              </span>
+          <a href="insight-detail.html?slug=<?= urlencode($post['slug']) ?>" class="blog-post-card" title="<?= htmlspecialchars($post['title']) ?>">
+            <div class="blog-card-image-wrap">
+              <img src="<?= htmlspecialchars($post['image'] ?? 'images/projectcard1.jpg') ?>" 
+                   alt="<?= htmlspecialchars($post['title']) ?>" 
+                   loading="lazy" 
+                   onerror="this.src='images/projectcard1.jpg'" />
             </div>
-            <h3 class="insight-card-title"><?= htmlspecialchars($post['title']) ?></h3>
-            <p class="insight-card-excerpt"><?= htmlspecialchars($post['excerpt']) ?></p>
-            <div class="insight-card-footer">
-              <a href="insight-detail.html?slug=<?= urlencode($post['slug']) ?>" class="live-site-link" onclick="event.stopPropagation();">
-                <span>Read Article</span>
-                <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
-              </a>
+            <div class="blog-card-content">
+              <h3 class="blog-card-title"><?= htmlspecialchars($post['title']) ?></h3>
             </div>
-          </article>
+          </a>
           <?php endforeach; ?>
+        </div>
+
+        <div style="text-align: center; margin-top: 2.5rem;">
+          <a href="insights.html" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.6rem; border-radius: 9999px; font-size: 0.88rem; font-weight: 600; text-decoration: none; border: 1px solid #cbd5e1; color: #0f172a; background: #fff; transition: all 0.2s;">
+            <span>Explore All Insights</span>
+            <i class="bx bx-right-arrow-alt"></i>
+          </a>
         </div>
 
       </div>
