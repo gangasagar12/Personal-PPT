@@ -92,13 +92,17 @@ exit;
 $message = '';
 $message_type = 'success';
 
-// Action: Export Static HTML
+// Action: Export Static HTML (Both Portfolio and Entrepreneurship Profile)
 if (isset($_GET['action']) && $_GET['action'] === 'export_static') {
-    ob_start();
-    require __DIR__ . '/../index.php';
-    $html = ob_get_clean();
-    file_put_contents(__DIR__ . '/../index.html', $html);
-    $message = 'Successfully generated and synchronized root index.html from dynamic database!';
+    require_once __DIR__ . '/../backend/export_static.php';
+    $message = 'Successfully synchronized index.html & profile.html from dynamic database!';
+}
+
+// Action: Delete Company Product (Strataflow)
+if (isset($_GET['del_prod'])) {
+    $del_id = intval($_GET['del_prod']);
+    $pdo->prepare("DELETE FROM company_products WHERE id = ?")->execute([$del_id]);
+    $message = 'Strataflow Product deleted successfully.';
 }
 
 // Action: Delete Featured Project
@@ -173,6 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_academic'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_blog'])) {
     $title = trim($_POST['title'] ?? '');
     $category = trim($_POST['category'] ?? 'Engineering');
+    $image = trim($_POST['image'] ?? 'images/projectcard1.jpg');
     $read_time = trim($_POST['read_time'] ?? '5 min read');
     $excerpt = trim($_POST['excerpt'] ?? '');
     $content = trim($_POST['content'] ?? '');
@@ -182,21 +187,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_blog'])) {
     $blog_id = intval($_POST['blog_id'] ?? 0);
 
     if ($blog_id > 0) {
-        $stmt = $pdo->prepare("UPDATE blog_insights SET title=?, slug=?, category=?, read_time=?, excerpt=?, content=?, date=?, display_order=? WHERE id=?");
-        $stmt->execute([$title, $slug, $category, $read_time, $excerpt, $content, $date, $order, $blog_id]);
+        $stmt = $pdo->prepare("UPDATE blog_insights SET title=?, slug=?, category=?, image=?, read_time=?, excerpt=?, content=?, date=?, display_order=? WHERE id=?");
+        $stmt->execute([$title, $slug, $category, $image, $read_time, $excerpt, $content, $date, $order, $blog_id]);
         $message = "Blog Insight '{$title}' updated.";
     } else {
-        $stmt = $pdo->prepare("INSERT INTO blog_insights (title, slug, category, read_time, excerpt, content, date, display_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$title, $slug, $category, $read_time, $excerpt, $content, $date, $order]);
+        $stmt = $pdo->prepare("INSERT INTO blog_insights (title, slug, category, image, read_time, excerpt, content, date, display_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$title, $slug, $category, $image, $read_time, $excerpt, $content, $date, $order]);
         $message = "New Insight '{$title}' published.";
     }
 }
 
-// Fetch all current data
+// Action: Add / Update Company Product (Strataflow Technologies)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_company_product'])) {
+    $title = trim($_POST['title'] ?? '');
+    $category = trim($_POST['category'] ?? 'Software System');
+    $desc = trim($_POST['description'] ?? '');
+    $image = trim($_POST['image'] ?? 'images/projectcard1.jpg');
+    $status_text = trim($_POST['status_text'] ?? 'Live Product');
+    $features = trim($_POST['features'] ?? '');
+    $tech_pills = trim($_POST['tech_pills'] ?? '');
+    $link_url = trim($_POST['link_url'] ?? 'https://github.com/gangasaagar');
+    $link_text = trim($_POST['link_text'] ?? 'View Details');
+    $order = intval($_POST['display_order'] ?? 0);
+    $prod_id = intval($_POST['prod_id'] ?? 0);
+
+    require_once __DIR__ . '/../app/Core/Autoloader.php';
+    \App\Core\Autoloader::register();
+
+    \App\Models\CompanyProduct::saveItem([
+        'title' => $title,
+        'category' => $category,
+        'description' => $desc,
+        'image' => $image,
+        'status_text' => $status_text,
+        'features' => $features,
+        'tech_pills' => $tech_pills,
+        'link_url' => $link_url,
+        'link_text' => $link_text,
+        'display_order' => $order,
+    ], $prod_id > 0 ? $prod_id : null);
+
+    $message = $prod_id > 0 ? "Strataflow Product '{$title}' updated." : "New Strataflow Product '{$title}' added.";
+}
+
+// Autoloader & fetch all current data
+require_once __DIR__ . '/../app/Core/Autoloader.php';
+\App\Core\Autoloader::register();
+
 $featured_list = get_featured_projects();
 $academic_list = get_academic_projects();
 $blog_list = $pdo->query("SELECT * FROM blog_insights ORDER BY display_order ASC, id DESC")->fetchAll();
 $inquiries_list = $pdo->query("SELECT * FROM contact_inquiries ORDER BY id DESC")->fetchAll();
+$company_products_list = \App\Models\CompanyProduct::allWithFeaturesAndPills();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -279,13 +321,17 @@ $inquiries_list = $pdo->query("SELECT * FROM contact_inquiries ORDER BY id DESC"
             <span>Ganga Sagar &bull; Portfolio Admin</span>
         </a>
         <div class="top-actions">
-            <a href="?action=export_static" class="btn btn-export" title="Render database into static index.html for GitHub Pages">
+            <a href="?action=export_static" class="btn btn-export" title="Render database into static index.html and profile.html for GitHub Pages">
                 <i class="bx bx-sync"></i>
-                <span>Export Static index.html</span>
+                <span>Export Static Pages</span>
             </a>
             <a href="../index.php" target="_blank" class="btn btn-secondary">
                 <i class="bx bx-link-external"></i>
-                <span>View Live Site</span>
+                <span>Portfolio</span>
+            </a>
+            <a href="../profile.php" target="_blank" class="btn btn-secondary">
+                <i class="bx bx-buildings"></i>
+                <span>Profile</span>
             </a>
             <a href="?action=logout" class="btn btn-danger btn-sm">
                 <i class="bx bx-log-out"></i>
@@ -309,6 +355,11 @@ $inquiries_list = $pdo->query("SELECT * FROM contact_inquiries ORDER BY id DESC"
                 <i class="bx bx-folder"></i>
                 <span>Featured Projects</span>
                 <span class="badge-count"><?= count($featured_list) ?></span>
+            </button>
+            <button class="tab-btn" onclick="showTab('tab-products')">
+                <i class="bx bx-cube-alt"></i>
+                <span>Strataflow Products</span>
+                <span class="badge-count"><?= count($company_products_list) ?></span>
             </button>
             <button class="tab-btn" onclick="showTab('tab-academic')">
                 <i class="bx bx-git-repo-forked"></i>
@@ -414,7 +465,122 @@ $inquiries_list = $pdo->query("SELECT * FROM contact_inquiries ORDER BY id DESC"
         </section>
 
         <!-- ───────────────────────────────────────────────────────────── -->
-        <!-- TAB 2: ACADEMIC PROJECTS -->
+        <!-- TAB 2: STRATAFLOW PRODUCTS & SOLUTIONS -->
+        <!-- ───────────────────────────────────────────────────────────── -->
+        <section id="tab-products" class="tab-panel">
+            <div class="content-card">
+                <div class="panel-heading-row">
+                    <div>
+                        <h2 class="panel-title">Strataflow Products &amp; Solutions</h2>
+                        <p style="font-size:0.84rem; color:var(--text-muted); margin-top:0.2rem;">Manage products displayed dynamically on the Entrepreneurship Profile (/profile.html)</p>
+                    </div>
+                    <button class="btn btn-primary btn-sm" onclick="toggleForm('form-add-product')">
+                        <i class="bx bx-plus"></i> Add New Product
+                    </button>
+                </div>
+
+                <!-- Add/Edit Product Form -->
+                <div id="form-add-product" style="display:none; background:#f8fafc; border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1.5rem;">
+                    <form method="POST" action="">
+                        <input type="hidden" name="prod_id" id="prod_id" value="0">
+                        <div class="form-grid">
+                            <div>
+                                <label class="form-label">Product Name / Title</label>
+                                <input type="text" name="title" id="prod_title" class="form-control" required placeholder="e.g. Dental Clinic Management Software">
+                            </div>
+                            <div>
+                                <label class="form-label">Category</label>
+                                <input type="text" name="category" id="prod_category" class="form-control" required placeholder="e.g. Healthcare Operating Platform">
+                            </div>
+                            <div>
+                                <label class="form-label">Status Badge Text</label>
+                                <input type="text" name="status_text" id="prod_status" class="form-control" required value="Live Product" placeholder="Live Product / In Development / Enterprise MVP">
+                            </div>
+                            <div>
+                                <label class="form-label">Thumbnail / Preview Image</label>
+                                <input type="text" name="image" id="prod_image" class="form-control" required value="images/projectcard1.jpg">
+                            </div>
+                            <div>
+                                <label class="form-label">Product Website / Demo URL</label>
+                                <input type="text" name="link_url" id="prod_link_url" class="form-control" required value="https://github.com/gangasaagar">
+                            </div>
+                            <div>
+                                <label class="form-label">Button Label</label>
+                                <input type="text" name="link_text" id="prod_link_text" class="form-control" required value="View Details">
+                            </div>
+                            <div>
+                                <label class="form-label">Display Order</label>
+                                <input type="number" name="display_order" id="prod_order" class="form-control" value="1">
+                            </div>
+                            <div>
+                                <label class="form-label">Tech Stack Tags (comma-separated)</label>
+                                <input type="text" name="tech_pills" id="prod_pills" class="form-control" placeholder="Python, Django, PostgreSQL, REST APIs, Docker">
+                            </div>
+                            <div class="form-col-full">
+                                <label class="form-label">Short Description</label>
+                                <textarea name="description" id="prod_desc" class="form-control" required placeholder="Detailed overview of what this product solves..."></textarea>
+                            </div>
+                            <div class="form-col-full">
+                                <label class="form-label">Key Features (one per line)</label>
+                                <textarea name="features" id="prod_features" class="form-control" style="min-height:100px;" placeholder="Patient Records & Medical History&#10;Real-time Appointment Scheduling&#10;Dental Treatment Records&#10;Automated Billing & Invoicing"></textarea>
+                            </div>
+                        </div>
+                        <div style="margin-top:1rem; display:flex; gap:0.5rem;">
+                            <button type="submit" name="save_company_product" class="btn btn-primary btn-sm">Save Product</button>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="toggleForm('form-add-product')">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Products Table -->
+                <div style="overflow-x:auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Preview</th>
+                                <th>Product &amp; Category</th>
+                                <th>Status</th>
+                                <th>Features</th>
+                                <th>Tech Tags</th>
+                                <th>Order</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($company_products_list as $prod): ?>
+                            <tr>
+                                <td><img src="../<?= htmlspecialchars($prod['image']) ?>" class="img-thumb" alt="" onerror="this.src='../images/projectcard1.jpg'"></td>
+                                <td>
+                                    <strong><?= htmlspecialchars($prod['title']) ?></strong>
+                                    <div style="font-size:0.78rem; color:var(--text-muted); margin-top:0.2rem;"><?= htmlspecialchars($prod['category']) ?></div>
+                                </td>
+                                <td><span class="pill-badge" style="background:#ecfdf5; color:#065f46;"><?= htmlspecialchars($prod['status_text']) ?></span></td>
+                                <td style="font-size:0.82rem; color:var(--text-muted); max-width:220px;">
+                                    <?= count($prod['features_array'] ?? []) ?> key feature points
+                                </td>
+                                <td>
+                                    <?php foreach (array_slice($prod['pills_array'] ?? [], 0, 3) as $tp): ?>
+                                        <span class="pill-badge"><?= htmlspecialchars($tp) ?></span>
+                                    <?php endforeach; ?>
+                                    <?php if (count($prod['pills_array'] ?? []) > 3): ?>
+                                        <span style="font-size:0.74rem; color:var(--text-muted);">+<?= count($prod['pills_array']) - 3 ?></span>
+                                    <?php endif; ?>
+                                </td>
+                                <td><?= intval($prod['display_order']) ?></td>
+                                <td class="actions-cell">
+                                    <button class="btn btn-secondary btn-sm" onclick='editProduct(<?= json_encode($prod) ?>)'><i class="bx bx-edit"></i></button>
+                                    <a href="?del_prod=<?= $prod['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Delete this Strataflow product?')"><i class="bx bx-trash"></i></a>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ───────────────────────────────────────────────────────────── -->
+        <!-- TAB 3: ACADEMIC PROJECTS -->
         <!-- ───────────────────────────────────────────────────────────── -->
         <section id="tab-academic" class="tab-panel">
             <div class="content-card">
@@ -515,6 +681,10 @@ $inquiries_list = $pdo->query("SELECT * FROM contact_inquiries ORDER BY id DESC"
                                 <input type="text" name="category" id="blog_cat" class="form-control" required value="Backend Engineering">
                             </div>
                             <div>
+                                <label class="form-label">Featured Image Path</label>
+                                <input type="text" name="image" id="blog_image" class="form-control" required value="images/projectcard1.jpg" placeholder="images/projectcard1.jpg">
+                            </div>
+                            <div>
                                 <label class="form-label">Read Time</label>
                                 <input type="text" name="read_time" id="blog_read" class="form-control" required value="5 min read">
                             </div>
@@ -547,20 +717,20 @@ $inquiries_list = $pdo->query("SELECT * FROM contact_inquiries ORDER BY id DESC"
                     <table>
                         <thead>
                             <tr>
+                                <th>Cover</th>
                                 <th>Category</th>
                                 <th>Title</th>
                                 <th>Date / Read Time</th>
-                                <th>Excerpt</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($blog_list as $bp): ?>
                             <tr>
+                                <td><img src="../<?= htmlspecialchars($bp['image'] ?? 'images/projectcard1.jpg') ?>" class="img-thumb" alt="" onerror="this.src='../images/projectcard1.jpg'"></td>
                                 <td><span class="pill-badge"><?= htmlspecialchars($bp['category']) ?></span></td>
                                 <td><strong><?= htmlspecialchars($bp['title']) ?></strong></td>
                                 <td style="font-size:0.82rem; color:var(--text-muted);"><?= htmlspecialchars($bp['read_time']) ?> &bull; <?= htmlspecialchars($bp['date']) ?></td>
-                                <td style="font-size:0.84rem; color:var(--text-muted);"><?= htmlspecialchars($bp['excerpt']) ?></td>
                                 <td class="actions-cell">
                                     <button class="btn btn-secondary btn-sm" onclick='editBlog(<?= json_encode($bp) ?>)'><i class="bx bx-edit"></i></button>
                                     <a href="?del_blog=<?= $bp['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Delete this post?')"><i class="bx bx-trash"></i></a>
@@ -637,6 +807,22 @@ $inquiries_list = $pdo->query("SELECT * FROM contact_inquiries ORDER BY id DESC"
             form.style.display = form.style.display === 'none' ? 'block' : 'none';
         }
 
+        function editProduct(item) {
+            document.getElementById('form-add-product').style.display = 'block';
+            document.getElementById('prod_id').value = item.id;
+            document.getElementById('prod_title').value = item.title;
+            document.getElementById('prod_category').value = item.category;
+            document.getElementById('prod_status').value = item.status_text;
+            document.getElementById('prod_image').value = item.image;
+            document.getElementById('prod_link_url').value = item.link_url;
+            document.getElementById('prod_link_text').value = item.link_text || 'View Details';
+            document.getElementById('prod_order').value = item.display_order;
+            document.getElementById('prod_pills').value = item.tech_pills || '';
+            document.getElementById('prod_desc').value = item.description;
+            document.getElementById('prod_features').value = item.features || '';
+            window.scrollTo({ top: 180, behavior: 'smooth' });
+        }
+
         function editFeatured(item) {
             document.getElementById('form-add-featured').style.display = 'block';
             document.getElementById('feat_id').value = item.id;
@@ -664,6 +850,7 @@ $inquiries_list = $pdo->query("SELECT * FROM contact_inquiries ORDER BY id DESC"
             document.getElementById('blog_id').value = item.id;
             document.getElementById('blog_title').value = item.title;
             document.getElementById('blog_cat').value = item.category;
+            document.getElementById('blog_image').value = item.image || 'images/projectcard1.jpg';
             document.getElementById('blog_read').value = item.read_time;
             document.getElementById('blog_date').value = item.date;
             document.getElementById('blog_order').value = item.display_order;

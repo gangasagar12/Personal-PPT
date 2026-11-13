@@ -6,23 +6,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="author" content="Ganga Sagar Joshi" />
   <meta name="description"
-    content="Official Entrepreneurship Profile of Ganga Sagar Joshi — Co-Founder & Technical Lead at Inovix Technologies. Showcasing clinical practice operating systems, healthcare SaaS products, and enterprise engineering solutions." />
-  <title>Entrepreneurship Profile — Inovix Technologies &amp; Ganga Sagar Joshi</title>
+    content="Official Company &amp; Entrepreneurship Profile of Strataflow Technologies Pvt. Ltd. and Ganga Sagar Joshi (Co-Founder &amp; Technical Lead)." />
+  <title>Strataflow Technologies — Entrepreneurship Profile</title>
 
-  <!-- Preconnect for fast font load -->
+  <!-- Preconnect for fast fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <!-- Inter & Poppins Google Fonts -->
+  <!-- Clean, standard Inter typography -->
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet" />
 
   <!-- Boxicons -->
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
 
-  <!-- Master Stylesheet -->
+  <!-- Base Stylesheet & Dedicated Profile Stylesheet -->
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/profile.css" />
 </head>
 
 <body>
@@ -51,11 +52,11 @@
         <a href="index.html#services" class="nav-link">Services</a>
         <a href="index.html#projects" class="nav-link">Projects</a>
         <a href="profile.html" class="nav-link active">Profile</a>
-        <a href="index.html#insights" class="nav-link">Insights</a>
+        <a href="insights.html" class="nav-link">Insights</a>
         <a href="index.html#contact" class="nav-link">Contact</a>
       </nav>
 
-      <!-- Action Button & Hamburger -->
+      <!-- Right Action Button & Hamburger -->
       <div class="nav-actions">
         <a href="index.html#contact" class="btn-talk" aria-label="Let's Talk">
           <span>Let's Talk</span>
@@ -94,7 +95,7 @@
       <a href="index.html#services" class="drawer-link"><i class="bx bx-wrench"></i><span>Services</span></a>
       <a href="index.html#projects" class="drawer-link"><i class="bx bx-folder"></i><span>Projects</span></a>
       <a href="profile.html" class="drawer-link active"><i class="bx bx-user-pin"></i><span>Profile</span></a>
-      <a href="index.html#insights" class="drawer-link"><i class="bx bx-bulb"></i><span>Insights</span></a>
+      <a href="insights.html" class="drawer-link"><i class="bx bx-bulb"></i><span>Insights</span></a>
       <a href="index.html#contact" class="drawer-link"><i class="bx bx-envelope"></i><span>Contact</span></a>
     </nav>
 
@@ -108,7 +109,7 @@
 
   <!-- ── Main Content ── -->
   <main class="profile-page-main">
-    <div class="container">
+    <div class="profile-container">
 
       <!-- Breadcrumb Navigation -->
       <nav class="profile-breadcrumb" aria-label="Breadcrumb">
@@ -121,151 +122,129 @@
       </nav>
 
       <!-- ══════════════════════════════════════════════════════════
-           SECTION 1: COMPANY INTRODUCTION & IDENTITY
+           1. FULL-WIDTH STRATAFLOW BLURRED SHADOW HERO
            ══════════════════════════════════════════════════════════ -->
-      <section class="profile-hero">
-        <div class="profile-brand-header">
-          <div class="company-identity">
-            <div class="company-logo-badge" title="Inovix Technologies">
-              <span>IX</span>
-            </div>
-            <div class="company-titles">
-              <h1>Inovix Technologies</h1>
-              <p>HealthTech &bull; Enterprise SaaS &bull; Software Systems</p>
-            </div>
-          </div>
+      <section class="strataflow-fullwidth-blur-hero">
+        <div class="strataflow-blur-stage">
+          <span class="strataflow-shadow-blur-layer" aria-hidden="true">STRATAFLOW</span>
+          <h1 class="strataflow-shadow-main-text">STRATAFLOW</h1>
+        </div>
+      </section>
 
-          <div class="company-actions-bar">
-            <a href="https://github.com/gangasaagar" target="_blank" rel="noopener noreferrer" class="btn-visit-company">
-              <span>Explore Venture Work</span>
-              <i class="bx bx-link-external"></i>
-            </a>
+      <!-- ══════════════════════════════════════════════════════════
+           2. COMPANY INTRODUCTION (FORMAT MATCHING REFERENCE IMAGE)
+           ══════════════════════════════════════════════════════════ -->
+      <section class="about-company-showcase-card">
+        <!-- Left Column: Exact Text Content -->
+        <div class="about-left-content">
+          <h2 class="about-card-title">About Us</h2>
+
+          <p class="about-p-main">
+            Strataflow Technologies Pvt. Ltd. is a Nepal-based software development company dedicated to helping businesses grow through technology. We provide a range of digital services, including website design and development, custom software development, AI solutions and automation, UI/UX design, and digital marketing.
+          </p>
+
+          <p class="about-p-main">
+            Our goal is to understand the unique needs of every business and deliver practical, reliable, and user-friendly solutions that make everyday work easier. From building a professional online presence to developing complete business management systems, we focus on creating technology that delivers real value. Beyond providing technology services to clients, Strataflow also focuses on developing its own software products to address specific industry needs.
+          </p>
+
+          <div class="about-card-brand-logo">
+            Strata<span>flow</span>
           </div>
         </div>
 
-        <div class="profile-tagline">
-          Engineering modern clinical practice operating platforms, healthcare SaaS, and scalable enterprise automation systems.
-        </div>
+        <!-- Right Column: Clean Desktop Display Mockup -->
+        <div class="about-right-visual-panel">
+          <div class="desktop-monitor-mockup">
+            <div class="monitor-screen-bezel">
+              <div class="monitor-camera"></div>
+              <div class="monitor-screen-display">
+                <div class="monitor-screen-brand">
+                  Strata<span>flow</span>
+                </div>
+                <div class="monitor-screen-tagline">
+                  Unlocking the Power of Technology
+                </div>
+              </div>
+            </div>
+            <div class="monitor-chin-bar"></div>
+            <div class="monitor-stand-neck"></div>
+            <div class="monitor-stand-base"></div>
 
-        <p class="profile-lead-desc">
-          Inovix Technologies is a specialized software technology venture co-founded by Ganga Sagar Joshi. We engineer high-reliability digital solutions that solve high-friction operational challenges in clinical healthcare and service-driven enterprises. By uniting fault-tolerant relational database architectures with modern, accessible web interfaces, we eliminate administrative bottlenecks, digitize medical records with high integrity, and streamline clinical operations.
-        </p>
-
-        <!-- Company Metadata Strip -->
-        <div class="company-metadata-grid">
-          <div class="meta-item">
-            <span class="meta-label">Entity Status</span>
-            <span class="meta-value"><i class="bx bx-check-shield"></i> Active Venture</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">Primary Industry</span>
-            <span class="meta-value"><i class="bx bx-pulse"></i> HealthTech / SaaS</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">Headquarters</span>
-            <span class="meta-value"><i class="bx bx-map-pin"></i> Kathmandu, Nepal</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">Core Deployments</span>
-            <span class="meta-value"><i class="bx bx-server"></i> Oralix &amp; CareFirst</span>
+            <div class="desktop-accessories-row">
+              <div class="mini-keyboard"></div>
+              <div class="mini-mouse"></div>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- Vision & Mission -->
-      <div class="vision-mission-grid">
-        <div class="corp-card">
-          <div class="corp-card-icon icon-blue">
-            <i class="bx bx-compass"></i>
-          </div>
-          <h3>Company Vision</h3>
-          <p>
-            To become a premier provider of mission-critical software systems across South Asia, elevating healthcare delivery and business performance through dependable, zero-friction digital operating platforms.
-          </p>
-        </div>
-
-        <div class="corp-card">
-          <div class="corp-card-icon icon-purple">
-            <i class="bx bx-target-lock"></i>
-          </div>
-          <h3>Company Mission</h3>
-          <p>
-            To deliver robust, accessible, and ACID-compliant software platforms that eliminate administrative burdens for healthcare practitioners, accelerate billing reconciliation, and safeguard clinical records.
-          </p>
-        </div>
-      </div>
-
       <!-- ══════════════════════════════════════════════════════════
-           SECTION 2: MY ROLE IN THE COMPANY
+           3. MY ROLE IN THE COMPANY
            ══════════════════════════════════════════════════════════ -->
-      <section class="profile-section-block">
-        <div class="block-header">
-          <span class="block-tag">Leadership &amp; Execution</span>
-          <h2 class="block-title">My Role in Inovix Technologies</h2>
-          <p class="block-desc">
-            Directing end-to-end technical strategy, backend systems engineering, and product execution from inception to production deployment.
+      <section class="profile-content-section">
+        <div class="section-title-wrap">
+          <span class="section-kicker">Leadership</span>
+          <h2 class="section-heading-h2">My Role in Strataflow Technologies</h2>
+          <p class="section-caption-p">
+            Leading software engineering, system architecture, and product development strategy.
           </p>
         </div>
 
-        <div class="founder-spotlight-card">
-          <div class="founder-meta-header">
-            <div>
-              <h3 style="font-family: var(--ff-h); font-size: 1.45rem; color: var(--t1); margin: 0 0 0.3rem;">
-                Ganga Sagar Joshi
-              </h3>
-              <span style="font-size: 0.95rem; color: var(--t3); font-weight: 500;">
-                Co-Founder &amp; Technical Lead
-              </span>
+        <div class="founder-profile-box">
+          <div class="founder-header-flex">
+            <div class="founder-name-group">
+              <h3>Ganga Sagar Joshi</h3>
+              <span>Co-Founder &amp; Technical Lead</span>
             </div>
-            <div class="founder-title-badge">
-              <i class="bx bx-badge-check"></i>
-              <span>Venture Co-Founder &amp; Engineering Architect</span>
+            <div class="founder-tag">
+              <i class="bx bx-shield-quarter"></i>
+              <span>Engineering &amp; Product Architecture</span>
             </div>
           </div>
 
-          <p class="founder-summary-p">
-            As Co-Founder and Technical Lead at Inovix Technologies, I bridge the gap between high-level business goals and complex software architectures. I am actively involved in every phase of the company's lifecycle—from conducting on-site discovery sessions with dental clinic owners and clinicians to architecting scalable database schemas, authoring backend APIs, and overseeing quality control for production releases.
+          <p class="founder-narrative">
+            As Co-Founder and Technical Lead at Strataflow Technologies, I bridge business objectives with robust software engineering. I am directly involved in technical decision-making, selecting dependable architectural patterns, directing backend systems development, and steering our proprietary product roadmap to address real-world business needs.
           </p>
 
-          <!-- 4 Pillars of Entrepreneurial Responsibility -->
-          <div class="pillars-grid">
-            <div class="pillar-item">
-              <div class="pillar-item-head">
+          <!-- 4 Responsibility Pillars -->
+          <div class="founder-roles-grid">
+            <div class="role-mini-card">
+              <div class="role-mini-title">
                 <i class="bx bx-git-branch"></i>
-                <h4>Product Planning &amp; Roadmap</h4>
+                <span>Product Planning &amp; Engineering</span>
               </div>
               <p>
-                Translating clinical workflows and practice pain points into clear functional specifications, prioritizing sprint backlogs, and ensuring features deliver tangible operational time-savings.
+                Translating client requirements and industry operational bottlenecks into structured technical specifications, sprint goals, and reliable release schedules.
               </p>
             </div>
 
-            <div class="pillar-item">
-              <div class="pillar-item-head">
+            <div class="role-mini-card">
+              <div class="role-mini-title">
                 <i class="bx bx-layer"></i>
-                <h4>Architecture &amp; Tech Stack Decisions</h4>
+                <span>Architecture &amp; Tech Stack Decisions</span>
               </div>
               <p>
-                Selecting and standardizing our engineering foundation—Python, Django REST Framework, PostgreSQL, and Docker containerization—to ensure rapid iteration without sacrificing database durability.
+                Defining our engineering foundation using Python, Django, REST APIs, relational database schemas, and modern web frameworks to ensure long-term stability.
               </p>
             </div>
 
-            <div class="pillar-item">
-              <div class="pillar-item-head">
-                <i class="bx bx-shield-quarter"></i>
-                <h4>Data Integrity &amp; Clinical Security</h4>
+            <div class="role-mini-card">
+              <div class="role-mini-title">
+                <i class="bx bx-chip"></i>
+                <span>AI &amp; Automation Integration</span>
               </div>
               <p>
-                Architecting strict role-based access control (RBAC), immutable audit logging, and automated backup pipelines to keep sensitive patient electronic health records (EHR) secure and compliant.
+                Architecting practical artificial intelligence solutions, automated invoice workflows, and data pipelines that reduce repetitive manual tasks for businesses.
               </p>
             </div>
 
-            <div class="pillar-item">
-              <div class="pillar-item-head">
+            <div class="role-mini-card">
+              <div class="role-mini-title">
                 <i class="bx bx-line-chart"></i>
-                <h4>Business Strategy &amp; Growth</h4>
+                <span>Business Growth &amp; Strategy</span>
               </div>
               <p>
-                Collaborating on go-to-market strategies, software subscription pricing models, pilot clinic onboarding, and maintaining direct technical relationships with practice directors and managers.
+                Collaborating on commercial strategy, digital service delivery, client consultation, and ensuring every system we deploy creates tangible economic value.
               </p>
             </div>
           </div>
@@ -273,274 +252,148 @@
       </section>
 
       <!-- ══════════════════════════════════════════════════════════
-           SECTION 3: COMPANY FOCUS AREAS
+           4. COMPANY FOCUS AREAS (5 DIGITAL SERVICES)
            ══════════════════════════════════════════════════════════ -->
-      <section class="profile-section-block">
-        <div class="block-header">
-          <span class="block-tag">Core Competencies</span>
-          <h2 class="block-title">Company Focus Areas</h2>
-          <p class="block-desc">
-            Inovix Technologies focuses on delivering deep domain value across five specialized technology and service sectors.
+      <section class="profile-content-section">
+        <div class="section-title-wrap">
+          <span class="section-kicker">Core Expertise</span>
+          <h2 class="section-heading-h2">Company Focus Areas</h2>
+          <p class="section-caption-p">
+            Comprehensive digital services and solutions offered by Strataflow Technologies Pvt. Ltd.
           </p>
         </div>
 
-        <div class="focus-grid">
-          <!-- 1. Clinical Software -->
-          <div class="focus-card">
-            <div class="focus-icon-wrap">
-              <i class="bx bx-pulse"></i>
+        <div class="services-card-grid">
+          <!-- 1. Website Design & Development -->
+          <div class="service-clean-card">
+            <div class="service-icon-box">
+              <i class="bx bx-globe"></i>
             </div>
-            <h3>Clinical Practice Software</h3>
+            <h3>Website Design &amp; Development</h3>
             <p>
-              Specialized operating platforms for medical and dental clinics, unifying operatory chair queues, patient charts, and treatment timelines.
+              Building fast, accessible, and responsive websites that establish a credible digital presence and convert visitors into long-term clients.
             </p>
-            <ul class="focus-bullets">
-              <li><i class="bx bx-check"></i> Multi-chair appointment schedulers</li>
-              <li><i class="bx bx-check"></i> Tooth-by-tooth odontogram charting</li>
-              <li><i class="bx bx-check"></i> Patient treatment &amp; recall timelines</li>
-            </ul>
           </div>
 
-          <!-- 2. SaaS Product Development -->
-          <div class="focus-card">
-            <div class="focus-icon-wrap">
-              <i class="bx bx-cloud"></i>
-            </div>
-            <h3>SaaS Product Development</h3>
-            <p>
-              Multi-tenant cloud applications designed for high availability, self-service onboarding, subscription tier management, and automated updates.
-            </p>
-            <ul class="focus-bullets">
-              <li><i class="bx bx-check"></i> Multi-tenant data segregation</li>
-              <li><i class="bx bx-check"></i> Tiered role-based subscriptions</li>
-              <li><i class="bx bx-check"></i> Stateless JWT token authentication</li>
-            </ul>
-          </div>
-
-          <!-- 3. AI & Technology Solutions -->
-          <div class="focus-card">
-            <div class="focus-icon-wrap">
-              <i class="bx bx-brain"></i>
-            </div>
-            <h3>AI &amp; Technology Solutions</h3>
-            <p>
-              Practical intelligence integrated into everyday software—automated operational reporting, data extraction, and predictive inventory analytics.
-            </p>
-            <ul class="focus-bullets">
-              <li><i class="bx bx-check"></i> Automated clinical report summaries</li>
-              <li><i class="bx bx-check"></i> Low-stock &amp; expiry forecasting</li>
-              <li><i class="bx bx-check"></i> Data visualization dashboards</li>
-            </ul>
-          </div>
-
-          <!-- 4. Web Application Development -->
-          <div class="focus-card">
-            <div class="focus-icon-wrap">
+          <!-- 2. Custom Software Development -->
+          <div class="service-clean-card">
+            <div class="service-icon-box">
               <i class="bx bx-code-alt"></i>
             </div>
-            <h3>Web Application Development</h3>
+            <h3>Custom Software Development</h3>
             <p>
-              Full-stack custom web applications tailored to specific institutional workflows, combining clean frontends with performant backends.
+              Developing tailored business management systems, centralized databases, and custom backend platforms engineered around unique operational workflows.
             </p>
-            <ul class="focus-bullets">
-              <li><i class="bx bx-check"></i> Clean Django &amp; Python architectures</li>
-              <li><i class="bx bx-check"></i> Fully responsive, accessible UIs</li>
-              <li><i class="bx bx-check"></i> High-throughput REST API services</li>
-            </ul>
           </div>
 
-          <!-- 5. Business Process Automation -->
-          <div class="focus-card">
-            <div class="focus-icon-wrap">
-              <i class="bx bx-cog"></i>
+          <!-- 3. AI Solutions & Automation -->
+          <div class="service-clean-card">
+            <div class="service-icon-box">
+              <i class="bx bx-bot"></i>
             </div>
-            <h3>Business Process Automation</h3>
+            <h3>AI Solutions &amp; Automation</h3>
             <p>
-              Eliminating manual spreadsheets and repetitive tasks with automated billing calculation, digital receipting, and ledger synchronization.
+              Delivering practical artificial intelligence workflows, smart automated reporting, and process automation to minimize manual overhead.
             </p>
-            <ul class="focus-bullets">
-              <li><i class="bx bx-check"></i> Automated VAT/PAN tax calculations</li>
-              <li><i class="bx bx-check"></i> Instant digital invoices (PDF dispatch)</li>
-              <li><i class="bx bx-check"></i> Queue management &amp; waiting room flow</li>
-            </ul>
+          </div>
+
+          <!-- 4. UI/UX Design -->
+          <div class="service-clean-card">
+            <div class="service-icon-box">
+              <i class="bx bx-palette"></i>
+            </div>
+            <h3>UI/UX Design</h3>
+            <p>
+              Designing intuitive, user-friendly digital interfaces focused on simplicity, accessibility, and frictionless user journeys.
+            </p>
+          </div>
+
+          <!-- 5. Digital Marketing -->
+          <div class="service-clean-card">
+            <div class="service-icon-box">
+              <i class="bx bx-trending-up"></i>
+            </div>
+            <h3>Digital Marketing</h3>
+            <p>
+              Strategic digital growth initiatives, brand positioning, and targeted marketing campaigns to help businesses reach their ideal customers.
+            </p>
           </div>
         </div>
       </section>
 
       <!-- ══════════════════════════════════════════════════════════
-           SECTION 4: PRODUCTS & SOLUTIONS SHOWCASE
+           5. PRODUCTS & SOLUTIONS (DENTAL CLINIC OS & BILLING)
            ══════════════════════════════════════════════════════════ -->
-      <section class="profile-section-block">
-        <div class="block-header">
-          <span class="block-tag">Venture Solutions</span>
-          <h2 class="block-title">Products &amp; Platforms</h2>
-          <p class="block-desc">
-            Production-proven systems engineered and maintained by Inovix Technologies to streamline real-world operations.
+      <section class="profile-content-section">
+        <div class="section-title-wrap">
+          <span class="section-kicker">Software Products</span>
+          <h2 class="section-heading-h2">Products &amp; Solutions</h2>
+          <p class="section-caption-p">
+            Proprietary software products developed by Strataflow Technologies to address specific industry needs.
           </p>
         </div>
 
-        <div class="products-corp-grid">
-          <!-- Product 1: Oralix -->
-          <article class="corp-product-card">
-            <div class="corp-product-media">
-              <img src="images/projectcard1.jpg" alt="Oralix — Dental Practice OS" loading="lazy" />
-              <span class="corp-status-tag status-live">
-                <i class="bx bx-radio-circle-marked"></i> Live in Production
-              </span>
-            </div>
-            <div class="corp-product-body">
-              <span class="corp-product-category">Flagship Clinical Operating System</span>
-              <h3 class="corp-product-title">Oralix — Dental Practice OS</h3>
-              <p class="corp-product-desc">
-                Comprehensive clinical management operating system engineered for modern multi-chair dental clinics. Unifies real-time operatory chair queues, electronic health records (EHR), tooth-by-tooth charting, patient appointment timelines, and automated billing invoices.
-              </p>
-              <ul class="corp-product-features">
-                <li><i class="bx bx-check-circle"></i> Real-time multi-chair operatory scheduling engine</li>
-                <li><i class="bx bx-check-circle"></i> Electronic health records (EHR) &amp; treatment history</li>
-                <li><i class="bx bx-check-circle"></i> Automated invoice generation with VAT &amp; discount tracking</li>
-                <li><i class="bx bx-check-circle"></i> Doctor allocation and chair turnaround monitoring</li>
-              </ul>
-              <div class="corp-product-footer">
-                <div class="corp-tech-pills">
-                  <span>Python</span>
-                  <span>Django</span>
-                  <span>PostgreSQL</span>
-                  <span>Docker</span>
-                  <span>REST APIs</span>
+        <div class="products-clean-list">
+          <?php if (!empty($company_products)): ?>
+            <?php foreach ($company_products as $prod): ?>
+              <article class="product-feature-card">
+                <div class="product-thumb-wrap">
+                  <img src="<?= htmlspecialchars($prod['image'] ?: 'images/projectcard1.jpg') ?>" alt="<?= htmlspecialchars($prod['title']) ?>" loading="lazy" />
+                  <span class="product-status-badge">
+                    <i class="bx bx-check-circle"></i> <?= htmlspecialchars($prod['status_text'] ?: 'Active Product') ?>
+                  </span>
                 </div>
-                <a href="https://github.com/gangasaagar" target="_blank" rel="noopener noreferrer" class="corp-product-link">
-                  <span>View Details</span>
-                  <i class="bx bx-right-arrow-alt"></i>
-                </a>
-              </div>
-            </div>
-          </article>
 
-          <!-- Product 2: CareFirst Dental Management -->
-          <article class="corp-product-card">
-            <div class="corp-product-media">
-              <img src="images/projectcard2.jpg" alt="CareFirst Dental Management" loading="lazy" />
-              <span class="corp-status-tag status-live">
-                <i class="bx bx-radio-circle-marked"></i> Live in Production
-              </span>
-            </div>
-            <div class="corp-product-body">
-              <span class="corp-product-category">Clinical Administration Suite</span>
-              <h3 class="corp-product-title">CareFirst Dental Management</h3>
-              <p class="corp-product-desc">
-                Front-desk and administrative clinic suite designed to accelerate patient intake, organize waiting room check-ins, manage consumable dental supplies, and maintain recall schedules with relational database consistency.
-              </p>
-              <ul class="corp-product-features">
-                <li><i class="bx bx-check-circle"></i> Front-desk patient check-in &amp; token queue flow</li>
-                <li><i class="bx bx-check-circle"></i> Consumable dental materials &amp; medicine inventory tracking</li>
-                <li><i class="bx bx-check-circle"></i> Automated patient recall &amp; follow-up alerts</li>
-                <li><i class="bx bx-check-circle"></i> Normalized ACID relational database schema</li>
-              </ul>
-              <div class="corp-product-footer">
-                <div class="corp-tech-pills">
-                  <span>Django</span>
-                  <span>Python</span>
-                  <span>MySQL</span>
-                  <span>JavaScript</span>
-                  <span>HTML5/CSS3</span>
-                </div>
-                <a href="https://github.com/gangasaagar" target="_blank" rel="noopener noreferrer" class="corp-product-link">
-                  <span>View Details</span>
-                  <i class="bx bx-right-arrow-alt"></i>
-                </a>
-              </div>
-            </div>
-          </article>
+                <div class="product-details-wrap">
+                  <span class="product-cat-kicker"><?= htmlspecialchars($prod['category'] ?: 'Software Platform') ?></span>
+                  <h3><?= htmlspecialchars($prod['title']) ?></h3>
+                  <p><?= nl2br(htmlspecialchars($prod['description'])) ?></p>
 
-          <!-- Product 3: Billing & Invoicing Engine -->
-          <article class="corp-product-card">
-            <div class="corp-product-media">
-              <img src="images/project2.jpg" alt="Inovix Enterprise Billing Engine" loading="lazy" />
-              <span class="corp-status-tag status-live">
-                <i class="bx bx-radio-circle-marked"></i> Deployed Module
-              </span>
-            </div>
-            <div class="corp-product-body">
-              <span class="corp-product-category">Financial &amp; Billing Infrastructure</span>
-              <h3 class="corp-product-title">Inovix Invoicing &amp; Financial Ledger</h3>
-              <p class="corp-product-desc">
-                High-throughput billing, receipting, and transaction reconciliation engine. Built to handle complex healthcare billing scenarios including procedure bundling, doctor commission splits, and automated daily ledger reconciliations.
-              </p>
-              <ul class="corp-product-features">
-                <li><i class="bx bx-check-circle"></i> Itemized treatment invoicing with dynamic taxation rules</li>
-                <li><i class="bx bx-check-circle"></i> Payment method splitting (cash, card, mobile wallets)</li>
-                <li><i class="bx bx-check-circle"></i> Doctor commission and revenue distribution reporting</li>
-                <li><i class="bx bx-check-circle"></i> Automated PDF receipt generation and dispatch</li>
-              </ul>
-              <div class="corp-product-footer">
-                <div class="corp-tech-pills">
-                  <span>Django REST</span>
-                  <span>PostgreSQL</span>
-                  <span>Redis</span>
-                  <span>JWT Auth</span>
-                </div>
-                <a href="https://github.com/gangasaagar" target="_blank" rel="noopener noreferrer" class="corp-product-link">
-                  <span>View Details</span>
-                  <i class="bx bx-right-arrow-alt"></i>
-                </a>
-              </div>
-            </div>
-          </article>
+                  <?php if (!empty($prod['features_array'])): ?>
+                    <ul class="product-points-grid">
+                      <?php foreach ($prod['features_array'] as $feature): ?>
+                        <li><i class="bx bx-check"></i> <?= htmlspecialchars($feature) ?></li>
+                      <?php endforeach; ?>
+                    </ul>
+                  <?php endif; ?>
 
-          <!-- Product 4: OmniTrack ERP -->
-          <article class="corp-product-card">
-            <div class="corp-product-media">
-              <img src="images/project3.jpg" alt="OmniTrack Business Management" loading="lazy" />
-              <span class="corp-status-tag status-dev">
-                <i class="bx bx-time-five"></i> In Active Development
-              </span>
-            </div>
-            <div class="corp-product-body">
-              <span class="corp-product-category">Enterprise Operations &amp; ERP</span>
-              <h3 class="corp-product-title">OmniTrack — Business &amp; Clinic ERP</h3>
-              <p class="corp-product-desc">
-                Next-generation operational management and resource planning suite designed for multi-location clinics and service businesses. Centralizes procurement, supplier ledgers, equipment depreciation, and telemetry dashboards.
-              </p>
-              <ul class="corp-product-features">
-                <li><i class="bx bx-check-circle"></i> Multi-branch unified inventory synchronization</li>
-                <li><i class="bx bx-check-circle"></i> Automated low-stock procurement alerts</li>
-                <li><i class="bx bx-check-circle"></i> Staff duty roaster &amp; attendance integration</li>
-                <li><i class="bx bx-check-circle"></i> Exploratory analytics &amp; financial forecasting</li>
-              </ul>
-              <div class="corp-product-footer">
-                <div class="corp-tech-pills">
-                  <span>Python</span>
-                  <span>FastAPI / Django</span>
-                  <span>PostgreSQL</span>
-                  <span>Pandas</span>
+                  <div class="product-card-footer">
+                    <?php if (!empty($prod['pills_array'])): ?>
+                      <div class="product-pills">
+                        <?php foreach ($prod['pills_array'] as $pill): ?>
+                          <span><?= htmlspecialchars($pill) ?></span>
+                        <?php endforeach; ?>
+                      </div>
+                    <?php endif; ?>
+                    <a href="<?= htmlspecialchars($prod['link_url'] ?: 'https://github.com/gangasaagar') ?>" target="_blank" rel="noopener noreferrer" class="product-live-link">
+                      <span><?= htmlspecialchars($prod['link_text'] ?: 'View Details') ?></span>
+                      <i class="bx bx-right-arrow-alt"></i>
+                    </a>
+                  </div>
                 </div>
-                <a href="https://github.com/gangasaagar" target="_blank" rel="noopener noreferrer" class="corp-product-link">
-                  <span>Beta Preview</span>
-                  <i class="bx bx-right-arrow-alt"></i>
-                </a>
-              </div>
-            </div>
-          </article>
+              </article>
+            <?php endforeach; ?>
+          <?php endif; ?>
         </div>
       </section>
 
       <!-- ══════════════════════════════════════════════════════════
-           SECTION 5: FOUNDER STATEMENT & CALL TO ACTION
+           6. CORPORATE ACTION STRIP
            ══════════════════════════════════════════════════════════ -->
-      <section class="profile-cta-box">
-        <div class="cta-content">
-          <h3>Let's Collaborate or Discuss a Pilot</h3>
+      <section class="clean-corporate-cta">
+        <div class="cta-left-text">
+          <h3>Discuss a Project or Technology Partnership</h3>
           <p>
-            Whether you operate a clinical practice looking to modernize workflows, need a custom software architecture, or want to discuss technology partnership opportunities, I would love to connect.
+            Whether you want to build a modern online presence, develop custom business software, or implement our dental clinic management platform, let's talk.
           </p>
         </div>
-        <div class="cta-buttons">
-          <a href="index.html#contact" class="btn-cta-primary">
+        <div class="cta-action-btns">
+          <a href="index.html#contact" class="btn-primary-compact">
             <span>Get in Touch</span>
             <i class="bx bx-right-arrow-alt"></i>
           </a>
-          <a href="index.html#projects" class="btn-cta-secondary">
-            <span>View All Projects</span>
+          <a href="index.html#projects" class="btn-secondary-compact">
+            <span>View Portfolio</span>
           </a>
         </div>
       </section>
@@ -553,7 +406,7 @@
     <div class="container footer-inner">
       <span class="footer-logo">Ganga Sagar<span class="dot">.</span></span>
       <p>
-        &copy; <span id="year"></span> Ganga Sagar Joshi &bull; Co-Founder at Inovix Technologies.
+        &copy; <span id="year"></span> Ganga Sagar Joshi &bull; Co-Founder at Strataflow Technologies Pvt. Ltd.
         Crafted with <i class="bx bx-heart" aria-hidden="true"></i> in Nepal.
       </p>
       <a href="profile.html#" class="back-to-top" aria-label="Back to top">

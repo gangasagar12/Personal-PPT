@@ -794,13 +794,20 @@
             <h3 class="insight-card-title"><?= htmlspecialchars($post['title']) ?></h3>
             <p class="insight-card-excerpt"><?= htmlspecialchars($post['excerpt']) ?></p>
             <div class="insight-card-footer">
-              <a href="#" class="live-site-link">
+              <a href="insight-detail.html?slug=<?= urlencode($post['slug']) ?>" class="live-site-link">
                 <span>Read Article</span>
                 <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
               </a>
             </div>
           </article>
           <?php endforeach; ?>
+        </div>
+
+        <div style="text-align: center; margin-top: 2.5rem;">
+          <a href="insights.html" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.6rem; border-radius: 9999px; font-size: 0.88rem; font-weight: 600; text-decoration: none; border: 1px solid #cbd5e1; color: #0f172a; background: #fff; transition: all 0.2s;">
+            <span>Explore All Insights</span>
+            <i class="bx bx-right-arrow-alt"></i>
+          </a>
         </div>
 
       </div>

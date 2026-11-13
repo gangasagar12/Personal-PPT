@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Insights — Ganga Sagar Joshi</title>
+  <meta name="description" content="Technical engineering insights, backend architecture case studies, and systems design notes by Ganga Sagar Joshi." />
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+
+  <!-- Shared & Dedicated Styles -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/insights.css" />
+</head>
+<body class="insights-page-body">
+
+  <div class="insights-wrapper">
+
+    <!-- ══════════════════════════════════════════════════════════
+         NAVIGATION BAR (Consistent across portfolio)
+         ══════════════════════════════════════════════════════════ -->
+    <header class="navbar" id="navbar">
+      <div class="nav-container">
+        <!-- Brand -->
+        <a href="index.html" class="nav-logo" aria-label="Ganga Sagar Joshi - Home">
+          <span class="logo-badge">GSJ</span>
+          <span class="logo-text">
+            <strong>Ganga Sagar Joshi</strong>
+            <small>SOFTWARE &amp; SYSTEMS</small>
+          </span>
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav class="nav-links" id="navLinks" aria-label="Primary navigation">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="index.html#about" class="nav-link">About</a>
+          <a href="index.html#skills" class="nav-link">Skills</a>
+          <a href="index.html#services" class="nav-link">Services</a>
+          <a href="index.html#projects" class="nav-link">Projects</a>
+          <a href="profile.html" class="nav-link">Profile</a>
+          <a href="insights.html" class="nav-link active">Insights</a>
+          <a href="index.html#contact" class="nav-link">Contact</a>
+        </nav>
+
+        <!-- CTA & Mobile Toggle -->
+        <div class="nav-cta">
+          <a href="index.html#contact" class="btn btn-primary btn-sm">
+            <span>Let's Talk</span>
+            <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+          </a>
+          <button class="nav-toggle" id="navToggle" aria-label="Open mobile menu" aria-expanded="false" aria-controls="mobileDrawer">
+            <span class="hamburger-bar"></span>
+            <span class="hamburger-bar"></span>
+            <span class="hamburger-bar"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile Drawer -->
+    <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+      <div class="drawer-header">
+        <span class="logo-badge">GSJ</span>
+        <button class="drawer-close" id="drawerClose" aria-label="Close mobile menu">
+          <i class="bx bx-x"></i>
+        </button>
+      </div>
+      <nav class="drawer-links">
+        <a href="index.html" class="drawer-link"><i class="bx bx-home"></i><span>Home</span></a>
+        <a href="index.html#about" class="drawer-link"><i class="bx bx-user"></i><span>About</span></a>
+        <a href="index.html#skills" class="drawer-link"><i class="bx bx-code-alt"></i><span>Skills</span></a>
+        <a href="index.html#services" class="drawer-link"><i class="bx bx-cog"></i><span>Services</span></a>
+        <a href="index.html#projects" class="drawer-link"><i class="bx bx-folder"></i><span>Projects</span></a>
+        <a href="profile.html" class="drawer-link"><i class="bx bx-buildings"></i><span>Profile</span></a>
+        <a href="insights.html" class="drawer-link active"><i class="bx bx-bulb"></i><span>Insights</span></a>
+        <a href="index.html#contact" class="drawer-link"><i class="bx bx-envelope"></i><span>Contact</span></a>
+      </nav>
+      <div class="drawer-footer">
+        <a href="index.html#contact" class="btn btn-primary btn-block">
+          <span>Get in Touch</span>
+          <i class="bx bx-right-arrow-alt"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         1. HERO SECTION (RELATED BACKGROUND IMAGE WITH INSIGHTS TITLE)
+         ══════════════════════════════════════════════════════════ -->
+    <section class="insights-hero-banner" id="heroBanner">
+      <div class="insights-hero-overlay"></div>
+      <div class="insights-hero-content">
+        <div class="insights-hero-badge">
+          <i class="bx bx-code-block"></i> Technical Journal
+        </div>
+        <h1 class="insights-hero-title">Insights</h1>
+        <p class="insights-hero-subtitle">
+          Engineering case studies, database architecture, and production backend practices from building scalable software systems.
+        </p>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════
+         2. BLOG LISTING GRID (ONLY IMAGE AND TITLE ON CARDS)
+         ══════════════════════════════════════════════════════════ -->
+    <main class="insights-main-section">
+      <div class="insights-container">
+
+        <div class="insights-section-header">
+          <div class="insights-section-count">
+            <i class="bx bx-layer"></i> All Published Insights (3)
+          </div>
+        </div>
+
+        <div class="insights-cards-grid">
+                    <a href="insight-detail.html?slug=architecting-scalable-relational-database-schemas" 
+             data-slug="architecting-scalable-relational-database-schemas" 
+             class="blog-post-card" 
+             title="Architecting Scalable Relational Database Schemas for High-Traffic Applications">
+            <div class="blog-card-image-wrap">
+              <img src="images/projectcard1.jpg" 
+                   alt="Architecting Scalable Relational Database Schemas for High-Traffic Applications" 
+                   loading="lazy" 
+                   onerror="this.src='images/projectcard1.jpg'" />
+            </div>
+            <div class="blog-card-content">
+              <h3 class="blog-card-title">Architecting Scalable Relational Database Schemas for High-Traffic Applications</h3>
+            </div>
+          </a>
+                    <a href="insight-detail.html?slug=designing-bulletproof-restful-apis-drf-jwt" 
+             data-slug="designing-bulletproof-restful-apis-drf-jwt" 
+             class="blog-post-card" 
+             title="Designing Bulletproof RESTful APIs with Django REST Framework and JWT">
+            <div class="blog-card-image-wrap">
+              <img src="images/projectcard2.jpg" 
+                   alt="Designing Bulletproof RESTful APIs with Django REST Framework and JWT" 
+                   loading="lazy" 
+                   onerror="this.src='images/projectcard1.jpg'" />
+            </div>
+            <div class="blog-card-content">
+              <h3 class="blog-card-title">Designing Bulletproof RESTful APIs with Django REST Framework and JWT</h3>
+            </div>
+          </a>
+                    <a href="insight-detail.html?slug=optimizing-django-querysets-n-plus-1" 
+             data-slug="optimizing-django-querysets-n-plus-1" 
+             class="blog-post-card" 
+             title="Optimizing Django QuerySets &amp; Eliminating the Dreaded N+1 Problem">
+            <div class="blog-card-image-wrap">
+              <img src="images/projectcard3.webp" 
+                   alt="Optimizing Django QuerySets &amp; Eliminating the Dreaded N+1 Problem" 
+                   loading="lazy" 
+                   onerror="this.src='images/projectcard1.jpg'" />
+            </div>
+            <div class="blog-card-content">
+              <h3 class="blog-card-title">Optimizing Django QuerySets &amp; Eliminating the Dreaded N+1 Problem</h3>
+            </div>
+          </a>
+                  </div>
+
+      </div>
+    </main>
+
+    <!-- ══════════════════════════════════════════════════════════
+         FOOTER
+         ══════════════════════════════════════════════════════════ -->
+    <footer class="footer">
+      <div class="container footer-content">
+        <p>&copy; 2026 Ganga Sagar Joshi &bull; Engineering &amp; Technology Portfolio. All rights reserved.</p>
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="profile.html">Profile</a>
+          <a href="insights.html">Insights</a>
+          <a href="index.html#contact">Contact</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    // Mobile drawer toggle
+    const navToggle = document.getElementById('navToggle');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+    const drawerClose = document.getElementById('drawerClose');
+
+    if (navToggle && mobileDrawer) {
+      navToggle.addEventListener('click', () => {
+        mobileDrawer.classList.toggle('open');
+      });
+    }
+    if (drawerClose && mobileDrawer) {
+      drawerClose.addEventListener('click', () => {
+        mobileDrawer.classList.remove('open');
+      });
+    }
+
+    // Dynamic routing adapter: if running on local PHP server, link to /insights/{slug}
+    if (window.location.pathname.indexOf('.html') === -1 && window.location.port !== '') {
+      document.querySelectorAll('.blog-post-card').forEach(card => {
+        const slug = card.getAttribute('data-slug');
+        if (slug) {
+          card.setAttribute('href', 'insights/' + slug);
+        }
+      });
+    }
+  </script>
+</body>
+</html>

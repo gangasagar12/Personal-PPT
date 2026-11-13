@@ -72,6 +72,7 @@ class Database {
             title {$textType} NOT NULL,
             slug {$textType} NOT NULL,
             category {$textType} NOT NULL,
+            image {$textType} DEFAULT 'images/projectcard1.jpg',
             read_time {$textType} NOT NULL,
             excerpt {$longTextType} NOT NULL,
             content {$longTextType} NOT NULL,
@@ -88,6 +89,21 @@ class Database {
             subject {$textType} NOT NULL,
             phone {$textType},
             message {$longTextType} NOT NULL,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )");
+
+        $pdo->exec("CREATE TABLE IF NOT EXISTS company_products (
+            id {$autoIncrement},
+            title {$textType} NOT NULL,
+            category {$textType} NOT NULL,
+            description {$longTextType} NOT NULL,
+            image {$textType} NOT NULL,
+            status_text {$textType} NOT NULL,
+            features {$longTextType} NOT NULL,
+            tech_pills {$textType} NOT NULL,
+            link_url {$textType} NOT NULL,
+            link_text {$textType} NOT NULL,
+            display_order INTEGER DEFAULT 0,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )");
     }

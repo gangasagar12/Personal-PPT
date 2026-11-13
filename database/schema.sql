@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS `featured_projects`;
 DROP TABLE IF EXISTS `academic_projects`;
 DROP TABLE IF EXISTS `blog_insights`;
 DROP TABLE IF EXISTS `contact_inquiries`;
+DROP TABLE IF EXISTS `company_products`;
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- ----------------------------------------------------------------------------
@@ -49,6 +50,7 @@ CREATE TABLE `blog_insights` (
   `title` VARCHAR(255) NOT NULL,
   `slug` VARCHAR(255) NOT NULL UNIQUE,
   `category` VARCHAR(100) NOT NULL,
+  `image` VARCHAR(255) NOT NULL DEFAULT 'images/projectcard1.jpg',
   `read_time` VARCHAR(50) NOT NULL DEFAULT '5 min read',
   `excerpt` TEXT NOT NULL,
   `content` LONGTEXT NOT NULL,
@@ -74,5 +76,25 @@ CREATE TABLE `contact_inquiries` (
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   INDEX `idx_contact_email` (`email`),
   INDEX `idx_contact_created` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------------------------------------------------------
+-- Table: company_products
+-- Strataflow Technologies flagship products and software solutions
+-- ----------------------------------------------------------------------------
+CREATE TABLE `company_products` (
+  `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `title` VARCHAR(255) NOT NULL,
+  `category` VARCHAR(150) NOT NULL DEFAULT 'Software System',
+  `description` TEXT NOT NULL,
+  `image` VARCHAR(255) NOT NULL DEFAULT 'images/projectcard1.jpg',
+  `status_text` VARCHAR(100) NOT NULL DEFAULT 'Live Product',
+  `features` TEXT NOT NULL,
+  `tech_pills` VARCHAR(500) NOT NULL DEFAULT '',
+  `link_url` VARCHAR(500) NOT NULL DEFAULT 'https://github.com/gangasaagar',
+  `link_text` VARCHAR(100) NOT NULL DEFAULT 'View Details',
+  `display_order` INT NOT NULL DEFAULT 0,
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX `idx_company_products_order` (`display_order`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
