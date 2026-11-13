@@ -99,19 +99,18 @@
 
   <div class="insights-wrapper">
 
-    <!-- ══════════════════════════════════════════════════════════
-         MAIN DETAIL LAYOUT (ARTICLE + RECENT ARTICLES SIDEBAR)
-         ══════════════════════════════════════════════════════════ -->
-    <main class="insights-detail-main">
-      <div class="insights-container">
+    <!-- ── Main Detail Layout (Article + Recent Articles Sidebar) ── -->
+    <main class="insights-page-main">
+      <div class="container">
 
-        <!-- Breadcrumb -->
-        <nav class="article-breadcrumb" aria-label="Breadcrumb">
-          <a href="../index.html">Home</a>
-          <span class="separator">/</span>
-          <a href="../insights.html">Insights</a>
-          <span class="separator">/</span>
-          <span class="active-title" id="breadcrumbTitle">Optimizing Django QuerySets &amp; Eliminating the Dreaded N+1 Problem</span>
+        <!-- Breadcrumb Navigation -->
+        <nav class="profile-breadcrumb" aria-label="Breadcrumb">
+          <a href="../insights.html" class="breadcrumb-back-link">
+            <i class="bx bx-arrow-back"></i>
+            <span>All Insights</span>
+          </a>
+          <span class="breadcrumb-separator">/</span>
+          <span class="breadcrumb-current" id="breadcrumbTitle">Optimizing Django QuerySets &amp; Eliminating the Dreaded N+1 Problem</span>
         </nav>
 
         <div class="article-detail-layout">
