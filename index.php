@@ -219,61 +219,20 @@ $blog_insights = get_blog_insights();
           </div>
         </div>
 
-        <!-- ── Right: Professional Photograph & Visual Composition ── -->
+        <!-- ── Right: Professional Photograph & Visual Composition (Transparent Cutout) ── -->
         <div class="hero-visual">
-          <div class="visual-wrapper">
+          <div class="visual-wrapper transparent-photo-wrapper">
             <!-- Decorative aura & shapes -->
             <div class="visual-aura aura-blue" aria-hidden="true"></div>
             <div class="visual-aura aura-purple" aria-hidden="true"></div>
+            <div class="visual-aura aura-center-glow" aria-hidden="true"></div>
             <div class="visual-pattern-dots" aria-hidden="true"></div>
 
-            <!-- Photograph card -->
-            <div class="photo-container">
-              <div class="photo-frame">
-                <img src="images/profile.jpeg" alt="Ganga Sagar Joshi - Professional Portrait" class="hero-photo"
-                  width="460" height="580" loading="eager" />
-                <div class="photo-gradient-overlay" aria-hidden="true"></div>
-              </div>
-              <div class="frame-border-glow" aria-hidden="true"></div>
+            <!-- Transparent Cutout Portrait (no box border, no badges over image) -->
+            <div class="transparent-portrait-box">
+              <img src="images/gangasagar_transparent.png" alt="Ganga Sagar Joshi - Professional Portrait" class="hero-transparent-photo"
+                width="720" height="960" loading="eager" />
             </div>
-
-            <!-- Floating technology badges -->
-            <div class="floating-badge badge-python" aria-hidden="true">
-              <div class="badge-icon python-theme">
-                <i class="bx bxl-python"></i>
-              </div>
-              <div class="badge-content">
-                <span class="badge-title">Python &amp; Django</span>
-                <span class="badge-subtitle">Backend Engineering</span>
-              </div>
-            </div>
-
-            <div class="floating-badge badge-aws" aria-hidden="true">
-              <div class="badge-icon aws-theme">
-                <i class="bx bxl-aws"></i>
-              </div>
-              <div class="badge-content">
-                <span class="badge-title">AWS &amp; Cloud</span>
-                <span class="badge-subtitle">DevOps &amp; Infra</span>
-              </div>
-            </div>
-
-            <div class="floating-badge badge-api" aria-hidden="true">
-              <div class="badge-icon api-theme">
-                <i class="bx bx-server"></i>
-              </div>
-              <div class="badge-content">
-                <span class="badge-title">Scalable APIs</span>
-                <span class="badge-subtitle">REST &amp; PostgreSQL</span>
-              </div>
-            </div>
-
-            <!-- Floating status tag -->
-            <div class="floating-pill-status" aria-hidden="true">
-              <span class="pill-icon">🚀</span>
-              <span class="pill-text">High-Impact Solutions</span>
-            </div>
-
           </div>
         </div>
 
@@ -287,6 +246,155 @@ $blog_insights = get_blog_insights();
         <span class="cue-text">Scroll</span>
       </a>
     </section>
+
+    <!-- ── Continuous Flowing Tech & Capabilities Marquee (Right to Left Transparent Theme) ── -->
+    <div class="hero-tech-marquee" aria-label="Key Technologies and Strengths">
+      <div class="marquee-track">
+        <!-- Sequence 1 -->
+        <div class="marquee-badge-pill">
+          <div class="badge-icon python-theme"><i class="bx bxl-python"></i></div>
+          <div class="badge-content">
+            <span class="badge-title">Python &amp; Django</span>
+            <span class="badge-subtitle">Backend Engineering</span>
+          </div>
+        </div>
+        <div class="marquee-badge-pill">
+          <div class="badge-icon pill-rocket-theme"><span class="pill-icon">🚀</span></div>
+          <div class="badge-content">
+            <span class="badge-title">High-Impact Solutions</span>
+            <span class="badge-subtitle">Production Systems</span>
+          </div>
+        </div>
+        <div class="marquee-badge-pill">
+          <div class="badge-icon aws-theme"><i class="bx bxl-aws"></i></div>
+          <div class="badge-content">
+            <span class="badge-title">AWS &amp; Cloud</span>
+            <span class="badge-subtitle">DevOps &amp; Infra</span>
+          </div>
+        </div>
+        <div class="marquee-badge-pill">
+          <div class="badge-icon api-theme"><i class="bx bx-server"></i></div>
+          <div class="badge-content">
+            <span class="badge-title">Scalable APIs</span>
+            <span class="badge-subtitle">REST &amp; PostgreSQL</span>
+          </div>
+        </div>
+        <div class="marquee-badge-pill">
+          <div class="badge-icon db-theme"><i class="bx bx-data"></i></div>
+          <div class="badge-content">
+            <span class="badge-title">Relational Databases</span>
+            <span class="badge-subtitle">Schema Design &amp; 3NF</span>
+          </div>
+        </div>
+        <div class="marquee-badge-pill">
+          <div class="badge-icon docker-theme"><i class="bx bxl-docker"></i></div>
+          <div class="badge-content">
+            <span class="badge-title">Docker &amp; Containers</span>
+            <span class="badge-subtitle">Microservices &amp; CI/CD</span>
+          </div>
+        </div>
+        <div class="marquee-badge-pill">
+          <div class="badge-icon ml-theme"><i class="bx bx-brain"></i></div>
+          <div class="badge-content">
+            <span class="badge-title">Machine Learning</span>
+            <span class="badge-subtitle">AI &amp; Predictive Models</span>
+          </div>
+        </div>
+        <div class="marquee-badge-pill">
+          <div class="badge-icon security-theme"><i class="bx bx-shield-quarter"></i></div>
+          <div class="badge-content">
+            <span class="badge-title">JWT &amp; RBAC</span>
+            <span class="badge-subtitle">Secure Authentication</span>
+          </div>
+        </div>
+        <div class="marquee-badge-pill">
+          <div class="badge-icon perf-theme"><i class="bx bx-line-chart"></i></div>
+          <div class="badge-content">
+            <span class="badge-title">Query Optimization</span>
+            <span class="badge-subtitle">Eliminating N+1 Latency</span>
+          </div>
+        </div>
+        <div class="marquee-badge-pill">
+          <div class="badge-icon saas-theme"><i class="bx bx-layer"></i></div>
+          <div class="badge-content">
+            <span class="badge-title">Enterprise SaaS</span>
+            <span class="badge-subtitle">Scalable Architectures</span>
+          </div>
+        </div>
+
+        <!-- Sequence 2 (Duplicate for continuous loop) -->
+        <div class="marquee-badge-pill" aria-hidden="true">
+          <div class="badge-icon python-theme"><i class="bx bxl-python"></i></div>
+          <div class="badge-content">
+            <span class="badge-title">Python &amp; Django</span>
+            <span class="badge-subtitle">Backend Engineering</span>
+          </div>
+        </div>
+        <div class="marquee-badge-pill" aria-hidden="true">
+          <div class="badge-icon pill-rocket-theme"><span class="pill-icon">🚀</span></div>
+          <div class="badge-content">
+            <span class="badge-title">High-Impact Solutions</span>
+            <span class="badge-subtitle">Production Systems</span>
+          </div>
+        </div>
+        <div class="marquee-badge-pill" aria-hidden="true">
+          <div class="badge-icon aws-theme"><i class="bx bxl-aws"></i></div>
+          <div class="badge-content">
+            <span class="badge-title">AWS &amp; Cloud</span>
+            <span class="badge-subtitle">DevOps &amp; Infra</span>
+          </div>
+        </div>
+        <div class="marquee-badge-pill" aria-hidden="true">
+          <div class="badge-icon api-theme"><i class="bx bx-server"></i></div>
+          <div class="badge-content">
+            <span class="badge-title">Scalable APIs</span>
+            <span class="badge-subtitle">REST &amp; PostgreSQL</span>
+          </div>
+        </div>
+        <div class="marquee-badge-pill" aria-hidden="true">
+          <div class="badge-icon db-theme"><i class="bx bx-data"></i></div>
+          <div class="badge-content">
+            <span class="badge-title">Relational Databases</span>
+            <span class="badge-subtitle">Schema Design &amp; 3NF</span>
+          </div>
+        </div>
+        <div class="marquee-badge-pill" aria-hidden="true">
+          <div class="badge-icon docker-theme"><i class="bx bxl-docker"></i></div>
+          <div class="badge-content">
+            <span class="badge-title">Docker &amp; Containers</span>
+            <span class="badge-subtitle">Microservices &amp; CI/CD</span>
+          </div>
+        </div>
+        <div class="marquee-badge-pill" aria-hidden="true">
+          <div class="badge-icon ml-theme"><i class="bx bx-brain"></i></div>
+          <div class="badge-content">
+            <span class="badge-title">Machine Learning</span>
+            <span class="badge-subtitle">AI &amp; Predictive Models</span>
+          </div>
+        </div>
+        <div class="marquee-badge-pill" aria-hidden="true">
+          <div class="badge-icon security-theme"><i class="bx bx-shield-quarter"></i></div>
+          <div class="badge-content">
+            <span class="badge-title">JWT &amp; RBAC</span>
+            <span class="badge-subtitle">Secure Authentication</span>
+          </div>
+        </div>
+        <div class="marquee-badge-pill" aria-hidden="true">
+          <div class="badge-icon perf-theme"><i class="bx bx-line-chart"></i></div>
+          <div class="badge-content">
+            <span class="badge-title">Query Optimization</span>
+            <span class="badge-subtitle">Eliminating N+1 Latency</span>
+          </div>
+        </div>
+        <div class="marquee-badge-pill" aria-hidden="true">
+          <div class="badge-icon saas-theme"><i class="bx bx-layer"></i></div>
+          <div class="badge-content">
+            <span class="badge-title">Enterprise SaaS</span>
+            <span class="badge-subtitle">Scalable Architectures</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
     <!-- ── About Me Section (Editorial Layout with Signature) ── -->
