@@ -58,7 +58,7 @@ $blog_insights = get_blog_insights();
         <a href="#services" class="nav-link">Services</a>
         <a href="#projects" class="nav-link">Projects</a>
         <a href="profile.html" class="nav-link">Profile</a>
-        <a href="#insights" class="nav-link">Insights</a>
+        <a href="insights.html" class="nav-link">Insights</a>
         <a href="#contact" class="nav-link">Contact</a>
       </nav>
 
@@ -101,7 +101,7 @@ $blog_insights = get_blog_insights();
       <a href="#services" class="drawer-link"><i class="bx bx-wrench"></i><span>Services</span></a>
       <a href="#projects" class="drawer-link"><i class="bx bx-folder"></i><span>Projects</span></a>
       <a href="profile.html" class="drawer-link"><i class="bx bx-user-pin"></i><span>Profile</span></a>
-      <a href="#insights" class="drawer-link"><i class="bx bx-bulb"></i><span>Insights</span></a>
+      <a href="insights.html" class="drawer-link"><i class="bx bx-bulb"></i><span>Insights</span></a>
       <a href="#contact" class="drawer-link"><i class="bx bx-envelope"></i><span>Contact</span></a>
     </nav>
 
@@ -789,7 +789,7 @@ $blog_insights = get_blog_insights();
         <!-- Insights Grid -->
         <div class="insights-grid">
           <?php foreach ($blog_insights as $post): ?>
-          <article class="insight-card">
+          <article class="insight-card" onclick="window.location.href='insight-detail.html?slug=<?= urlencode($post['slug']) ?>'" style="cursor: pointer;">
             <div class="insight-meta-row">
               <span class="insight-category-pill"><?= htmlspecialchars($post['category']) ?></span>
               <span class="insight-date-info">
@@ -800,7 +800,7 @@ $blog_insights = get_blog_insights();
             <h3 class="insight-card-title"><?= htmlspecialchars($post['title']) ?></h3>
             <p class="insight-card-excerpt"><?= htmlspecialchars($post['excerpt']) ?></p>
             <div class="insight-card-footer">
-              <a href="#" class="live-site-link">
+              <a href="insight-detail.html?slug=<?= urlencode($post['slug']) ?>" class="live-site-link" onclick="event.stopPropagation();">
                 <span>Read Article</span>
                 <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
               </a>
