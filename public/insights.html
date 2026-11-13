@@ -18,74 +18,86 @@
 </head>
 <body class="insights-page-body">
 
-  <div class="insights-wrapper">
+  <!-- Scroll progress indicator -->
+  <div class="scroll-progress" id="scrollProgress"></div>
 
-    <!-- ══════════════════════════════════════════════════════════
-         NAVIGATION BAR (Consistent across portfolio)
-         ══════════════════════════════════════════════════════════ -->
-    <header class="navbar" id="navbar">
-      <div class="nav-container">
-        <!-- Brand -->
-        <a href="index.html" class="nav-logo" aria-label="Ganga Sagar Joshi - Home">
-          <span class="logo-badge">GSJ</span>
-          <span class="logo-text">
-            <strong>Ganga Sagar Joshi</strong>
-            <small>SOFTWARE &amp; SYSTEMS</small>
-          </span>
+  <!-- ── Standard Portfolio Header & Navigation ── -->
+  <header class="header" id="header">
+    <div class="header-container">
+      <a class="brand" href="index.html#home" aria-label="Ganga Sagar Joshi Home">
+        <div class="brand-monogram">
+          <span class="monogram-text">GSJ</span>
+        </div>
+        <div class="brand-info">
+          <span class="brand-name">Ganga Sagar Joshi</span>
+          <span class="brand-title">Software &amp; Systems</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="navbar" id="desktopNav" aria-label="Primary navigation">
+        <a href="index.html#home" class="nav-link">Home</a>
+        <a href="index.html#about" class="nav-link">About</a>
+        <a href="index.html#skills" class="nav-link">Skills</a>
+        <a href="index.html#services" class="nav-link">Services</a>
+        <a href="index.html#projects" class="nav-link">Projects</a>
+        <a href="profile.html" class="nav-link">Profile</a>
+        <a href="insights.html" class="nav-link active">Insights</a>
+        <a href="index.html#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <!-- Right Action Button & Hamburger -->
+      <div class="nav-actions">
+        <a href="index.html#contact" class="btn-talk" aria-label="Let's Talk">
+          <span>Let's Talk</span>
+          <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
         </a>
 
-        <!-- Desktop Nav -->
-        <nav class="nav-links" id="navLinks" aria-label="Primary navigation">
-          <a href="index.html" class="nav-link">Home</a>
-          <a href="index.html#about" class="nav-link">About</a>
-          <a href="index.html#skills" class="nav-link">Skills</a>
-          <a href="index.html#services" class="nav-link">Services</a>
-          <a href="index.html#projects" class="nav-link">Projects</a>
-          <a href="profile.html" class="nav-link">Profile</a>
-          <a href="insights.html" class="nav-link active">Insights</a>
-          <a href="index.html#contact" class="nav-link">Contact</a>
-        </nav>
-
-        <!-- CTA & Mobile Toggle -->
-        <div class="nav-cta">
-          <a href="index.html#contact" class="btn btn-primary btn-sm">
-            <span>Let's Talk</span>
-            <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
-          </a>
-          <button class="nav-toggle" id="navToggle" aria-label="Open mobile menu" aria-expanded="false" aria-controls="mobileDrawer">
-            <span class="hamburger-bar"></span>
-            <span class="hamburger-bar"></span>
-            <span class="hamburger-bar"></span>
-          </button>
-        </div>
-      </div>
-    </header>
-
-    <!-- Mobile Drawer -->
-    <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
-      <div class="drawer-header">
-        <span class="logo-badge">GSJ</span>
-        <button class="drawer-close" id="drawerClose" aria-label="Close mobile menu">
-          <i class="bx bx-x"></i>
+        <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false"
+          aria-controls="mobileDrawer">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
         </button>
       </div>
-      <nav class="drawer-links">
-        <a href="index.html" class="drawer-link"><i class="bx bx-home"></i><span>Home</span></a>
-        <a href="index.html#about" class="drawer-link"><i class="bx bx-user"></i><span>About</span></a>
-        <a href="index.html#skills" class="drawer-link"><i class="bx bx-code-alt"></i><span>Skills</span></a>
-        <a href="index.html#services" class="drawer-link"><i class="bx bx-cog"></i><span>Services</span></a>
-        <a href="index.html#projects" class="drawer-link"><i class="bx bx-folder"></i><span>Projects</span></a>
-        <a href="profile.html" class="drawer-link"><i class="bx bx-buildings"></i><span>Profile</span></a>
-        <a href="insights.html" class="drawer-link active"><i class="bx bx-bulb"></i><span>Insights</span></a>
-        <a href="index.html#contact" class="drawer-link"><i class="bx bx-envelope"></i><span>Contact</span></a>
-      </nav>
-      <div class="drawer-footer">
-        <a href="index.html#contact" class="btn btn-primary btn-block">
-          <span>Get in Touch</span>
-          <i class="bx bx-right-arrow-alt"></i>
-        </a>
-      </div>
     </div>
+  </header>
+
+  <!-- Mobile slide-in drawer -->
+  <div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-label="Mobile navigation menu" aria-hidden="true">
+    <div class="drawer-header">
+      <div class="brand-monogram sm">
+        <span class="monogram-text">GSJ</span>
+      </div>
+      <div class="drawer-meta">
+        <span class="drawer-name">Ganga Sagar Joshi</span>
+        <span class="drawer-status"><span class="status-indicator"></span> Available for work</span>
+      </div>
+      <button class="drawer-close" id="drawerClose" aria-label="Close menu">
+        <i class="bx bx-x" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <nav class="drawer-nav" aria-label="Mobile navigation">
+      <a href="index.html#home" class="drawer-link"><i class="bx bx-home-alt-2"></i><span>Home</span></a>
+      <a href="index.html#about" class="drawer-link"><i class="bx bx-user"></i><span>About</span></a>
+      <a href="index.html#skills" class="drawer-link"><i class="bx bx-layer"></i><span>Skills</span></a>
+      <a href="index.html#services" class="drawer-link"><i class="bx bx-wrench"></i><span>Services</span></a>
+      <a href="index.html#projects" class="drawer-link"><i class="bx bx-folder"></i><span>Projects</span></a>
+      <a href="profile.html" class="drawer-link"><i class="bx bx-user-pin"></i><span>Profile</span></a>
+      <a href="insights.html" class="drawer-link active"><i class="bx bx-bulb"></i><span>Insights</span></a>
+      <a href="index.html#contact" class="drawer-link"><i class="bx bx-envelope"></i><span>Contact</span></a>
+    </nav>
+
+    <div class="drawer-footer">
+      <a href="index.html#contact" class="drawer-cta drawer-link">
+        <span>Let's Talk</span>
+        <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+      </a>
+    </div>
+  </div>
+
+  <div class="insights-wrapper">
 
     <!-- ══════════════════════════════════════════════════════════
          1. HERO SECTION (RELATED BACKGROUND IMAGE WITH INSIGHTS TITLE)
@@ -93,12 +105,9 @@
     <section class="insights-hero-banner" id="heroBanner">
       <div class="insights-hero-overlay"></div>
       <div class="insights-hero-content">
-        <div class="insights-hero-badge">
-          <i class="bx bx-code-block"></i> Technical Journal
-        </div>
         <h1 class="insights-hero-title">Insights</h1>
         <p class="insights-hero-subtitle">
-          Engineering case studies, database architecture, and production backend practices from building scalable software systems.
+          Engineering case studies, database architecture, and production backend practices.
         </p>
       </div>
     </section>
@@ -181,23 +190,37 @@
   </div>
 
   <script>
-    // Mobile drawer toggle
-    const navToggle = document.getElementById('navToggle');
+    // Header scroll & Hamburger Drawer logic
+    const header = document.getElementById('header');
+    const hamburger = document.getElementById('hamburger');
     const mobileDrawer = document.getElementById('mobileDrawer');
     const drawerClose = document.getElementById('drawerClose');
 
-    if (navToggle && mobileDrawer) {
-      navToggle.addEventListener('click', () => {
-        mobileDrawer.classList.toggle('open');
-      });
-    }
-    if (drawerClose && mobileDrawer) {
-      drawerClose.addEventListener('click', () => {
-        mobileDrawer.classList.remove('open');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    if (hamburger && mobileDrawer) {
+      hamburger.addEventListener('click', () => {
+        mobileDrawer.classList.add('open');
+        hamburger.classList.add('active');
+        hamburger.setAttribute('aria-expanded', 'true');
       });
     }
 
-    // Dynamic routing adapter: if running on local PHP server, link to /insights/{slug}
+    if (drawerClose && mobileDrawer) {
+      drawerClose.addEventListener('click', () => {
+        mobileDrawer.classList.remove('open');
+        hamburger.classList.remove('active');
+        hamburger.setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    // Dynamic routing adapter: if running on local PHP server without .html
     if (window.location.pathname.indexOf('.html') === -1 && window.location.port !== '') {
       document.querySelectorAll('.blog-post-card').forEach(card => {
         const slug = card.getAttribute('data-slug');
