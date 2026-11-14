@@ -124,30 +124,6 @@
           </div>
         </div>
 
-        <!-- ── Right: Professional Photograph & Visual Composition (Transparent Cutout) ── -->
-        <div class="hero-visual">
-          <div class="visual-wrapper transparent-photo-wrapper">
-            <!-- Background Watermark Typography for Right Column (Behind Portrait) -->
-            <div class="hero-visual-watermark" aria-hidden="true">
-              <span>GANGA</span>
-              <span>SAGAR</span>
-              <span>JOSHI</span>
-            </div>
-
-            <!-- Decorative aura & shapes -->
-            <div class="visual-aura aura-blue" aria-hidden="true"></div>
-            <div class="visual-aura aura-purple" aria-hidden="true"></div>
-            <div class="visual-aura aura-center-glow" aria-hidden="true"></div>
-            <div class="visual-pattern-dots" aria-hidden="true"></div>
-
-            <!-- Transparent Cutout Portrait (no box border, no badges over image) -->
-            <div class="transparent-portrait-box">
-              <img src="/images/profile_transparent.png" alt="Ganga Sagar Joshi - Professional Portrait" class="hero-transparent-photo"
-                width="960" height="1280" loading="eager" />
-            </div>
-          </div>
-        </div>
-
       </div>
 
       <!-- Subtle scroll cue -->
@@ -368,8 +344,8 @@
           <!-- Left Column: Portrait Photograph + Original Transparent Signature -->
           <div class="about-visual-column">
             <div class="about-transparent-photo-wrap">
-              <img src="/images/gangasagar_transparent.png" alt="Ganga Sagar Joshi" class="about-transparent-portrait"
-                width="340" height="453" loading="lazy" />
+              <img src="/images/ganga_transparent.png" alt="Ganga Sagar Joshi" class="about-transparent-portrait"
+                width="340" height="403" loading="lazy" />
             </div>
 
             <!-- Original Transparent Signature (No Hover Effect) -->

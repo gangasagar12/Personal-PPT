@@ -626,22 +626,28 @@ h6 {
 }
 
 .hero-container {
-  display: grid;
-  grid-template-columns: 1.15fr 0.95fr;
-  gap: clamp(2rem, 5vw, 4.5rem);
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  padding-top: 1.5rem;
-  padding-bottom: 2rem;
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto;
+  gap: 1.6rem;
+  padding-top: 2rem;
+  padding-bottom: 2.5rem;
   width: 100%;
   position: relative;
   z-index: 2;
 }
 
-/* Left Column: Hero Content */
+/* Hero Content */
 .hero-content {
   display: flex;
   flex-direction: column;
-  gap: 1.4rem;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+  width: 100%;
 }
 
 /* Status / Availability Badge */
@@ -700,6 +706,8 @@ h6 {
 .hero-headings {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
   gap: 0.35rem;
 }
 
@@ -765,16 +773,19 @@ h6 {
 
 /* Professional Description */
 .hero-description {
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   color: var(--t2);
-  line-height: 1.8;
-  max-width: 530px;
+  line-height: 1.85;
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
 }
 
 /* CTA Buttons */
 .hero-actions {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
   flex-wrap: wrap;
   margin-top: 0.25rem;
@@ -847,6 +858,7 @@ h6 {
 .hero-social-block {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
   margin-top: 0.2rem;
 }
@@ -892,10 +904,13 @@ h6 {
 .hero-highlights {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  padding-top: 1.2rem;
+  justify-content: center;
+  gap: 2rem;
+  padding-top: 1.5rem;
   border-top: 1px solid var(--bdr);
   margin-top: 0.5rem;
+  max-width: 580px;
+  width: 100%;
 }
 
 .highlight-item {
@@ -4370,24 +4385,8 @@ h6 {
   }
 
   .hero-container {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 3rem;
+    gap: 2rem;
     padding-top: 2rem;
-  }
-
-  .hero-content {
-    align-items: center;
-    order: 2;
-  }
-
-  .hero-badge {
-    margin: 0 auto;
-  }
-
-  .hero-visual {
-    order: 1;
-    margin-top: 1rem;
   }
 
   .transparent-photo-wrapper {
