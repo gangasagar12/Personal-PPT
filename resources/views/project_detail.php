@@ -135,11 +135,11 @@ if (!function_exists('getTechBadgeInfo')) {
     }
     .project-hero-title {
       font-family: var(--ff-h);
-      font-size: clamp(2rem, 3.8vw, 3rem);
+      font-size: clamp(1.45rem, 2.6vw, 1.95rem);
       font-weight: 700;
-      line-height: 1.22;
+      line-height: 1.25;
       color: #ffffff;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.15rem;
       letter-spacing: -0.02em;
     }
     .project-hero-meta {

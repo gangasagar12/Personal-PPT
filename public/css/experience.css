@@ -58,11 +58,11 @@
 
 .exp-hero-title {
   font-family: var(--ff-h);
-  font-size: clamp(2.4rem, 5vw, 3.6rem);
-  font-weight: 800;
+  font-size: clamp(1.55rem, 3vw, 1.95rem);
+  font-weight: 700;
   color: var(--t1);
-  line-height: 1.18;
-  margin-bottom: 1.1rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
 }
 
 .exp-hero-lead {
@@ -284,8 +284,8 @@
 
 .exp-cta-content h2 {
   font-family: var(--ff-h);
-  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
-  font-weight: 800;
+  font-size: clamp(1.35rem, 2.4vw, 1.8rem);
+  font-weight: 700;
   line-height: 1.25;
   margin-bottom: 0.85rem;
   color: #ffffff;
