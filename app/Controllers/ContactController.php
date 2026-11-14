@@ -5,7 +5,9 @@ use App\Models\ContactInquiry;
 
 class ContactController {
     public function submit(): void {
-        header('Content-Type: application/json');
+        if (!headers_sent()) {
+            header('Content-Type: application/json');
+        }
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             echo json_encode(['success' => false, 'message' => 'Invalid request method.']);

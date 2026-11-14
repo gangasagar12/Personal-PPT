@@ -1160,16 +1160,14 @@
       </div>
     </section>
 
-    <!-- Include Font Awesome for icons (add this in your <head> if not already present) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <section class="contact" id="contact">
       <div class="container">
 
-        <header class="section-header reveal">
-          <span class="section-label">Get In Touch</span>
-          <h2>Contact <span>Me</span></h2>
-          <p>Open for full-time, freelance &amp; project inquiries</p>
-        </header>
+        <div class="section-heading-block text-center reveal">
+          <span class="section-tag">get in touch</span>
+          <h2 class="section-main-title">Contact <span>Me</span></h2>
+          <p class="section-subtitle">Open for full-time, freelance &amp; project inquiries</p>
+        </div>
 
         <div class="contact-content">
 
@@ -1199,13 +1197,16 @@
             </div>
             <div class="form-group">
               <label for="message">Your Message</label>
-              <textarea id="message" name="message" placeholder="Hi Ganga, I'd like to discuss…" rows="6"
+              <textarea id="message" name="message" placeholder="Hi Ganga, I'd like to discuss…" rows="5"
                 required></textarea>
             </div>
-            <button type="submit" class="btn btn-primary send-btn">
-              <i class="bx bx-send" aria-hidden="true"></i>
-              <span>Send Message</span>
-            </button>
+            <div class="contact-btn-wrap">
+              <button type="submit" class="btn btn-primary send-btn">
+                <i class="bx bx-send" aria-hidden="true"></i>
+                <span>Send Message</span>
+              </button>
+            </div>
+            <div id="contactFormStatus" class="contact-status-msg" style="display:none;" role="status"></div>
           </form>
 
           <!-- Contact Info -->

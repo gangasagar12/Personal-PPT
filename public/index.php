@@ -22,6 +22,9 @@ if (php_sapi_name() === 'cli-server') {
         foreach ($candidatePaths as $candidate) {
             if (is_file($candidate)) {
                 $ext = strtolower(pathinfo($candidate, PATHINFO_EXTENSION));
+                if ($ext === 'php') {
+                    continue; // Allow Router to dispatch PHP controller routes and handlers
+                }
                 $mimes = [
                     'css'  => 'text/css',
                     'js'   => 'application/javascript',

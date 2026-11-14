@@ -1201,7 +1201,7 @@ $awards_list = \App\Models\Award::allWithDetails();
                     </div>
                 </div>
 
-                <div class="kpi-card" onclick="switchTab('tab-inquiries', 'Contact Inquiries', document.querySelectorAll('.nav-link')[4])">
+                <div class="kpi-card" onclick="switchTab('tab-inquiries', 'Contact Inquiries')">
                     <div>
                         <div class="kpi-title">Inquiries</div>
                         <div class="kpi-value"><?= count($inquiries_list) ?></div>
@@ -1811,6 +1811,7 @@ $awards_list = \App\Models\Award::allWithDetails();
                                         <td style="font-size:0.8rem; color:var(--text-muted);"><?= htmlspecialchars($inq['created_at']) ?></td>
                                         <td>
                                             <div class="actions-cell">
+                                                <a href="mailto:<?= htmlspecialchars($inq['email']) ?>?subject=Re:%20<?= rawurlencode($inq['subject']) ?>" class="btn btn-secondary btn-sm" title="Reply via Email"><i class="bx bx-reply"></i></a>
                                                 <a href="?del_msg=<?= $inq['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Remove this message permanently?')" title="Delete"><i class="bx bx-trash"></i></a>
                                             </div>
                                         </td>

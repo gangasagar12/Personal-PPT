@@ -222,6 +222,7 @@ revealEls.forEach(el => revealObserver.observe(el));
 
 /* ─── 8. Contact Form (Backend PHP + Database Submission) ─────────── */
 const contactForm = document.getElementById('contactForm');
+const contactStatus = document.getElementById('contactFormStatus');
 
 if (contactForm) {
   contactForm.addEventListener('submit', async e => {
@@ -229,6 +230,13 @@ if (contactForm) {
 
     const btn     = contactForm.querySelector('.send-btn');
     const btnText = btn.querySelector('span');
+
+    // Reset status message
+    if (contactStatus) {
+      contactStatus.style.display = 'none';
+      contactStatus.className = 'contact-status-msg';
+      contactStatus.textContent = '';
+    }
 
     // Basic client-side validation
     const required = contactForm.querySelectorAll('[required]');
@@ -240,7 +248,24 @@ if (contactForm) {
         valid = false;
       }
     });
-    if (!valid) return;
+
+    const emailField = contactForm.querySelector('#email');
+    if (emailField && emailField.value.trim()) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(emailField.value.trim())) {
+        emailField.style.borderColor = '#e05555';
+        valid = false;
+      }
+    }
+
+    if (!valid) {
+      if (contactStatus) {
+        contactStatus.textContent = 'Please fill in all required fields with a valid email.';
+        contactStatus.className = 'contact-status-msg error';
+        contactStatus.style.display = 'block';
+      }
+      return;
+    }
 
     // Loading state
     btnText.textContent = 'Sending…';
@@ -249,32 +274,48 @@ if (contactForm) {
     const formData = new FormData(contactForm);
 
     try {
-      // Submit to PHP Backend (saved to database)
-      const endpoint = window.location.pathname.endsWith('/') || window.location.pathname.endsWith('.php') || window.location.pathname.endsWith('.html')
-        ? 'backend/contact.php'
-        : '/backend/contact.php';
-
-      const res = await fetch(endpoint, {
+      // Primary API endpoint is /contact, fallback to /backend/contact.php
+      let res = await fetch('/contact', {
         method: 'POST',
         body: formData
       });
+
+      if (!res.ok) {
+        res = await fetch('/backend/contact.php', {
+          method: 'POST',
+          body: formData
+        });
+      }
 
       const data = await res.json();
 
       if (data && data.success) {
         btnText.textContent = '✓ Message Sent!';
         btn.style.background = '#10b981';
+        if (contactStatus) {
+          contactStatus.textContent = data.message || 'Thank you! Your message has been sent successfully.';
+          contactStatus.className = 'contact-status-msg success';
+          contactStatus.style.display = 'block';
+        }
         contactForm.reset();
       } else {
         btnText.textContent = 'Failed — Try Again';
         btn.style.background = '#ef4444';
+        if (contactStatus) {
+          contactStatus.textContent = (data && data.message) ? data.message : 'Failed to record your message. Please try again.';
+          contactStatus.className = 'contact-status-msg error';
+          contactStatus.style.display = 'block';
+        }
       }
     } catch (err) {
-      console.warn('Backend submission note:', err);
-      // Fallback for purely static environments
-      btnText.textContent = '✓ Message Sent!';
-      btn.style.background = '#10b981';
-      contactForm.reset();
+      console.error('Contact form submission error:', err);
+      btnText.textContent = 'Failed — Try Again';
+      btn.style.background = '#ef4444';
+      if (contactStatus) {
+        contactStatus.textContent = 'Could not deliver message to the server. Please try again.';
+        contactStatus.className = 'contact-status-msg error';
+        contactStatus.style.display = 'block';
+      }
     }
 
     // Reset button after 4 s

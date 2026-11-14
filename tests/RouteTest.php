@@ -160,5 +160,54 @@ class RouteTest {
 
         return $check($homeOut) && $check($projOut) && $check($profOut);
     }
+
+    public function testContactSubmissionAndAdminDisplay(): bool {
+        // 1. Submit contact form
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST = [
+            'name' => 'Aarav Sharma',
+            'email' => 'aarav@example.com',
+            'subject' => 'Mobile App Development',
+            'phone' => '+977 9841000000',
+            'message' => 'Interested in building a clinical practice application.'
+        ];
+
+        $controller = new \App\Controllers\ContactController();
+        ob_start();
+        $controller->submit();
+        $json = ob_get_clean();
+
+        $data = json_decode($json, true);
+        if (!$data || empty($data['success'])) {
+            return false;
+        }
+
+        // 2. Verify in database
+        $pdo = \App\Core\Database::getConnection();
+        $stmt = $pdo->prepare("SELECT * FROM contact_inquiries WHERE email = ? ORDER BY id DESC LIMIT 1");
+        $stmt->execute(['aarav@example.com']);
+        $inquiry = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        if (!$inquiry || $inquiry['name'] !== 'Aarav Sharma') {
+            return false;
+        }
+
+        // 3. Verify in Admin Panel render
+        $_SESSION['admin_logged_in'] = true;
+        $_SERVER['REQUEST_URI'] = '/admin';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_POST = [];
+        ob_start();
+        include dirname(__DIR__) . '/admin/index.php';
+        $adminHtml = ob_get_clean();
+        unset($_SESSION['admin_logged_in']);
+
+        // Cleanup test record
+        $pdo->prepare("DELETE FROM contact_inquiries WHERE email = ?")->execute(['aarav@example.com']);
+
+        return strpos($adminHtml, 'Aarav Sharma') !== false
+            && strpos($adminHtml, 'Mobile App Development') !== false
+            && strpos($adminHtml, 'aarav@example.com') !== false;
+    }
 }
 

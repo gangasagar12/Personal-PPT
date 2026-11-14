@@ -60,6 +60,7 @@ runTest('RouteTest', 'testHomeWhyWorkSectionRendering', [$routeTest, 'testHomeWh
 runTest('RouteTest', 'testProjectsIndexController', [$routeTest, 'testProjectsIndexController']);
 runTest('RouteTest', 'testUnifiedNavbarRendering', [$routeTest, 'testUnifiedNavbarRendering']);
 runTest('RouteTest', 'testUnifiedFooterRendering', [$routeTest, 'testUnifiedFooterRendering']);
+runTest('RouteTest', 'testContactSubmissionAndAdminDisplay', [$routeTest, 'testContactSubmissionAndAdminDisplay']);
 
 echo "---------------------------------------------\n";
 echo "Results: {$passed} Passed, {$failed} Failed\n";
