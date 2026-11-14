@@ -44,6 +44,7 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS other_projects (
     title {$textType} NOT NULL,
     category {$textType} NOT NULL,
     description {$longTextType} NOT NULL,
+    detailed_description {$longTextType} DEFAULT '',
     image {$textType} DEFAULT 'images/projectcard3.webp',
     skills {$textType} NOT NULL,
     github_url {$textType} DEFAULT 'https://github.com/gangasagar12',
@@ -51,6 +52,10 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS other_projects (
     display_order INTEGER DEFAULT 0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 )");
+
+try {
+    $pdo->exec("ALTER TABLE other_projects ADD COLUMN detailed_description {$longTextType} DEFAULT ''");
+} catch (\Exception $e) {}
 
 // 4. Blog & Insights Table
 $pdo->exec("CREATE TABLE IF NOT EXISTS blog_insights (

@@ -50,7 +50,9 @@ class RouteTest {
         $output = ob_get_clean();
         
         unset($_SESSION['admin_logged_in']);
-        return strpos($output, 'Admin Workspace') !== false && strpos($output, 'Academic Projects') !== false;
+        return strpos($output, 'Admin Workspace') !== false 
+            && strpos($output, 'Academic &amp; Other Projects') !== false
+            && strpos($output, 'tab-academic-other') !== false;
     }
 
     public function testHomeAcademicProjectsRendering(): bool {

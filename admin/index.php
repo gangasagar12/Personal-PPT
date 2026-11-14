@@ -14,8 +14,12 @@ $GLOBALS['pdo'] = $pdo;
 // Authentication Config (Loaded from .env / config/app.php with fallback)
 require_once __DIR__ . '/../config/env.php';
 $app_config = file_exists(__DIR__ . '/../config/app.php') ? require __DIR__ . '/../config/app.php' : [];
-define('ADMIN_USER', $app_config['admin']['user'] ?? env('ADMIN_USERNAME', 'admin'));
-define('ADMIN_PASS', $app_config['admin']['pass'] ?? env('ADMIN_PASSWORD', 'admin123'));
+if (!defined('ADMIN_USER')) {
+    define('ADMIN_USER', $app_config['admin']['user'] ?? env('ADMIN_USERNAME', 'admin'));
+}
+if (!defined('ADMIN_PASS')) {
+    define('ADMIN_PASS', $app_config['admin']['pass'] ?? env('ADMIN_PASSWORD', 'admin123'));
+}
 
 // Determine clean self URL for redirects and form actions
 $requestPath = parse_url($_SERVER['REQUEST_URI'] ?? '/admin', PHP_URL_PATH);
@@ -111,6 +115,39 @@ exit;
 $message = '';
 $message_type = 'success';
 
+if (!function_exists('handle_admin_image_upload')) {
+    /**
+     * Handle Local File Upload directly to public/images/uploads/
+     */
+    function handle_admin_image_upload(string $file_key, string $fallback_key, string $default_image = 'images/projectcard1.jpg'): string {
+        if (isset($_FILES[$file_key]) && is_array($_FILES[$file_key]) && $_FILES[$file_key]['error'] === UPLOAD_ERR_OK) {
+            $file = $_FILES[$file_key];
+            $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+            $allowed = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg'];
+            
+            if (in_array($ext, $allowed)) {
+                $upload_dir = dirname(__DIR__) . '/public/images/uploads';
+                if (!is_dir($upload_dir)) {
+                    mkdir($upload_dir, 0755, true);
+                }
+                $safe_filename = 'upload_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
+                $dest = $upload_dir . '/' . $safe_filename;
+                if (move_uploaded_file($file['tmp_name'], $dest)) {
+                    return 'images/uploads/' . $safe_filename;
+                }
+            }
+        }
+        
+        // Check fallback text field / hidden existing image
+        $fallback = trim($_POST[$fallback_key] ?? '');
+        if (!empty($fallback)) {
+            return $fallback;
+        }
+        
+        return $default_image;
+    }
+}
+
 // Action: Delete Company Product (Strataflow)
 if (isset($_GET['del_prod'])) {
     $del_id = intval($_GET['del_prod']);
@@ -125,14 +162,27 @@ if (isset($_GET['del_feat'])) {
     $message = 'Featured Project deleted successfully.';
 }
 
-// Action: Delete Academic Project
+// Action: Delete Combined Project (Academic or Other)
+if (isset($_GET['del_combined']) && isset($_GET['type'])) {
+    $del_id = intval($_GET['del_combined']);
+    $type = trim($_GET['type']);
+    if ($type === 'academic') {
+        $pdo->prepare("DELETE FROM academic_projects WHERE id = ?")->execute([$del_id]);
+        $message = 'Academic Project deleted successfully.';
+    } else {
+        $pdo->prepare("DELETE FROM other_projects WHERE id = ?")->execute([$del_id]);
+        $message = 'Other Project deleted successfully.';
+    }
+}
+
+// Action: Delete Academic Project (Legacy fallback)
 if (isset($_GET['del_acad'])) {
     $del_id = intval($_GET['del_acad']);
     $pdo->prepare("DELETE FROM academic_projects WHERE id = ?")->execute([$del_id]);
     $message = 'Academic Project deleted successfully.';
 }
 
-// Action: Delete Other Project
+// Action: Delete Other Project (Legacy fallback)
 if (isset($_GET['del_other'])) {
     $del_id = intval($_GET['del_other']);
     $pdo->prepare("DELETE FROM other_projects WHERE id = ?")->execute([$del_id]);
@@ -168,7 +218,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_award'])) {
     $title = trim($_POST['title'] ?? '');
     $issuer = trim($_POST['issuer'] ?? '');
     $date = trim($_POST['date'] ?? '');
-    $image = trim($_POST['image'] ?? 'images/projectcard1.jpg');
+    $image = handle_admin_image_upload('award_image_file', 'image', 'images/projectcard1.jpg');
     $desc = trim($_POST['description'] ?? '');
     $order = intval($_POST['display_order'] ?? 0);
     $award_id = intval($_POST['award_id'] ?? 0);
@@ -191,6 +241,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_featured'])) {
     \App\Core\Autoloader::register();
 
     $title = trim($_POST['title'] ?? '');
+    $image = handle_admin_image_upload('feat_image_file', 'image', 'images/projectcard1.jpg');
+
     $saveData = [
         'id' => intval($_POST['feat_id'] ?? 0),
         'title' => $title,
@@ -205,7 +257,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_featured'])) {
         'impact' => trim($_POST['impact'] ?? ''),
         'features' => trim($_POST['features'] ?? ''),
         'screenshots' => trim($_POST['screenshots'] ?? ''),
-        'image' => trim($_POST['image'] ?? 'images/projectcard1.jpg'),
+        'image' => $image,
         'skills' => trim($_POST['skills'] ?? ''),
         'live_url' => trim($_POST['live_url'] ?? 'https://github.com/gangasaagar'),
         'display_order' => intval($_POST['display_order'] ?? 0),
@@ -218,47 +270,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_featured'])) {
     }
 }
 
-// Action: Add / Update Academic Project
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_academic'])) {
+// Action: Add / Update Combined Project (Academic & Other Projects Unified)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_combined_project'])) {
+    $project_type = trim($_POST['project_type'] ?? 'academic'); // 'academic' or 'other'
     $title = trim($_POST['title'] ?? '');
+    $category = trim($_POST['category'] ?? ($project_type === 'academic' ? 'University Coursework' : 'Engineering Utility'));
     $desc = trim($_POST['description'] ?? '');
     $detailed_desc = trim($_POST['detailed_description'] ?? '');
-    $image = trim($_POST['image'] ?? 'images/projectcard1.jpg');
-    $skills = trim($_POST['skills'] ?? '');
-    $order = intval($_POST['display_order'] ?? 0);
-    $acad_id = intval($_POST['acad_id'] ?? 0);
-
-    if ($acad_id > 0) {
-        $stmt = $pdo->prepare("UPDATE academic_projects SET title=?, description=?, detailed_description=?, image=?, skills=?, display_order=? WHERE id=?");
-        $stmt->execute([$title, $desc, $detailed_desc, $image, $skills, $order, $acad_id]);
-        $message = "Academic Project '{$title}' updated.";
-    } else {
-        $stmt = $pdo->prepare("INSERT INTO academic_projects (title, description, detailed_description, image, skills, display_order) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$title, $desc, $detailed_desc, $image, $skills, $order]);
-        $message = "New Academic Project added.";
-    }
-}
-
-// Action: Add / Update Other Project (Some Other Projects)
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_other'])) {
-    $title = trim($_POST['title'] ?? '');
-    $category = trim($_POST['category'] ?? 'DevOps & Systems');
-    $desc = trim($_POST['description'] ?? '');
-    $image = trim($_POST['image'] ?? 'images/projectcard3.webp');
     $skills = trim($_POST['skills'] ?? '');
     $github_url = trim($_POST['github_url'] ?? 'https://github.com/gangasagar12');
     $live_url = trim($_POST['live_url'] ?? $github_url);
     $order = intval($_POST['display_order'] ?? 0);
-    $other_id = intval($_POST['other_id'] ?? 0);
+    $record_id = intval($_POST['combined_id'] ?? 0);
+    $original_type = trim($_POST['original_type'] ?? $project_type);
 
-    if ($other_id > 0) {
-        $stmt = $pdo->prepare("UPDATE other_projects SET title=?, category=?, description=?, image=?, skills=?, github_url=?, live_url=?, display_order=? WHERE id=?");
-        $stmt->execute([$title, $category, $desc, $image, $skills, $github_url, $live_url, $order, $other_id]);
-        $message = "Other Project '{$title}' updated.";
+    $default_img = ($project_type === 'academic') ? 'images/projectcard2.jpg' : 'images/projectcard3.webp';
+    $image = handle_admin_image_upload('image_file', 'existing_image', $default_img);
+
+    if ($record_id > 0) {
+        if ($original_type === $project_type) {
+            if ($project_type === 'academic') {
+                $stmt = $pdo->prepare("UPDATE academic_projects SET title=?, description=?, detailed_description=?, image=?, skills=?, display_order=? WHERE id=?");
+                $stmt->execute([$title, $desc, $detailed_desc, $image, $skills, $order, $record_id]);
+            } else {
+                $stmt = $pdo->prepare("UPDATE other_projects SET title=?, category=?, description=?, detailed_description=?, image=?, skills=?, github_url=?, live_url=?, display_order=? WHERE id=?");
+                $stmt->execute([$title, $category, $desc, $detailed_desc, $image, $skills, $github_url, $live_url, $order, $record_id]);
+            }
+            $message = "Project '{$title}' updated successfully.";
+        } else {
+            // Type changed: delete from old and insert to new
+            if ($original_type === 'academic') {
+                $pdo->prepare("DELETE FROM academic_projects WHERE id = ?")->execute([$record_id]);
+                $stmt = $pdo->prepare("INSERT INTO other_projects (title, category, description, detailed_description, image, skills, github_url, live_url, display_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$title, $category, $desc, $detailed_desc, $image, $skills, $github_url, $live_url, $order]);
+            } else {
+                $pdo->prepare("DELETE FROM other_projects WHERE id = ?")->execute([$record_id]);
+                $stmt = $pdo->prepare("INSERT INTO academic_projects (title, description, detailed_description, image, skills, display_order) VALUES (?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$title, $desc, $detailed_desc, $image, $skills, $order]);
+            }
+            $message = "Project '{$title}' moved to {$project_type} and saved successfully.";
+        }
     } else {
-        $stmt = $pdo->prepare("INSERT INTO other_projects (title, category, description, image, skills, github_url, live_url, display_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$title, $category, $desc, $image, $skills, $github_url, $live_url, $order]);
-        $message = "New Other Project added.";
+        if ($project_type === 'academic') {
+            $stmt = $pdo->prepare("INSERT INTO academic_projects (title, description, detailed_description, image, skills, display_order) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$title, $desc, $detailed_desc, $image, $skills, $order]);
+        } else {
+            $stmt = $pdo->prepare("INSERT INTO other_projects (title, category, description, detailed_description, image, skills, github_url, live_url, display_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$title, $category, $desc, $detailed_desc, $image, $skills, $github_url, $live_url, $order]);
+        }
+        $message = "New project '{$title}' added successfully.";
     }
 }
 
@@ -266,7 +326,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_other'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_blog'])) {
     $title = trim($_POST['title'] ?? '');
     $category = trim($_POST['category'] ?? 'Engineering');
-    $image = trim($_POST['image'] ?? 'images/projectcard1.jpg');
+    $image = handle_admin_image_upload('blog_image_file', 'image', 'images/projectcard1.jpg');
     $read_time = trim($_POST['read_time'] ?? '5 min read');
     $excerpt = trim($_POST['excerpt'] ?? '');
     $content = trim($_POST['content'] ?? '');
@@ -291,7 +351,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_company_product'
     $title = trim($_POST['title'] ?? '');
     $category = trim($_POST['category'] ?? 'Software System');
     $desc = trim($_POST['description'] ?? '');
-    $image = trim($_POST['image'] ?? 'images/projectcard1.jpg');
+    $image = handle_admin_image_upload('prod_image_file', 'image', 'images/projectcard1.jpg');
     $status_text = trim($_POST['status_text'] ?? 'Live Product');
     $features = trim($_POST['features'] ?? '');
     $tech_pills = trim($_POST['tech_pills'] ?? '');
@@ -807,6 +867,36 @@ $awards_list = \App\Models\Award::allWithDetails();
         }
 
         /* Forms */
+        .subfilter-bar {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.25rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .btn-subfilter {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            color: #64748b;
+            padding: 0.38rem 0.85rem;
+            border-radius: 9999px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .btn-subfilter:hover {
+            border-color: #cbd5e1;
+            color: #0f172a;
+            background: #f8fafc;
+        }
+        .btn-subfilter.active {
+            background: #4B86A5;
+            border-color: #4B86A5;
+            color: #ffffff;
+            font-weight: 600;
+            box-shadow: 0 1px 3px rgba(75,134,165,0.25);
+        }
         .form-drawer {
             background: #f8fafc;
             border: 1px solid var(--border);
@@ -993,20 +1083,12 @@ $awards_list = \App\Models\Award::allWithDetails();
                     <span class="nav-badge"><?= count($company_products_list) ?></span>
                 </button>
 
-                <button class="nav-link" onclick="switchTab('tab-academic', 'Academic Projects', this)">
+                <button class="nav-link" onclick="switchTab('tab-academic-other', 'Academic & Other Projects', this)">
                     <div class="nav-link-left">
-                        <i class="bx bx-code-curly"></i>
-                        <span>Academic Projects</span>
+                        <i class="bx bx-collection"></i>
+                        <span>Academic &amp; Other Projects</span>
                     </div>
-                    <span class="nav-badge"><?= count($academic_list) ?></span>
-                </button>
-
-                <button class="nav-link" onclick="switchTab('tab-other', 'Some Other Projects', this)">
-                    <div class="nav-link-left">
-                        <i class="bx bx-git-branch"></i>
-                        <span>Some Other Projects</span>
-                    </div>
-                    <span class="nav-badge"><?= count($other_projects_list) ?></span>
+                    <span class="nav-badge"><?= count($academic_list) + count($other_projects_list) ?></span>
                 </button>
 
                 <button class="nav-link" onclick="switchTab('tab-blog', 'Insights & Articles', this)">
@@ -1148,7 +1230,7 @@ $awards_list = \App\Models\Award::allWithDetails();
 
                     <!-- Collapsible Add/Edit Form -->
                     <div id="form-add-featured" class="form-drawer" style="display:none;">
-                        <form method="POST" action="">
+                        <form method="POST" action="" enctype="multipart/form-data">
                             <input type="hidden" name="feat_id" id="feat_id" value="0">
                             <div class="form-grid">
                                 <div>
@@ -1184,8 +1266,14 @@ $awards_list = \App\Models\Award::allWithDetails();
                                     <input type="text" name="live_url" id="feat_live_url" class="form-control" required value="https://github.com/gangasaagar">
                                 </div>
                                 <div>
-                                    <label class="form-label">Cover Image Path</label>
-                                    <input type="text" name="image" id="feat_image" class="form-control" required value="images/projectcard1.jpg">
+                                    <label class="form-label">Cover Image (Upload from Local Computer)</label>
+                                    <div style="display:flex; align-items:center; gap:0.75rem;">
+                                        <input type="file" name="feat_image_file" id="feat_image_file" class="form-control" accept="image/*" onchange="previewLocalImage(this, 'feat_preview_img')">
+                                        <div style="width:50px; height:38px; border-radius:4px; overflow:hidden; border:1px solid #cbd5e1; background:#f8fafc; flex-shrink:0;">
+                                            <img id="feat_preview_img" src="/images/projectcard1.jpg" alt="" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='/images/projectcard1.jpg'">
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="image" id="feat_image" value="images/projectcard1.jpg">
                                 </div>
                                 <div>
                                     <label class="form-label">Display Order</label>
@@ -1394,77 +1482,129 @@ $awards_list = \App\Models\Award::allWithDetails();
             </section>
 
             <!-- ───────────────────────────────────────────────────────────── -->
-            <!-- COMPONENT TAB 3: ACADEMIC PROJECTS -->
+            <!-- COMPONENT TAB 3: ACADEMIC & OTHER PROJECTS (COMBINED) -->
             <!-- ───────────────────────────────────────────────────────────── -->
-            <section id="tab-academic" class="tab-panel">
+            <section id="tab-academic-other" class="tab-panel">
                 <div class="panel-card">
                     <div class="panel-header">
                         <div class="panel-header-info">
-                            <h2>Key Academic Projects</h2>
-                            <p>Undergraduate coursework projects and foundational software implementations</p>
+                            <h2>Academic &amp; Other Projects</h2>
+                            <p>Manage undergraduate coursework projects and specialized engineering tools in one place</p>
                         </div>
-                        <button class="btn btn-primary btn-sm" onclick="toggleForm('form-add-academic')">
-                            <i class="bx bx-plus"></i> Add Academic Project
+                        <button class="btn btn-primary btn-sm" onclick="openCombinedForm()">
+                            <i class="bx bx-plus"></i> Add New Project
                         </button>
                     </div>
 
                     <!-- Collapsible Add/Edit Form -->
-                    <div id="form-add-academic" class="form-drawer" style="display:none;">
-                        <form method="POST" action="">
-                            <input type="hidden" name="acad_id" id="acad_id" value="0">
+                    <div id="form-add-combined-project" class="form-drawer" style="display:none;">
+                        <form method="POST" action="" enctype="multipart/form-data">
+                            <input type="hidden" name="combined_id" id="comb_id" value="0">
+                            <input type="hidden" name="original_type" id="comb_original_type" value="academic">
+                            <input type="hidden" name="existing_image" id="comb_existing_image" value="images/projectcard1.jpg">
+
                             <div class="form-grid">
                                 <div>
+                                    <label class="form-label">Project Type / Category</label>
+                                    <select name="project_type" id="comb_project_type" class="form-control" onchange="toggleProjectTypeFields(this.value)">
+                                        <option value="academic">Academic Project (Coursework / University)</option>
+                                        <option value="other">Some Other Project (DevOps / Tools / Open Source)</option>
+                                    </select>
+                                </div>
+                                <div>
                                     <label class="form-label">Project Title</label>
-                                    <input type="text" name="title" id="acad_title" class="form-control" required placeholder="e.g. Barcode -based Student Attendance System">
+                                    <input type="text" name="title" id="comb_title" class="form-control" required placeholder="e.g. Barcode -based Student Attendance System">
                                 </div>
-                                <div>
-                                    <label class="form-label">Card Image Path</label>
-                                    <input type="text" name="image" id="acad_image" class="form-control" required placeholder="images/projectcard1.jpg" value="images/projectcard1.jpg">
+
+                                <div class="form-col-full">
+                                    <label class="form-label">Project Image (Upload from Local Computer)</label>
+                                    <div style="display:flex; align-items:center; gap:1.25rem;">
+                                        <div style="flex:1;">
+                                            <input type="file" name="image_file" id="comb_image_file" class="form-control" accept="image/*" onchange="previewLocalImage(this, 'comb_preview_img')">
+                                            <small style="display:block; margin-top:0.35rem; color:#64748b; font-size:0.75rem;">
+                                                Select image file directly from your local computer (JPG, PNG, WebP, GIF, SVG). It will be saved locally inside public uploads.
+                                            </small>
+                                        </div>
+                                        <div id="comb_preview_wrap" style="width:78px; height:56px; border-radius:6px; overflow:hidden; border:1px solid #cbd5e1; background:#f8fafc; flex-shrink:0; display:flex; align-items:center; justify-content:center;">
+                                            <img id="comb_preview_img" src="/images/projectcard1.jpg" alt="Preview" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='/images/projectcard1.jpg'">
+                                        </div>
+                                    </div>
                                 </div>
+
                                 <div>
-                                    <label class="form-label">Skills (comma-separated)</label>
-                                    <input type="text" name="skills" id="acad_skills" class="form-control" required placeholder="C#, .NET, MySQL, Desktop App">
+                                    <label class="form-label">Technologies &amp; Skills (comma-separated)</label>
+                                    <input type="text" name="skills" id="comb_skills" class="form-control" required placeholder="e.g. Python, Django, MySQL, REST APIs">
                                 </div>
                                 <div>
                                     <label class="form-label">Display Order</label>
-                                    <input type="number" name="display_order" id="acad_order" class="form-control" value="1">
+                                    <input type="number" name="display_order" id="comb_order" class="form-control" value="1">
                                 </div>
+
+                                <div id="comb_wrap_cat" style="display:none;">
+                                    <label class="form-label">Category Sub-Tag (for Other Projects)</label>
+                                    <input type="text" name="category" id="comb_cat" class="form-control" placeholder="e.g. DevOps & Infrastructure">
+                                </div>
+                                <div id="comb_wrap_urls" style="display:none;">
+                                    <label class="form-label">GitHub Repository URL (Optional)</label>
+                                    <input type="url" name="github_url" id="comb_github" class="form-control" placeholder="https://github.com/gangasagar12">
+                                </div>
+
                                 <div class="form-col-full">
                                     <label class="form-label">Card Short Description</label>
-                                    <textarea name="description" id="acad_desc" class="form-control" required placeholder="Short summary displayed on the card face..."></textarea>
+                                    <textarea name="description" id="comb_desc" class="form-control" rows="2" required placeholder="Short summary displayed on the card face..."></textarea>
                                 </div>
+
                                 <div class="form-col-full">
                                     <label class="form-label">Detailed Project Description (Modal Popup on Click)</label>
-                                    <textarea name="detailed_description" id="acad_detailed_desc" class="form-control" rows="4" placeholder="Detailed architectural breakdown, semester context, implementation details displayed when the user clicks the card..."></textarea>
+                                    <textarea name="detailed_description" id="comb_detailed_desc" class="form-control" rows="4" placeholder="Detailed architectural breakdown, semester context, implementation details displayed when the user clicks the card..."></textarea>
                                 </div>
                             </div>
                             <div class="form-actions">
-                                <button type="submit" name="save_academic" class="btn btn-primary btn-sm">Save Academic Project</button>
-                                <button type="button" class="btn btn-secondary btn-sm" onclick="resetAndCloseForm('form-add-academic', 'acad_id')">Cancel</button>
+                                <button type="submit" name="save_combined_project" id="comb_submit_btn" class="btn btn-primary btn-sm">Save Project</button>
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="resetCombinedForm()">Cancel</button>
                             </div>
                         </form>
                     </div>
 
-                    <!-- Table -->
+                    <!-- Subfilter Bar -->
+                    <div class="subfilter-bar">
+                        <span style="font-size:0.83rem; font-weight:600; color:#475569; margin-right:0.35rem;">Filter by Type:</span>
+                        <button type="button" class="btn-subfilter active" id="subfilter-all" onclick="filterCombinedTable('all', this)">
+                            All (<?= count($academic_list) + count($other_projects_list) ?>)
+                        </button>
+                        <button type="button" class="btn-subfilter" id="subfilter-academic" onclick="filterCombinedTable('academic', this)">
+                            Academic Projects (<?= count($academic_list) ?>)
+                        </button>
+                        <button type="button" class="btn-subfilter" id="subfilter-other" onclick="filterCombinedTable('other', this)">
+                            Some Other Projects (<?= count($other_projects_list) ?>)
+                        </button>
+                    </div>
+
+                    <!-- Unified Table -->
                     <div class="table-wrap">
                         <table>
                             <thead>
                                 <tr>
                                     <th>Image</th>
-                                    <th>Project Title</th>
+                                    <th>Project Title &amp; Type</th>
                                     <th>Short &amp; Detailed Description</th>
                                     <th>Technologies</th>
                                     <th>Order</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="combined-projects-tbody">
                                 <?php foreach ($academic_list as $ap): ?>
-                                <tr>
+                                <tr class="combined-row" data-type="academic">
                                     <td style="width:70px;">
                                         <img src="/<?= ltrim(htmlspecialchars($ap['image'] ?? 'images/projectcard1.jpg'), '/') ?>" alt="" style="width:56px; height:40px; object-fit:cover; border-radius:6px; border:1px solid #e2e8f0;" onerror="this.src='/images/projectcard1.jpg'">
                                     </td>
-                                    <td style="width:24%;"><strong><?= htmlspecialchars($ap['title']) ?></strong></td>
+                                    <td style="width:24%;">
+                                        <strong><?= htmlspecialchars($ap['title']) ?></strong>
+                                        <div style="margin-top:0.25rem;">
+                                            <span class="pill-badge" style="color:#0284c7; background:rgba(2,132,199,0.08); font-size:0.72rem;">Academic Project</span>
+                                        </div>
+                                    </td>
                                     <td style="font-size:0.84rem; color:var(--text-muted); line-height:1.45;">
                                         <div><?= htmlspecialchars($ap['description']) ?></div>
                                         <?php if (!empty($ap['detailed_description'])): ?>
@@ -1481,97 +1621,35 @@ $awards_list = \App\Models\Award::allWithDetails();
                                     <td><span style="font-weight:600; font-size:0.84rem;"><?= intval($ap['display_order']) ?></span></td>
                                     <td>
                                         <div class="actions-cell">
-                                            <button class="btn btn-secondary btn-sm" onclick='editAcademic(<?= json_encode($ap) ?>)' title="Edit"><i class="bx bx-edit"></i></button>
-                                            <a href="?del_acad=<?= $ap['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Delete this project?')" title="Delete"><i class="bx bx-trash"></i></a>
+                                            <button class="btn btn-secondary btn-sm" onclick='editCombinedProject(<?= json_encode($ap) ?>, "academic")' title="Edit"><i class="bx bx-edit"></i></button>
+                                            <a href="?del_combined=<?= $ap['id'] ?>&type=academic" class="btn btn-danger btn-sm" onclick="return confirm('Delete this academic project?')" title="Delete"><i class="bx bx-trash"></i></a>
                                         </div>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
 
-            <!-- ───────────────────────────────────────────────────────────── -->
-            <!-- COMPONENT TAB: SOME OTHER PROJECTS -->
-            <!-- ───────────────────────────────────────────────────────────── -->
-            <section id="tab-other" class="tab-panel">
-                <div class="panel-card">
-                    <div class="panel-header">
-                        <div class="panel-header-info">
-                            <h2>Some Other Projects</h2>
-                            <p>DevOps tools, open source middleware, daemons, and system utilities</p>
-                        </div>
-                        <button class="btn btn-primary btn-sm" onclick="toggleForm('form-add-other')">
-                            <i class="bx bx-plus"></i> Add Other Project
-                        </button>
-                    </div>
-
-                    <!-- Collapsible Add/Edit Form -->
-                    <div id="form-add-other" class="form-drawer" style="display:none;">
-                        <form method="POST" action="">
-                            <input type="hidden" name="other_id" id="other_id" value="0">
-                            <div class="form-grid">
-                                <div>
-                                    <label class="form-label">Project Title</label>
-                                    <input type="text" name="title" id="other_title" class="form-control" required placeholder="e.g. Cloud-Native Distributed Log Shipper">
-                                </div>
-                                <div>
-                                    <label class="form-label">Category</label>
-                                    <input type="text" name="category" id="other_cat" class="form-control" required placeholder="e.g. DevOps & Infrastructure">
-                                </div>
-                                <div>
-                                    <label class="form-label">Card Image Path</label>
-                                    <input type="text" name="image" id="other_image" class="form-control" required placeholder="images/projectcard3.webp" value="images/projectcard3.webp">
-                                </div>
-                                <div>
-                                    <label class="form-label">Skills (comma-separated)</label>
-                                    <input type="text" name="skills" id="other_skills" class="form-control" required placeholder="Python, Docker, Elasticsearch, Redis">
-                                </div>
-                                <div>
-                                    <label class="form-label">GitHub Repository URL</label>
-                                    <input type="url" name="github_url" id="other_github" class="form-control" placeholder="https://github.com/gangasagar12">
-                                </div>
-                                <div>
-                                    <label class="form-label">Display Order</label>
-                                    <input type="number" name="display_order" id="other_order" class="form-control" value="1">
-                                </div>
-                                <div class="form-col-full">
-                                    <label class="form-label">Project Description</label>
-                                    <textarea name="description" id="other_desc" class="form-control" rows="3" required placeholder="Brief description of the utility, architecture, and technology stack..."></textarea>
-                                </div>
-                            </div>
-                            <div class="form-actions">
-                                <button type="submit" name="save_other" class="btn btn-primary btn-sm">Save Other Project</button>
-                                <button type="button" class="btn btn-secondary btn-sm" onclick="resetAndCloseForm('form-add-other', 'other_id')">Cancel</button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <!-- Table -->
-                    <div class="table-wrap">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Image</th>
-                                    <th>Project Title</th>
-                                    <th>Category</th>
-                                    <th>Description</th>
-                                    <th>Technologies</th>
-                                    <th>Order</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
                                 <?php foreach ($other_projects_list as $op): ?>
-                                <tr>
+                                <tr class="combined-row" data-type="other">
                                     <td style="width:70px;">
                                         <img src="/<?= ltrim(htmlspecialchars($op['image'] ?? 'images/projectcard3.webp'), '/') ?>" alt="" style="width:56px; height:40px; object-fit:cover; border-radius:6px; border:1px solid #e2e8f0;" onerror="this.src='/images/projectcard3.webp'">
                                     </td>
-                                    <td style="width:22%;"><strong><?= htmlspecialchars($op['title']) ?></strong></td>
-                                    <td><span class="pill-badge" style="color:#0284c7; background:rgba(2,132,199,0.08);"><?= htmlspecialchars($op['category']) ?></span></td>
-                                    <td style="font-size:0.84rem; color:var(--text-muted); line-height:1.45;"><?= htmlspecialchars($op['description']) ?></td>
+                                    <td style="width:24%;">
+                                        <strong><?= htmlspecialchars($op['title']) ?></strong>
+                                        <div style="margin-top:0.25rem; display:flex; gap:0.25rem; flex-wrap:wrap;">
+                                            <span class="pill-badge" style="color:#7c3aed; background:rgba(124,58,237,0.08); font-size:0.72rem;">Other Project</span>
+                                            <?php if (!empty($op['category'])): ?>
+                                            <span class="pill-badge" style="color:#475569; background:#f1f5f9; font-size:0.72rem;"><?= htmlspecialchars($op['category']) ?></span>
+                                            <?php endif; ?>
+                                        </div>
+                                    </td>
+                                    <td style="font-size:0.84rem; color:var(--text-muted); line-height:1.45;">
+                                        <div><?= htmlspecialchars($op['description']) ?></div>
+                                        <?php if (!empty($op['detailed_description'])): ?>
+                                        <div style="margin-top:0.35rem; font-size:0.78rem; color:#64748b; font-style:italic;">
+                                            <strong>Detailed:</strong> <?= htmlspecialchars(mb_strimwidth($op['detailed_description'], 0, 90, '...')) ?>
+                                        </div>
+                                        <?php endif; ?>
+                                    </td>
                                     <td>
                                         <?php foreach ($op['skills_array'] as $os): ?>
                                             <span class="pill-badge" style="color:#4B86A5; background:rgba(75,134,165,0.08);"><?= htmlspecialchars($os) ?></span>
@@ -1580,8 +1658,8 @@ $awards_list = \App\Models\Award::allWithDetails();
                                     <td><span style="font-weight:600; font-size:0.84rem;"><?= intval($op['display_order']) ?></span></td>
                                     <td>
                                         <div class="actions-cell">
-                                            <button class="btn btn-secondary btn-sm" onclick='editOther(<?= json_encode($op) ?>)' title="Edit"><i class="bx bx-edit"></i></button>
-                                            <a href="?del_other=<?= $op['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Delete this project?')" title="Delete"><i class="bx bx-trash"></i></a>
+                                            <button class="btn btn-secondary btn-sm" onclick='editCombinedProject(<?= json_encode($op) ?>, "other")' title="Edit"><i class="bx bx-edit"></i></button>
+                                            <a href="?del_combined=<?= $op['id'] ?>&type=other" class="btn btn-danger btn-sm" onclick="return confirm('Delete this other project?')" title="Delete"><i class="bx bx-trash"></i></a>
                                         </div>
                                     </td>
                                 </tr>
@@ -1922,6 +2000,12 @@ $awards_list = \App\Models\Award::allWithDetails();
             document.getElementById('feat_official_site').value = item.official_site || '';
             document.getElementById('feat_live_url').value = item.live_url || '';
             document.getElementById('feat_image').value = item.image || '';
+            const featImgPath = '/' + (item.image || 'images/projectcard1.jpg').replace(/^\/+/, '');
+            const featImgEl = document.getElementById('feat_preview_img');
+            if (featImgEl) featImgEl.src = featImgPath;
+            const featFileInput = document.getElementById('feat_image_file');
+            if (featFileInput) featFileInput.value = '';
+
             document.getElementById('feat_order').value = item.display_order || 0;
             document.getElementById('feat_skills').value = item.skills || '';
             document.getElementById('feat_short_desc').value = item.short_description || '';
@@ -1981,33 +2065,115 @@ $awards_list = \App\Models\Award::allWithDetails();
             drawer.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        function editAcademic(item) {
-            switchTab('tab-academic', 'Academic Projects');
-            const drawer = document.getElementById('form-add-academic');
+        // Local File Live Preview Handler
+        function previewLocalImage(input, imgId, wrapId) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById(imgId);
+                    if (img) {
+                        img.src = e.target.result;
+                    }
+                    if (wrapId) {
+                        const wrap = document.getElementById(wrapId);
+                        if (wrap) wrap.style.display = 'flex';
+                    }
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Toggle Fields for Combined Project Form (Academic vs Other)
+        function toggleProjectTypeFields(type) {
+            const wrapCat = document.getElementById('comb_wrap_cat');
+            const wrapUrls = document.getElementById('comb_wrap_urls');
+            if (type === 'other') {
+                if (wrapCat) wrapCat.style.display = 'block';
+                if (wrapUrls) wrapUrls.style.display = 'block';
+            } else {
+                if (wrapCat) wrapCat.style.display = 'none';
+                if (wrapUrls) wrapUrls.style.display = 'none';
+            }
+        }
+
+        function openCombinedForm() {
+            resetCombinedForm();
+            const drawer = document.getElementById('form-add-combined-project');
             drawer.style.display = 'block';
-            document.getElementById('acad_id').value = item.id;
-            document.getElementById('acad_title').value = item.title;
-            document.getElementById('acad_image').value = item.image || 'images/projectcard1.jpg';
-            document.getElementById('acad_skills').value = item.skills;
-            document.getElementById('acad_order').value = item.display_order;
-            document.getElementById('acad_desc').value = item.description;
-            document.getElementById('acad_detailed_desc').value = item.detailed_description || '';
             drawer.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        function editOther(item) {
-            switchTab('tab-other', 'Some Other Projects');
-            const drawer = document.getElementById('form-add-other');
+        function resetCombinedForm() {
+            const drawer = document.getElementById('form-add-combined-project');
+            if (drawer) drawer.style.display = 'none';
+            document.getElementById('comb_id').value = '0';
+            document.getElementById('comb_original_type').value = 'academic';
+            document.getElementById('comb_project_type').value = 'academic';
+            document.getElementById('comb_existing_image').value = 'images/projectcard1.jpg';
+            document.getElementById('comb_title').value = '';
+            document.getElementById('comb_skills').value = '';
+            document.getElementById('comb_order').value = '1';
+            document.getElementById('comb_cat').value = '';
+            document.getElementById('comb_github').value = '';
+            document.getElementById('comb_desc').value = '';
+            document.getElementById('comb_detailed_desc').value = '';
+            document.getElementById('comb_image_file').value = '';
+            document.getElementById('comb_preview_img').src = '/images/projectcard1.jpg';
+            document.getElementById('comb_submit_btn').textContent = 'Save Project';
+            toggleProjectTypeFields('academic');
+        }
+
+        function editCombinedProject(item, type) {
+            switchTab('tab-academic-other', 'Academic & Other Projects');
+            const drawer = document.getElementById('form-add-combined-project');
             drawer.style.display = 'block';
-            document.getElementById('other_id').value = item.id;
-            document.getElementById('other_title').value = item.title;
-            document.getElementById('other_cat').value = item.category || 'DevOps & Systems';
-            document.getElementById('other_image').value = item.image || 'images/projectcard3.webp';
-            document.getElementById('other_skills').value = item.skills;
-            document.getElementById('other_github').value = item.github_url || '';
-            document.getElementById('other_order').value = item.display_order;
-            document.getElementById('other_desc').value = item.description;
+
+            document.getElementById('comb_id').value = item.id || 0;
+            document.getElementById('comb_original_type').value = type;
+            document.getElementById('comb_project_type').value = type;
+            document.getElementById('comb_title').value = item.title || '';
+            
+            const currentImg = item.image || (type === 'academic' ? 'images/projectcard1.jpg' : 'images/projectcard3.webp');
+            document.getElementById('comb_existing_image').value = currentImg;
+            document.getElementById('comb_preview_img').src = '/' + currentImg.replace(/^\/+/, '');
+            document.getElementById('comb_image_file').value = '';
+
+            document.getElementById('comb_skills').value = item.skills || '';
+            document.getElementById('comb_order').value = item.display_order || 1;
+            document.getElementById('comb_cat').value = item.category || '';
+            document.getElementById('comb_github').value = item.github_url || '';
+            document.getElementById('comb_desc').value = item.description || '';
+            document.getElementById('comb_detailed_desc').value = item.detailed_description || '';
+
+            document.getElementById('comb_submit_btn').textContent = 'Update ' + (type === 'academic' ? 'Academic' : 'Other') + ' Project';
+            toggleProjectTypeFields(type);
+
             drawer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Subfilter for table
+        function filterCombinedTable(type, btn) {
+            document.querySelectorAll('.btn-subfilter').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            const rows = document.querySelectorAll('.combined-row');
+            rows.forEach(row => {
+                const rowType = row.getAttribute('data-type');
+                if (type === 'all' || rowType === type) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // Backward compatibility
+        function editAcademic(item) {
+            editCombinedProject(item, 'academic');
+        }
+
+        function editOther(item) {
+            editCombinedProject(item, 'other');
         }
 
         function editBlog(item) {
@@ -2059,8 +2225,9 @@ $awards_list = \App\Models\Award::allWithDetails();
                 const map = {
                     'tab-featured': 'Featured Projects',
                     'tab-products': 'Strataflow Products',
-                    'tab-academic': 'Academic Projects',
-                    'tab-other': 'Some Other Projects',
+                    'tab-academic-other': 'Academic & Other Projects',
+                    'tab-academic': 'Academic & Other Projects',
+                    'tab-other': 'Academic & Other Projects',
                     'tab-blog': 'Insights & Articles',
                     'tab-awards': 'Awards & Gallery',
                     'tab-inquiries': 'Contact Inquiries'
