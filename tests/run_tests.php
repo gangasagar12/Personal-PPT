@@ -58,6 +58,8 @@ runTest('RouteTest', 'testAdminDashboardRendering', [$routeTest, 'testAdminDashb
 runTest('RouteTest', 'testHomeAcademicProjectsRendering', [$routeTest, 'testHomeAcademicProjectsRendering']);
 runTest('RouteTest', 'testHomeWhyWorkSectionRendering', [$routeTest, 'testHomeWhyWorkSectionRendering']);
 runTest('RouteTest', 'testProjectsIndexController', [$routeTest, 'testProjectsIndexController']);
+runTest('RouteTest', 'testUnifiedNavbarRendering', [$routeTest, 'testUnifiedNavbarRendering']);
+runTest('RouteTest', 'testUnifiedFooterRendering', [$routeTest, 'testUnifiedFooterRendering']);
 
 echo "---------------------------------------------\n";
 echo "Results: {$passed} Passed, {$failed} Failed\n";

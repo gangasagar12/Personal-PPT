@@ -625,76 +625,8 @@ if (!function_exists('getTechBadgeInfo')) {
 </head>
 <body>
 
-  <!-- ─── Standard Header & Navigation ────────────────────────── -->
-  <header class="header" id="header">
-    <div class="header-container">
-      <a class="brand" href="/" aria-label="Ganga Sagar Joshi Home">
-        <div class="brand-monogram">
-          <span class="monogram-text">GSJ</span>
-        </div>
-        <div class="brand-info">
-          <span class="brand-name">Ganga Sagar Joshi</span>
-          <span class="brand-title">Software &amp; Systems</span>
-        </div>
-      </a>
-
-      <!-- Center/Right: Navigation Links -->
-      <nav class="navbar" id="desktopNav" aria-label="Primary navigation">
-        <a href="/" class="nav-link">Home</a>
-        <a href="/#about" class="nav-link">About</a>
-        <a href="/#experience" class="nav-link">Experience</a>
-        <a href="/#skills" class="nav-link">Skills</a>
-        <a href="/#services" class="nav-link">Services</a>
-        <a href="/#projects" class="nav-link active">Projects</a>
-        <a href="/profile" class="nav-link">Profile</a>
-        <a href="/insights" class="nav-link">Insights</a>
-        <a href="/#contact" class="nav-link">Contact</a>
-      </nav>
-
-      <!-- Right: Highlighted Let's Talk button & Mobile Hamburger -->
-      <div class="nav-actions">
-        <a href="/#contact" class="btn-talk" aria-label="Let's Talk">
-          <span>Let's Talk</span>
-          <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
-        </a>
-
-        <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false"
-          aria-controls="mobileDrawer">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- Mobile slide-in drawer -->
-  <div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-label="Mobile navigation menu" aria-hidden="true">
-    <div class="drawer-header">
-      <div class="brand-monogram sm">
-        <span class="monogram-text">GSJ</span>
-      </div>
-      <div class="drawer-meta">
-        <span class="drawer-name">Ganga Sagar Joshi</span>
-        <span class="drawer-status"><span class="status-indicator"></span> Available for work</span>
-      </div>
-      <button class="drawer-close" id="drawerClose" aria-label="Close menu">
-        <i class="bx bx-x" aria-hidden="true"></i>
-      </button>
-    </div>
-
-    <nav class="drawer-nav" aria-label="Mobile navigation">
-      <a href="/" class="drawer-link"><i class="bx bx-home-alt-2"></i><span>Home</span></a>
-      <a href="/#about" class="drawer-link"><i class="bx bx-user"></i><span>About</span></a>
-      <a href="/#experience" class="drawer-link"><i class="bx bx-briefcase"></i><span>Experience</span></a>
-      <a href="/#skills" class="drawer-link"><i class="bx bx-layer"></i><span>Skills</span></a>
-      <a href="/#services" class="drawer-link"><i class="bx bx-wrench"></i><span>Services</span></a>
-      <a href="/#projects" class="drawer-link active"><i class="bx bx-folder"></i><span>Projects</span></a>
-      <a href="/profile" class="drawer-link"><i class="bx bx-user-pin"></i><span>Profile</span></a>
-      <a href="/insights" class="drawer-link"><i class="bx bx-bulb"></i><span>Insights</span></a>
-      <a href="/#contact" class="drawer-link"><i class="bx bx-envelope"></i><span>Contact</span></a>
-    </nav>
-  </div>
+  <!-- ── Shared Navigation Bar & Mobile Drawer ── -->
+  <?php \App\Core\View::partial('navbar', ['active_page' => 'projects']); ?>
 
   <!-- ─── Top Dark Tech Hero Banner ────────────────────────────── -->
   <section class="project-hero-banner">
@@ -896,19 +828,11 @@ if (!function_exists('getTechBadgeInfo')) {
     </div>
   </main>
 
-  <!-- ─── Standard Footer ──────────────────────────────────────── -->
-  <footer class="footer">
-    <div class="container footer-inner">
-      <span class="footer-logo">Ganga Sagar<span class="dot">.</span></span>
-      <p>
-        &copy; <?= date('Y') ?> Ganga Sagar Joshi.
-        Crafted with <i class="bx bx-heart" aria-hidden="true"></i> in Nepal.
-      </p>
-      <a href="#header" class="back-to-top" aria-label="Back to top">
-        <i class="bx bx-up-arrow-alt" aria-hidden="true"></i>
-      </a>
-    </div>
-  </footer>
+  <!-- ── Shared Portfolio Footer ── -->
+  <?php \App\Core\View::partial('footer'); ?>
+
+  <!-- Shared App JS -->
+  <script src="/js/app.js"></script>
 
   <!-- ─── Interactive Lightbox for Screenshot Preview ─────────── -->
   <div class="lightbox-backdrop" id="lightboxModal" onclick="closeLightbox(event)">
@@ -949,22 +873,6 @@ if (!function_exists('getTechBadgeInfo')) {
         }
       }
     });
-
-    // Mobile nav toggle
-    const hamburger = document.getElementById('hamburger');
-    const drawer = document.getElementById('mobileDrawer');
-    const drawerClose = document.getElementById('drawerClose');
-    if (hamburger && drawer) {
-      hamburger.addEventListener('click', () => {
-        drawer.classList.add('open');
-      });
-    }
-    if (drawerClose && drawer) {
-      drawerClose.addEventListener('click', () => {
-        drawer.classList.remove('open');
-      });
-    }
   </script>
-
 </body>
 </html>

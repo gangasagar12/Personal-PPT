@@ -18,82 +18,8 @@
 </head>
 <body class="projects-page-body">
 
-  <!-- Scroll Progress Indicator -->
-  <div class="scroll-progress" id="scrollProgress"></div>
-
-  <!-- ── Header & Navigation ── -->
-  <header class="header" id="header">
-    <div class="header-container">
-      <a class="brand" href="/" aria-label="Ganga Sagar Joshi Home">
-        <div class="brand-monogram">
-          <span class="monogram-text">GSJ</span>
-        </div>
-        <div class="brand-info">
-          <span class="brand-name">Ganga Sagar Joshi</span>
-          <span class="brand-title">Software &amp; Systems</span>
-        </div>
-      </a>
-
-      <!-- Desktop Navigation -->
-      <nav class="navbar" id="desktopNav" aria-label="Primary navigation">
-        <a href="/" class="nav-link">Home</a>
-        <a href="/#about" class="nav-link">About</a>
-        <a href="/experience" class="nav-link">Experience</a>
-        <a href="/#skills" class="nav-link">Skills</a>
-        <a href="/#services" class="nav-link">Services</a>
-        <a href="/projects" class="nav-link active">Projects</a>
-        <a href="/profile" class="nav-link">Profile</a>
-        <a href="/insights" class="nav-link">Insights</a>
-        <a href="/#contact" class="nav-link">Contact</a>
-      </nav>
-
-      <!-- Right Action Button & Mobile Hamburger -->
-      <div class="nav-actions">
-        <a href="/#contact" class="btn-talk" aria-label="Let's Talk">
-          <span>Let's Talk</span>
-          <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
-        </a>
-
-        <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobileDrawer">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- Mobile Navigation Drawer -->
-  <aside class="mobile-drawer" id="mobileDrawer" aria-label="Mobile menu">
-    <div class="drawer-header">
-      <div class="drawer-brand">
-        <span class="drawer-brand-name">Ganga Sagar Joshi</span>
-        <span class="drawer-brand-role">Software &amp; Systems</span>
-      </div>
-      <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
-    </div>
-
-    <nav class="drawer-nav" aria-label="Mobile navigation">
-      <a href="/" class="drawer-link"><i class="bx bx-home-alt-2"></i><span>Home</span></a>
-      <a href="/#about" class="drawer-link"><i class="bx bx-user"></i><span>About</span></a>
-      <a href="/experience" class="drawer-link"><i class="bx bx-briefcase"></i><span>Experience</span></a>
-      <a href="/#skills" class="drawer-link"><i class="bx bx-layer"></i><span>Skills</span></a>
-      <a href="/#services" class="drawer-link"><i class="bx bx-wrench"></i><span>Services</span></a>
-      <a href="/projects" class="drawer-link active"><i class="bx bx-folder"></i><span>Projects</span></a>
-      <a href="/profile" class="drawer-link"><i class="bx bx-user-pin"></i><span>Profile</span></a>
-      <a href="/insights" class="drawer-link"><i class="bx bx-bulb"></i><span>Insights</span></a>
-      <a href="/#contact" class="drawer-link"><i class="bx bx-envelope"></i><span>Contact</span></a>
-    </nav>
-
-    <div class="drawer-footer">
-      <a href="/#contact" class="drawer-cta drawer-link">
-        <i class="bx bx-paper-plane"></i>
-        <span>Start a Conversation</span>
-      </a>
-    </div>
-  </aside>
-
-  <div class="drawer-overlay" id="drawerOverlay" aria-hidden="true"></div>
+  <!-- ── Shared Navigation Bar & Mobile Drawer ── -->
+  <?php \App\Core\View::partial('navbar', ['active_page' => 'projects']); ?>
 
   <!-- ── Main Projects Archive Content ── -->
   <main class="projects-page-wrap">
@@ -337,59 +263,14 @@
     </div>
   </div>
 
-  <!-- ── Footer ── -->
-  <footer class="footer">
-    <div class="container footer-content">
-      <p>&copy; <?= date('Y') ?> Ganga Sagar Joshi &bull; Engineering &amp; Technology Portfolio. All rights reserved.</p>
-      <div class="footer-links">
-        <a href="/">Home</a>
-        <a href="/projects">Projects</a>
-        <a href="/experience">Experience</a>
-        <a href="/profile">Profile</a>
-        <a href="/insights">Insights</a>
-        <a href="/#contact">Contact</a>
-      </div>
-    </div>
-  </footer>
+  <!-- ── Shared Portfolio Footer ── -->
+  <?php \App\Core\View::partial('footer'); ?>
 
-  <!-- Header Scroll & Drawer Scripts -->
+  <!-- Shared App JS -->
+  <script src="/js/app.js"></script>
+
+  <!-- Page Specific Scripts -->
   <script>
-    // Header & Mobile Drawer
-    const header = document.getElementById('header');
-    const hamburger = document.getElementById('hamburger');
-    const mobileDrawer = document.getElementById('mobileDrawer');
-    const drawerClose = document.getElementById('drawerClose');
-    const drawerOverlay = document.getElementById('drawerOverlay');
-
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 20) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
-      }
-    });
-
-    if (hamburger && mobileDrawer) {
-      hamburger.addEventListener('click', () => {
-        mobileDrawer.classList.add('open');
-        drawerOverlay.classList.add('open');
-        hamburger.classList.add('active');
-        hamburger.setAttribute('aria-expanded', 'true');
-      });
-    }
-
-    function closeDrawer() {
-      if (mobileDrawer) mobileDrawer.classList.remove('open');
-      if (drawerOverlay) drawerOverlay.classList.remove('open');
-      if (hamburger) {
-        hamburger.classList.remove('active');
-        hamburger.setAttribute('aria-expanded', 'false');
-      }
-    }
-
-    if (drawerClose) drawerClose.addEventListener('click', closeDrawer);
-    if (drawerOverlay) drawerOverlay.addEventListener('click', closeDrawer);
-
     // ── Instant Category Filter Tabs ──
     const filterTabs = document.querySelectorAll('.project-tab-btn');
     const projectCards = document.querySelectorAll('.project-archive-card');

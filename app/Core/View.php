@@ -13,6 +13,15 @@ class View {
         require $file;
     }
 
+    public static function partial(string $partial, array $data = []): void {
+        extract($data);
+        $file = dirname(__DIR__, 2) . '/resources/views/partials/' . ltrim($partial, '/') . '.php';
+
+        if (file_exists($file)) {
+            require $file;
+        }
+    }
+
     public static function escape(?string $str): string {
         return htmlspecialchars((string)$str, ENT_QUOTES, 'UTF-8');
     }

@@ -96,5 +96,69 @@ class RouteTest {
             && strpos($output, 'projects-archive-grid') !== false
             && strpos($output, 'academicDetailModal') !== false;
     }
+
+    public function testUnifiedNavbarRendering(): bool {
+        // Test Home Controller
+        $home = new \App\Controllers\HomeController();
+        ob_start();
+        $home->index();
+        $homeOut = ob_get_clean();
+
+        // Test Projects Controller
+        $proj = new \App\Controllers\ProjectController();
+        ob_start();
+        $proj->index();
+        $projOut = ob_get_clean();
+
+        // Test Experience Controller
+        $exp = new \App\Controllers\ExperienceController();
+        ob_start();
+        $exp->index();
+        $expOut = ob_get_clean();
+
+        // Check for presence of unified header and mobile drawer across pages
+        return strpos($homeOut, 'id="desktopNav"') !== false
+            && strpos($homeOut, 'id="mobileDrawer"') !== false
+            && strpos($homeOut, 'id="drawerBackdrop"') !== false
+            && strpos($projOut, 'id="desktopNav"') !== false
+            && strpos($projOut, 'id="mobileDrawer"') !== false
+            && strpos($projOut, 'class="nav-link active">Projects<') !== false
+            && strpos($expOut, 'id="desktopNav"') !== false
+            && strpos($expOut, 'id="mobileDrawer"') !== false
+            && strpos($expOut, 'class="nav-link active">Experience<') !== false;
+    }
+
+    public function testUnifiedFooterRendering(): bool {
+        // Test Home
+        $home = new \App\Controllers\HomeController();
+        ob_start();
+        $home->index();
+        $homeOut = ob_get_clean();
+
+        // Test Projects
+        $proj = new \App\Controllers\ProjectController();
+        ob_start();
+        $proj->index();
+        $projOut = ob_get_clean();
+
+        // Test Profile
+        $prof = new \App\Controllers\ProfileController();
+        ob_start();
+        $prof->index();
+        $profOut = ob_get_clean();
+
+        // Check unified footer across all pages
+        $check = function(string $html): bool {
+            return strpos($html, 'class="footer"') !== false
+                && strpos($html, 'class="footer-top"') !== false
+                && strpos($html, 'class="footer-nav"') !== false
+                && strpos($html, 'class="footer-bottom"') !== false
+                && strpos($html, 'class="footer-copy"') !== false
+                && strpos($html, 'class="footer-social"') !== false
+                && strpos($html, 'class="back-to-top"') !== false;
+        };
+
+        return $check($homeOut) && $check($projOut) && $check($profOut);
+    }
 }
 

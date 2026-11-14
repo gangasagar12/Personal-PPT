@@ -29,99 +29,8 @@
 
 <body>
 
-  <!-- Scroll progress indicator -->
-  <div class="scroll-progress" id="scrollProgress"></div>
-
-  <header class="header" id="header">
-    <div class="header-container">
-      <!-- Left: Ganga Sagar Joshi personal branding or GSJ monogram -->
-      <a class="brand" href="#home" aria-label="Ganga Sagar Joshi Home">
-        <div class="brand-monogram">
-          <span class="monogram-text">GSJ</span>
-        </div>
-        <div class="brand-info">
-          <span class="brand-name">Ganga Sagar Joshi</span>
-          <span class="brand-title">Software &amp; Systems</span>
-        </div>
-      </a>
-
-      <!-- Center/Right: Navigation Links -->
-      <nav class="navbar" id="desktopNav" aria-label="Primary navigation">
-        <a href="#home" class="nav-link active">Home</a>
-        <a href="#about" class="nav-link">About</a>
-        <a href="#experience" class="nav-link">Experience</a>
-        <a href="#skills" class="nav-link">Skills</a>
-        <a href="#services" class="nav-link">Services</a>
-        <a href="#projects" class="nav-link">Projects</a>
-        <a href="/profile" class="nav-link">Profile</a>
-        <a href="/insights" class="nav-link">Insights</a>
-        <a href="#contact" class="nav-link">Contact</a>
-      </nav>
-
-      <!-- Right: Highlighted Let's Talk button & Mobile Hamburger -->
-      <div class="nav-actions">
-        <a href="#contact" class="btn-talk" aria-label="Let's Talk">
-          <span>Let's Talk</span>
-          <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
-        </a>
-
-        <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false"
-          aria-controls="mobileDrawer">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- Mobile slide-in drawer -->
-  <div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-label="Mobile navigation menu" aria-hidden="true">
-    <div class="drawer-header">
-      <div class="brand-monogram sm">
-        <span class="monogram-text">GSJ</span>
-      </div>
-      <div class="drawer-meta">
-        <span class="drawer-name">Ganga Sagar Joshi</span>
-        <span class="drawer-status"><span class="status-indicator"></span> Available for work</span>
-      </div>
-      <button class="drawer-close" id="drawerClose" aria-label="Close menu">
-        <i class="bx bx-x" aria-hidden="true"></i>
-      </button>
-    </div>
-
-    <nav class="drawer-nav" aria-label="Mobile navigation">
-      <a href="#home" class="drawer-link active"><i class="bx bx-home-alt-2"></i><span>Home</span></a>
-      <a href="#about" class="drawer-link"><i class="bx bx-user"></i><span>About</span></a>
-      <a href="#experience" class="drawer-link"><i class="bx bx-briefcase"></i><span>Experience</span></a>
-      <a href="#skills" class="drawer-link"><i class="bx bx-layer"></i><span>Skills</span></a>
-      <a href="#services" class="drawer-link"><i class="bx bx-wrench"></i><span>Services</span></a>
-      <a href="#projects" class="drawer-link"><i class="bx bx-folder"></i><span>Projects</span></a>
-      <a href="/profile" class="drawer-link"><i class="bx bx-user-pin"></i><span>Profile</span></a>
-      <a href="/insights" class="drawer-link"><i class="bx bx-bulb"></i><span>Insights</span></a>
-      <a href="#contact" class="drawer-link"><i class="bx bx-envelope"></i><span>Contact</span></a>
-    </nav>
-
-    <div class="drawer-footer">
-      <a href="#contact" class="drawer-cta drawer-link">
-        <span>Let's Talk</span>
-        <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
-      </a>
-      <div class="drawer-socials">
-        <a href="https://github.com/gangasaagar" aria-label="GitHub" target="_blank" rel="noopener noreferrer"><i
-            class="bx bxl-github"></i></a>
-        <a href="https://www.linkedin.com/in/ganga-sagar15" aria-label="LinkedIn" target="_blank"
-          rel="noopener noreferrer"><i class="bx bxl-linkedin"></i></a>
-        <a href="https://www.instagram.com/ganga_sagar_joshi/" aria-label="Instagram" target="_blank"
-          rel="noopener noreferrer"><i class="bx bxl-instagram"></i></a>
-        <a href="https://www.facebook.com/ganga.sagar.joshi.2025/directory_links" aria-label="Facebook" target="_blank"
-          rel="noopener noreferrer"><i class="bx bxl-facebook"></i></a>
-      </div>
-    </div>
-  </div>
-  <!-- Dimmed backdrop when drawer is open -->
-  <div class="drawer-backdrop" id="drawerBackdrop"></div>
-
+  <!-- ── Shared Navigation Bar & Mobile Drawer ── -->
+  <?php \App\Core\View::partial('navbar', ['active_page' => 'home']); ?>
 
   <main>
 
@@ -1367,18 +1276,8 @@
 
 
 
-  <footer class="footer">
-    <div class="container footer-inner">
-      <span class="footer-logo">Ganga Sagar<span class="dot">.</span></span>
-      <p>
-        &copy; <span id="year"></span> Ganga Sagar Joshi.
-        Crafted with <i class="bx bx-heart" aria-hidden="true"></i> in Nepal.
-      </p>
-      <a href="#home" class="back-to-top" aria-label="Back to top">
-        <i class="bx bx-up-arrow-alt" aria-hidden="true"></i>
-      </a>
-    </div>
-  </footer>
+  <!-- ── Shared Portfolio Footer ── -->
+  <?php \App\Core\View::partial('footer'); ?>
 
 
   <!-- ─── Scripts ─────────────────────────────────────────────── -->
