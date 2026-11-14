@@ -10,6 +10,16 @@
     content="Ganga Sagar Joshi's personal portfolio website showcasing his skills, projects, and contact information." />
   <title>Ganga Sagar Joshi</title>
 
+  <!-- Favicon & Touch Icons -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
+
+  <!-- Open Graph Meta -->
+  <meta property="og:image" content="/images/logo-square.png" />
+  <meta property="og:title" content="Ganga Sagar Joshi | Software &amp; Systems" />
+
   <!-- Preconnect for faster font/icon load -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

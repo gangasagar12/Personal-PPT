@@ -57,6 +57,11 @@ if (empty($_SESSION['admin_logged_in'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login — Ganga Sagar Joshi</title>
+    <!-- Favicon & Touch Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <style>
@@ -79,7 +84,10 @@ if (empty($_SESSION['admin_logged_in'])) {
 </head>
 <body>
     <div class="login-card">
-        <div class="login-logo"><i class="bx bx-shield-quarter"></i> Portfolio Admin</div>
+        <div class="login-logo">
+            <img src="/images/logo-square.png" alt="Ganga Sagar Joshi" style="width:38px; height:38px; border-radius:10px; object-fit:cover; border:1.5px solid rgba(59,130,246,0.3); flex-shrink:0;" />
+            <span>Portfolio Admin</span>
+        </div>
         <p class="login-title">Sign in to manage projects &amp; dynamic content</p>
         
         <div class="credentials-pill">
@@ -397,6 +405,11 @@ $awards_list = \App\Models\Award::allWithDetails();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Workspace — Ganga Sagar Joshi</title>
+    <!-- Favicon & Touch Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <style>
@@ -1055,7 +1068,9 @@ $awards_list = \App\Models\Award::allWithDetails();
             <!-- Header / Brand -->
             <div class="sidebar-header">
                 <a href="<?= htmlspecialchars($adminSelfUrl) ?>" class="brand-box">
-                    <div class="brand-monogram">GSJ</div>
+                    <div class="brand-monogram" style="overflow:hidden; border:1.5px solid rgba(255,255,255,0.15);">
+                        <img src="/images/logo-square.png" alt="Ganga Sagar" style="width:100%; height:100%; object-fit:cover; display:block;" />
+                    </div>
                     <div class="brand-text">
                         <h4>Ganga Sagar</h4>
                         <span>Portfolio CMS</span>
@@ -1121,7 +1136,9 @@ $awards_list = \App\Models\Award::allWithDetails();
         <div class="sidebar-footer">
             <div class="user-card">
                 <div class="user-info">
-                    <div class="user-avatar">GS</div>
+                    <div class="user-avatar" style="overflow:hidden; border:1.5px solid rgba(255,255,255,0.25);">
+                        <img src="/images/logo-square.png" alt="Ganga Sagar Joshi" style="width:100%; height:100%; object-fit:cover; display:block;" />
+                    </div>
                     <div class="user-meta">
                         <h5>Ganga Sagar Joshi</h5>
                         <span>Admin Online</span>
@@ -1352,7 +1369,7 @@ $awards_list = \App\Models\Award::allWithDetails();
                                     <td><span style="font-weight:600; font-size:0.84rem;"><?= intval($fp['display_order']) ?></span></td>
                                     <td>
                                         <div class="actions-cell">
-                                            <button class="btn btn-secondary btn-sm" onclick='editFeatured(<?= json_encode($fp, JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' title="Edit"><i class="bx bx-edit"></i></button>
+                                            <button type="button" class="btn btn-secondary btn-sm" onclick="editFeatured(<?= (int)$fp['id'] ?>)" title="Edit"><i class="bx bx-edit"></i></button>
                                             <a href="?del_feat=<?= $fp['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Delete this project?')" title="Delete"><i class="bx bx-trash"></i></a>
                                         </div>
                                     </td>
@@ -1381,7 +1398,7 @@ $awards_list = \App\Models\Award::allWithDetails();
 
                     <!-- Collapsible Add/Edit Form -->
                     <div id="form-add-product" class="form-drawer" style="display:none;">
-                        <form method="POST" action="">
+                        <form method="POST" action="" enctype="multipart/form-data">
                             <input type="hidden" name="prod_id" id="prod_id" value="0">
                             <div class="form-grid">
                                 <div>
@@ -1397,8 +1414,14 @@ $awards_list = \App\Models\Award::allWithDetails();
                                     <input type="text" name="status_text" id="prod_status" class="form-control" required value="Live Product" placeholder="Live Product / In Development / Enterprise MVP">
                                 </div>
                                 <div>
-                                    <label class="form-label">Thumbnail / Preview Image</label>
-                                    <input type="text" name="image" id="prod_image" class="form-control" required value="images/projectcard1.jpg">
+                                    <label class="form-label">Thumbnail / Preview Image (Select from Computer)</label>
+                                    <div style="display:flex; align-items:center; gap:0.75rem;">
+                                        <input type="file" name="prod_image_file" id="prod_image_file" class="form-control" accept="image/*" onchange="previewLocalImage(this, 'prod_preview_img')">
+                                        <div style="width:50px; height:38px; border-radius:4px; overflow:hidden; border:1px solid #cbd5e1; background:#f8fafc; flex-shrink:0;">
+                                            <img id="prod_preview_img" src="/images/projectcard1.jpg" alt="" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='/images/projectcard1.jpg'">
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="image" id="prod_image" value="images/projectcard1.jpg">
                                 </div>
                                 <div>
                                     <label class="form-label">Product Website / Demo URL</label>
@@ -1469,7 +1492,7 @@ $awards_list = \App\Models\Award::allWithDetails();
                                     <td><span style="font-weight:600; font-size:0.84rem;"><?= intval($prod['display_order']) ?></span></td>
                                     <td>
                                         <div class="actions-cell">
-                                            <button class="btn btn-secondary btn-sm" onclick='editProduct(<?= json_encode($prod) ?>)' title="Edit"><i class="bx bx-edit"></i></button>
+                                            <button type="button" class="btn btn-secondary btn-sm" onclick="editProduct(<?= (int)$prod['id'] ?>)" title="Edit"><i class="bx bx-edit"></i></button>
                                             <a href="?del_prod=<?= $prod['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Delete this Strataflow product?')" title="Delete"><i class="bx bx-trash"></i></a>
                                         </div>
                                     </td>
@@ -1621,7 +1644,7 @@ $awards_list = \App\Models\Award::allWithDetails();
                                     <td><span style="font-weight:600; font-size:0.84rem;"><?= intval($ap['display_order']) ?></span></td>
                                     <td>
                                         <div class="actions-cell">
-                                            <button class="btn btn-secondary btn-sm" onclick='editCombinedProject(<?= json_encode($ap) ?>, "academic")' title="Edit"><i class="bx bx-edit"></i></button>
+                                            <button type="button" class="btn btn-secondary btn-sm" onclick="editCombinedProject(<?= (int)$ap['id'] ?>, 'academic')" title="Edit"><i class="bx bx-edit"></i></button>
                                             <a href="?del_combined=<?= $ap['id'] ?>&type=academic" class="btn btn-danger btn-sm" onclick="return confirm('Delete this academic project?')" title="Delete"><i class="bx bx-trash"></i></a>
                                         </div>
                                     </td>
@@ -1658,7 +1681,7 @@ $awards_list = \App\Models\Award::allWithDetails();
                                     <td><span style="font-weight:600; font-size:0.84rem;"><?= intval($op['display_order']) ?></span></td>
                                     <td>
                                         <div class="actions-cell">
-                                            <button class="btn btn-secondary btn-sm" onclick='editCombinedProject(<?= json_encode($op) ?>, "other")' title="Edit"><i class="bx bx-edit"></i></button>
+                                            <button type="button" class="btn btn-secondary btn-sm" onclick="editCombinedProject(<?= (int)$op['id'] ?>, 'other')" title="Edit"><i class="bx bx-edit"></i></button>
                                             <a href="?del_combined=<?= $op['id'] ?>&type=other" class="btn btn-danger btn-sm" onclick="return confirm('Delete this other project?')" title="Delete"><i class="bx bx-trash"></i></a>
                                         </div>
                                     </td>
@@ -1687,7 +1710,7 @@ $awards_list = \App\Models\Award::allWithDetails();
 
                     <!-- Collapsible Add/Edit Form -->
                     <div id="form-add-blog" class="form-drawer" style="display:none;">
-                        <form method="POST" action="">
+                        <form method="POST" action="" enctype="multipart/form-data">
                             <input type="hidden" name="blog_id" id="blog_id" value="0">
                             <div class="form-grid">
                                 <div class="form-col-full">
@@ -1699,28 +1722,36 @@ $awards_list = \App\Models\Award::allWithDetails();
                                     <input type="text" name="category" id="blog_cat" class="form-control" required value="Backend Engineering">
                                 </div>
                                 <div>
-                                    <label class="form-label">Featured Image Path</label>
-                                    <input type="text" name="image" id="blog_image" class="form-control" required value="images/projectcard1.jpg" placeholder="images/projectcard1.jpg">
-                                </div>
-                                <div>
                                     <label class="form-label">Read Time</label>
                                     <input type="text" name="read_time" id="blog_read" class="form-control" required value="5 min read">
                                 </div>
                                 <div>
-                                    <label class="form-label">Date String</label>
-                                    <input type="text" name="date" id="blog_date" class="form-control" required value="<?= date('M Y') ?>">
+                                    <label class="form-label">Featured Image (Select from Computer)</label>
+                                    <div style="display:flex; align-items:center; gap:0.75rem;">
+                                        <input type="file" name="blog_image_file" id="blog_image_file" class="form-control" accept="image/*" onchange="previewLocalImage(this, 'blog_preview_img')">
+                                        <div style="width:50px; height:38px; border-radius:4px; overflow:hidden; border:1px solid #cbd5e1; background:#f8fafc; flex-shrink:0;">
+                                            <img id="blog_preview_img" src="/images/projectcard1.jpg" alt="" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='/images/projectcard1.jpg'">
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="image" id="blog_image" value="images/projectcard1.jpg">
                                 </div>
-                                <div>
-                                    <label class="form-label">Display Order</label>
-                                    <input type="number" name="display_order" id="blog_order" class="form-control" value="1">
+                                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.75rem;">
+                                    <div>
+                                        <label class="form-label">Date String</label>
+                                        <input type="text" name="date" id="blog_date" class="form-control" required value="<?= date('M Y') ?>">
+                                    </div>
+                                    <div>
+                                        <label class="form-label">Display Order</label>
+                                        <input type="number" name="display_order" id="blog_order" class="form-control" value="1">
+                                    </div>
                                 </div>
                                 <div class="form-col-full">
                                     <label class="form-label">Short Excerpt (shows on card)</label>
                                     <textarea name="excerpt" id="blog_excerpt" class="form-control" required placeholder="A brief summary for the card..."></textarea>
                                 </div>
                                 <div class="form-col-full">
-                                    <label class="form-label">Full Article Content</label>
-                                    <textarea name="content" id="blog_content" class="form-control" style="min-height:120px;" placeholder="Full markdown or text..."></textarea>
+                                    <label class="form-label">Full Article Content (HTML / Markdown supported)</label>
+                                    <textarea name="content" id="blog_content" class="form-control" style="min-height:160px;" placeholder="Full markdown or text..."></textarea>
                                 </div>
                             </div>
                             <div class="form-actions">
@@ -1754,7 +1785,8 @@ $awards_list = \App\Models\Award::allWithDetails();
                                     <td style="font-size:0.82rem; color:var(--text-muted);"><?= htmlspecialchars($bp['read_time']) ?> &bull; <?= htmlspecialchars($bp['date']) ?></td>
                                     <td>
                                         <div class="actions-cell">
-                                            <button class="btn btn-secondary btn-sm" onclick='editBlog(<?= json_encode($bp) ?>)' title="Edit"><i class="bx bx-edit"></i></button>
+                                            <a href="/insights/<?= urlencode($bp['slug'] ?? '') ?>" target="_blank" class="btn btn-secondary btn-sm" title="View on Site"><i class="bx bx-show"></i></a>
+                                            <button type="button" class="btn btn-secondary btn-sm" onclick="editBlog(<?= (int)$bp['id'] ?>)" title="Edit"><i class="bx bx-edit"></i></button>
                                             <a href="?del_blog=<?= $bp['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Delete this post?')" title="Delete"><i class="bx bx-trash"></i></a>
                                         </div>
                                     </td>
@@ -1845,7 +1877,7 @@ $awards_list = \App\Models\Award::allWithDetails();
                             <h3 id="award_form_title" style="font-size:1.1rem; font-weight:700; color:var(--text-main);">Add New Award / Milestone</h3>
                             <button type="button" class="btn btn-outline btn-sm" onclick="toggleForm('form-add-award')">&times; Close</button>
                         </div>
-                        <form method="POST" action="">
+                        <form method="POST" action="" enctype="multipart/form-data">
                             <input type="hidden" name="save_award" value="1">
                             <input type="hidden" name="award_id" id="award_id" value="0">
 
@@ -1863,9 +1895,19 @@ $awards_list = \App\Models\Award::allWithDetails();
                                     <input type="text" name="date" id="award_date" class="form-control" placeholder="2025">
                                 </div>
                                 <div class="form-group full">
-                                    <label>Certificate / Showcase Image Path</label>
-                                    <input type="text" name="image" id="award_image" class="form-control" required value="images/projectcard1.jpg" placeholder="images/projectcard1.jpg">
-                                    <small style="color:var(--text-muted); font-size:0.8rem; margin-top:0.3rem; display:block;">Enter path within public/ (e.g. images/projectcard1.jpg, images/projectcard2.jpg)</small>
+                                    <label class="form-label">Certificate / Showcase Image (Select from Computer)</label>
+                                    <div style="display:flex; align-items:center; gap:1.25rem;">
+                                        <div style="flex:1;">
+                                            <input type="file" name="award_image_file" id="award_image_file" class="form-control" accept="image/*" onchange="previewLocalImage(this, 'award_preview_img')">
+                                            <small style="display:block; margin-top:0.35rem; color:#64748b; font-size:0.75rem;">
+                                                Select certificate or achievement image directly from your local computer (JPG, PNG, WebP, SVG).
+                                            </small>
+                                        </div>
+                                        <div style="width:78px; height:56px; border-radius:6px; overflow:hidden; border:1px solid #cbd5e1; background:#f8fafc; flex-shrink:0; display:flex; align-items:center; justify-content:center;">
+                                            <img id="award_preview_img" src="/images/projectcard1.jpg" alt="Preview" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='/images/projectcard1.jpg'">
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="image" id="award_image" value="images/projectcard1.jpg">
                                 </div>
                                 <div class="form-group full">
                                     <label>Short Description of Award / Achievement</label>
@@ -1906,7 +1948,7 @@ $awards_list = \App\Models\Award::allWithDetails();
                                     <td><?= intval($aw['display_order']) ?></td>
                                     <td>
                                         <div class="actions-cell">
-                                            <button type="button" class="btn btn-outline btn-sm" onclick='editAward(<?= json_encode($aw) ?>)' title="Edit"><i class="bx bx-edit"></i></button>
+                                            <button type="button" class="btn btn-outline btn-sm" onclick="editAward(<?= (int)$aw['id'] ?>)" title="Edit"><i class="bx bx-edit"></i></button>
                                             <a href="?del_award=<?= $aw['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Delete this award?')" title="Delete"><i class="bx bx-trash"></i></a>
                                         </div>
                                     </td>
@@ -1976,6 +2018,9 @@ $awards_list = \App\Models\Award::allWithDetails();
             if (form) form.reset();
             const idInput = document.getElementById(idField);
             if (idInput) idInput.value = '0';
+            formContainer.querySelectorAll('img[id$="_preview_img"]').forEach(img => {
+                img.src = '/images/projectcard1.jpg';
+            });
             formContainer.style.display = 'none';
         }
 
@@ -1987,7 +2032,18 @@ $awards_list = \App\Models\Award::allWithDetails();
             }
         }
 
-        function editFeatured(item) {
+        // Global administrative data registries (avoids HTML attribute escaping issues)
+        const adminFeaturedData = <?= json_encode($featured_list, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) ?>;
+        const adminProductsData = <?= json_encode($company_products_list, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) ?>;
+        const adminAcademicData = <?= json_encode($academic_list, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) ?>;
+        const adminOtherData = <?= json_encode($other_projects_list, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) ?>;
+        const adminBlogData = <?= json_encode($blog_list, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) ?>;
+        const adminAwardsData = <?= json_encode($awards_list, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) ?>;
+
+        function editFeatured(itemOrId) {
+            const item = (typeof itemOrId === 'object' && itemOrId !== null)
+                ? itemOrId
+                : (adminFeaturedData.find(p => p.id == itemOrId) || {});
             switchTab('tab-featured', 'Featured Projects');
             const drawer = document.getElementById('form-add-featured');
             drawer.style.display = 'block';
@@ -2048,20 +2104,28 @@ $awards_list = \App\Models\Award::allWithDetails();
             drawer.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        function editProduct(item) {
+        function editProduct(itemOrId) {
+            const item = (typeof itemOrId === 'object' && itemOrId !== null)
+                ? itemOrId
+                : (adminProductsData.find(p => p.id == itemOrId) || {});
             switchTab('tab-products', 'Strataflow Products');
             const drawer = document.getElementById('form-add-product');
             drawer.style.display = 'block';
-            document.getElementById('prod_id').value = item.id;
-            document.getElementById('prod_title').value = item.title;
-            document.getElementById('prod_category').value = item.category;
-            document.getElementById('prod_status').value = item.status_text;
-            document.getElementById('prod_image').value = item.image;
-            document.getElementById('prod_link_url').value = item.link_url;
+            document.getElementById('prod_id').value = item.id || 0;
+            document.getElementById('prod_title').value = item.title || '';
+            document.getElementById('prod_category').value = item.category || '';
+            document.getElementById('prod_status').value = item.status_text || 'Live Product';
+            const currentImg = item.image || 'images/projectcard1.jpg';
+            document.getElementById('prod_image').value = currentImg;
+            const prev = document.getElementById('prod_preview_img');
+            if (prev) prev.src = '/' + currentImg.replace(/^\/+/, '');
+            const fileInput = document.getElementById('prod_image_file');
+            if (fileInput) fileInput.value = '';
+            document.getElementById('prod_link_url').value = item.link_url || '';
             document.getElementById('prod_link_text').value = item.link_text || 'View Details';
-            document.getElementById('prod_order').value = item.display_order;
+            document.getElementById('prod_order').value = item.display_order || 1;
             document.getElementById('prod_pills').value = item.tech_pills || '';
-            document.getElementById('prod_desc').value = item.description;
+            document.getElementById('prod_desc').value = item.description || '';
             document.getElementById('prod_features').value = item.features || '';
             drawer.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
@@ -2124,7 +2188,14 @@ $awards_list = \App\Models\Award::allWithDetails();
             toggleProjectTypeFields('academic');
         }
 
-        function editCombinedProject(item, type) {
+        function editCombinedProject(itemOrId, type) {
+            let item;
+            if (typeof itemOrId === 'object' && itemOrId !== null) {
+                item = itemOrId;
+            } else {
+                const list = (type === 'academic') ? adminAcademicData : adminOtherData;
+                item = list.find(p => p.id == itemOrId) || {};
+            }
             switchTab('tab-academic-other', 'Academic & Other Projects');
             const drawer = document.getElementById('form-add-combined-project');
             drawer.style.display = 'block';
@@ -2169,31 +2240,42 @@ $awards_list = \App\Models\Award::allWithDetails();
         }
 
         // Backward compatibility
-        function editAcademic(item) {
-            editCombinedProject(item, 'academic');
+        function editAcademic(itemOrId) {
+            editCombinedProject(itemOrId, 'academic');
         }
 
-        function editOther(item) {
-            editCombinedProject(item, 'other');
+        function editOther(itemOrId) {
+            editCombinedProject(itemOrId, 'other');
         }
 
-        function editBlog(item) {
+        function editBlog(itemOrId) {
+            const item = (typeof itemOrId === 'object' && itemOrId !== null)
+                ? itemOrId
+                : (adminBlogData.find(b => b.id == itemOrId) || {});
             switchTab('tab-blog', 'Insights & Articles');
             const drawer = document.getElementById('form-add-blog');
             drawer.style.display = 'block';
-            document.getElementById('blog_id').value = item.id;
-            document.getElementById('blog_title').value = item.title;
-            document.getElementById('blog_cat').value = item.category;
-            document.getElementById('blog_image').value = item.image || 'images/projectcard1.jpg';
-            document.getElementById('blog_read').value = item.read_time;
-            document.getElementById('blog_date').value = item.date;
-            document.getElementById('blog_order').value = item.display_order;
-            document.getElementById('blog_excerpt').value = item.excerpt;
-            document.getElementById('blog_content').value = item.content;
+            document.getElementById('blog_id').value = item.id || 0;
+            document.getElementById('blog_title').value = item.title || '';
+            document.getElementById('blog_cat').value = item.category || 'Backend Engineering';
+            const currentImg = item.image || 'images/projectcard1.jpg';
+            document.getElementById('blog_image').value = currentImg;
+            const prev = document.getElementById('blog_preview_img');
+            if (prev) prev.src = '/' + currentImg.replace(/^\/+/, '');
+            const fileInput = document.getElementById('blog_image_file');
+            if (fileInput) fileInput.value = '';
+            document.getElementById('blog_read').value = item.read_time || '5 min read';
+            document.getElementById('blog_date').value = item.date || '';
+            document.getElementById('blog_order').value = item.display_order || 1;
+            document.getElementById('blog_excerpt').value = item.excerpt || '';
+            document.getElementById('blog_content').value = item.content || '';
             drawer.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        function editAward(item) {
+        function editAward(itemOrId) {
+            const item = (typeof itemOrId === 'object' && itemOrId !== null)
+                ? itemOrId
+                : (adminAwardsData.find(a => a.id == itemOrId) || {});
             switchTab('tab-awards', 'Awards & Gallery');
             const drawer = document.getElementById('form-add-award');
             drawer.style.display = 'block';
@@ -2201,7 +2283,12 @@ $awards_list = \App\Models\Award::allWithDetails();
             document.getElementById('award_title').value = item.title || '';
             document.getElementById('award_issuer').value = item.issuer || '';
             document.getElementById('award_date').value = item.date || '';
-            document.getElementById('award_image').value = item.image || 'images/projectcard1.jpg';
+            const currentImg = item.image || item.image_path || 'images/projectcard1.jpg';
+            document.getElementById('award_image').value = currentImg;
+            const prev = document.getElementById('award_preview_img');
+            if (prev) prev.src = '/' + currentImg.replace(/^\/+/, '');
+            const fileInput = document.getElementById('award_image_file');
+            if (fileInput) fileInput.value = '';
             document.getElementById('award_description').value = item.description || '';
             document.getElementById('award_display_order').value = item.display_order || 0;
             document.getElementById('award_form_title').textContent = 'Edit Award: ' + (item.title || '');
@@ -2214,6 +2301,10 @@ $awards_list = \App\Models\Award::allWithDetails();
             document.getElementById('award_issuer').value = '';
             document.getElementById('award_date').value = '';
             document.getElementById('award_image').value = 'images/projectcard1.jpg';
+            const prev = document.getElementById('award_preview_img');
+            if (prev) prev.src = '/images/projectcard1.jpg';
+            const fileInput = document.getElementById('award_image_file');
+            if (fileInput) fileInput.value = '';
             document.getElementById('award_description').value = '';
             document.getElementById('award_display_order').value = 0;
             document.getElementById('award_form_title').textContent = 'Add New Award / Milestone';

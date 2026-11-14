@@ -6,6 +6,13 @@
   <title id="metaTitle"><?= htmlspecialchars(($post['title'] ?? 'Insight Detail') . ' — Ganga Sagar Joshi') ?></title>
   <meta name="description" id="metaDesc" content="<?= htmlspecialchars($post['excerpt'] ?? 'Technical engineering insights by Ganga Sagar Joshi.') ?>" />
 
+  <!-- Favicon & Touch Icons -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
+  <meta property="og:image" content="/images/logo-square.png" />
+
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,17 +31,17 @@
   <div class="insights-wrapper">
 
     <!-- ── Main Detail Layout (Article + Recent Articles Sidebar) ── -->
-    <main class="insights-page-main">
-      <div class="container">
+    <main class="insights-detail-main">
+      <div class="insights-container">
 
         <!-- Breadcrumb Navigation -->
-        <nav class="profile-breadcrumb" aria-label="Breadcrumb">
+        <nav class="article-breadcrumb" aria-label="Breadcrumb">
           <a href="/insights" class="breadcrumb-back-link">
             <i class="bx bx-arrow-back"></i>
             <span>All Insights</span>
           </a>
-          <span class="breadcrumb-separator">/</span>
-          <span class="breadcrumb-current" id="breadcrumbTitle"><?= htmlspecialchars($post['title'] ?? 'Insight Detail') ?></span>
+          <span class="separator">/</span>
+          <span class="active-title" id="breadcrumbTitle"><?= htmlspecialchars($post['title'] ?? 'Insight Detail') ?></span>
         </nav>
 
         <div class="article-detail-layout">
@@ -48,7 +55,7 @@
 
               <div class="article-meta-row">
                 <div class="article-author-info">
-                  <img src="/images/profile.jpeg" alt="Ganga Sagar Joshi" class="article-author-avatar" onerror="this.onerror=null; this.src='/images/gangasagar.jpeg'" />
+                  <img src="/images/logo-square.png" alt="Ganga Sagar Joshi" class="article-author-avatar" onerror="this.onerror=null; this.src='/images/gangasagar.jpeg'" />
                   <span>Ganga Sagar Joshi</span>
                 </div>
                 <div class="article-meta-item">
@@ -124,7 +131,7 @@
                 <span>About Author</span>
               </div>
               <div class="sidebar-author-card">
-                <img src="/images/profile.jpeg" alt="Ganga Sagar Joshi" class="sidebar-author-img" onerror="this.onerror=null; this.src='/images/gangasagar.jpeg'" />
+                <img src="/images/logo-square.png" alt="Ganga Sagar Joshi" class="sidebar-author-img" onerror="this.onerror=null; this.src='/images/gangasagar.jpeg'" />
                 <div class="sidebar-author-details">
                   <h4>Ganga Sagar Joshi</h4>
                   <p>Co-Founder &amp; Software Engineer at Strataflow Technologies Pvt. Ltd. Specializing in Python, Django, scalable relational databases, and enterprise systems.</p>

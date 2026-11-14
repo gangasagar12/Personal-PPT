@@ -6,6 +6,13 @@
   <title><?= htmlspecialchars($page_title ?? 'Insights — Ganga Sagar Joshi') ?></title>
   <meta name="description" content="Technical engineering insights, backend architecture case studies, and systems design notes by Ganga Sagar Joshi." />
 
+  <!-- Favicon & Touch Icons -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
+  <meta property="og:image" content="/images/logo-square.png" />
+
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -48,24 +55,32 @@
           </div>
         </div>
 
-        <div class="insights-cards-grid">
-          <?php foreach ($posts as $post): ?>
-          <a href="/insights/<?= urlencode($post['slug']) ?>" 
-             data-slug="<?= htmlspecialchars($post['slug']) ?>" 
-             class="blog-post-card" 
-             title="<?= htmlspecialchars($post['title']) ?>">
-            <div class="blog-card-image-wrap">
-              <img src="/<?= ltrim(htmlspecialchars($post['image'] ?? 'images/projectcard1.jpg'), '/') ?>" 
-                   alt="<?= htmlspecialchars($post['title']) ?>" 
-                   loading="lazy" 
-                   onerror="this.onerror=null; this.src='/images/projectcard1.jpg'" />
-            </div>
-            <div class="blog-card-content">
-              <h3 class="blog-card-title"><?= htmlspecialchars($post['title']) ?></h3>
-            </div>
-          </a>
-          <?php endforeach; ?>
-        </div>
+        <?php if (empty($posts)): ?>
+          <div style="text-align: center; padding: 4rem 1rem; color: var(--color-text-muted);">
+            <i class="bx bx-news" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 1rem; display: block;"></i>
+            <p style="font-size: 1.1rem; font-weight: 500;">No articles published yet</p>
+            <p style="font-size: 0.85rem; margin-top: 0.25rem;">New engineering write-ups and case studies will appear here soon.</p>
+          </div>
+        <?php else: ?>
+          <div class="insights-cards-grid">
+            <?php foreach ($posts as $post): ?>
+            <a href="/insights/<?= urlencode($post['slug']) ?>" 
+               data-slug="<?= htmlspecialchars($post['slug']) ?>" 
+               class="blog-post-card" 
+               title="<?= htmlspecialchars($post['title']) ?>">
+              <div class="blog-card-image-wrap">
+                <img src="/<?= ltrim(htmlspecialchars($post['image'] ?? 'images/projectcard1.jpg'), '/') ?>" 
+                     alt="<?= htmlspecialchars($post['title']) ?>" 
+                     loading="lazy" 
+                     onerror="this.onerror=null; this.src='/images/projectcard1.jpg'" />
+              </div>
+              <div class="blog-card-content">
+                <h3 class="blog-card-title"><?= htmlspecialchars($post['title']) ?></h3>
+              </div>
+            </a>
+            <?php endforeach; ?>
+          </div>
+        <?php endif; ?>
 
       </div>
     </main>

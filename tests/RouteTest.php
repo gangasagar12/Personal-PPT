@@ -50,9 +50,12 @@ class RouteTest {
         $output = ob_get_clean();
         
         unset($_SESSION['admin_logged_in']);
+        $inTable = preg_match('/<section id="tab-blog".*?<div class="table-wrap">.*?to prevent accidental mass assignment.*?<\/table>/s', $output);
         return strpos($output, 'Admin Workspace') !== false 
             && strpos($output, 'Academic &amp; Other Projects') !== false
-            && strpos($output, 'tab-academic-other') !== false;
+            && strpos($output, 'tab-academic-other') !== false
+            && strpos($output, 'onclick="editBlog(') !== false
+            && !$inTable;
     }
 
     public function testHomeAcademicProjectsRendering(): bool {

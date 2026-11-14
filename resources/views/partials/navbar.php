@@ -20,10 +20,10 @@ $is_home = ($active_page === 'home' && ($uri === '/' || $uri === '' || $uri === 
 <!-- ── Main Navigation Header ── -->
 <header class="header" id="header">
   <div class="header-container">
-    <!-- Left: Personal Branding & Monogram -->
+    <!-- Left: Personal Branding & Logo Avatar -->
     <a class="brand" href="<?= $is_home ? '#home' : '/' ?>" aria-label="Ganga Sagar Joshi Home">
       <div class="brand-monogram">
-        <span class="monogram-text">GSJ</span>
+        <img src="/images/logo-square.png" alt="Ganga Sagar Joshi" class="brand-logo-img" width="42" height="42" />
       </div>
       <div class="brand-info">
         <span class="brand-name">Ganga Sagar Joshi</span>
@@ -65,7 +65,7 @@ $is_home = ($active_page === 'home' && ($uri === '/' || $uri === '' || $uri === 
 <div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-label="Mobile navigation menu" aria-hidden="true">
   <div class="drawer-header">
     <div class="brand-monogram sm">
-      <span class="monogram-text">GSJ</span>
+      <img src="/images/logo-square.png" alt="Ganga Sagar Joshi" class="brand-logo-img" width="38" height="38" />
     </div>
     <div class="drawer-meta">
       <span class="drawer-name">Ganga Sagar Joshi</span>

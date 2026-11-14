@@ -6,6 +6,13 @@
   <title><?= htmlspecialchars($page_title ?? 'All Projects & Engineering Archives — Ganga Sagar Joshi') ?></title>
   <meta name="description" content="Complete portfolio and engineering archives of Ganga Sagar Joshi, featuring production dental platforms, scalable Django backend architectures, key academic projects, and developer utilities." />
 
+  <!-- Favicon & Touch Icons -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
+  <meta property="og:image" content="/images/logo-square.png" />
+
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

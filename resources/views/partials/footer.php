@@ -13,7 +13,10 @@ $is_home = ($uri === '/' || $uri === '' || $uri === '/index.php');
     <div class="footer-top">
       <div class="footer-brand-box">
         <a href="<?= $is_home ? '#home' : '/' ?>" class="footer-logo" aria-label="Ganga Sagar Joshi Home">
-          Ganga Sagar<span class="dot">.</span>
+          <span class="footer-avatar-wrap">
+            <img src="/images/logo-square.png" alt="Ganga Sagar Joshi" class="footer-avatar-img" width="34" height="34" />
+          </span>
+          <span>Ganga Sagar<span class="dot">.</span></span>
         </a>
         <p class="footer-tagline">
           Software &amp; Systems Engineer &bull; Co-Founder at Strataflow Technologies
