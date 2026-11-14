@@ -263,17 +263,17 @@ if (contactForm) {
 
       if (data && data.success) {
         btnText.textContent = '✓ Message Sent!';
-        btn.style.background = 'linear-gradient(135deg,#00d4aa,#009e7f)';
+        btn.style.background = '#10b981';
         contactForm.reset();
       } else {
         btnText.textContent = 'Failed — Try Again';
-        btn.style.background = 'linear-gradient(135deg,#e05555,#b03030)';
+        btn.style.background = '#ef4444';
       }
     } catch (err) {
       console.warn('Backend submission note:', err);
       // Fallback for purely static environments
       btnText.textContent = '✓ Message Sent!';
-      btn.style.background = 'linear-gradient(135deg,#00d4aa,#009e7f)';
+      btn.style.background = '#10b981';
       contactForm.reset();
     }
 
@@ -283,5 +283,39 @@ if (contactForm) {
       btn.disabled        = false;
       btn.style.background = '';
     }, 4000);
+  });
+}
+
+/* ─── 9. Skills Category Filter Tabs ─────────────────────────────── */
+const skillTabs = document.querySelectorAll('.skill-tab-btn');
+const skillCards = document.querySelectorAll('.skill-category-card');
+
+if (skillTabs.length && skillCards.length) {
+  skillTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      skillTabs.forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+
+      const filter = tab.getAttribute('data-filter');
+
+      skillCards.forEach(card => {
+        if (filter === 'all' || card.getAttribute('data-category') === filter) {
+          card.style.display = 'flex';
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(10px)';
+          setTimeout(() => {
+            card.style.transition = 'opacity 0.28s ease, transform 0.28s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          }, 30);
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
   });
 }

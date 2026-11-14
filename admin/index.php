@@ -991,28 +991,6 @@ $awards_list = \App\Models\Award::allWithDetails();
                     </div>
                     <span class="nav-badge"><?= count($inquiries_list) ?></span>
                 </button>
-
-                <div class="sidebar-section-title">Quick Actions &amp; Links</div>
-
-                <a href="/" target="_blank" class="nav-link">
-                    <div class="nav-link-left">
-                        <i class="bx bx-link-external"></i>
-                        <span>Live Portfolio</span>
-                    </div>
-                </a>
-                        <i class="bx bx-globe"></i>
-                        <span>Live Portfolio</span>
-                    </div>
-                    <i class="bx bx-link-external" style="font-size:0.95rem;"></i>
-                </a>
-
-                <a href="../profile.php" target="_blank" class="nav-link">
-                    <div class="nav-link-left">
-                        <i class="bx bx-id-card"></i>
-                        <span>Founder Profile</span>
-                    </div>
-                    <i class="bx bx-link-external" style="font-size:0.95rem;"></i>
-                </a>
             </div>
         </div>
 

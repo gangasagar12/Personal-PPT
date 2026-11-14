@@ -704,7 +704,7 @@
       </div>
     </section>
 
-    <!-- ── Skills Section (Icons / Logos Only) ── -->
+    <!-- ── Skills Section (Categorized Technical Stack) ── -->
     <section class="skills-section" id="skills">
       <div class="container">
 
@@ -714,68 +714,157 @@
             Technologies &amp; <span class="gradient-text">Tools</span>
           </h2>
           <p class="section-subtitle">
-            Core programming languages, web frameworks, databases, and developer infrastructure powering my software
-            engineering.
+            Core programming languages, web frameworks, databases, and developer infrastructure organized by specialization.
           </p>
         </div>
 
-        <!-- Pure Icon / Logo Grid (No Keywords / Descriptions) -->
-        <div class="skills-icons-wrap">
-          <div class="skill-logo-tile tile-python" title="Python" aria-label="Python">
-            <i class="bx bxl-python" aria-hidden="true"></i>
-          </div>
-
-          <div class="skill-logo-tile tile-django" title="Django" aria-label="Django">
-            <i class="bx bxl-django" aria-hidden="true"></i>
-          </div>
-
-          <div class="skill-logo-tile tile-js" title="JavaScript" aria-label="JavaScript">
-            <i class="bx bxl-javascript" aria-hidden="true"></i>
-          </div>
-
-          <div class="skill-logo-tile tile-cpp" title="C++" aria-label="C++">
-            <i class="bx bx-code-curly" aria-hidden="true"></i>
-          </div>
-
-          <div class="skill-logo-tile tile-postgres" title="PostgreSQL" aria-label="PostgreSQL">
+        <!-- Category Filter Tabs -->
+        <div class="skills-filter-nav" role="tablist" aria-label="Skills Category Filter">
+          <button type="button" class="skill-tab-btn active" data-filter="all" role="tab" aria-selected="true">
+            <i class="bx bx-grid-alt" aria-hidden="true"></i>
+            <span>All Skills</span>
+          </button>
+          <button type="button" class="skill-tab-btn" data-filter="backend" role="tab" aria-selected="false">
+            <i class="bx bx-server" aria-hidden="true"></i>
+            <span>Backend</span>
+          </button>
+          <button type="button" class="skill-tab-btn" data-filter="frontend" role="tab" aria-selected="false">
+            <i class="bx bx-layout" aria-hidden="true"></i>
+            <span>Frontend</span>
+          </button>
+          <button type="button" class="skill-tab-btn" data-filter="database" role="tab" aria-selected="false">
             <i class="bx bx-data" aria-hidden="true"></i>
+            <span>Databases</span>
+          </button>
+          <button type="button" class="skill-tab-btn" data-filter="devops" role="tab" aria-selected="false">
+            <i class="bx bx-cloud" aria-hidden="true"></i>
+            <span>DevOps &amp; Cloud</span>
+          </button>
+        </div>
+
+        <!-- Categorized Skills Grid -->
+        <div class="skills-categories-grid">
+
+          <!-- 1. Backend Engineering -->
+          <div class="skill-category-card" data-category="backend">
+            <div class="skill-category-header">
+              <div class="skill-cat-title-wrap">
+                <span class="skill-cat-icon"><i class="bx bx-server" aria-hidden="true"></i></span>
+                <div>
+                  <h3 class="skill-cat-title">Backend Architecture</h3>
+                  <p class="skill-cat-desc">Server-side logic, scalable APIs &amp; systems</p>
+                </div>
+              </div>
+            </div>
+            <div class="skill-tiles-row">
+              <div class="skill-tile-item" title="Python">
+                <div class="skill-logo-tile tile-python"><i class="bx bxl-python" aria-hidden="true"></i></div>
+                <span class="skill-tile-name">Python</span>
+              </div>
+              <div class="skill-tile-item" title="Django">
+                <div class="skill-logo-tile tile-django"><i class="bx bxl-django" aria-hidden="true"></i></div>
+                <span class="skill-tile-name">Django</span>
+              </div>
+              <div class="skill-tile-item" title="RESTful APIs & Microservices">
+                <div class="skill-logo-tile tile-cpp"><i class="bx bx-code-curly" aria-hidden="true"></i></div>
+                <span class="skill-tile-name">REST APIs</span>
+              </div>
+              <div class="skill-tile-item" title="C++">
+                <div class="skill-logo-tile tile-cpp"><i class="bx bxl-c-plus-plus" aria-hidden="true"></i></div>
+                <span class="skill-tile-name">C++</span>
+              </div>
+            </div>
           </div>
 
-          <div class="skill-logo-tile tile-mysql" title="MySQL" aria-label="MySQL">
-            <i class="bx bxs-data" aria-hidden="true"></i>
+          <!-- 2. Frontend Development -->
+          <div class="skill-category-card" data-category="frontend">
+            <div class="skill-category-header">
+              <div class="skill-cat-title-wrap">
+                <span class="skill-cat-icon"><i class="bx bx-layout" aria-hidden="true"></i></span>
+                <div>
+                  <h3 class="skill-cat-title">Frontend Engineering</h3>
+                  <p class="skill-cat-desc">Responsive user interfaces &amp; interaction</p>
+                </div>
+              </div>
+            </div>
+            <div class="skill-tiles-row">
+              <div class="skill-tile-item" title="JavaScript">
+                <div class="skill-logo-tile tile-js"><i class="bx bxl-javascript" aria-hidden="true"></i></div>
+                <span class="skill-tile-name">JavaScript</span>
+              </div>
+              <div class="skill-tile-item" title="HTML5">
+                <div class="skill-logo-tile tile-html"><i class="bx bxl-html5" aria-hidden="true"></i></div>
+                <span class="skill-tile-name">HTML5</span>
+              </div>
+              <div class="skill-tile-item" title="CSS3">
+                <div class="skill-logo-tile tile-css"><i class="bx bxl-css3" aria-hidden="true"></i></div>
+                <span class="skill-tile-name">CSS3</span>
+              </div>
+            </div>
           </div>
 
-          <div class="skill-logo-tile tile-sqlite" title="SQLite" aria-label="SQLite">
-            <i class="bx bx-cylinder" aria-hidden="true"></i>
+          <!-- 3. Database Systems -->
+          <div class="skill-category-card" data-category="database">
+            <div class="skill-category-header">
+              <div class="skill-cat-title-wrap">
+                <span class="skill-cat-icon"><i class="bx bx-data" aria-hidden="true"></i></span>
+                <div>
+                  <h3 class="skill-cat-title">Databases &amp; Storage</h3>
+                  <p class="skill-cat-desc">Relational schemas, queries &amp; persistence</p>
+                </div>
+              </div>
+            </div>
+            <div class="skill-tiles-row">
+              <div class="skill-tile-item" title="PostgreSQL">
+                <div class="skill-logo-tile tile-postgres"><i class="bx bx-data" aria-hidden="true"></i></div>
+                <span class="skill-tile-name">PostgreSQL</span>
+              </div>
+              <div class="skill-tile-item" title="MySQL">
+                <div class="skill-logo-tile tile-mysql"><i class="bx bxs-data" aria-hidden="true"></i></div>
+                <span class="skill-tile-name">MySQL</span>
+              </div>
+              <div class="skill-tile-item" title="SQLite">
+                <div class="skill-logo-tile tile-sqlite"><i class="bx bx-cylinder" aria-hidden="true"></i></div>
+                <span class="skill-tile-name">SQLite</span>
+              </div>
+            </div>
           </div>
 
-          <div class="skill-logo-tile tile-docker" title="Docker" aria-label="Docker">
-            <i class="bx bxl-docker" aria-hidden="true"></i>
+          <!-- 4. DevOps & Cloud -->
+          <div class="skill-category-card" data-category="devops">
+            <div class="skill-category-header">
+              <div class="skill-cat-title-wrap">
+                <span class="skill-cat-icon"><i class="bx bx-cloud" aria-hidden="true"></i></span>
+                <div>
+                  <h3 class="skill-cat-title">DevOps &amp; Infrastructure</h3>
+                  <p class="skill-cat-desc">Containerization, cloud services &amp; Linux</p>
+                </div>
+              </div>
+            </div>
+            <div class="skill-tiles-row">
+              <div class="skill-tile-item" title="Docker">
+                <div class="skill-logo-tile tile-docker"><i class="bx bxl-docker" aria-hidden="true"></i></div>
+                <span class="skill-tile-name">Docker</span>
+              </div>
+              <div class="skill-tile-item" title="AWS">
+                <div class="skill-logo-tile tile-aws"><i class="bx bxl-aws" aria-hidden="true"></i></div>
+                <span class="skill-tile-name">AWS</span>
+              </div>
+              <div class="skill-tile-item" title="Linux">
+                <div class="skill-logo-tile tile-linux"><i class="bx bxl-tux" aria-hidden="true"></i></div>
+                <span class="skill-tile-name">Linux</span>
+              </div>
+              <div class="skill-tile-item" title="Git">
+                <div class="skill-logo-tile tile-git"><i class="bx bxl-git" aria-hidden="true"></i></div>
+                <span class="skill-tile-name">Git</span>
+              </div>
+              <div class="skill-tile-item" title="GitHub">
+                <div class="skill-logo-tile tile-github"><i class="bx bxl-github" aria-hidden="true"></i></div>
+                <span class="skill-tile-name">GitHub</span>
+              </div>
+            </div>
           </div>
 
-          <div class="skill-logo-tile tile-aws" title="Amazon Web Services (AWS)" aria-label="Amazon Web Services">
-            <i class="bx bxl-aws" aria-hidden="true"></i>
-          </div>
-
-          <div class="skill-logo-tile tile-git" title="Git" aria-label="Git">
-            <i class="bx bxl-git" aria-hidden="true"></i>
-          </div>
-
-          <div class="skill-logo-tile tile-github" title="GitHub" aria-label="GitHub">
-            <i class="bx bxl-github" aria-hidden="true"></i>
-          </div>
-
-          <div class="skill-logo-tile tile-linux" title="Linux" aria-label="Linux">
-            <i class="bx bxl-tux" aria-hidden="true"></i>
-          </div>
-
-          <div class="skill-logo-tile tile-html" title="HTML5" aria-label="HTML5">
-            <i class="bx bxl-html5" aria-hidden="true"></i>
-          </div>
-
-          <div class="skill-logo-tile tile-css" title="CSS3" aria-label="CSS3">
-            <i class="bx bxl-css3" aria-hidden="true"></i>
-          </div>
         </div>
 
       </div>
@@ -981,24 +1070,34 @@
           <?php endforeach; ?>
         </div>
 
-        <!-- ── Key Academic Project (Exact Structure & Content from Reference) ── -->
+        <!-- ── Key Academic Projects (Card Showcase) ── -->
         <div class="academic-projects-block">
-          <h3 class="academic-section-title">Key Academic Project</h3>
+          <div class="academic-block-header">
+            <span class="section-tag">University Coursework</span>
+            <h3 class="academic-section-title">Key Academic <span class="gradient-text">Projects</span></h3>
+            <p class="section-subtitle academic-subtitle">
+              Engineering applications, algorithms, and systems developed during BCA coursework at Kantipur City College.
+            </p>
+          </div>
 
           <div class="academic-items-grid">
             <?php foreach ($academic_projects as $a): ?>
-            <div class="academic-project-item">
-              <div class="academic-item-header">
-                <i class="bx bx-git-repo-forked" aria-hidden="true"></i>
-                <h4 class="academic-item-title"><?= htmlspecialchars($a['title']) ?></h4>
+            <div class="academic-project-card">
+              <div class="academic-card-top">
+                <div class="academic-card-icon">
+                  <i class="bx bx-code-alt" aria-hidden="true"></i>
+                </div>
+                <h4 class="academic-card-title"><?= htmlspecialchars($a['title']) ?></h4>
               </div>
-              <p class="academic-item-desc">
+              <p class="academic-card-desc">
                 <?= htmlspecialchars($a['description']) ?>
               </p>
-              <div class="academic-skills-pills">
-                <?php foreach ($a['skills_array'] as $ask): ?>
-                <span><?= htmlspecialchars($ask) ?></span>
-                <?php endforeach; ?>
+              <div class="academic-card-footer">
+                <div class="academic-skills-pills">
+                  <?php foreach ($a['skills_array'] as $ask): ?>
+                  <span><?= htmlspecialchars($ask) ?></span>
+                  <?php endforeach; ?>
+                </div>
               </div>
             </div>
             <?php endforeach; ?>
