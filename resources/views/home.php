@@ -1016,6 +1016,63 @@
 
 
 
+    <!-- ── Why Work With Me Section (Clean Minimalist Cards matching Reference UI) ── -->
+    <section class="why-work-section" id="why-work">
+      <div class="container">
+
+        <!-- Section Heading Block -->
+        <div class="section-heading-block text-center">
+          <span class="section-tag">Value &amp; Approach</span>
+          <h2 class="section-main-title">
+            Why Work <span class="gradient-text">With Me</span>
+          </h2>
+          <p class="section-subtitle">
+            Core engineering principles, problem-solving discipline, and product-focused delivery powering dependable software systems.
+          </p>
+        </div>
+
+        <!-- 4 Minimalist Value Proposition Cards (No Icons, Clean Title + Description) -->
+        <div class="why-cards-grid">
+
+          <!-- Card 1: Practical Development -->
+          <article class="why-simple-card">
+            <h3 class="why-card-title">Practical Development</h3>
+            <p class="why-card-desc">
+              Focusing on maintainable Django &amp; Python backend architectures, normalized relational database schemas, and deterministic code over trendy over-engineering.
+            </p>
+          </article>
+
+          <!-- Card 2: Problem-Solving Mindset -->
+          <article class="why-simple-card">
+            <h3 class="why-card-title">Problem-Solving Mindset</h3>
+            <p class="why-card-desc">
+              Deconstructing complex organizational bottlenecks into structured, deterministic components with systematic profiling and database query optimization.
+            </p>
+          </article>
+
+          <!-- Card 3: Product-Oriented Thinking (Tinted accent card matching reference UI) -->
+          <article class="why-simple-card card-accent-tint">
+            <h3 class="why-card-title">Product-Oriented Thinking</h3>
+            <p class="why-card-desc">
+              Bridging business objectives and technical execution. Designing with deep empathy for end-users, transactional accuracy, and lasting real-world utility.
+            </p>
+          </article>
+
+          <!-- Card 4: Continuous Learning -->
+          <article class="why-simple-card">
+            <h3 class="why-card-title">Continuous Learning</h3>
+            <p class="why-card-desc">
+              Actively expanding expertise across modern C++ systems programming, container orchestration, distributed caching, and cloud security practices.
+            </p>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+
+
     <!-- ── Featured Projects Section (All Projects Displayed on Home Page) ── -->
     <section class="projects-section" id="projects">
       <div class="container">
@@ -1070,6 +1127,14 @@
           <?php endforeach; ?>
         </div>
 
+        <!-- View All Projects Button (Navigates to Full Projects Archive Page) -->
+        <div class="projects-view-all-cta text-center">
+          <a href="/projects" class="btn-projects-view-all">
+            <span>View All Projects</span>
+            <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+          </a>
+        </div>
+
         <!-- ── Key Academic Projects (Card Showcase) ── -->
         <div class="academic-projects-block">
           <div class="academic-block-header">
@@ -1080,27 +1145,88 @@
             </p>
           </div>
 
-          <div class="academic-items-grid">
-            <?php foreach ($academic_projects as $a): ?>
-            <div class="academic-project-card">
-              <div class="academic-card-top">
-                <div class="academic-card-icon">
-                  <i class="bx bx-code-alt" aria-hidden="true"></i>
-                </div>
-                <h4 class="academic-card-title"><?= htmlspecialchars($a['title']) ?></h4>
+          <div class="home-projects-grid academic-projects-grid">
+            <?php foreach ($academic_projects as $a): 
+              $acadImage = !empty($a['image']) ? $a['image'] : 'images/projectcard1.jpg';
+              $acadShortDesc = $a['description'];
+              $acadDetailedDesc = !empty($a['detailed_description']) ? $a['detailed_description'] : $a['description'];
+            ?>
+            <article class="home-project-card academic-project-card"
+                     tabindex="0"
+                     role="button"
+                     data-academic-modal-trigger
+                     data-title="<?= htmlspecialchars($a['title'], ENT_QUOTES) ?>"
+                     data-image="/<?= ltrim(htmlspecialchars($acadImage), '/') ?>"
+                     data-short-desc="<?= htmlspecialchars($acadShortDesc, ENT_QUOTES) ?>"
+                     data-detailed-desc="<?= htmlspecialchars($acadDetailedDesc, ENT_QUOTES) ?>"
+                     data-skills="<?= htmlspecialchars($a['skills'], ENT_QUOTES) ?>"
+                     aria-haspopup="dialog"
+                     aria-label="View project details for <?= htmlspecialchars($a['title']) ?>">
+              
+              <div class="home-project-image">
+                <img src="/<?= ltrim(htmlspecialchars($acadImage), '/') ?>" 
+                     alt="<?= htmlspecialchars($a['title']) ?>" 
+                     loading="lazy" 
+                     onerror="this.onerror=null; this.src='/images/projectcard1.jpg'" />
+                <span class="academic-card-badge">BCA Coursework</span>
               </div>
-              <p class="academic-card-desc">
-                <?= htmlspecialchars($a['description']) ?>
-              </p>
-              <div class="academic-card-footer">
-                <div class="academic-skills-pills">
-                  <?php foreach ($a['skills_array'] as $ask): ?>
-                  <span><?= htmlspecialchars($ask) ?></span>
-                  <?php endforeach; ?>
+
+              <div class="home-project-body">
+                <h3 class="home-project-title">
+                  <span class="project-title-link">
+                    <?= htmlspecialchars($a['title']) ?>
+                  </span>
+                </h3>
+                
+                <p class="home-project-desc">
+                  <?= htmlspecialchars($acadShortDesc) ?>
+                </p>
+
+                <div class="home-project-footer">
+                  <span class="academic-view-btn">
+                    <span>View Project Details</span>
+                    <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+                  </span>
                 </div>
+              </div>
+            </article>
+            <?php endforeach; ?>
+          </div>
+
+          <!-- Bottom View All Projects & Archives CTA -->
+          <div class="projects-view-all-cta text-center" style="margin-top: 3.5rem;">
+            <a href="/projects" class="btn-projects-view-all">
+              <span>View All Projects &amp; Archives</span>
+              <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- ── Academic Project Details Modal ── -->
+        <div class="academic-modal" id="academicDetailModal" aria-hidden="true" role="dialog" aria-labelledby="academicModalTitle">
+          <div class="academic-modal-backdrop" data-close-academic-modal></div>
+          <div class="academic-modal-dialog">
+            <button type="button" class="academic-modal-close" data-close-academic-modal aria-label="Close modal">
+              <i class="bx bx-x" aria-hidden="true"></i>
+            </button>
+            <div class="academic-modal-media">
+              <img id="academicModalImg" src="/images/projectcard1.jpg" alt="Academic Project Preview" />
+              <span class="academic-modal-tag" id="academicModalTag">University Coursework</span>
+            </div>
+            <div class="academic-modal-body">
+              <div class="academic-modal-header">
+                <span class="section-tag" style="margin-bottom:0.35rem; display:inline-block;">Kantipur City College &bull; BCA</span>
+                <h3 id="academicModalTitle" class="academic-modal-title">Project Title</h3>
+              </div>
+              <div class="academic-modal-content">
+                <h4 class="academic-modal-subheading">Project Architecture &amp; Implementation</h4>
+                <p id="academicModalDesc" class="academic-modal-desc"></p>
+              </div>
+              <div class="academic-modal-tech-wrap">
+                <h5 class="academic-modal-tech-title">Technologies &amp; Core Concepts</h5>
+                <div id="academicModalSkills" class="academic-modal-skills"></div>
               </div>
             </div>
-            <?php endforeach; ?>
           </div>
         </div>
       </div>

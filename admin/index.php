@@ -132,6 +132,13 @@ if (isset($_GET['del_acad'])) {
     $message = 'Academic Project deleted successfully.';
 }
 
+// Action: Delete Other Project
+if (isset($_GET['del_other'])) {
+    $del_id = intval($_GET['del_other']);
+    $pdo->prepare("DELETE FROM other_projects WHERE id = ?")->execute([$del_id]);
+    $message = 'Other Project deleted successfully.';
+}
+
 // Action: Delete Blog Post
 if (isset($_GET['del_blog'])) {
     $del_id = intval($_GET['del_blog']);
@@ -215,18 +222,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_featured'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_academic'])) {
     $title = trim($_POST['title'] ?? '');
     $desc = trim($_POST['description'] ?? '');
+    $detailed_desc = trim($_POST['detailed_description'] ?? '');
+    $image = trim($_POST['image'] ?? 'images/projectcard1.jpg');
     $skills = trim($_POST['skills'] ?? '');
     $order = intval($_POST['display_order'] ?? 0);
     $acad_id = intval($_POST['acad_id'] ?? 0);
 
     if ($acad_id > 0) {
-        $stmt = $pdo->prepare("UPDATE academic_projects SET title=?, description=?, skills=?, display_order=? WHERE id=?");
-        $stmt->execute([$title, $desc, $skills, $order, $acad_id]);
+        $stmt = $pdo->prepare("UPDATE academic_projects SET title=?, description=?, detailed_description=?, image=?, skills=?, display_order=? WHERE id=?");
+        $stmt->execute([$title, $desc, $detailed_desc, $image, $skills, $order, $acad_id]);
         $message = "Academic Project '{$title}' updated.";
     } else {
-        $stmt = $pdo->prepare("INSERT INTO academic_projects (title, description, skills, display_order) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$title, $desc, $skills, $order]);
+        $stmt = $pdo->prepare("INSERT INTO academic_projects (title, description, detailed_description, image, skills, display_order) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$title, $desc, $detailed_desc, $image, $skills, $order]);
         $message = "New Academic Project added.";
+    }
+}
+
+// Action: Add / Update Other Project (Some Other Projects)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_other'])) {
+    $title = trim($_POST['title'] ?? '');
+    $category = trim($_POST['category'] ?? 'DevOps & Systems');
+    $desc = trim($_POST['description'] ?? '');
+    $image = trim($_POST['image'] ?? 'images/projectcard3.webp');
+    $skills = trim($_POST['skills'] ?? '');
+    $github_url = trim($_POST['github_url'] ?? 'https://github.com/gangasagar12');
+    $live_url = trim($_POST['live_url'] ?? $github_url);
+    $order = intval($_POST['display_order'] ?? 0);
+    $other_id = intval($_POST['other_id'] ?? 0);
+
+    if ($other_id > 0) {
+        $stmt = $pdo->prepare("UPDATE other_projects SET title=?, category=?, description=?, image=?, skills=?, github_url=?, live_url=?, display_order=? WHERE id=?");
+        $stmt->execute([$title, $category, $desc, $image, $skills, $github_url, $live_url, $order, $other_id]);
+        $message = "Other Project '{$title}' updated.";
+    } else {
+        $stmt = $pdo->prepare("INSERT INTO other_projects (title, category, description, image, skills, github_url, live_url, display_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$title, $category, $desc, $image, $skills, $github_url, $live_url, $order]);
+        $message = "New Other Project added.";
     }
 }
 
@@ -293,6 +325,7 @@ require_once __DIR__ . '/../app/Core/Autoloader.php';
 
 $featured_list = \App\Models\FeaturedProject::allWithSkills();
 $academic_list = \App\Models\AcademicProject::allWithSkills();
+$other_projects_list = \App\Models\OtherProject::allWithSkills();
 $blog_list = $pdo->query("SELECT * FROM blog_insights ORDER BY display_order ASC, id DESC")->fetchAll();
 $inquiries_list = $pdo->query("SELECT * FROM contact_inquiries ORDER BY id DESC")->fetchAll();
 $company_products_list = \App\Models\CompanyProduct::allWithFeaturesAndPills();
@@ -968,6 +1001,14 @@ $awards_list = \App\Models\Award::allWithDetails();
                     <span class="nav-badge"><?= count($academic_list) ?></span>
                 </button>
 
+                <button class="nav-link" onclick="switchTab('tab-other', 'Some Other Projects', this)">
+                    <div class="nav-link-left">
+                        <i class="bx bx-git-branch"></i>
+                        <span>Some Other Projects</span>
+                    </div>
+                    <span class="nav-badge"><?= count($other_projects_list) ?></span>
+                </button>
+
                 <button class="nav-link" onclick="switchTab('tab-blog', 'Insights & Articles', this)">
                     <div class="nav-link-left">
                         <i class="bx bx-news"></i>
@@ -1377,6 +1418,10 @@ $awards_list = \App\Models\Award::allWithDetails();
                                     <input type="text" name="title" id="acad_title" class="form-control" required placeholder="e.g. Barcode -based Student Attendance System">
                                 </div>
                                 <div>
+                                    <label class="form-label">Card Image Path</label>
+                                    <input type="text" name="image" id="acad_image" class="form-control" required placeholder="images/projectcard1.jpg" value="images/projectcard1.jpg">
+                                </div>
+                                <div>
                                     <label class="form-label">Skills (comma-separated)</label>
                                     <input type="text" name="skills" id="acad_skills" class="form-control" required placeholder="C#, .NET, MySQL, Desktop App">
                                 </div>
@@ -1385,8 +1430,12 @@ $awards_list = \App\Models\Award::allWithDetails();
                                     <input type="number" name="display_order" id="acad_order" class="form-control" value="1">
                                 </div>
                                 <div class="form-col-full">
-                                    <label class="form-label">Description &amp; Coursework Context</label>
-                                    <textarea name="description" id="acad_desc" class="form-control" required placeholder="A desktop-based attendance management system..."></textarea>
+                                    <label class="form-label">Card Short Description</label>
+                                    <textarea name="description" id="acad_desc" class="form-control" required placeholder="Short summary displayed on the card face..."></textarea>
+                                </div>
+                                <div class="form-col-full">
+                                    <label class="form-label">Detailed Project Description (Modal Popup on Click)</label>
+                                    <textarea name="detailed_description" id="acad_detailed_desc" class="form-control" rows="4" placeholder="Detailed architectural breakdown, semester context, implementation details displayed when the user clicks the card..."></textarea>
                                 </div>
                             </div>
                             <div class="form-actions">
@@ -1401,8 +1450,9 @@ $awards_list = \App\Models\Award::allWithDetails();
                         <table>
                             <thead>
                                 <tr>
+                                    <th>Image</th>
                                     <th>Project Title</th>
-                                    <th>Description &amp; Context</th>
+                                    <th>Short &amp; Detailed Description</th>
                                     <th>Technologies</th>
                                     <th>Order</th>
                                     <th>Actions</th>
@@ -1411,11 +1461,21 @@ $awards_list = \App\Models\Award::allWithDetails();
                             <tbody>
                                 <?php foreach ($academic_list as $ap): ?>
                                 <tr>
-                                    <td style="width:26%;"><strong><?= htmlspecialchars($ap['title']) ?></strong></td>
-                                    <td style="font-size:0.84rem; color:var(--text-muted); line-height:1.45;"><?= htmlspecialchars($ap['description']) ?></td>
+                                    <td style="width:70px;">
+                                        <img src="/<?= ltrim(htmlspecialchars($ap['image'] ?? 'images/projectcard1.jpg'), '/') ?>" alt="" style="width:56px; height:40px; object-fit:cover; border-radius:6px; border:1px solid #e2e8f0;" onerror="this.src='/images/projectcard1.jpg'">
+                                    </td>
+                                    <td style="width:24%;"><strong><?= htmlspecialchars($ap['title']) ?></strong></td>
+                                    <td style="font-size:0.84rem; color:var(--text-muted); line-height:1.45;">
+                                        <div><?= htmlspecialchars($ap['description']) ?></div>
+                                        <?php if (!empty($ap['detailed_description'])): ?>
+                                        <div style="margin-top:0.35rem; font-size:0.78rem; color:#64748b; font-style:italic;">
+                                            <strong>Detailed:</strong> <?= htmlspecialchars(mb_strimwidth($ap['detailed_description'], 0, 90, '...')) ?>
+                                        </div>
+                                        <?php endif; ?>
+                                    </td>
                                     <td>
                                         <?php foreach ($ap['skills_array'] as $as): ?>
-                                            <span class="pill-badge" style="color:#b45309; background:rgba(217,119,6,0.08);"><?= htmlspecialchars($as) ?></span>
+                                            <span class="pill-badge" style="color:#4B86A5; background:rgba(75,134,165,0.08);"><?= htmlspecialchars($as) ?></span>
                                         <?php endforeach; ?>
                                     </td>
                                     <td><span style="font-weight:600; font-size:0.84rem;"><?= intval($ap['display_order']) ?></span></td>
@@ -1423,6 +1483,105 @@ $awards_list = \App\Models\Award::allWithDetails();
                                         <div class="actions-cell">
                                             <button class="btn btn-secondary btn-sm" onclick='editAcademic(<?= json_encode($ap) ?>)' title="Edit"><i class="bx bx-edit"></i></button>
                                             <a href="?del_acad=<?= $ap['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Delete this project?')" title="Delete"><i class="bx bx-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ───────────────────────────────────────────────────────────── -->
+            <!-- COMPONENT TAB: SOME OTHER PROJECTS -->
+            <!-- ───────────────────────────────────────────────────────────── -->
+            <section id="tab-other" class="tab-panel">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <div class="panel-header-info">
+                            <h2>Some Other Projects</h2>
+                            <p>DevOps tools, open source middleware, daemons, and system utilities</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="toggleForm('form-add-other')">
+                            <i class="bx bx-plus"></i> Add Other Project
+                        </button>
+                    </div>
+
+                    <!-- Collapsible Add/Edit Form -->
+                    <div id="form-add-other" class="form-drawer" style="display:none;">
+                        <form method="POST" action="">
+                            <input type="hidden" name="other_id" id="other_id" value="0">
+                            <div class="form-grid">
+                                <div>
+                                    <label class="form-label">Project Title</label>
+                                    <input type="text" name="title" id="other_title" class="form-control" required placeholder="e.g. Cloud-Native Distributed Log Shipper">
+                                </div>
+                                <div>
+                                    <label class="form-label">Category</label>
+                                    <input type="text" name="category" id="other_cat" class="form-control" required placeholder="e.g. DevOps & Infrastructure">
+                                </div>
+                                <div>
+                                    <label class="form-label">Card Image Path</label>
+                                    <input type="text" name="image" id="other_image" class="form-control" required placeholder="images/projectcard3.webp" value="images/projectcard3.webp">
+                                </div>
+                                <div>
+                                    <label class="form-label">Skills (comma-separated)</label>
+                                    <input type="text" name="skills" id="other_skills" class="form-control" required placeholder="Python, Docker, Elasticsearch, Redis">
+                                </div>
+                                <div>
+                                    <label class="form-label">GitHub Repository URL</label>
+                                    <input type="url" name="github_url" id="other_github" class="form-control" placeholder="https://github.com/gangasagar12">
+                                </div>
+                                <div>
+                                    <label class="form-label">Display Order</label>
+                                    <input type="number" name="display_order" id="other_order" class="form-control" value="1">
+                                </div>
+                                <div class="form-col-full">
+                                    <label class="form-label">Project Description</label>
+                                    <textarea name="description" id="other_desc" class="form-control" rows="3" required placeholder="Brief description of the utility, architecture, and technology stack..."></textarea>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" name="save_other" class="btn btn-primary btn-sm">Save Other Project</button>
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="resetAndCloseForm('form-add-other', 'other_id')">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Project Title</th>
+                                    <th>Category</th>
+                                    <th>Description</th>
+                                    <th>Technologies</th>
+                                    <th>Order</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($other_projects_list as $op): ?>
+                                <tr>
+                                    <td style="width:70px;">
+                                        <img src="/<?= ltrim(htmlspecialchars($op['image'] ?? 'images/projectcard3.webp'), '/') ?>" alt="" style="width:56px; height:40px; object-fit:cover; border-radius:6px; border:1px solid #e2e8f0;" onerror="this.src='/images/projectcard3.webp'">
+                                    </td>
+                                    <td style="width:22%;"><strong><?= htmlspecialchars($op['title']) ?></strong></td>
+                                    <td><span class="pill-badge" style="color:#0284c7; background:rgba(2,132,199,0.08);"><?= htmlspecialchars($op['category']) ?></span></td>
+                                    <td style="font-size:0.84rem; color:var(--text-muted); line-height:1.45;"><?= htmlspecialchars($op['description']) ?></td>
+                                    <td>
+                                        <?php foreach ($op['skills_array'] as $os): ?>
+                                            <span class="pill-badge" style="color:#4B86A5; background:rgba(75,134,165,0.08);"><?= htmlspecialchars($os) ?></span>
+                                        <?php endforeach; ?>
+                                    </td>
+                                    <td><span style="font-weight:600; font-size:0.84rem;"><?= intval($op['display_order']) ?></span></td>
+                                    <td>
+                                        <div class="actions-cell">
+                                            <button class="btn btn-secondary btn-sm" onclick='editOther(<?= json_encode($op) ?>)' title="Edit"><i class="bx bx-edit"></i></button>
+                                            <a href="?del_other=<?= $op['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Delete this project?')" title="Delete"><i class="bx bx-trash"></i></a>
                                         </div>
                                     </td>
                                 </tr>
@@ -1828,9 +1987,26 @@ $awards_list = \App\Models\Award::allWithDetails();
             drawer.style.display = 'block';
             document.getElementById('acad_id').value = item.id;
             document.getElementById('acad_title').value = item.title;
+            document.getElementById('acad_image').value = item.image || 'images/projectcard1.jpg';
             document.getElementById('acad_skills').value = item.skills;
             document.getElementById('acad_order').value = item.display_order;
             document.getElementById('acad_desc').value = item.description;
+            document.getElementById('acad_detailed_desc').value = item.detailed_description || '';
+            drawer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function editOther(item) {
+            switchTab('tab-other', 'Some Other Projects');
+            const drawer = document.getElementById('form-add-other');
+            drawer.style.display = 'block';
+            document.getElementById('other_id').value = item.id;
+            document.getElementById('other_title').value = item.title;
+            document.getElementById('other_cat').value = item.category || 'DevOps & Systems';
+            document.getElementById('other_image').value = item.image || 'images/projectcard3.webp';
+            document.getElementById('other_skills').value = item.skills;
+            document.getElementById('other_github').value = item.github_url || '';
+            document.getElementById('other_order').value = item.display_order;
+            document.getElementById('other_desc').value = item.description;
             drawer.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
@@ -1884,6 +2060,7 @@ $awards_list = \App\Models\Award::allWithDetails();
                     'tab-featured': 'Featured Projects',
                     'tab-products': 'Strataflow Products',
                     'tab-academic': 'Academic Projects',
+                    'tab-other': 'Some Other Projects',
                     'tab-blog': 'Insights & Articles',
                     'tab-awards': 'Awards & Gallery',
                     'tab-inquiries': 'Contact Inquiries'

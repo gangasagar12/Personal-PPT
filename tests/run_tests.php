@@ -40,6 +40,7 @@ $dbTest = new \Tests\DatabaseTest();
 runTest('DatabaseTest', 'testConnection', [$dbTest, 'testConnection']);
 runTest('DatabaseTest', 'testFeaturedProjectsCount', [$dbTest, 'testFeaturedProjectsCount']);
 runTest('DatabaseTest', 'testAcademicProjectsCount', [$dbTest, 'testAcademicProjectsCount']);
+runTest('DatabaseTest', 'testOtherProjectsCount', [$dbTest, 'testOtherProjectsCount']);
 runTest('DatabaseTest', 'testBlogInsightsCount', [$dbTest, 'testBlogInsightsCount']);
 runTest('DatabaseTest', 'testCompanyProductsCount', [$dbTest, 'testCompanyProductsCount']);
 runTest('DatabaseTest', 'testBlogInsightFindBySlug', [$dbTest, 'testBlogInsightFindBySlug']);
@@ -54,6 +55,9 @@ runTest('RouteTest', 'testDynamicProjectController', [$routeTest, 'testDynamicPr
 runTest('RouteTest', 'testExperienceController', [$routeTest, 'testExperienceController']);
 runTest('RouteTest', 'testAdminAuthCredentials', [$routeTest, 'testAdminAuthCredentials']);
 runTest('RouteTest', 'testAdminDashboardRendering', [$routeTest, 'testAdminDashboardRendering']);
+runTest('RouteTest', 'testHomeAcademicProjectsRendering', [$routeTest, 'testHomeAcademicProjectsRendering']);
+runTest('RouteTest', 'testHomeWhyWorkSectionRendering', [$routeTest, 'testHomeWhyWorkSectionRendering']);
+runTest('RouteTest', 'testProjectsIndexController', [$routeTest, 'testProjectsIndexController']);
 
 echo "---------------------------------------------\n";
 echo "Results: {$passed} Passed, {$failed} Failed\n";

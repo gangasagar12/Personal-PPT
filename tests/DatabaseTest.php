@@ -4,6 +4,7 @@ namespace Tests;
 use App\Core\Database;
 use App\Models\FeaturedProject;
 use App\Models\AcademicProject;
+use App\Models\OtherProject;
 use App\Models\BlogInsight;
 use App\Models\CompanyProduct;
 use App\Models\Experience;
@@ -21,7 +22,18 @@ class DatabaseTest {
 
     public function testAcademicProjectsCount(): bool {
         $academics = AcademicProject::allWithSkills();
-        return count($academics) === 4;
+        if (count($academics) !== 4) return false;
+        foreach ($academics as $a) {
+            if (empty($a['image']) || empty($a['detailed_description'])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function testOtherProjectsCount(): bool {
+        $others = OtherProject::allWithSkills();
+        return count($others) >= 5 && !empty($others[0]['title']) && !empty($others[0]['skills_array']);
     }
 
     public function testBlogInsightsCount(): bool {

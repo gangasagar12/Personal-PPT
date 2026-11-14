@@ -29,10 +29,15 @@ Router::get('/insight', [BlogController::class, 'show']);
 Router::get('/insight-detail', [BlogController::class, 'show']);
 Router::get('/insight-detail.html', [BlogController::class, 'show']);
 
-// 4. Project Case Studies & Details (Clean URL /works/{slug})
+// 4. All Projects Archive (Listing Featured, Academic, and Some Other Projects)
+Router::get('/projects', [ProjectController::class, 'index']);
+Router::get('/projects.html', [ProjectController::class, 'index']);
+Router::get('/all-projects', [ProjectController::class, 'index']);
+
+// 5. Project Case Studies & Details (Clean URL /works/{slug})
 Router::get('/works/{slug}', [ProjectController::class, 'show']);
 Router::get('/works/{slug}.html', [ProjectController::class, 'show']);
-Router::get('/works', [HomeController::class, 'index']);
+Router::get('/works', [ProjectController::class, 'index']);
 Router::get('/projects/{slug}', [ProjectController::class, 'show']);
 Router::get('/projects/{slug}.html', [ProjectController::class, 'show']);
 Router::get('/project/{slug}', [ProjectController::class, 'show']);

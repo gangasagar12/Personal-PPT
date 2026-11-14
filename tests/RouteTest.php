@@ -13,7 +13,8 @@ class RouteTest {
         $insights = file_exists(dirname(__DIR__) . '/resources/views/insights.php');
         $insightDetail = file_exists(dirname(__DIR__) . '/resources/views/insight_detail.php');
         $projectDetail = file_exists(dirname(__DIR__) . '/resources/views/project_detail.php');
-        return $home && $profile && $experience && $insights && $insightDetail && $projectDetail;
+        $projects = file_exists(dirname(__DIR__) . '/resources/views/projects.php');
+        return $home && $profile && $experience && $insights && $insightDetail && $projectDetail && $projects;
     }
 
     public function testExperienceController(): bool {
@@ -50,6 +51,48 @@ class RouteTest {
         
         unset($_SESSION['admin_logged_in']);
         return strpos($output, 'Admin Workspace') !== false && strpos($output, 'Academic Projects') !== false;
+    }
+
+    public function testHomeAcademicProjectsRendering(): bool {
+        $controller = new \App\Controllers\HomeController();
+        ob_start();
+        $controller->index();
+        $output = ob_get_clean();
+        
+        return strpos($output, 'academic-projects-grid') !== false
+            && strpos($output, 'academicDetailModal') !== false
+            && strpos($output, 'data-academic-modal-trigger') !== false
+            && strpos($output, 'Barcode -based Student Attendance System') !== false;
+    }
+
+    public function testHomeWhyWorkSectionRendering(): bool {
+        $controller = new \App\Controllers\HomeController();
+        ob_start();
+        $controller->index();
+        $output = ob_get_clean();
+
+        return strpos($output, 'why-work-section') !== false
+            && strpos($output, 'Why Work') !== false
+            && strpos($output, 'why-cards-grid') !== false
+            && strpos($output, 'why-simple-card') !== false
+            && strpos($output, 'Practical Development') !== false
+            && strpos($output, 'Problem-Solving Mindset') !== false
+            && strpos($output, 'Product-Oriented Thinking') !== false
+            && strpos($output, 'Continuous Learning') !== false;
+    }
+
+    public function testProjectsIndexController(): bool {
+        $controller = new \App\Controllers\ProjectController();
+        ob_start();
+        $controller->index();
+        $output = ob_get_clean();
+
+        return strpos($output, 'All Projects &') !== false
+            && strpos($output, 'Featured Projects') !== false
+            && strpos($output, 'Key Academic Projects') !== false
+            && strpos($output, 'Some Other Projects') !== false
+            && strpos($output, 'projects-archive-grid') !== false
+            && strpos($output, 'academicDetailModal') !== false;
     }
 }
 

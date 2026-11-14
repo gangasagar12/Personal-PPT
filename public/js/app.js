@@ -319,3 +319,78 @@ if (skillTabs.length && skillCards.length) {
     });
   });
 }
+
+/* ─── 10. Key Academic Projects Modal Dialog ────────────────────────────── */
+const academicModal = document.getElementById('academicDetailModal');
+
+if (academicModal) {
+  const modalImg    = document.getElementById('academicModalImg');
+  const modalTitle  = document.getElementById('academicModalTitle');
+  const modalDesc   = document.getElementById('academicModalDesc');
+  const modalSkills = document.getElementById('academicModalSkills');
+  const closeBtns   = academicModal.querySelectorAll('[data-close-academic-modal]');
+  const triggers    = document.querySelectorAll('[data-academic-modal-trigger]');
+
+  function openAcademicModal(card) {
+    const title  = card.getAttribute('data-title') || '';
+    const img    = card.getAttribute('data-image') || '/images/projectcard1.jpg';
+    const desc   = card.getAttribute('data-detailed-desc') || card.getAttribute('data-short-desc') || '';
+    const skills = card.getAttribute('data-skills') || '';
+
+    if (modalTitle) modalTitle.textContent = title;
+    if (modalDesc)  modalDesc.textContent  = desc;
+    if (modalImg) {
+      modalImg.src = img;
+      modalImg.alt = title;
+    }
+
+    if (modalSkills) {
+      modalSkills.innerHTML = '';
+      if (skills) {
+        const list = skills.split(',').map(s => s.trim()).filter(Boolean);
+        list.forEach(skill => {
+          const span = document.createElement('span');
+          span.textContent = skill;
+          modalSkills.appendChild(span);
+        });
+      }
+    }
+
+    academicModal.classList.add('is-open');
+    academicModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeAcademicModal() {
+    academicModal.classList.remove('is-open');
+    academicModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  triggers.forEach(card => {
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+      openAcademicModal(card);
+    });
+
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openAcademicModal(card);
+      }
+    });
+  });
+
+  closeBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeAcademicModal();
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && academicModal.classList.contains('is-open')) {
+      closeAcademicModal();
+    }
+  });
+}

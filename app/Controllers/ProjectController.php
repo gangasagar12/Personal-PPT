@@ -2,9 +2,27 @@
 namespace App\Controllers;
 
 use App\Models\FeaturedProject;
+use App\Models\AcademicProject;
+use App\Models\OtherProject;
 use App\Core\View;
 
 class ProjectController {
+    /**
+     * Display all projects archive page (Featured, Academic, Some Other Projects)
+     */
+    public function index(): void {
+        $featured = FeaturedProject::allWithSkills();
+        $academic = AcademicProject::allWithSkills();
+        $other = OtherProject::allWithSkills();
+
+        View::render('projects', [
+            'featured_projects' => $featured,
+            'academic_projects' => $academic,
+            'other_projects' => $other,
+            'page_title' => 'All Projects & Engineering Archives — Ganga Sagar Joshi'
+        ]);
+    }
+
     /**
      * Display single project detail view
      */
