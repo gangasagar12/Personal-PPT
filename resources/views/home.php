@@ -381,43 +381,29 @@
           <div class="about-content-column">
             <div class="about-role-badge">
               <i class="bx bx-code-alt" aria-hidden="true"></i>
-              <span>Django Backend Developer &bull; Kathmandu, Nepal</span>
+              <span>Software Developer &amp; Tech Entrepreneur &bull; Kathmandu, Nepal</span>
             </div>
 
             <!-- 2-Column Editorial Paragraphs matching the user's reference -->
             <div class="about-columns-wrap">
               <div class="about-text-col">
                 <p class="editorial-p">
-                  Hey! I'm <strong>Ganga Sagar Joshi</strong>, a software developer and Django backend engineer based in
-                  Kathmandu, Nepal. I hold a Bachelor of Computer Applications (BCA) from Kantipur City College,
-                  affiliated with Purbanchal University.
+                  Hey! I'm <strong>Ganga Sagar Joshi</strong>, a Software Developer, Backend Engineer, and Technology Entrepreneur based in Kathmandu, Nepal. I'm currently pursuing a <strong>Bachelor of Computer Applications (BCA) at Kantipur City College</strong>, with a passion for building practical software solutions and exploring emerging technologies.
                 </p>
                 <p class="editorial-p">
-                  I specialize in architecting scalable server-side systems, high-throughput REST APIs, and normalized
-                  relational database schemas with Python, Django, PostgreSQL, and MySQL. My engineering approach
-                  centers on writing clean, maintainable code and solving real-world institutional problems.
+                  I primarily work with <strong>Python, Django, REST APIs, and relational databases</strong>, focusing on backend development, application architecture, and scalable business solutions. I enjoy transforming complex requirements into reliable, maintainable, and user-friendly software.
                 </p>
                 <p class="editorial-p">
-                  As Co-Founder and technical lead at Inovix Technologies, I've built production clinical practice
-                  platforms (such as Oralix and CareFirst Dental), unifying multi-chair operatory scheduling, patient
-                  health records, and billing.
+                  Beyond development, I'm a <strong>Co-Founder of Strataflow Technologies Pvt. Ltd.</strong>, where I contribute to building technology-driven solutions for businesses and institutions. My work includes product development and healthcare software solutions, particularly dental practice management platforms.
                 </p>
               </div>
 
               <div class="about-text-col">
                 <p class="editorial-p">
-                  When I'm not writing backend services or optimizing database queries, you'll find me exploring AWS
-                  cloud infrastructure, containerized deployments with Docker, and practical machine learning workflows.
+                  I'm continuously exploring <strong>AI and Machine Learning, AWS, Docker, DevOps, and cloud technologies</strong> to expand my engineering capabilities. I believe great software is built through thoughtful architecture, continuous learning, and a genuine understanding of real-world problems.
                 </p>
                 <p class="editorial-p">
-                  I believe software engineering is the most effective medium to create tangible value for businesses
-                  and communities. Whether collaborating with startups, enterprise teams, or institutional clients, I
-                  prioritize clear architecture and intuitive user experiences.
-                </p>
-                <p class="editorial-p">
-                  Outside of tech, I love traveling, exploring new perspectives, and learning continuously to grow
-                  personally and professionally. If you have an exciting project or want to collaborate, let's create
-                  something awesome together!
+                  Outside technology, I enjoy traveling, discovering new perspectives, and learning new things. I'm always open to meaningful collaborations, innovative ideas, and opportunities to build technology that creates real value.
                 </p>
               </div>
             </div>
@@ -435,7 +421,7 @@
                 </div>
                 <div class="about-hl-pill">
                   <strong>Co-Founder</strong>
-                  <span>Inovix Technologies</span>
+                  <span>Strataflow Technologies</span>
                 </div>
               </div>
 
