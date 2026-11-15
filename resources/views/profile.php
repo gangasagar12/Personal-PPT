@@ -117,7 +117,7 @@
           <span class="section-kicker">Leadership</span>
           <h2 class="section-heading-h2">My Role in Strataflow Technologies</h2>
           <p class="section-caption-p">
-            Leading software engineering, system architecture, and product development strategy.
+            Leading product development, backend systems, and technical strategy.
           </p>
         </div>
 
@@ -129,12 +129,12 @@
             </div>
             <div class="founder-tag">
               <i class="bx bx-shield-quarter"></i>
-              <span>Engineering &amp; Product Architecture</span>
+              <span>Technology &amp; Product Development</span>
             </div>
           </div>
 
           <p class="founder-narrative">
-            As Co-Founder and Technical Lead at Strataflow Technologies, I bridge business objectives with robust software engineering. I am directly involved in technical decision-making, selecting dependable architectural patterns, directing backend systems development, and steering our proprietary product roadmap to address real-world business needs.
+            As Co-Founder and Technical Lead at Strataflow Technologies, I help turn business needs into dependable software. I guide our tech choices, lead backend development, and shape our product roadmap to build tools that solve practical problems for clients.
           </p>
 
           <!-- 4 Responsibility Pillars -->
@@ -142,10 +142,10 @@
             <div class="role-mini-card">
               <div class="role-mini-title">
                 <i class="bx bx-git-branch"></i>
-                <span>Product Planning &amp; Engineering</span>
+                <span>Product Planning &amp; Development</span>
               </div>
               <p>
-                Translating client requirements and industry operational bottlenecks into structured technical specifications, sprint goals, and reliable release schedules.
+                Turning client requirements and business needs into clear specifications, project goals, and reliable release schedules.
               </p>
             </div>
 
@@ -155,7 +155,7 @@
                 <span>Architecture &amp; Tech Stack Decisions</span>
               </div>
               <p>
-                Defining our engineering foundation using Python, Django, REST APIs, relational database schemas, and modern web frameworks to ensure long-term stability.
+                Selecting reliable tech stacks using Python, Django, REST APIs, and relational databases to build stable applications.
               </p>
             </div>
 
@@ -165,7 +165,7 @@
                 <span>AI &amp; Automation Integration</span>
               </div>
               <p>
-                Architecting practical artificial intelligence solutions, automated invoice workflows, and data pipelines that reduce repetitive manual tasks for businesses.
+                Integrating practical AI tools, automated billing, and data workflows that save time and reduce manual work for businesses.
               </p>
             </div>
 
@@ -175,7 +175,7 @@
                 <span>Business Growth &amp; Strategy</span>
               </div>
               <p>
-                Collaborating on commercial strategy, digital service delivery, client consultation, and ensuring every system we deploy creates tangible economic value.
+                Collaborating on digital strategy, client consultation, and ensuring every system we deploy creates real value for clients.
               </p>
             </div>
           </div>
@@ -213,7 +213,7 @@
             </div>
             <h3>Custom Software Development</h3>
             <p>
-              Developing tailored business management systems, centralized databases, and custom backend platforms engineered around unique operational workflows.
+              Developing tailored business management systems, centralized databases, and custom backend platforms designed around your specific business needs.
             </p>
           </div>
 

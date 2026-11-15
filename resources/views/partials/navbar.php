@@ -26,8 +26,8 @@ $is_home = ($active_page === 'home' && ($uri === '/' || $uri === '' || $uri === 
         <img src="/images/logo-square.png" alt="Ganga Sagar Joshi" class="brand-logo-img" width="42" height="42" />
       </div>
       <div class="brand-info">
-        <span class="brand-name">Ganga Sagar Joshi</span>
-        <span class="brand-title">Software &amp; Systems</span>
+        <span class="brand-name">Ganga Sagar</span>
+       
       </div>
     </a>
 
@@ -36,10 +36,10 @@ $is_home = ($active_page === 'home' && ($uri === '/' || $uri === '' || $uri === 
       <a href="<?= $is_home ? '#home' : '/' ?>" class="nav-link <?= $active_page === 'home' ? 'active' : '' ?>">Home</a>
       <a href="<?= $is_home ? '#about' : '/#about' ?>" class="nav-link <?= $active_page === 'about' ? 'active' : '' ?>">About</a>
       <a href="/experience" class="nav-link <?= $active_page === 'experience' ? 'active' : '' ?>">Experience</a>
-      <a href="<?= $is_home ? '#skills' : '/#skills' ?>" class="nav-link <?= $active_page === 'skills' ? 'active' : '' ?>">Skills</a>
+     
       <a href="<?= $is_home ? '#services' : '/#services' ?>" class="nav-link <?= $active_page === 'services' ? 'active' : '' ?>">Services</a>
       <a href="/projects" class="nav-link <?= $active_page === 'projects' ? 'active' : '' ?>">Projects</a>
-      <a href="/profile" class="nav-link <?= $active_page === 'profile' ? 'active' : '' ?>">Profile</a>
+      <a href="/profile" class="nav-link <?= $active_page === 'profile' ? 'active' : '' ?>">Entrepreneur Profile</a>
       <a href="/insights" class="nav-link <?= $active_page === 'insights' ? 'active' : '' ?>">Insights</a>
       <a href="<?= $is_home ? '#contact' : '/#contact' ?>" class="nav-link <?= $active_page === 'contact' ? 'active' : '' ?>">Contact</a>
     </nav>
@@ -68,7 +68,7 @@ $is_home = ($active_page === 'home' && ($uri === '/' || $uri === '' || $uri === 
       <img src="/images/logo-square.png" alt="Ganga Sagar Joshi" class="brand-logo-img" width="38" height="38" />
     </div>
     <div class="drawer-meta">
-      <span class="drawer-name">Ganga Sagar Joshi</span>
+      <span class="drawer-name">Ganga Sagar </span>
       <span class="drawer-status"><span class="status-indicator"></span> Available for work</span>
     </div>
     <button class="drawer-close" id="drawerClose" aria-label="Close menu">
@@ -80,10 +80,10 @@ $is_home = ($active_page === 'home' && ($uri === '/' || $uri === '' || $uri === 
     <a href="<?= $is_home ? '#home' : '/' ?>" class="drawer-link <?= $active_page === 'home' ? 'active' : '' ?>"><i class="bx bx-home-alt-2"></i><span>Home</span></a>
     <a href="<?= $is_home ? '#about' : '/#about' ?>" class="drawer-link <?= $active_page === 'about' ? 'active' : '' ?>"><i class="bx bx-user"></i><span>About</span></a>
     <a href="/experience" class="drawer-link <?= $active_page === 'experience' ? 'active' : '' ?>"><i class="bx bx-briefcase"></i><span>Experience</span></a>
-    <a href="<?= $is_home ? '#skills' : '/#skills' ?>" class="drawer-link <?= $active_page === 'skills' ? 'active' : '' ?>"><i class="bx bx-layer"></i><span>Skills</span></a>
+    
     <a href="<?= $is_home ? '#services' : '/#services' ?>" class="drawer-link <?= $active_page === 'services' ? 'active' : '' ?>"><i class="bx bx-wrench"></i><span>Services</span></a>
     <a href="/projects" class="drawer-link <?= $active_page === 'projects' ? 'active' : '' ?>"><i class="bx bx-folder"></i><span>Projects</span></a>
-    <a href="/profile" class="drawer-link <?= $active_page === 'profile' ? 'active' : '' ?>"><i class="bx bx-user-pin"></i><span>Profile</span></a>
+    <a href="/profile" class="drawer-link <?= $active_page === 'profile' ? 'active' : '' ?>"><i class="bx bx-user-pin"></i><span>Entrepreneur Profile</span></a>
     <a href="/insights" class="drawer-link <?= $active_page === 'insights' ? 'active' : '' ?>"><i class="bx bx-bulb"></i><span>Insights</span></a>
     <a href="<?= $is_home ? '#contact' : '/#contact' ?>" class="drawer-link <?= $active_page === 'contact' ? 'active' : '' ?>"><i class="bx bx-envelope"></i><span>Contact</span></a>
   </nav>

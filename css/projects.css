@@ -1,0 +1,345 @@
+/* ==========================================================================
+   PROJECTS ARCHIVE PAGE STYLES — Ganga Sagar Joshi Portfolio
+   Theme: Solid #4B86A5 Accent, Modern Minimalist Design, Zero Rainbow Gradients
+   ========================================================================== */
+
+.projects-page-body {
+  background: var(--bg);
+  color: var(--t1);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.projects-page-wrap {
+  flex: 1;
+  padding-top: clamp(6.5rem, 10vw, 8rem);
+  padding-bottom: clamp(4rem, 7vw, 6rem);
+}
+
+/* ─── Hero Header ─── */
+.projects-hero-header {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto clamp(2.5rem, 4vw, 3.5rem);
+  padding: 0 1rem;
+}
+
+.projects-hero-header .section-tag {
+  display: inline-block;
+  margin-bottom: 0.6rem;
+}
+
+.projects-hero-title {
+  font-family: var(--ff-h);
+  font-size: clamp(1.6rem, 3vw, 1.98rem); /* strictly <= 2rem */
+  font-weight: 700;
+  color: var(--t1);
+  line-height: 1.25;
+  margin-bottom: 0.75rem;
+}
+
+.projects-hero-subtitle {
+  font-family: var(--ff);
+  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+  color: var(--t2);
+  line-height: 1.68;
+  margin: 0 auto;
+}
+
+/* ─── Filter Tabs Bar ─── */
+.projects-filter-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: clamp(2.5rem, 4vw, 3.5rem);
+}
+
+.projects-filter-bar {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  padding: 0.4rem;
+  background: #ffffff;
+  border: 1px solid var(--bdr);
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+.project-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.35rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--t2);
+  font-family: var(--ff-h);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  user-select: none;
+}
+
+.project-tab-btn:hover {
+  color: var(--t1);
+  background: rgba(75, 134, 165, 0.06);
+}
+
+.project-tab-btn.active {
+  background: var(--accent); /* #4B86A5 */
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(75, 134, 165, 0.3);
+}
+
+.project-tab-btn .tab-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: rgba(15, 23, 42, 0.08);
+  color: var(--t1);
+  transition: all 0.2s ease;
+}
+
+.project-tab-btn.active .tab-badge {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+/* ─── Projects Grid ─── */
+.projects-archive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.project-archive-card {
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .projects-filter-bar {
+    border-radius: 16px;
+    width: 100%;
+    justify-content: center;
+  }
+  .projects-archive-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─── Archive Card Customizations ─── */
+.project-archive-card {
+  background: #ffffff;
+  border: 1px solid var(--bdr);
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.project-archive-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(75, 134, 165, 0.45);
+  box-shadow: 0 18px 36px -8px rgba(15, 23, 42, 0.1);
+}
+
+.project-archive-image-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #f1f5f9;
+  overflow: hidden;
+}
+
+.project-archive-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.45s ease;
+}
+
+.project-archive-card:hover .project-archive-image-wrap img {
+  transform: scale(1.05);
+}
+
+.project-category-pill {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+  font-family: var(--ff);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 0.26rem 0.7rem;
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.pill-featured {
+  background: rgba(15, 23, 42, 0.85);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.pill-academic {
+  background: rgba(75, 134, 165, 0.9);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.pill-other {
+  background: rgba(30, 41, 59, 0.85);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.project-archive-body {
+  padding: 1.5rem 1.6rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.project-archive-title {
+  font-family: var(--ff-h);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--t1);
+  line-height: 1.35;
+  margin: 0;
+  transition: color 0.2s ease;
+}
+
+.project-archive-card:hover .project-archive-title {
+  color: var(--accent);
+}
+
+.project-archive-desc {
+  font-family: var(--ff);
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: var(--t2);
+  flex: 1;
+  margin: 0;
+}
+
+.project-archive-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.25rem;
+}
+
+.project-archive-skills span {
+  font-family: var(--ff);
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 0.22rem 0.65rem;
+  border-radius: 6px;
+  background: rgba(75, 134, 165, 0.08);
+  color: #4B86A5;
+  border: 1px solid rgba(75, 134, 165, 0.2);
+  transition: all 0.2s ease;
+}
+
+.project-archive-card:hover .project-archive-skills span {
+  background: rgba(75, 134, 165, 0.14);
+  border-color: rgba(75, 134, 165, 0.35);
+}
+
+.project-archive-footer {
+  margin-top: auto;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--bdr);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.project-action-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--ff-h);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: gap 0.25s ease, color 0.2s ease;
+}
+
+.project-archive-card:hover .project-action-link {
+  gap: 0.65rem;
+  color: #386780;
+}
+
+.project-action-link i {
+  font-size: 1.15rem;
+  transition: transform 0.25s ease;
+}
+
+.project-archive-card:hover .project-action-link i {
+  transform: translateX(3px);
+}
+
+.project-secondary-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--t3);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.project-secondary-link:hover {
+  color: var(--t1);
+}
+
+/* ── Empty State ── */
+.projects-empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 1rem;
+  background: #ffffff;
+  border: 1px dashed var(--bdr);
+  border-radius: 16px;
+  display: none;
+}
+
+.projects-empty-state i {
+  font-size: 2.75rem;
+  color: var(--t3);
+  margin-bottom: 0.75rem;
+}
+
+.projects-empty-state h4 {
+  font-family: var(--ff-h);
+  font-size: 1.25rem;
+  color: var(--t1);
+  margin-bottom: 0.35rem;
+}
+
+.projects-empty-state p {
+  color: var(--t3);
+  font-size: 0.92rem;
+}

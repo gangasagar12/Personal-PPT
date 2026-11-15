@@ -34,12 +34,12 @@
 
       <!-- Hero Header Block -->
       <section class="projects-hero-header">
-        <span class="section-tag">Engineering Portfolio &amp; Archive</span>
+        <span class="section-tag">Portfolio &amp; Showcase</span>
         <h1 class="projects-hero-title">
-          All Projects &amp; <span class="gradient-text">Engineering Works</span>
+          All Projects &amp; <span class="gradient-text">Work Showcase</span>
         </h1>
         <p class="projects-hero-subtitle">
-          A comprehensive directory of production clinical software systems, scalable Django backends, university coursework implementations, and developer infrastructure utilities.
+          A collection of web applications, SaaS platforms, backend systems, and coursework projects I have built.
         </p>
       </section>
 
@@ -196,7 +196,7 @@
                    loading="lazy" 
                    onerror="this.onerror=null; this.src='/images/projectcard3.webp'" />
             </a>
-            <span class="project-category-pill pill-other"><?= htmlspecialchars($op['category'] ?? 'Engineering Utility') ?></span>
+            <span class="project-category-pill pill-other"><?= htmlspecialchars($op['category'] ?? 'Software Tool') ?></span>
           </div>
 
           <div class="project-archive-body">

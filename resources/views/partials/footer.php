@@ -19,7 +19,7 @@ $is_home = ($uri === '/' || $uri === '' || $uri === '/index.php');
           <span>Ganga Sagar<span class="dot">.</span></span>
         </a>
         <p class="footer-tagline">
-          Software &amp; Systems Engineer &bull; Co-Founder at Strataflow Technologies
+          Software Developer &bull; Co-Founder at Strataflow Technologies
         </p>
       </div>
 

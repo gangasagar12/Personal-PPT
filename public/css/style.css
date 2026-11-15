@@ -1516,6 +1516,26 @@ h6 {
   color: #9333ea;
 }
 
+.django-theme {
+  background: rgba(9, 46, 32, 0.12);
+  color: #0c4b33;
+}
+
+.postgres-theme {
+  background: rgba(51, 103, 145, 0.14);
+  color: #336791;
+}
+
+.linux-theme {
+  background: rgba(234, 179, 8, 0.14);
+  color: #ca8a04;
+}
+
+.git-theme {
+  background: rgba(15, 23, 42, 0.12);
+  color: #0f172a;
+}
+
 
 /* ──────────────────────────────────────────────────────────────────
    ABOUT ME SECTION (EDITORIAL SPLIT & SIGNATURE)

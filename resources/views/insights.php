@@ -38,7 +38,7 @@
       <div class="insights-hero-content">
         <h1 class="insights-hero-title">Insights</h1>
         <p class="insights-hero-subtitle">
-          Engineering case studies, database architecture, and production backend practices.
+          Practical articles on backend development, databases, and software solutions.
         </p>
       </div>
     </section>
@@ -59,7 +59,7 @@
           <div style="text-align: center; padding: 4rem 1rem; color: var(--color-text-muted);">
             <i class="bx bx-news" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 1rem; display: block;"></i>
             <p style="font-size: 1.1rem; font-weight: 500;">No articles published yet</p>
-            <p style="font-size: 0.85rem; margin-top: 0.25rem;">New engineering write-ups and case studies will appear here soon.</p>
+            <p style="font-size: 0.85rem; margin-top: 0.25rem;">New articles, tutorials, and development notes will appear here soon.</p>
           </div>
         <?php else: ?>
           <div class="insights-cards-grid">

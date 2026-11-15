@@ -10,11 +10,11 @@
 if (document.querySelector('.typed-text')) {
   new Typed('.typed-text', {
     strings: [
-      'Django Backend Developer',
-      'Python & Cloud Enthusiast',
-      'Machine Learning Explorer',
-      'Full Stack Engineer',
-      'Tech Entrepreneur & Builder',
+      'Software Developer',
+      'Django Backend Engineer',
+      'Technology Entrepreneur',
+      'SaaS Product Builder',
+      'AI & Machine Learning Enthusiast',
     ],
     typeSpeed: 60,
     backSpeed: 35,

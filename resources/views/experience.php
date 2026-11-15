@@ -30,29 +30,16 @@
 
   <div class="experience-page-wrapper">
 
-    <!-- ── Page Hero Header ── -->
-    <section class="exp-hero-banner">
-      <div class="container exp-hero-container">
-        <div class="exp-breadcrumb">
-          <a href="/" class="breadcrumb-back-link">
-            <i class="bx bx-arrow-back"></i>
-            <span>Back to Home</span>
-          </a>
-          <span class="breadcrumb-separator">/</span>
-          <span class="breadcrumb-current">Career &amp; Honors</span>
-        </div>
-
-        <h1 class="exp-hero-title">
-          Career Journey &amp; <span class="gradient-text">Honors</span>
-        </h1>
-        <p class="exp-hero-lead">
-          A comprehensive record of production software engineering roles, platform leadership milestones, and industry recognitions earned throughout my career.
+    <!-- ══════════════════════════════════════════════════════════
+         1. HERO SECTION (BACKGROUND IMAGE WITH CAREER TITLE)
+         ══════════════════════════════════════════════════════════ -->
+    <section class="exp-hero-banner" id="heroBanner">
+      <div class="exp-hero-overlay"></div>
+      <div class="exp-hero-content">
+        <h1 class="exp-hero-title">Career Journey &amp; Honors</h1>
+        <p class="exp-hero-subtitle">
+          My professional background, work experience, and milestones.
         </p>
-
-        <div class="exp-hero-pills">
-          <a href="#timeline" class="exp-jump-pill"><i class="bx bx-time-five"></i> History of Working</a>
-          <a href="#awards" class="exp-jump-pill"><i class="bx bx-trophy"></i> Awards &amp; Gallery</a>
-        </div>
       </div>
     </section>
 
@@ -66,7 +53,7 @@
             History of <span class="gradient-text">Working</span>
           </h2>
           <p class="section-subtitle">
-            Chronological progression of engineering responsibilities, architectural decisions, and production systems built.
+            A chronological timeline of my professional roles, projects, and work experience.
           </p>
         </div>
 
@@ -143,7 +130,7 @@
             Awards &amp; <span class="gradient-text">Honors Gallery</span>
           </h2>
           <p class="section-subtitle">
-            Verified academic milestones, hackathon awards, and software architecture distinctions earned throughout my journey.
+            Academic achievements, recognitions, and awards earned along the way.
           </p>
         </div>
 
@@ -191,9 +178,9 @@
         <div class="exp-cta-card">
           <div class="exp-cta-content">
             <span class="exp-cta-tag">Ready for Collaboration</span>
-            <h2>Let's Engineer Scalable Software Together</h2>
+            <h2>Let's Build Great Software Together</h2>
             <p>
-              Looking for a dedicated Django backend architect, clinical systems engineer, or technology partner for your next venture? Let's talk.
+              Looking for a dedicated software developer, backend specialist, or tech partner for your next venture? Let's talk.
             </p>
           </div>
           <div class="exp-cta-buttons">

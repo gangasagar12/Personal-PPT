@@ -76,9 +76,9 @@
           </div>
 
           <p class="hero-description">
-            Software Developer and Machine Learning enthusiast pursuing a Bachelor of Computer Application (BCA) at
-            Kantipur City College. I build robust backend architectures using Python and Django, craft modern web
-            solutions, and actively explore cloud infrastructure and AI.
+            I build backend systems, business applications, and scalable software solutions using  modern technologies.
+
+As Co-Founder of Strataflow Technologies, I work on turning real-world business challenges into practical digital products.
           </p>
 
           <!-- Action Buttons -->
@@ -129,8 +129,8 @@
             </div>
             <div class="highlight-separator" aria-hidden="true"></div>
             <div class="highlight-item">
-              <span class="highlight-val">100%</span>
-              <span class="highlight-txt">Problem Solver</span>
+              <span class="highlight-val">10+</span>
+              <span class="highlight-txt">Project Completed</span>
             </div>
           </div>
         </div>
@@ -153,26 +153,15 @@
         <div class="marquee-flow-item">
           <div class="flow-icon python-theme"><i class="bx bxl-python"></i></div>
           <div class="flow-text">
-            <span class="flow-title">Python &amp; Django</span>
-            <span class="flow-sub">Backend Engineering</span>
+            <span class="flow-title">Python</span>
           </div>
         </div>
         <span class="flow-divider" aria-hidden="true">✦</span>
 
         <div class="marquee-flow-item">
-          <div class="flow-icon pill-rocket-theme"><span class="pill-icon">🚀</span></div>
+          <div class="flow-icon django-theme"><i class="bx bxl-django"></i></div>
           <div class="flow-text">
-            <span class="flow-title">High-Impact Solutions</span>
-            <span class="flow-sub">Production Systems</span>
-          </div>
-        </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
-
-        <div class="marquee-flow-item">
-          <div class="flow-icon aws-theme"><i class="bx bxl-aws"></i></div>
-          <div class="flow-text">
-            <span class="flow-title">AWS &amp; Cloud</span>
-            <span class="flow-sub">DevOps &amp; Infra</span>
+            <span class="flow-title">Django</span>
           </div>
         </div>
         <span class="flow-divider" aria-hidden="true">✦</span>
@@ -180,8 +169,15 @@
         <div class="marquee-flow-item">
           <div class="flow-icon api-theme"><i class="bx bx-server"></i></div>
           <div class="flow-text">
-            <span class="flow-title">Scalable APIs</span>
-            <span class="flow-sub">REST &amp; PostgreSQL</span>
+            <span class="flow-title">REST APIs</span>
+          </div>
+        </div>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item">
+          <div class="flow-icon postgres-theme"><i class="bx bxl-postgresql"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">PostgreSQL</span>
           </div>
         </div>
         <span class="flow-divider" aria-hidden="true">✦</span>
@@ -189,8 +185,7 @@
         <div class="marquee-flow-item">
           <div class="flow-icon db-theme"><i class="bx bx-data"></i></div>
           <div class="flow-text">
-            <span class="flow-title">Relational Databases</span>
-            <span class="flow-sub">Schema Design &amp; 3NF</span>
+            <span class="flow-title">MySQL</span>
           </div>
         </div>
         <span class="flow-divider" aria-hidden="true">✦</span>
@@ -198,8 +193,39 @@
         <div class="marquee-flow-item">
           <div class="flow-icon docker-theme"><i class="bx bxl-docker"></i></div>
           <div class="flow-text">
-            <span class="flow-title">Docker &amp; Containers</span>
-            <span class="flow-sub">Microservices &amp; CI/CD</span>
+            <span class="flow-title">Docker</span>
+          </div>
+        </div>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item">
+          <div class="flow-icon linux-theme"><i class="bx bxl-tux"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">Linux</span>
+          </div>
+        </div>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item">
+          <div class="flow-icon saas-theme"><i class="bx bx-layer"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">SaaS Development</span>
+          </div>
+        </div>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item">
+          <div class="flow-icon git-theme"><i class="bx bxl-github"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">Git &amp; GitHub</span>
+          </div>
+        </div>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item">
+          <div class="flow-icon aws-theme"><i class="bx bxl-aws"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">AWS Cloud</span>
           </div>
         </div>
         <span class="flow-divider" aria-hidden="true">✦</span>
@@ -208,34 +234,6 @@
           <div class="flow-icon ml-theme"><i class="bx bx-brain"></i></div>
           <div class="flow-text">
             <span class="flow-title">Machine Learning</span>
-            <span class="flow-sub">AI &amp; Predictive Models</span>
-          </div>
-        </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
-
-        <div class="marquee-flow-item">
-          <div class="flow-icon security-theme"><i class="bx bx-shield-quarter"></i></div>
-          <div class="flow-text">
-            <span class="flow-title">JWT &amp; RBAC</span>
-            <span class="flow-sub">Secure Authentication</span>
-          </div>
-        </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
-
-        <div class="marquee-flow-item">
-          <div class="flow-icon perf-theme"><i class="bx bx-line-chart"></i></div>
-          <div class="flow-text">
-            <span class="flow-title">Query Optimization</span>
-            <span class="flow-sub">Eliminating N+1 Latency</span>
-          </div>
-        </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
-
-        <div class="marquee-flow-item">
-          <div class="flow-icon saas-theme"><i class="bx bx-layer"></i></div>
-          <div class="flow-text">
-            <span class="flow-title">Enterprise SaaS</span>
-            <span class="flow-sub">Scalable Architectures</span>
           </div>
         </div>
         <span class="flow-divider" aria-hidden="true">✦</span>
@@ -244,26 +242,15 @@
         <div class="marquee-flow-item" aria-hidden="true">
           <div class="flow-icon python-theme"><i class="bx bxl-python"></i></div>
           <div class="flow-text">
-            <span class="flow-title">Python &amp; Django</span>
-            <span class="flow-sub">Backend Engineering</span>
+            <span class="flow-title">Python</span>
           </div>
         </div>
         <span class="flow-divider" aria-hidden="true">✦</span>
 
         <div class="marquee-flow-item" aria-hidden="true">
-          <div class="flow-icon pill-rocket-theme"><span class="pill-icon">🚀</span></div>
+          <div class="flow-icon django-theme"><i class="bx bxl-django"></i></div>
           <div class="flow-text">
-            <span class="flow-title">High-Impact Solutions</span>
-            <span class="flow-sub">Production Systems</span>
-          </div>
-        </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
-
-        <div class="marquee-flow-item" aria-hidden="true">
-          <div class="flow-icon aws-theme"><i class="bx bxl-aws"></i></div>
-          <div class="flow-text">
-            <span class="flow-title">AWS &amp; Cloud</span>
-            <span class="flow-sub">DevOps &amp; Infra</span>
+            <span class="flow-title">Django</span>
           </div>
         </div>
         <span class="flow-divider" aria-hidden="true">✦</span>
@@ -271,8 +258,15 @@
         <div class="marquee-flow-item" aria-hidden="true">
           <div class="flow-icon api-theme"><i class="bx bx-server"></i></div>
           <div class="flow-text">
-            <span class="flow-title">Scalable APIs</span>
-            <span class="flow-sub">REST &amp; PostgreSQL</span>
+            <span class="flow-title">REST APIs</span>
+          </div>
+        </div>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item" aria-hidden="true">
+          <div class="flow-icon postgres-theme"><i class="bx bxl-postgresql"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">PostgreSQL</span>
           </div>
         </div>
         <span class="flow-divider" aria-hidden="true">✦</span>
@@ -280,8 +274,7 @@
         <div class="marquee-flow-item" aria-hidden="true">
           <div class="flow-icon db-theme"><i class="bx bx-data"></i></div>
           <div class="flow-text">
-            <span class="flow-title">Relational Databases</span>
-            <span class="flow-sub">Schema Design &amp; 3NF</span>
+            <span class="flow-title">MySQL</span>
           </div>
         </div>
         <span class="flow-divider" aria-hidden="true">✦</span>
@@ -289,8 +282,39 @@
         <div class="marquee-flow-item" aria-hidden="true">
           <div class="flow-icon docker-theme"><i class="bx bxl-docker"></i></div>
           <div class="flow-text">
-            <span class="flow-title">Docker &amp; Containers</span>
-            <span class="flow-sub">Microservices &amp; CI/CD</span>
+            <span class="flow-title">Docker</span>
+          </div>
+        </div>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item" aria-hidden="true">
+          <div class="flow-icon linux-theme"><i class="bx bxl-tux"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">Linux</span>
+          </div>
+        </div>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item" aria-hidden="true">
+          <div class="flow-icon saas-theme"><i class="bx bx-layer"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">SaaS Development</span>
+          </div>
+        </div>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item" aria-hidden="true">
+          <div class="flow-icon git-theme"><i class="bx bxl-github"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">Git &amp; GitHub</span>
+          </div>
+        </div>
+        <span class="flow-divider" aria-hidden="true">✦</span>
+
+        <div class="marquee-flow-item" aria-hidden="true">
+          <div class="flow-icon aws-theme"><i class="bx bxl-aws"></i></div>
+          <div class="flow-text">
+            <span class="flow-title">AWS Cloud</span>
           </div>
         </div>
         <span class="flow-divider" aria-hidden="true">✦</span>
@@ -299,34 +323,6 @@
           <div class="flow-icon ml-theme"><i class="bx bx-brain"></i></div>
           <div class="flow-text">
             <span class="flow-title">Machine Learning</span>
-            <span class="flow-sub">AI &amp; Predictive Models</span>
-          </div>
-        </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
-
-        <div class="marquee-flow-item" aria-hidden="true">
-          <div class="flow-icon security-theme"><i class="bx bx-shield-quarter"></i></div>
-          <div class="flow-text">
-            <span class="flow-title">JWT &amp; RBAC</span>
-            <span class="flow-sub">Secure Authentication</span>
-          </div>
-        </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
-
-        <div class="marquee-flow-item" aria-hidden="true">
-          <div class="flow-icon perf-theme"><i class="bx bx-line-chart"></i></div>
-          <div class="flow-text">
-            <span class="flow-title">Query Optimization</span>
-            <span class="flow-sub">Eliminating N+1 Latency</span>
-          </div>
-        </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
-
-        <div class="marquee-flow-item" aria-hidden="true">
-          <div class="flow-icon saas-theme"><i class="bx bx-layer"></i></div>
-          <div class="flow-text">
-            <span class="flow-title">Enterprise SaaS</span>
-            <span class="flow-sub">Scalable Architectures</span>
           </div>
         </div>
         <span class="flow-divider" aria-hidden="true">✦</span>
@@ -345,7 +341,7 @@
             Get To Know <span class="gradient-text">Me</span>
           </h2>
           <p class="section-subtitle">
-            A glimpse into my background, backend engineering philosophy, and journey in building technology.
+            A glimpse into my background, passion for software development, and journey in building technology.
           </p>
         </div>
 
@@ -388,19 +384,19 @@
             <div class="about-columns-wrap">
               <div class="about-text-col">
                 <p class="editorial-p">
-                  Hey! I'm <strong>Ganga Sagar Joshi</strong>, a Software Developer, Backend Engineer, and Technology Entrepreneur based in Kathmandu, Nepal. I'm currently pursuing a <strong>Bachelor of Computer Applications (BCA) at Kantipur City College</strong>, with a passion for building practical software solutions and exploring emerging technologies.
+                  Hey! I'm Ganga Sagar Joshi, a Software Developer, Backend Engineer, and Technology Entrepreneur based in Kathmandu, Nepal. I'm currently pursuing a Bachelor of Computer Applications (BCA) at Kantipur City College, with a passion for building practical software solutions and exploring emerging technologies.
                 </p>
                 <p class="editorial-p">
-                  I primarily work with <strong>Python, Django, REST APIs, and relational databases</strong>, focusing on backend development, application architecture, and scalable business solutions. I enjoy transforming complex requirements into reliable, maintainable, and user-friendly software.
+                  I primarily work with Python, Django, REST APIs, and relational databases, focusing on backend development, application architecture, and scalable business solutions. I enjoy transforming complex requirements into reliable, maintainable, and user-friendly software.
                 </p>
                 <p class="editorial-p">
-                  Beyond development, I'm a <strong>Co-Founder of Strataflow Technologies Pvt. Ltd.</strong>, where I contribute to building technology-driven solutions for businesses and institutions. My work includes product development and healthcare software solutions, particularly dental practice management platforms.
+                  Beyond development, I'm a Co-Founder of Strataflow Technologies Pvt. Ltd., where I contribute to building technology-driven solutions for businesses and institutions. My work includes product development and healthcare software solutions, particularly dental practice management platforms.
                 </p>
               </div>
 
               <div class="about-text-col">
                 <p class="editorial-p">
-                  I'm continuously exploring <strong>AI and Machine Learning, AWS, Docker, DevOps, and cloud technologies</strong> to expand my engineering capabilities. I believe great software is built through thoughtful architecture, continuous learning, and a genuine understanding of real-world problems.
+                  I'm continuously exploring AI and Machine Learning, AWS, Docker, DevOps, and cloud technologies to expand my engineering capabilities. I believe great software is built through thoughtful architecture, continuous learning, and a genuine understanding of real-world problems.
                 </p>
                 <p class="editorial-p">
                   Outside technology, I enjoy traveling, discovering new perspectives, and learning new things. I'm always open to meaningful collaborations, innovative ideas, and opportunities to build technology that creates real value.
@@ -471,7 +467,7 @@
                   <h4 class="stage-title">BCA (Bachelor of Computer Applications)</h4>
                   <span class="stage-school">Kantipur City College &bull; Purbanchal University</span>
                   <p class="stage-desc">
-                    Specializing in software engineering, database architectures (PostgreSQL/MySQL), data structures &amp; Python backend development.
+                    Focusing on Python backend development, relational databases (PostgreSQL/MySQL), and computer application fundamentals.
                   </p>
                 </div>
               </div>
@@ -596,7 +592,7 @@
             Technologies &amp; <span class="gradient-text">Tools</span>
           </h2>
           <p class="section-subtitle">
-            Core programming languages, web frameworks, databases, and developer infrastructure organized by specialization.
+            Programming languages, frameworks, databases, and tools I use to build modern software.
           </p>
         </div>
 
@@ -627,14 +623,14 @@
         <!-- Categorized Skills Grid -->
         <div class="skills-categories-grid">
 
-          <!-- 1. Backend Engineering -->
+          <!-- 1. Backend Development -->
           <div class="skill-category-card" data-category="backend">
             <div class="skill-category-header">
               <div class="skill-cat-title-wrap">
                 <span class="skill-cat-icon"><i class="bx bx-server" aria-hidden="true"></i></span>
                 <div>
-                  <h3 class="skill-cat-title">Backend Architecture</h3>
-                  <p class="skill-cat-desc">Server-side logic, scalable APIs &amp; systems</p>
+                  <h3 class="skill-cat-title">Backend Development</h3>
+                  <p class="skill-cat-desc">Server-side logic, REST APIs &amp; databases</p>
                 </div>
               </div>
             </div>
@@ -664,8 +660,8 @@
               <div class="skill-cat-title-wrap">
                 <span class="skill-cat-icon"><i class="bx bx-layout" aria-hidden="true"></i></span>
                 <div>
-                  <h3 class="skill-cat-title">Frontend Engineering</h3>
-                  <p class="skill-cat-desc">Responsive user interfaces &amp; interaction</p>
+                  <h3 class="skill-cat-title">Frontend Development</h3>
+                  <p class="skill-cat-desc">Clean, responsive web interfaces</p>
                 </div>
               </div>
             </div>
@@ -691,8 +687,8 @@
               <div class="skill-cat-title-wrap">
                 <span class="skill-cat-icon"><i class="bx bx-data" aria-hidden="true"></i></span>
                 <div>
-                  <h3 class="skill-cat-title">Databases &amp; Storage</h3>
-                  <p class="skill-cat-desc">Relational schemas, queries &amp; persistence</p>
+                  <h3 class="skill-cat-title">Databases</h3>
+                  <p class="skill-cat-desc">Database design, queries &amp; data management</p>
                 </div>
               </div>
             </div>
@@ -718,8 +714,8 @@
               <div class="skill-cat-title-wrap">
                 <span class="skill-cat-icon"><i class="bx bx-cloud" aria-hidden="true"></i></span>
                 <div>
-                  <h3 class="skill-cat-title">DevOps &amp; Infrastructure</h3>
-                  <p class="skill-cat-desc">Containerization, cloud services &amp; Linux</p>
+                  <h3 class="skill-cat-title">DevOps &amp; Cloud</h3>
+                  <p class="skill-cat-desc">Docker, cloud hosting &amp; Linux environments</p>
                 </div>
               </div>
             </div>
@@ -760,17 +756,16 @@
         <div class="section-heading-block">
           <span class="section-tag">What I Offer</span>
           <h2 class="section-main-title">
-            Specialized Engineering <span class="gradient-text">Services</span>
+            Services &amp; <span class="gradient-text">Solutions</span>
           </h2>
           <p class="section-subtitle">
-            Delivering robust backend architectures, resilient database solutions, and end-to-end digital systems
-            tailored to modern operational needs.
+            Building reliable backend systems, practical web applications, and database solutions that help businesses run smoothly.
           </p>
         </div>
 
         <div class="services-cards-grid">
 
-          <!-- Service 1: Backend & RESTful API Engineering -->
+          <!-- Service 1: Backend & RESTful API Development -->
           <article class="service-card service-blue">
             <div class="service-icon-wrap">
               <i class="bx bx-server" aria-hidden="true"></i>
@@ -778,8 +773,7 @@
             <div class="service-body">
               <h3 class="service-title">Backend &amp; API Development</h3>
               <p class="service-desc">
-                Architecting scalable server-side systems and production REST APIs with Python and Django. Focused on
-                high-throughput endpoints, secure JWT/OAuth authentication, and resilient data processing.
+                Building fast and secure server-side applications and REST APIs using Python and Django. Focused on reliable performance, clean code, and secure authentication.
               </p>
               <div class="service-pills">
                 <span>Python &amp; Django</span>
@@ -790,7 +784,7 @@
             </div>
           </article>
 
-          <!-- Service 2: Database Architecture & Optimization -->
+          <!-- Service 2: Database Design & Optimization -->
           <article class="service-card service-indigo">
             <div class="service-icon-wrap">
               <i class="bx bx-data" aria-hidden="true"></i>
@@ -798,8 +792,7 @@
             <div class="service-body">
               <h3 class="service-title">Database Design &amp; Optimization</h3>
               <p class="service-desc">
-                Structuring normalized relational schemas, ACID-compliant transactions, and optimized database queries
-                across PostgreSQL, MySQL, and SQLite for high-load consistency and data reliability.
+                Designing well-structured database schemas and writing fast, optimized queries in PostgreSQL and MySQL to keep data safe, organized, and reliable.
               </p>
               <div class="service-pills">
                 <span>PostgreSQL</span>
@@ -810,17 +803,15 @@
             </div>
           </article>
 
-          <!-- Service 3: Healthcare & Practice Management Systems -->
+          <!-- Service 3: Clinic & Practice Management Software -->
           <article class="service-card service-cyan">
             <div class="service-icon-wrap">
               <i class="bx bx-pulse" aria-hidden="true"></i>
             </div>
             <div class="service-body">
-              <h3 class="service-title">Clinical Practice Management Systems</h3>
+              <h3 class="service-title">Clinic &amp; Business Management Software</h3>
               <p class="service-desc">
-                Developing custom clinical practice operating systems (e.g., Oralix, CareFirst Dental) featuring
-                real-time operatory chair scheduling, patient electronic health records (EHR), and automated billing
-                workflows.
+                Creating specialized software for clinics and businesses (like dental practice platforms) with easy appointment scheduling, patient records, and billing tools.
               </p>
               <div class="service-pills">
                 <span>Practice OS</span>
@@ -839,8 +830,7 @@
             <div class="service-body">
               <h3 class="service-title">Full-Stack Web Development</h3>
               <p class="service-desc">
-                Building end-to-end web applications with modern, accessible user interfaces and solid backend logic.
-                Bridging responsive HTML5/CSS3/JavaScript frontends seamlessly with Django backends.
+                Developing complete web applications from start to finish — combining user-friendly, responsive frontends with solid Django backend systems.
               </p>
               <div class="service-pills">
                 <span>Full-Stack Solutions</span>
@@ -851,7 +841,7 @@
             </div>
           </article>
 
-          <!-- Service 5: Cloud Infrastructure & DevOps -->
+          <!-- Service 5: Cloud Deployment & DevOps -->
           <article class="service-card service-amber">
             <div class="service-icon-wrap">
               <i class="bx bx-cloud" aria-hidden="true"></i>
@@ -859,8 +849,7 @@
             <div class="service-body">
               <h3 class="service-title">Cloud Deployment &amp; DevOps</h3>
               <p class="service-desc">
-                Deploying and maintaining production workloads using containerized Docker environments, AWS cloud
-                infrastructure (EC2, S3), Linux system configuration, and automated backup routines.
+                Setting up and maintaining web applications in the cloud using Docker, AWS, and Linux servers with automated backups to ensure high uptime.
               </p>
               <div class="service-pills">
                 <span>AWS Cloud</span>
@@ -879,8 +868,7 @@
             <div class="service-body">
               <h3 class="service-title">Custom Automation &amp; Scripting</h3>
               <p class="service-desc">
-                Creating specialized Python automation scripts, web scrapers, and data pipelines to eliminate repetitive
-                manual tasks, automate institutional workflows, and parse large structured datasets.
+                Writing custom Python scripts and scrapers to automate repetitive tasks, import/export data, and save time for everyday business operations.
               </p>
               <div class="service-pills">
                 <span>Python Scripting</span>
@@ -909,7 +897,7 @@
             Why Work <span class="gradient-text">With Me</span>
           </h2>
           <p class="section-subtitle">
-            Core engineering principles, problem-solving discipline, and product-focused delivery powering dependable software systems.
+            A practical approach to building dependable software, solving real problems, and delivering results.
           </p>
         </div>
 
@@ -920,7 +908,7 @@
           <article class="why-simple-card">
             <h3 class="why-card-title">Practical Development</h3>
             <p class="why-card-desc">
-              Focusing on maintainable Django &amp; Python backend architectures, normalized relational database schemas, and deterministic code over trendy over-engineering.
+              I focus on writing clean, maintainable Python and Django code with solid database design, choosing simple and reliable solutions over unnecessary complexity.
             </p>
           </article>
 
@@ -928,7 +916,7 @@
           <article class="why-simple-card">
             <h3 class="why-card-title">Problem-Solving Mindset</h3>
             <p class="why-card-desc">
-              Deconstructing complex organizational bottlenecks into structured, deterministic components with systematic profiling and database query optimization.
+              I break down challenging business requirements into clear, step-by-step solutions, optimizing queries and logic for smooth everyday performance.
             </p>
           </article>
 
@@ -936,7 +924,7 @@
           <article class="why-simple-card card-accent-tint">
             <h3 class="why-card-title">Product-Oriented Thinking</h3>
             <p class="why-card-desc">
-              Bridging business objectives and technical execution. Designing with deep empathy for end-users, transactional accuracy, and lasting real-world utility.
+              I connect business goals with technology, always keeping the end-user in mind to create software that is genuinely easy to use and adds real value.
             </p>
           </article>
 
@@ -944,7 +932,7 @@
           <article class="why-simple-card">
             <h3 class="why-card-title">Continuous Learning</h3>
             <p class="why-card-desc">
-              Actively expanding expertise across modern C++ systems programming, container orchestration, distributed caching, and cloud security practices.
+              I constantly sharpen my skills with modern tools, AI, cloud technologies, and best practices to build better and faster applications.
             </p>
           </article>
 
@@ -966,7 +954,7 @@
             Featured <span class="gradient-text">Projects</span>
           </h2>
           <p class="section-subtitle">
-            A comprehensive showcase of production clinical operating platforms, scalable Django backend architectures, relational database schemas, and open-source software engineering.
+            A showcase of web applications, SaaS platforms, and backend systems I have built and delivered.
           </p>
         </div>
 
@@ -1023,7 +1011,7 @@
             <span class="section-tag">University Coursework</span>
             <h3 class="academic-section-title">Key Academic <span class="gradient-text">Projects</span></h3>
             <p class="section-subtitle academic-subtitle">
-              Engineering applications, algorithms, and systems developed during BCA coursework at Kantipur City College.
+              Practical software applications and projects developed during my BCA coursework at Kantipur City College.
             </p>
           </div>
 
@@ -1123,10 +1111,10 @@
         <div class="section-heading-block text-center">
           <span class="section-tag">Blog &amp; Knowledge</span>
           <h2 class="section-main-title">
-            Engineering <span class="gradient-text">Insights</span>
+            Articles &amp; <span class="gradient-text">Insights</span>
           </h2>
           <p class="section-subtitle">
-            Technical write-ups, backend architecture case studies, and engineering notes on systems design and relational databases.
+            Practical notes, tutorials, and case studies on backend development, databases, and software building.
           </p>
         </div>
 
