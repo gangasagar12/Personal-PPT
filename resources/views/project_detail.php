@@ -56,19 +56,36 @@ if (!function_exists('getTechBadgeInfo')) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title><?= htmlspecialchars($title) ?> — Ganga Sagar Joshi</title>
-  <meta name="description" content="<?= htmlspecialchars($project['short_description'] ?? 'Software engineering case study by Ganga Sagar Joshi.') ?>" />
+  <title><?= htmlspecialchars($title) ?> — Case Study | Ganga Sagar Joshi</title>
 
-  <!-- Favicon & Touch Icons -->
-  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
-  <meta property="og:image" content="/images/logo-square.png" />
+  <?php
+  $projectSlug = $project['slug'] ?? \App\Models\FeaturedProject::slugify($title);
+  $projectDesc = !empty($project['short_description']) ? $project['short_description'] : (!empty($project['description']) ? mb_strimwidth(strip_tags($project['description']), 0, 160, '...') : 'Detailed software engineering case study by Ganga Sagar Joshi.');
+  $projectImg = !empty($project['image_url']) ? $project['image_url'] : '/images/logo-square.png';
+
+  $projectSchema = [
+      '@type' => 'SoftwareApplication',
+      'name' => $title,
+      'description' => $projectDesc,
+      'applicationCategory' => 'BusinessApplication',
+      'operatingSystem' => 'Web, Cloud',
+      'author' => [
+          '@type' => 'Person',
+          'name' => 'Ganga Sagar Joshi'
+      ]
+  ];
+
+  \App\Core\View::partial('seo_meta', [
+      'seo_title' => $title . ' — Case Study | Ganga Sagar Joshi',
+      'seo_desc' => $projectDesc,
+      'seo_canonical' => \App\Core\SEO::url('/works/' . $projectSlug),
+      'seo_image' => $projectImg,
+      'seo_type' => 'article',
+      'seo_custom_schema' => $projectSchema
+  ]);
+  ?>
 
   <!-- Fonts & Icons -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
 

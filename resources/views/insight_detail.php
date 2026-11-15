@@ -4,18 +4,40 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title id="metaTitle"><?= htmlspecialchars(($post['title'] ?? 'Insight Detail') . ' — Ganga Sagar Joshi') ?></title>
-  <meta name="description" id="metaDesc" content="<?= htmlspecialchars($post['excerpt'] ?? 'Technical engineering insights by Ganga Sagar Joshi.') ?>" />
 
-  <!-- Favicon & Touch Icons -->
-  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
-  <meta property="og:image" content="/images/logo-square.png" />
+  <?php
+  $postTitle = ($post['title'] ?? 'Insight Detail') . ' — Ganga Sagar Joshi';
+  $postDesc = !empty($post['excerpt']) ? $post['excerpt'] : (!empty($post['content']) ? mb_strimwidth(strip_tags($post['content']), 0, 160, '...') : 'Technical engineering insights by Ganga Sagar Joshi.');
+  $postSlug = $post['slug'] ?? 'article';
+  $postImg = !empty($post['image']) ? $post['image'] : '/images/logo-square.png';
+
+  $articleSchema = [
+      '@type' => 'TechArticle',
+      'headline' => $post['title'] ?? 'Technical Article',
+      'description' => $postDesc,
+      'image' => str_starts_with($postImg, 'http') ? $postImg : \App\Core\SEO::baseUrl() . '/' . ltrim($postImg, '/'),
+      'author' => [
+          '@type' => 'Person',
+          'name' => 'Ganga Sagar Joshi'
+      ],
+      'publisher' => [
+          '@type' => 'Organization',
+          'name' => 'Strataflow Technologies Pvt. Ltd.'
+      ],
+      'datePublished' => !empty($post['created_at']) ? date('c', strtotime($post['created_at'])) : date('c')
+  ];
+
+  \App\Core\View::partial('seo_meta', [
+      'seo_title' => $postTitle,
+      'seo_desc' => $postDesc,
+      'seo_canonical' => \App\Core\SEO::url('/insights/' . $postSlug),
+      'seo_image' => $postImg,
+      'seo_type' => 'article',
+      'seo_custom_schema' => $articleSchema
+  ]);
+  ?>
 
   <!-- Fonts & Icons -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
 
@@ -55,7 +77,7 @@
 
               <div class="article-meta-row">
                 <div class="article-author-info">
-                  <img src="/images/logo-square.png" alt="Ganga Sagar Joshi" class="article-author-avatar" onerror="this.onerror=null; this.src='/images/gangasagar.jpeg'" />
+                  <img src="/images/logo-square.png" alt="Ganga Sagar Joshi" class="article-author-avatar" onerror="this.onerror=null; this.src='/images/ganga-sagar-joshi-profile.jpeg'" />
                   <span>Ganga Sagar Joshi</span>
                 </div>
                 <div class="article-meta-item">
@@ -131,7 +153,7 @@
                 <span>About Author</span>
               </div>
               <div class="sidebar-author-card">
-                <img src="/images/logo-square.png" alt="Ganga Sagar Joshi" class="sidebar-author-img" onerror="this.onerror=null; this.src='/images/gangasagar.jpeg'" />
+                <img src="/images/logo-square.png" alt="Ganga Sagar Joshi" class="sidebar-author-img" onerror="this.onerror=null; this.src='/images/ganga-sagar-joshi-profile.jpeg'" />
                 <div class="sidebar-author-details">
                   <h4>Ganga Sagar Joshi</h4>
                   <p>Co-Founder &amp; Software Engineer at Strataflow Technologies Pvt. Ltd. Specializing in Python, Django, scalable relational databases, and enterprise systems.</p>

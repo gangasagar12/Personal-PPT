@@ -63,6 +63,8 @@ runTest('RouteTest', 'testProjectsIndexController', [$routeTest, 'testProjectsIn
 runTest('RouteTest', 'testUnifiedNavbarRendering', [$routeTest, 'testUnifiedNavbarRendering']);
 runTest('RouteTest', 'testUnifiedFooterRendering', [$routeTest, 'testUnifiedFooterRendering']);
 runTest('RouteTest', 'testContactSubmissionAndAdminDisplay', [$routeTest, 'testContactSubmissionAndAdminDisplay']);
+runTest('RouteTest', 'testSEOMetaAndCanonicalUrl', [$routeTest, 'testSEOMetaAndCanonicalUrl']);
+runTest('RouteTest', 'testSitemapAndRobotsTxt', [$routeTest, 'testSitemapAndRobotsTxt']);
 
 echo "---------------------------------------------\n";
 echo "Results: {$passed} Passed, {$failed} Failed\n";

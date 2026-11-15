@@ -4,21 +4,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="author" content="Ganga Sagar Joshi" />
-  <meta name="description"
-    content="Official Company &amp; Entrepreneurship Profile of Strataflow Technologies Pvt. Ltd. and Ganga Sagar Joshi (Co-Founder &amp; Technical Lead)." />
-  <title>Strataflow Technologies — Entrepreneurship Profile</title>
+  <title>Strataflow Technologies &amp; Leadership Profile — Ganga Sagar Joshi</title>
 
-  <!-- Favicon & Touch Icons -->
-  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
-  <meta property="og:image" content="/images/logo-square.png" />
-
-  <!-- Preconnect for fast fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <?php
+  \App\Core\View::partial('seo_meta', [
+      'seo_title' => 'Strataflow Technologies & Leadership Profile — Ganga Sagar Joshi',
+      'seo_desc' => 'Official company and entrepreneurship profile of Strataflow Technologies Pvt. Ltd. co-founded by Ganga Sagar Joshi, delivering enterprise IT solutions and scalable software systems in Kathmandu, Nepal.',
+      'seo_canonical' => \App\Core\SEO::url('/profile'),
+      'seo_image' => '/images/ganga-sagar-joshi-profile.jpeg',
+      'seo_type' => 'profile'
+  ]);
+  ?>
 
   <!-- Clean, standard Inter typography -->
   <link
@@ -52,9 +48,7 @@
         <span class="breadcrumb-current">Entrepreneurship &amp; Venture Profile</span>
       </nav>
 
-      <!-- ══════════════════════════════════════════════════════════
-           1. FULL-WIDTH STRATAFLOW BLURRED SHADOW HERO
-           ══════════════════════════════════════════════════════════ -->
+ 
       <section class="strataflow-fullwidth-blur-hero">
         <div class="strataflow-blur-stage">
           <span class="strataflow-shadow-blur-layer" aria-hidden="true">STRATAFLOW</span>
@@ -62,9 +56,7 @@
         </div>
       </section>
 
-      <!-- ══════════════════════════════════════════════════════════
-           2. COMPANY INTRODUCTION (FORMAT MATCHING REFERENCE IMAGE)
-           ══════════════════════════════════════════════════════════ -->
+     
       <section class="about-company-showcase-card">
         <!-- Left Column: Exact Text Content -->
         <div class="about-left-content">
@@ -182,9 +174,6 @@
         </div>
       </section>
 
-      <!-- ══════════════════════════════════════════════════════════
-           4. COMPANY FOCUS AREAS (5 DIGITAL SERVICES)
-           ══════════════════════════════════════════════════════════ -->
       <section class="profile-content-section">
         <div class="section-title-wrap">
           <span class="section-kicker">Core Expertise</span>

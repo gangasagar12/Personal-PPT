@@ -4,26 +4,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Ganga Sagar Joshi — Software Developer &amp; Django Backend Engineer</title>
   <meta name="google-site-verification" content="yC0FjFq6eXnCaYa6D_VLggwR7D7smVDaFGP6gQ3wn4w" />
 
-  <meta name="author" content="Ganga Sagar Joshi" />
-  <meta name="description"
-    content="Ganga Sagar Joshi's personal portfolio website showcasing his skills, projects, and contact information." />
-  <title>Ganga Sagar Joshi</title>
-
-  <!-- Favicon & Touch Icons -->
-  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
-
-  <!-- Open Graph Meta -->
-  <meta property="og:image" content="/images/logo-square.png" />
-  <meta property="og:title" content="Ganga Sagar Joshi | Software &amp; Systems" />
-
-  <!-- Preconnect for faster font/icon load -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <?php
+  \App\Core\View::partial('seo_meta', [
+      'seo_title' => 'Ganga Sagar Joshi — Software Developer & Django Backend Engineer',
+      'seo_desc' => 'Official portfolio of Ganga Sagar Joshi, Software Developer & Co-Founder at Strataflow Technologies specializing in Python, Django, scalable REST APIs, and full-stack software systems in Kathmandu, Nepal.',
+      'seo_canonical' => \App\Core\SEO::url('/'),
+      'seo_image' => '/images/ganga-sagar-joshi-profile.jpeg',
+      'seo_type' => 'website'
+  ]);
+  ?>
 
   <!-- Inter & Poppins fonts -->
   <link
@@ -156,7 +148,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
             <span class="flow-title">Python</span>
           </div>
         </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
+        
 
         <div class="marquee-flow-item">
           <div class="flow-icon django-theme"><i class="bx bxl-django"></i></div>
@@ -164,7 +156,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
             <span class="flow-title">Django</span>
           </div>
         </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
+        
 
         <div class="marquee-flow-item">
           <div class="flow-icon api-theme"><i class="bx bx-server"></i></div>
@@ -172,7 +164,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
             <span class="flow-title">REST APIs</span>
           </div>
         </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
+      
 
         <div class="marquee-flow-item">
           <div class="flow-icon postgres-theme"><i class="bx bxl-postgresql"></i></div>
@@ -180,7 +172,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
             <span class="flow-title">PostgreSQL</span>
           </div>
         </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
+   
 
         <div class="marquee-flow-item">
           <div class="flow-icon db-theme"><i class="bx bx-data"></i></div>
@@ -188,7 +180,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
             <span class="flow-title">MySQL</span>
           </div>
         </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
+        
 
         <div class="marquee-flow-item">
           <div class="flow-icon docker-theme"><i class="bx bxl-docker"></i></div>
@@ -196,7 +188,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
             <span class="flow-title">Docker</span>
           </div>
         </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
+       
 
         <div class="marquee-flow-item">
           <div class="flow-icon linux-theme"><i class="bx bxl-tux"></i></div>
@@ -204,7 +196,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
             <span class="flow-title">Linux</span>
           </div>
         </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
+        
 
         <div class="marquee-flow-item">
           <div class="flow-icon saas-theme"><i class="bx bx-layer"></i></div>
@@ -212,7 +204,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
             <span class="flow-title">SaaS Development</span>
           </div>
         </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
+      
 
         <div class="marquee-flow-item">
           <div class="flow-icon git-theme"><i class="bx bxl-github"></i></div>
@@ -220,7 +212,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
             <span class="flow-title">Git &amp; GitHub</span>
           </div>
         </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
+        
 
         <div class="marquee-flow-item">
           <div class="flow-icon aws-theme"><i class="bx bxl-aws"></i></div>
@@ -228,15 +220,14 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
             <span class="flow-title">AWS Cloud</span>
           </div>
         </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
-
+       
         <div class="marquee-flow-item">
           <div class="flow-icon ml-theme"><i class="bx bx-brain"></i></div>
           <div class="flow-text">
             <span class="flow-title">Machine Learning</span>
           </div>
         </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
+    
 
         <!-- Sequence 2 (Duplicate for continuous seamless loop) -->
         <div class="marquee-flow-item" aria-hidden="true">
@@ -245,7 +236,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
             <span class="flow-title">Python</span>
           </div>
         </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
+       
 
         <div class="marquee-flow-item" aria-hidden="true">
           <div class="flow-icon django-theme"><i class="bx bxl-django"></i></div>
@@ -253,7 +244,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
             <span class="flow-title">Django</span>
           </div>
         </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
+       
 
         <div class="marquee-flow-item" aria-hidden="true">
           <div class="flow-icon api-theme"><i class="bx bx-server"></i></div>
@@ -261,7 +252,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
             <span class="flow-title">REST APIs</span>
           </div>
         </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
+       
 
         <div class="marquee-flow-item" aria-hidden="true">
           <div class="flow-icon postgres-theme"><i class="bx bxl-postgresql"></i></div>
@@ -269,7 +260,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
             <span class="flow-title">PostgreSQL</span>
           </div>
         </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
+      
 
         <div class="marquee-flow-item" aria-hidden="true">
           <div class="flow-icon db-theme"><i class="bx bx-data"></i></div>
@@ -277,7 +268,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
             <span class="flow-title">MySQL</span>
           </div>
         </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
+     
 
         <div class="marquee-flow-item" aria-hidden="true">
           <div class="flow-icon docker-theme"><i class="bx bxl-docker"></i></div>
@@ -285,7 +276,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
             <span class="flow-title">Docker</span>
           </div>
         </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
+     
 
         <div class="marquee-flow-item" aria-hidden="true">
           <div class="flow-icon linux-theme"><i class="bx bxl-tux"></i></div>
@@ -293,7 +284,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
             <span class="flow-title">Linux</span>
           </div>
         </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
+      
 
         <div class="marquee-flow-item" aria-hidden="true">
           <div class="flow-icon saas-theme"><i class="bx bx-layer"></i></div>
@@ -301,7 +292,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
             <span class="flow-title">SaaS Development</span>
           </div>
         </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
+       
 
         <div class="marquee-flow-item" aria-hidden="true">
           <div class="flow-icon git-theme"><i class="bx bxl-github"></i></div>
@@ -309,7 +300,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
             <span class="flow-title">Git &amp; GitHub</span>
           </div>
         </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
+       
 
         <div class="marquee-flow-item" aria-hidden="true">
           <div class="flow-icon aws-theme"><i class="bx bxl-aws"></i></div>
@@ -317,15 +308,12 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
             <span class="flow-title">AWS Cloud</span>
           </div>
         </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
-
-        <div class="marquee-flow-item" aria-hidden="true">
+       <div class="marquee-flow-item" aria-hidden="true">
           <div class="flow-icon ml-theme"><i class="bx bx-brain"></i></div>
           <div class="flow-text">
             <span class="flow-title">Machine Learning</span>
           </div>
         </div>
-        <span class="flow-divider" aria-hidden="true">✦</span>
       </div>
     </div>
 
@@ -348,16 +336,16 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
         <!-- Editorial Split Layout -->
         <div class="about-editorial-grid">
 
-          <!-- Left Column: Portrait Photograph + Original Transparent Signature -->
+          
           <div class="about-visual-column">
             <div class="about-transparent-photo-wrap">
-              <img src="/images/ganga_transparent.png" alt="Ganga Sagar Joshi" class="about-transparent-portrait"
+              <img src="/images/ganga-sagar-joshi.png" alt="Ganga Sagar Joshi — Software Developer & Tech Entrepreneur" class="about-transparent-portrait"
                 width="340" height="403" loading="lazy" />
             </div>
 
             <!-- Original Transparent Signature (No Hover Effect) -->
             <div class="about-signature-block">
-              <img src="/images/signature.png" alt="Ganga Sagar Joshi Signature" class="about-signature-img" width="220"
+              <img src="/images/ganga-sagar-joshi-signature.png" alt="Ganga Sagar Joshi Signature" class="about-signature-img" width="220"
                 height="94" loading="lazy" />
               <span class="signature-caption">Ganga Sagar Joshi</span>
 
@@ -444,7 +432,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
               <span class="edu-stages-icon"><i class="bx bxs-graduation" aria-hidden="true"></i></span>
               <div>
                 <h3 class="edu-stages-title">Academic Milestones</h3>
-                <span class="edu-stages-sub">3 Educational Stages &bull; Foundational to Degree</span>
+                <span class="edu-stages-sub"> Educational Stages</span>
               </div>
             </div>
             <span class="edu-stages-tag">Education Timeline</span>
@@ -467,7 +455,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
                   <h4 class="stage-title">BCA (Bachelor of Computer Applications)</h4>
                   <span class="stage-school">Kantipur City College &bull; Purbanchal University</span>
                   <p class="stage-desc">
-                    Focusing on Python backend development, relational databases (PostgreSQL/MySQL), and computer application fundamentals.
+                    Currently i am studying at Kantipur City College, pursuing a Bachelor of Computer Applications (BCA). 
                   </p>
                 </div>
               </div>
@@ -483,7 +471,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
                     <span class="stage-time">Higher Secondary</span>
                   </div>
                   <h4 class="stage-title">+2 Management</h4>
-                  <span class="stage-school">National Examinations Board (NEB), Nepal</span>
+                  <span class="stage-school">Ambition College</span>
                   <p class="stage-desc">
                     Gained solid foundational grounding in business administration, accounting principles, and quantitative analysis.
                   </p>
@@ -574,7 +562,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
         <!-- View All Career History & Awards CTA -->
         <div class="exp-timeline-action">
           <a href="/experience" class="btn-timeline-view-all">
-            <span>View All Career History &amp; Awards</span>
+            <span>View All Career  &amp; Awards</span>
             <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
           </a>
         </div>

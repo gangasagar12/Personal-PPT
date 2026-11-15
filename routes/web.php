@@ -7,6 +7,7 @@ use App\Controllers\ContactController;
 use App\Controllers\BlogController;
 use App\Controllers\ProjectController;
 use App\Controllers\ExperienceController;
+use App\Controllers\SitemapController;
 
 // 1. Home Portfolio
 Router::get('/', [HomeController::class, 'index']);
@@ -48,6 +49,10 @@ Router::get('/project-detail.php', [ProjectController::class, 'show']);
 // 4. Contact Form Submissions (API & Legacy Fallback)
 Router::post('/contact', [ContactController::class, 'submit']);
 Router::post('/backend/contact.php', [ContactController::class, 'submit']);
+
+// 5. Technical SEO Endpoints: Sitemap & Robots
+Router::get('/sitemap.xml', [SitemapController::class, 'index']);
+Router::get('/robots.txt', [SitemapController::class, 'robots']);
 
 // 4. Admin Dashboard (GET and POST for login, CRUD, actions)
 $adminHandler = function() {

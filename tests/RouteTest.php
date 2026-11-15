@@ -223,5 +223,41 @@ class RouteTest {
             && strpos($adminHtml, 'Mobile App Development') !== false
             && strpos($adminHtml, 'aarav@example.com') !== false;
     }
+
+    public function testSEOMetaAndCanonicalUrl(): bool {
+        $controller = new \App\Controllers\HomeController();
+        ob_start();
+        $controller->index();
+        $html = ob_get_clean();
+
+        $hasCanonical = strpos($html, '<link rel="canonical"') !== false;
+        $hasRobots = strpos($html, 'name="robots" content="index, follow') !== false;
+        $hasGeo = strpos($html, 'name="geo.region" content="NP-BA"') !== false && strpos($html, '27.7172, 85.3240') !== false;
+        $hasOg = strpos($html, 'property="og:title"') !== false && strpos($html, 'property="og:site_name"') !== false;
+        $hasSchema = strpos($html, '"@type": "Person"') !== false && strpos($html, '"Ganga Sagar Joshi"') !== false;
+        $hasVerification = strpos($html, 'google-site-verification') !== false;
+
+        return $hasCanonical && $hasRobots && $hasGeo && $hasOg && $hasSchema && $hasVerification;
+    }
+
+    public function testSitemapAndRobotsTxt(): bool {
+        $sitemapFile = dirname(__DIR__) . '/sitemap.xml';
+        $robotsFile = dirname(__DIR__) . '/robots.txt';
+
+        if (!file_exists($sitemapFile) || !file_exists($robotsFile)) {
+            return false;
+        }
+
+        $sitemapContent = file_get_contents($sitemapFile);
+        $robotsContent = file_get_contents($robotsFile);
+
+        $validSitemap = strpos($sitemapContent, 'https://gangasagar.com.np/') !== false
+            && strpos($sitemapContent, '/works/oralix-dental-practice-os') !== false;
+
+        $validRobots = strpos($robotsContent, 'Disallow: /admin') !== false
+            && strpos($robotsContent, 'Sitemap: https://gangasagar.com.np/sitemap.xml') !== false;
+
+        return $validSitemap && $validRobots;
+    }
 }
 

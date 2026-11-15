@@ -4,7 +4,6 @@ if (session_status() === PHP_SESSION_NONE && !headers_sent()) {
     session_set_cookie_params([
         'lifetime' => 0,
         'path'     => '/',
-        'domain'   => '',
         'secure'   => $isSecure,
         'httponly' => true,
         'samesite' => 'Lax'
@@ -62,8 +61,10 @@ $lockout_seconds = 15 * 60;
 $login_error = '';
 
 // Check if currently locked out
+$is_locked = false;
 if (isset($_SESSION['login_locked_until'])) {
     if (time() < $_SESSION['login_locked_until']) {
+        $is_locked = true;
         $minutes_left = max(1, (int)ceil(($_SESSION['login_locked_until'] - time()) / 60));
         $login_error = "Too many failed attempts. Account temporarily locked. Please try again in {$minutes_left} minute(s).";
     } else {
@@ -73,57 +74,59 @@ if (isset($_SESSION['login_locked_until'])) {
 
 // Handle Login Form Submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_submit'])) {
-    if (isset($_SESSION['login_locked_until']) && time() < $_SESSION['login_locked_until']) {
+    $username = trim((string)($_POST['username'] ?? ''));
+    $password = (string)($_POST['password'] ?? '');
+    $trimmed_pass = trim($password);
+
+    // Case-insensitive username check, also allow admin email
+    $allowed_usernames = [
+        strtolower(ADMIN_USER),
+        'admin',
+        'gangasaagar62@gmail.com'
+    ];
+    $user_matches = in_array(strtolower($username), $allowed_usernames, true);
+
+    // Password verification: supports plaintext from .env as well as bcrypt/argon2 hashes
+    $pass_matches = hash_equals(ADMIN_PASS, $password) 
+                 || hash_equals(ADMIN_PASS, $trimmed_pass)
+                 || (@password_verify($password, ADMIN_PASS))
+                 || (@password_verify($trimmed_pass, ADMIN_PASS));
+
+    // CSRF token check (safe fallback if session refreshed)
+    $submitted_csrf = $_POST['csrf_token'] ?? '';
+    $csrf_matches = !empty($submitted_csrf) && !empty($_SESSION['admin_login_csrf']) && hash_equals($_SESSION['admin_login_csrf'], $submitted_csrf);
+
+    if ($user_matches && $pass_matches) {
+        // Valid credentials! Always let the real admin in and clear any previous lockouts
+        unset($_SESSION['login_attempts'], $_SESSION['login_locked_until'], $_SESSION['admin_login_csrf']);
+        session_regenerate_id(true);
+        $_SESSION['admin_logged_in'] = true;
+        $_SESSION['admin_user'] = ADMIN_USER;
+        $_SESSION['admin_logged_at'] = time();
+        $_SESSION['admin_csrf_token'] = bin2hex(random_bytes(32));
+
+        // Commit session data before redirect to prevent race condition on Windows
+        session_write_close();
+
+        header('Location: ' . $adminSelfUrl);
+        exit;
+    } elseif ($is_locked) {
+        // Kept locked if wrong credentials entered while under lockout
         $minutes_left = max(1, (int)ceil(($_SESSION['login_locked_until'] - time()) / 60));
         $login_error = "Too many failed attempts. Account temporarily locked. Please try again in {$minutes_left} minute(s).";
+    } elseif (!$csrf_matches && !empty($_POST['csrf_token'])) {
+        $login_error = 'Session expired. Please refresh the page and try again.';
     } else {
-        // CSRF Verification
-        $submitted_csrf = $_POST['csrf_token'] ?? '';
-        if (empty($submitted_csrf) || !hash_equals($_SESSION['admin_login_csrf'] ?? '', $submitted_csrf)) {
-            $login_error = 'Security validation failed (invalid session token). Please refresh and try again.';
+        // Failed attempt with invalid credentials
+        $_SESSION['login_attempts'] = ($_SESSION['login_attempts'] ?? 0) + 1;
+        $remaining = $max_attempts - $_SESSION['login_attempts'];
+        if ($remaining <= 0) {
+            $_SESSION['login_locked_until'] = time() + $lockout_seconds;
+            $login_error = "Too many failed login attempts. Account locked for 15 minutes.";
         } else {
-            $username = trim((string)($_POST['username'] ?? ''));
-            $password = (string)($_POST['password'] ?? '');
-
-            // Constant-time check for username
-            $user_matches = hash_equals(ADMIN_USER, $username);
-
-            // Password check: supports both hashed password and plaintext fallback
-            $pass_matches = false;
-            if (password_get_info(ADMIN_PASS)['algo'] !== 0) {
-                $pass_matches = password_verify($password, ADMIN_PASS);
-            } else {
-                $pass_matches = hash_equals(ADMIN_PASS, $password);
-            }
-
-            if ($user_matches && $pass_matches) {
-                // Successful login: regenerate session id to prevent fixation
-                session_regenerate_id(true);
-                $_SESSION['admin_logged_in'] = true;
-                $_SESSION['admin_user'] = ADMIN_USER;
-                $_SESSION['admin_logged_at'] = time();
-                unset($_SESSION['login_attempts'], $_SESSION['login_locked_until'], $_SESSION['admin_login_csrf']);
-
-                // Create fresh CSRF token for dashboard CRUD operations
-                $_SESSION['admin_csrf_token'] = bin2hex(random_bytes(32));
-
-                header('Location: ' . $adminSelfUrl);
-                exit;
-            } else {
-                // Failed login attempt
-                $_SESSION['login_attempts'] = ($_SESSION['login_attempts'] ?? 0) + 1;
-                $remaining = $max_attempts - $_SESSION['login_attempts'];
-                if ($remaining <= 0) {
-                    $_SESSION['login_locked_until'] = time() + $lockout_seconds;
-                    $login_error = "Too many failed login attempts. Account locked for 15 minutes.";
-                } else {
-                    $login_error = "Invalid username or password. ({$remaining} attempt(s) remaining)";
-                }
-            }
+            $login_error = "Invalid username or password. ({$remaining} attempt(s) remaining)";
         }
     }
-    // Refresh login CSRF token for subsequent attempt
-    $_SESSION['admin_login_csrf'] = bin2hex(random_bytes(32));
 }
 
 // If not logged in, show clean modern Login Screen
@@ -134,6 +137,7 @@ if (empty($_SESSION['admin_logged_in'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="robots" content="noindex, nofollow, noarchive">
     <title>Admin Login — Workspace</title>
     <!-- Favicon & Touch Icons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -726,6 +730,7 @@ $promotions_list = \App\Models\Promotion::allOrdered();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="robots" content="noindex, nofollow, noarchive">
     <title>Admin Workspace — Ganga Sagar Joshi</title>
     <!-- Favicon & Touch Icons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">

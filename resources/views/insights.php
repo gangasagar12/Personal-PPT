@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title><?= htmlspecialchars($page_title ?? 'Insights — Ganga Sagar Joshi') ?></title>
-  <meta name="description" content="Technical engineering insights, backend architecture case studies, and systems design notes by Ganga Sagar Joshi." />
+  <title><?= htmlspecialchars($page_title ?? 'Technical Insights & Engineering Notes — Ganga Sagar Joshi') ?></title>
 
-  <!-- Favicon & Touch Icons -->
-  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
-  <meta property="og:image" content="/images/logo-square.png" />
+  <?php
+  \App\Core\View::partial('seo_meta', [
+      'seo_title' => $page_title ?? 'Technical Insights & Engineering Notes — Ganga Sagar Joshi',
+      'seo_desc' => 'Technical engineering insights, software architecture deep dives, database design tutorials, and system engineering notes by Ganga Sagar Joshi.',
+      'seo_canonical' => \App\Core\SEO::url('/insights'),
+      'seo_image' => '/images/ganga-sagar-joshi-profile.jpeg',
+      'seo_type' => 'blog'
+  ]);
+  ?>
 
   <!-- Fonts & Icons -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
 

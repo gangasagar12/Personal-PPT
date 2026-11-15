@@ -1,4 +1,10 @@
+# robots.txt — Ganga Sagar Joshi Portfolio
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /backend/
+Disallow: /config/
+Disallow: /database/
 
 Sitemap: https://gangasagar.com.np/sitemap.xml
