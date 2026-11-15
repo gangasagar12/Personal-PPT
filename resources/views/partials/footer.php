@@ -1,8 +1,4 @@
 <?php
-/**
- * Shared Portfolio Footer
- * Consistent styling across all pages with branding, quick links, copyright & back-to-top button
- */
 $uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
 $is_home = ($uri === '/' || $uri === '' || $uri === '/index.php');
 ?>

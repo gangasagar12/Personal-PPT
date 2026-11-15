@@ -83,6 +83,32 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS contact_inquiries (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 )");
 
+// 5. Promotional Offer Pop-ups Table
+$pdo->exec("CREATE TABLE IF NOT EXISTS promotions (
+    id {$autoIncrement},
+    title {$textType} NOT NULL,
+    description {$longTextType} NOT NULL,
+    image {$textType} NOT NULL,
+    button_text {$textType} DEFAULT 'Claim Offer',
+    button_url {$textType} DEFAULT '#contact',
+    is_active INTEGER DEFAULT 1,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+)");
+
+$count_promo = $pdo->query("SELECT COUNT(*) FROM promotions")->fetchColumn();
+if ($count_promo == 0) {
+    $stmt_promo = $pdo->prepare("INSERT INTO promotions (title, description, image, button_text, button_url, is_active) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt_promo->execute([
+        'Special Offer: Custom Web & SaaS Development',
+        'Planning to build a high-performance web application, backend API, or specialized business platform? Get a free architecture consultation and priority engineering kickoff for your project.',
+        'images/projectcard1.jpg',
+        'Claim Consultation',
+        '#contact',
+        1
+    ]);
+}
+
 // Seed Featured Projects if table is empty
 $count = $pdo->query("SELECT COUNT(*) FROM featured_projects")->fetchColumn();
 if ($count == 0) {

@@ -492,6 +492,53 @@ if (isset($_GET['del_award'])) {
     $message = 'Award / Recognition deleted successfully.';
 }
 
+// Action: Toggle Promotion Status
+if (isset($_GET['toggle_promo'])) {
+    $promo_id = intval($_GET['toggle_promo']);
+    require_once __DIR__ . '/../app/Core/Autoloader.php';
+    \App\Core\Autoloader::register();
+    \App\Models\Promotion::toggleStatus($promo_id);
+    $message = 'Promotional Offer status updated.';
+}
+
+// Action: Delete Promotion
+if (isset($_GET['del_promo'])) {
+    $promo_id = intval($_GET['del_promo']);
+    require_once __DIR__ . '/../app/Core/Autoloader.php';
+    \App\Core\Autoloader::register();
+    \App\Models\Promotion::delete($promo_id);
+    $message = 'Promotional Offer deleted successfully.';
+}
+
+// Action: Add / Update Promotional Offer Pop-up
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_promotion'])) {
+    require_once __DIR__ . '/../app/Core/Autoloader.php';
+    \App\Core\Autoloader::register();
+
+    $title = trim($_POST['title'] ?? '');
+    $desc = trim($_POST['description'] ?? '');
+    $image = handle_admin_image_upload('promo_image_file', 'image', 'images/projectcard1.jpg');
+    $button_text = trim($_POST['button_text'] ?? 'Claim Offer');
+    $button_url = trim($_POST['button_url'] ?? '#contact');
+    $is_active = isset($_POST['is_active']) ? 1 : 0;
+    $promo_id = intval($_POST['promo_id'] ?? 0);
+
+    if (empty($title)) {
+        $error = 'Promotion title is required.';
+    } else {
+        \App\Models\Promotion::saveItem([
+            'id' => $promo_id,
+            'title' => $title,
+            'description' => $desc,
+            'image' => $image,
+            'button_text' => $button_text,
+            'button_url' => $button_url,
+            'is_active' => $is_active
+        ]);
+        $message = $promo_id > 0 ? "Promotional Offer '{$title}' updated successfully." : "New Promotional Offer '{$title}' uploaded.";
+    }
+}
+
 // Action: Add / Update Award
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_award'])) {
     require_once __DIR__ . '/../app/Core/Autoloader.php';
@@ -672,6 +719,7 @@ $blog_list = $pdo->query("SELECT * FROM blog_insights ORDER BY display_order ASC
 $inquiries_list = $pdo->query("SELECT * FROM contact_inquiries ORDER BY id DESC")->fetchAll();
 $company_products_list = \App\Models\CompanyProduct::allWithFeaturesAndPills();
 $awards_list = \App\Models\Award::allWithDetails();
+$promotions_list = \App\Models\Promotion::allOrdered();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -1434,6 +1482,14 @@ $awards_list = \App\Models\Award::allWithDetails();
                     <span class="nav-badge"><?= count($awards_list) ?></span>
                 </button>
 
+                <button class="nav-link" onclick="switchTab('tab-promotions', 'Offer Pop-up Window', this)">
+                    <div class="nav-link-left">
+                        <i class="bx bx-gift"></i>
+                        <span>Offer Pop-up Window</span>
+                    </div>
+                    <span class="nav-badge"><?= count($promotions_list) ?></span>
+                </button>
+
                 <button class="nav-link" onclick="switchTab('tab-inquiries', 'Contact Inquiries', this)">
                     <div class="nav-link-left">
                         <i class="bx bx-envelope"></i>
@@ -1568,7 +1624,7 @@ $awards_list = \App\Models\Award::allWithDetails();
                                     <input type="text" name="title" id="feat_title" class="form-control" required placeholder="e.g. Oralix — Dental Practice OS" onkeyup="autoFillSlug(this.value)">
                                 </div>
                                 <div>
-                                    <label class="form-label">URL Slug (e.g. /works/oralix-dental-practice-os)</label>
+                                    <label class="form-label">URL Slug </label>
                                     <input type="text" name="slug" id="feat_slug" class="form-control" placeholder="auto-generated-if-empty">
                                 </div>
                                 <div>
@@ -1596,7 +1652,7 @@ $awards_list = \App\Models\Award::allWithDetails();
                                     <input type="text" name="live_url" id="feat_live_url" class="form-control" required value="https://github.com/gangasaagar">
                                 </div>
                                 <div>
-                                    <label class="form-label">Cover Image (Upload from Local Computer)</label>
+                                    <label class="form-label">Cover Image </label>
                                     <div style="display:flex; align-items:center; gap:0.75rem;">
                                         <input type="file" name="feat_image_file" id="feat_image_file" class="form-control" accept="image/*" onchange="previewLocalImage(this, 'feat_preview_img')">
                                         <div style="width:50px; height:38px; border-radius:4px; overflow:hidden; border:1px solid #cbd5e1; background:#f8fafc; flex-shrink:0;">
@@ -1622,11 +1678,11 @@ $awards_list = \App\Models\Award::allWithDetails();
                                     <textarea name="description" id="feat_desc" class="form-control" rows="4" required placeholder="Comprehensive background, context, client requirements, and solution overview..."></textarea>
                                 </div>
                                 <div class="form-col-full">
-                                    <label class="form-label">Core Features &amp; System Capabilities (1 per line)</label>
+                                    <label class="form-label">Core Features &amp; System Capabilities </label>
                                     <textarea name="features" id="feat_features" class="form-control" rows="4" placeholder="Real-time chair scheduling and appointment booking&#10;Electronic Health Records (EHR) with digital dental charting&#10;Multi-tier billing and invoice calculation"></textarea>
                                 </div>
                                 <div class="form-col-full">
-                                    <label class="form-label">Business Impact &amp; Results (Case Study Section 4)</label>
+                                    <label class="form-label">Business Impact &amp; Results </label>
                                     <textarea name="impact" id="feat_impact" class="form-control" rows="3" placeholder="Measurable outcomes, improvements, operational results..."></textarea>
                                 </div>
                                 <div class="form-col-full">
@@ -1702,7 +1758,7 @@ $awards_list = \App\Models\Award::allWithDetails();
                     <div class="panel-header">
                         <div class="panel-header-info">
                             <h2>Strataflow Products &amp; Solutions</h2>
-                            <p>Manage products showcased dynamically on the Founder Profile page (/profile.html)</p>
+                            <p>Manage products showcased dynamically on the Founder Profile page</p>
                         </div>
                         <button class="btn btn-primary btn-sm" onclick="toggleForm('form-add-product')">
                             <i class="bx bx-plus"></i> Add New Product
@@ -1715,7 +1771,7 @@ $awards_list = \App\Models\Award::allWithDetails();
                             <input type="hidden" name="prod_id" id="prod_id" value="0">
                             <div class="form-grid">
                                 <div>
-                                    <label class="form-label">Product Name / Title</label>
+                                    <label class="form-label">Product Title</label>
                                     <input type="text" name="title" id="prod_title" class="form-control" required placeholder="e.g. Dental Clinic Management Software">
                                 </div>
                                 <div>
@@ -1727,7 +1783,7 @@ $awards_list = \App\Models\Award::allWithDetails();
                                     <input type="text" name="status_text" id="prod_status" class="form-control" required value="Live Product" placeholder="Live Product / In Development / Enterprise MVP">
                                 </div>
                                 <div>
-                                    <label class="form-label">Thumbnail / Preview Image (Select from Computer)</label>
+                                    <label class="form-label">Thumbnail </label>
                                     <div style="display:flex; align-items:center; gap:0.75rem;">
                                         <input type="file" name="prod_image_file" id="prod_image_file" class="form-control" accept="image/*" onchange="previewLocalImage(this, 'prod_preview_img')">
                                         <div style="width:50px; height:38px; border-radius:4px; overflow:hidden; border:1px solid #cbd5e1; background:#f8fafc; flex-shrink:0;">
@@ -1749,7 +1805,7 @@ $awards_list = \App\Models\Award::allWithDetails();
                                     <input type="number" name="display_order" id="prod_order" class="form-control" value="1">
                                 </div>
                                 <div>
-                                    <label class="form-label">Tech Stack Tags (comma-separated)</label>
+                                    <label class="form-label">Tech Stack Tags </label>
                                     <input type="text" name="tech_pills" id="prod_pills" class="form-control" placeholder="Python, Django, PostgreSQL, REST APIs, Docker">
                                 </div>
                                 <div class="form-col-full">
@@ -1853,7 +1909,7 @@ $awards_list = \App\Models\Award::allWithDetails();
                                 </div>
 
                                 <div class="form-col-full">
-                                    <label class="form-label">Project Image (Upload from Local Computer)</label>
+                                    <label class="form-label">Project Image </label>
                                     <div style="display:flex; align-items:center; gap:1.25rem;">
                                         <div style="flex:1;">
                                             <input type="file" name="image_file" id="comb_image_file" class="form-control" accept="image/*" onchange="previewLocalImage(this, 'comb_preview_img')">
@@ -1868,7 +1924,7 @@ $awards_list = \App\Models\Award::allWithDetails();
                                 </div>
 
                                 <div>
-                                    <label class="form-label">Technologies &amp; Skills (comma-separated)</label>
+                                    <label class="form-label">Technologies &amp; Skills </label>
                                     <input type="text" name="skills" id="comb_skills" class="form-control" required placeholder="e.g. Python, Django, MySQL, REST APIs">
                                 </div>
                                 <div>
@@ -1877,7 +1933,7 @@ $awards_list = \App\Models\Award::allWithDetails();
                                 </div>
 
                                 <div id="comb_wrap_cat" style="display:none;">
-                                    <label class="form-label">Category Sub-Tag (for Other Projects)</label>
+                                    <label class="form-label">Category Sub-Tag </label>
                                     <input type="text" name="category" id="comb_cat" class="form-control" placeholder="e.g. DevOps & Infrastructure">
                                 </div>
                                 <div id="comb_wrap_urls" style="display:none;">
@@ -2273,6 +2329,142 @@ $awards_list = \App\Models\Award::allWithDetails();
                 </div>
             </section>
 
+            <!-- ── Promotional Offer Pop-up Panel ── -->
+            <section id="tab-promotions" class="tab-panel">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <div class="panel-header-info">
+                            <h2>Offer &amp; Promotional Pop-up Window</h2>
+                            <p>Upload and manage announcements, discounts, or offers displayed in a pop-up window when visitors open the website.</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="toggleForm('form-add-promo')">
+                            <i class="bx bx-plus"></i> Upload New Offer
+                        </button>
+                    </div>
+
+                    <!-- Slide-in Drawer Form for Promotions -->
+                    <div id="form-add-promo" class="drawer-form-wrap" style="display:none; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:1.5rem; margin-bottom:1.5rem;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+                            <h3 id="promo_form_title" style="font-size:1.1rem; font-weight:700; color:var(--text-main);">Upload Promotional Offer</h3>
+                            <button type="button" class="btn btn-outline btn-sm" onclick="toggleForm('form-add-promo')">&times; Close</button>
+                        </div>
+                        <form method="POST" action="" enctype="multipart/form-data">
+                            <input type="hidden" name="save_promotion" value="1">
+                            <input type="hidden" name="promo_id" id="promo_id" value="0">
+
+                            <div class="form-grid">
+                                <div class="form-group full">
+                                    <label>Promotion / Offer Title <span style="color:#ef4444;">*</span></label>
+                                    <input type="text" name="title" id="promo_title" class="form-control" required placeholder="e.g. Special Offer: Custom Web & SaaS Development">
+                                </div>
+
+                                <div class="form-group full">
+                                    <label class="form-label">Promotional Banner / Image (Select from Computer)</label>
+                                    <div style="display:flex; align-items:center; gap:1.25rem;">
+                                        <div style="flex:1;">
+                                            <input type="file" name="promo_image_file" id="promo_image_file" class="form-control" accept="image/*" onchange="previewLocalImage(this, 'promo_preview_img')">
+                                            <small style="display:block; margin-top:0.35rem; color:#64748b; font-size:0.75rem;">
+                                                Upload banner or offer graphic directly from your computer (JPG, PNG, WebP, SVG).
+                                            </small>
+                                        </div>
+                                        <div style="width:96px; height:64px; border-radius:8px; overflow:hidden; border:1px solid #cbd5e1; background:#0b1329; flex-shrink:0; display:flex; align-items:center; justify-content:center;">
+                                            <img id="promo_preview_img" src="/images/projectcard1.jpg" alt="Preview" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='/images/projectcard1.jpg'">
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="image" id="promo_image" value="images/projectcard1.jpg">
+                                </div>
+
+                                <div class="form-group full">
+                                    <label>Offer Description <span style="color:#ef4444;">*</span></label>
+                                    <textarea name="description" id="promo_description" class="form-control" rows="3" required placeholder="Provide concise details about the offer or promotion..."></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Call to Action Button Text</label>
+                                    <input type="text" name="button_text" id="promo_button_text" class="form-control" value="Claim Offer" placeholder="e.g. Claim Offer, Get in Touch">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Action Link / Target URL</label>
+                                    <input type="text" name="button_url" id="promo_button_url" class="form-control" value="#contact" placeholder="e.g. #contact or /works/oralix">
+                                </div>
+
+                                <div class="form-group full">
+                                    <label style="display:flex; align-items:center; gap:0.6rem; cursor:pointer;">
+                                        <input type="checkbox" name="is_active" id="promo_is_active" value="1" checked style="width:18px; height:18px; accent-color:var(--primary);">
+                                        <span style="font-weight:600; color:var(--text-main);">Activate Pop-up Window (Display to visitors when website opens)</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div style="display:flex; gap:0.75rem; margin-top:1.25rem;">
+                                <button type="submit" class="btn btn-primary btn-sm"><i class="bx bx-check"></i> Save Promotional Offer</button>
+                                <button type="button" class="btn btn-outline btn-sm" onclick="resetPromoForm()">Reset</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Banner</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Action Button</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (empty($promotions_list)): ?>
+                                <tr>
+                                    <td colspan="6" style="text-align:center; padding:2rem; color:#64748b;">
+                                        No promotional offers uploaded yet. Click <strong>Upload New Offer</strong> above to create one.
+                                    </td>
+                                </tr>
+                                <?php else: ?>
+                                    <?php foreach ($promotions_list as $promo): ?>
+                                    <tr>
+                                        <td>
+                                            <img src="/<?= htmlspecialchars(ltrim($promo['image'] ?: 'images/projectcard1.jpg', '/')) ?>" class="img-thumb" alt="" onerror="this.src='/images/projectcard1.jpg'">
+                                        </td>
+                                        <td><strong><?= htmlspecialchars($promo['title']) ?></strong></td>
+                                        <td style="max-width:280px; font-size:0.84rem; color:#475569; line-height:1.45;">
+                                            <?= htmlspecialchars(mb_strimwidth($promo['description'], 0, 100, '...')) ?>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info"><?= htmlspecialchars($promo['button_text'] ?? 'Claim Offer') ?></span>
+                                        </td>
+                                        <td>
+                                            <?php if ((int)($promo['is_active'] ?? 0) === 1): ?>
+                                                <span class="badge" style="background:rgba(16,185,129,0.15); color:#10b981; border:1px solid rgba(16,185,129,0.3); display:inline-flex; align-items:center; gap:0.35rem;">
+                                                    <span style="width:7px; height:7px; border-radius:50%; background:#10b981; display:inline-block;"></span> Active (Showing)
+                                                </span>
+                                            <?php else: ?>
+                                                <span class="badge" style="background:rgba(100,116,139,0.15); color:#64748b; border:1px solid rgba(100,116,139,0.3);">
+                                                    Inactive (Hidden)
+                                                </span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <div class="actions-cell">
+                                                <a href="?toggle_promo=<?= (int)$promo['id'] ?>" class="btn btn-outline btn-sm" title="<?= ((int)$promo['is_active'] === 1) ? 'Turn Off Pop-up' : 'Turn On Pop-up' ?>">
+                                                    <i class="bx <?= ((int)$promo['is_active'] === 1) ? 'bx-hide' : 'bx-show' ?>"></i>
+                                                </a>
+                                                <button type="button" class="btn btn-outline btn-sm" onclick='editPromotion(<?= json_encode($promo, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) ?>)' title="Edit"><i class="bx bx-edit"></i></button>
+                                                <a href="?del_promo=<?= (int)$promo['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Delete this promotional offer?')" title="Delete"><i class="bx bx-trash"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
         </main>
     </div>
 
@@ -2633,6 +2825,41 @@ $awards_list = \App\Models\Award::allWithDetails();
             document.getElementById('award_form_title').textContent = 'Add New Award / Milestone';
         }
 
+        function editPromotion(item) {
+            switchTab('tab-promotions', 'Offer Pop-up Window');
+            const drawer = document.getElementById('form-add-promo');
+            if (drawer) drawer.style.display = 'block';
+            document.getElementById('promo_id').value = item.id || 0;
+            document.getElementById('promo_title').value = item.title || '';
+            document.getElementById('promo_description').value = item.description || '';
+            const currentImg = item.image || 'images/projectcard1.jpg';
+            document.getElementById('promo_image').value = currentImg;
+            const prev = document.getElementById('promo_preview_img');
+            if (prev) prev.src = '/' + currentImg.replace(/^\/+/, '');
+            const fileInput = document.getElementById('promo_image_file');
+            if (fileInput) fileInput.value = '';
+            document.getElementById('promo_button_text').value = item.button_text || 'Claim Offer';
+            document.getElementById('promo_button_url').value = item.button_url || '#contact';
+            document.getElementById('promo_is_active').checked = parseInt(item.is_active ?? 1) === 1;
+            document.getElementById('promo_form_title').textContent = 'Edit Promotional Offer: ' + (item.title || '');
+            if (drawer) drawer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function resetPromoForm() {
+            document.getElementById('promo_id').value = 0;
+            document.getElementById('promo_title').value = '';
+            document.getElementById('promo_description').value = '';
+            document.getElementById('promo_image').value = 'images/projectcard1.jpg';
+            const prev = document.getElementById('promo_preview_img');
+            if (prev) prev.src = '/images/projectcard1.jpg';
+            const fileInput = document.getElementById('promo_image_file');
+            if (fileInput) fileInput.value = '';
+            document.getElementById('promo_button_text').value = 'Claim Offer';
+            document.getElementById('promo_button_url').value = '#contact';
+            document.getElementById('promo_is_active').checked = true;
+            document.getElementById('promo_form_title').textContent = 'Upload Promotional Offer';
+        }
+
         // On Page Load: Restore tab from hash if present
         window.addEventListener('DOMContentLoaded', () => {
             const hash = window.location.hash.replace('#', '');
@@ -2645,6 +2872,7 @@ $awards_list = \App\Models\Award::allWithDetails();
                     'tab-other': 'Academic & Other Projects',
                     'tab-blog': 'Insights & Articles',
                     'tab-awards': 'Awards & Gallery',
+                    'tab-promotions': 'Offer Pop-up Window',
                     'tab-inquiries': 'Contact Inquiries'
                 };
                 if (map[hash]) {

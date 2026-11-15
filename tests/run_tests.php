@@ -47,6 +47,7 @@ runTest('DatabaseTest', 'testBlogInsightFindBySlug', [$dbTest, 'testBlogInsightF
 runTest('DatabaseTest', 'testBlogInsightRecent', [$dbTest, 'testBlogInsightRecent']);
 runTest('DatabaseTest', 'testFeaturedProjectFindBySlug', [$dbTest, 'testFeaturedProjectFindBySlug']);
 runTest('DatabaseTest', 'testExperienceCount', [$dbTest, 'testExperienceCount']);
+runTest('DatabaseTest', 'testPromotionModel', [$dbTest, 'testPromotionModel']);
 
 $routeTest = new \Tests\RouteTest();
 runTest('RouteTest', 'testRoutesFileExists', [$routeTest, 'testRoutesFileExists']);
@@ -57,6 +58,7 @@ runTest('RouteTest', 'testAdminAuthCredentials', [$routeTest, 'testAdminAuthCred
 runTest('RouteTest', 'testAdminDashboardRendering', [$routeTest, 'testAdminDashboardRendering']);
 runTest('RouteTest', 'testHomeAcademicProjectsRendering', [$routeTest, 'testHomeAcademicProjectsRendering']);
 runTest('RouteTest', 'testHomeWhyWorkSectionRendering', [$routeTest, 'testHomeWhyWorkSectionRendering']);
+runTest('RouteTest', 'testPromotionModalRendering', [$routeTest, 'testPromotionModalRendering']);
 runTest('RouteTest', 'testProjectsIndexController', [$routeTest, 'testProjectsIndexController']);
 runTest('RouteTest', 'testUnifiedNavbarRendering', [$routeTest, 'testUnifiedNavbarRendering']);
 runTest('RouteTest', 'testUnifiedFooterRendering', [$routeTest, 'testUnifiedFooterRendering']);

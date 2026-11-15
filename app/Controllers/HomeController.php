@@ -5,6 +5,7 @@ use App\Models\FeaturedProject;
 use App\Models\AcademicProject;
 use App\Models\BlogInsight;
 use App\Models\Experience;
+use App\Models\Promotion;
 use App\Core\View;
 
 class HomeController {
@@ -13,12 +14,14 @@ class HomeController {
         $academic_projects = AcademicProject::allWithSkills();
         $blog_insights = BlogInsight::published();
         $experiences = Experience::allWithDetails();
+        $active_promotion = Promotion::getActive();
 
         View::render('home', [
             'featured_projects' => $featured_projects,
             'academic_projects' => $academic_projects,
             'blog_insights' => $blog_insights,
-            'experiences' => $experiences
+            'experiences' => $experiences,
+            'active_promotion' => $active_promotion
         ]);
     }
 }

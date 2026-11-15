@@ -1213,6 +1213,52 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
   <!-- ── Shared Portfolio Footer ── -->
   <?php \App\Core\View::partial('footer'); ?>
 
+  <?php if (!empty($active_promotion)): ?>
+  <!-- ── Dynamic Offer & Promotional Pop-up Window ── -->
+  <div class="promo-popup-modal" id="promoPopupModal" role="dialog" aria-modal="true" aria-labelledby="promoPopupTitle" aria-hidden="true">
+    <div class="promo-popup-backdrop" data-close-promo></div>
+    <div class="promo-popup-dialog">
+      <button type="button" class="promo-popup-close" data-close-promo aria-label="Close offer pop-up">
+        <i class="bx bx-x" aria-hidden="true"></i>
+      </button>
+
+      <?php if (!empty($active_promotion['image'])): ?>
+      <div class="promo-popup-media">
+        <img src="/<?= ltrim(htmlspecialchars($active_promotion['image']), '/') ?>" 
+             alt="<?= htmlspecialchars($active_promotion['title']) ?>" 
+             class="promo-popup-img"
+             onerror="this.src='/images/projectcard1.jpg'" />
+        <span class="promo-popup-badge"><i class="bx bxs-hot" aria-hidden="true"></i> Special Offer</span>
+      </div>
+      <?php endif; ?>
+
+      <div class="promo-popup-body">
+        <span class="promo-popup-kicker">Announcement &amp; Promotion</span>
+        <h3 class="promo-popup-title" id="promoPopupTitle">
+          <?= htmlspecialchars($active_promotion['title']) ?>
+        </h3>
+        <p class="promo-popup-desc">
+          <?= nl2br(htmlspecialchars($active_promotion['description'])) ?>
+        </p>
+
+        <div class="promo-popup-actions">
+          <?php 
+            $btnUrl = !empty($active_promotion['button_url']) ? $active_promotion['button_url'] : '#contact';
+            $btnText = !empty($active_promotion['button_text']) ? $active_promotion['button_text'] : 'Claim Offer';
+          ?>
+          <a href="<?= htmlspecialchars($btnUrl) ?>" class="btn-promo-primary" data-close-promo>
+            <span><?= htmlspecialchars($btnText) ?></span>
+            <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+          </a>
+          <button type="button" class="btn-promo-secondary" data-close-promo>
+            Dismiss
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <?php endif; ?>
+
 
   <!-- ─── Scripts ─────────────────────────────────────────────── -->
   <!-- Typed.js -->

@@ -30,13 +30,10 @@
 
   <div class="experience-page-wrapper">
 
-    <!-- ══════════════════════════════════════════════════════════
-         1. HERO SECTION (BACKGROUND IMAGE WITH CAREER TITLE)
-         ══════════════════════════════════════════════════════════ -->
     <section class="exp-hero-banner" id="heroBanner">
       <div class="exp-hero-overlay"></div>
       <div class="exp-hero-content">
-        <h1 class="exp-hero-title">Career Journey &amp; Honors</h1>
+        <h1 class="exp-hero-title">Career Journey &amp; Awards</h1>
         <p class="exp-hero-subtitle">
           My professional background, work experience, and milestones.
         </p>
@@ -48,9 +45,9 @@
       <div class="container">
 
         <div class="section-heading-block">
-          <span class="section-tag">Detailed Career Record</span>
+          <span class="section-tag"></span>
           <h2 class="section-main-title">
-            History of <span class="gradient-text">Working</span>
+            Journey of <span class="gradient-text">Working</span>
           </h2>
           <p class="section-subtitle">
             A chronological timeline of my professional roles, projects, and work experience.

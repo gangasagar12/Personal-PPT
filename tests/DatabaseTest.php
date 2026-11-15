@@ -65,5 +65,11 @@ class DatabaseTest {
         $experiences = Experience::allWithDetails();
         return count($experiences) >= 3 && !empty($experiences[0]['role']);
     }
+
+    public function testPromotionModel(): bool {
+        $active = \App\Models\Promotion::getActive();
+        $all = \App\Models\Promotion::allOrdered();
+        return is_array($active) && !empty($active['title']) && !empty($active['image']) && count($all) >= 1;
+    }
 }
 

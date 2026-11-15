@@ -1,7 +1,4 @@
--- ============================================================================
--- Ganga Sagar Joshi — Portfolio Database Schema (MySQL / MariaDB / cPanel)
--- Character Set: utf8mb4, Collation: utf8mb4_unicode_ci
--- ============================================================================
+
 
 SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `featured_projects`;
@@ -11,10 +8,7 @@ DROP TABLE IF EXISTS `contact_inquiries`;
 DROP TABLE IF EXISTS `company_products`;
 SET FOREIGN_KEY_CHECKS = 1;
 
--- ----------------------------------------------------------------------------
--- Table: featured_projects
--- Production & flagship engineering projects
--- ----------------------------------------------------------------------------
+
 CREATE TABLE `featured_projects` (
   `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `slug` VARCHAR(255) NULL,

@@ -86,6 +86,17 @@ class RouteTest {
             && strpos($output, 'Continuous Learning') !== false;
     }
 
+    public function testPromotionModalRendering(): bool {
+        $controller = new \App\Controllers\HomeController();
+        ob_start();
+        $controller->index();
+        $output = ob_get_clean();
+
+        return strpos($output, 'promoPopupModal') !== false
+            && strpos($output, 'promo-popup-dialog') !== false
+            && strpos($output, 'data-close-promo') !== false;
+    }
+
     public function testProjectsIndexController(): bool {
         $controller = new \App\Controllers\ProjectController();
         ob_start();

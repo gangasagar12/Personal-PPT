@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title><?= htmlspecialchars($page_title ?? 'Projects — Ganga Sagar Joshi') ?></title>
-  <meta name="description" content="Portfolio and projects of Ganga Sagar Joshi, featuring web applications, Django backends, and software solutions." />
+  <title><?= htmlspecialchars($page_title ?? 'All Projects & Engineering Archive — Ganga Sagar Joshi') ?></title>
+  <meta name="description" content="Portfolio and engineering project archives of Ganga Sagar Joshi, featuring production web applications, Django backends, and coursework projects." />
 
   <!-- Favicon & Touch Icons -->
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -34,12 +34,12 @@
 
       <!-- Hero Header Block -->
       <section class="projects-hero-header">
-        <span class="section-tag">Portfolio</span>
+        <span class="section-tag">portfolio &amp; showcase</span>
         <h1 class="projects-hero-title">
-          All <span class="gradient-text">Projects</span>
+          All Projects &amp; <span class="gradient-text">Work Showcase</span>
         </h1>
         <p class="projects-hero-subtitle">
-          Web applications, backend systems, and projects I have built.
+          A collection of web applications, SaaS platforms, backend systems, and coursework projects I have built.
         </p>
       </section>
 
@@ -278,119 +278,47 @@
 
   <!-- Page Specific Scripts -->
   <script>
-    // ── Instant Category Filter Tabs ──
-    const filterTabs = document.querySelectorAll('.project-tab-btn');
-    const projectCards = document.querySelectorAll('.project-archive-card');
-    const emptyState = document.getElementById('projectsEmptyState');
+    (function () {
+      // ── Instant Category Filter Tabs ──
+      const filterTabs = document.querySelectorAll('.project-tab-btn');
+      const projectCards = document.querySelectorAll('.project-archive-card');
+      const emptyState = document.getElementById('projectsEmptyState');
 
-    filterTabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        filterTabs.forEach(t => {
-          t.classList.remove('active');
-          t.setAttribute('aria-selected', 'false');
-        });
-        tab.classList.add('active');
-        tab.setAttribute('aria-selected', 'true');
+      if (!filterTabs.length || !projectCards.length) return;
 
-        const filter = tab.getAttribute('data-filter');
-        let visibleCount = 0;
+      filterTabs.forEach(tab => {
+        tab.addEventListener('click', function (e) {
+          e.preventDefault();
 
-        projectCards.forEach(card => {
-          const category = card.getAttribute('data-category');
-          if (filter === 'all' || category === filter) {
-            card.style.display = 'flex';
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(12px)';
-            setTimeout(() => {
-              card.style.transition = 'opacity 0.28s ease, transform 0.28s ease';
+          const filter = this.getAttribute('data-filter');
+
+          filterTabs.forEach(t => {
+            t.classList.remove('active');
+            t.setAttribute('aria-selected', 'false');
+          });
+          this.classList.add('active');
+          this.setAttribute('aria-selected', 'true');
+
+          let visibleCount = 0;
+
+          projectCards.forEach(card => {
+            const category = card.getAttribute('data-category');
+            if (filter === 'all' || category === filter) {
+              card.style.display = 'flex';
               card.style.opacity = '1';
               card.style.transform = 'translateY(0)';
-            }, 30);
-            visibleCount++;
-          } else {
-            card.style.display = 'none';
-          }
-        });
+              visibleCount++;
+            } else {
+              card.style.display = 'none';
+            }
+          });
 
-        if (emptyState) {
-          emptyState.style.display = (visibleCount === 0) ? 'block' : 'none';
-        }
-      });
-    });
-
-    // ── Key Academic Projects Modal Handling ──
-    const academicModal = document.getElementById('academicDetailModal');
-    if (academicModal) {
-      const modalImg = document.getElementById('academicModalImg');
-      const modalTitle = document.getElementById('academicModalTitle');
-      const modalDesc = document.getElementById('academicModalDesc');
-      const modalSkills = document.getElementById('academicModalSkills');
-      const closeBtns = academicModal.querySelectorAll('[data-close-academic-modal]');
-      const triggers = document.querySelectorAll('[data-academic-modal-trigger]');
-
-      function openModal(card) {
-        const title = card.getAttribute('data-title') || '';
-        const img = card.getAttribute('data-image') || '/images/projectcard1.jpg';
-        const desc = card.getAttribute('data-detailed-desc') || card.getAttribute('data-short-desc') || '';
-        const skills = card.getAttribute('data-skills') || '';
-
-        if (modalTitle) modalTitle.textContent = title;
-        if (modalDesc) modalDesc.textContent = desc;
-        if (modalImg) {
-          modalImg.src = img;
-          modalImg.alt = title;
-        }
-
-        if (modalSkills) {
-          modalSkills.innerHTML = '';
-          if (skills) {
-            const list = skills.split(',').map(s => s.trim()).filter(Boolean);
-            list.forEach(skill => {
-              const span = document.createElement('span');
-              span.textContent = skill;
-              modalSkills.appendChild(span);
-            });
-          }
-        }
-
-        academicModal.classList.add('is-open');
-        academicModal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-      }
-
-      function closeModal() {
-        academicModal.classList.remove('is-open');
-        academicModal.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-      }
-
-      triggers.forEach(card => {
-        card.addEventListener('click', (e) => {
-          e.preventDefault();
-          openModal(card);
-        });
-
-        card.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            openModal(card);
+          if (emptyState) {
+            emptyState.style.display = (visibleCount === 0) ? 'block' : 'none';
           }
         });
       });
-
-      closeBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          closeModal();
-        });
-      });
-
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && academicModal.classList.contains('is-open')) {
-          closeModal();
-        }
-      });
-    }
+    })();
   </script>
 </body>
 </html>

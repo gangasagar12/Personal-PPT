@@ -437,3 +437,48 @@ if (academicModal) {
     }
   });
 }
+
+/* ─── 11. Offer & Promotional Pop-up Modal ────────────────────────────── */
+(function() {
+  const promoModal = document.getElementById('promoPopupModal');
+  if (!promoModal) return;
+
+  const closeBtns = promoModal.querySelectorAll('[data-close-promo]');
+
+  function openPromo() {
+    promoModal.classList.add('is-open');
+    promoModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePromo() {
+    promoModal.classList.remove('is-open');
+    promoModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    try {
+      sessionStorage.setItem('gsj_promo_dismissed', '1');
+    } catch (e) {}
+  }
+
+  closeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      closePromo();
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && promoModal.classList.contains('is-open')) {
+      closePromo();
+    }
+  });
+
+  // Automatically display pop-up when website opens
+  let alreadyDismissed = false;
+  try {
+    alreadyDismissed = sessionStorage.getItem('gsj_promo_dismissed') === '1';
+  } catch (e) {}
+
+  if (!alreadyDismissed) {
+    setTimeout(openPromo, 700);
+  }
+})();
