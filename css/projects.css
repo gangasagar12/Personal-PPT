@@ -13,37 +13,37 @@
 
 .projects-page-wrap {
   flex: 1;
-  padding-top: clamp(6.5rem, 10vw, 8rem);
-  padding-bottom: clamp(4rem, 7vw, 6rem);
+  padding-top: calc(var(--nav-h) + 1.8rem);
+  padding-bottom: 3.5rem;
 }
 
 /* ─── Hero Header ─── */
 .projects-hero-header {
   text-align: center;
-  max-width: 780px;
-  margin: 0 auto clamp(2.5rem, 4vw, 3.5rem);
+  max-width: 680px;
+  margin: 0 auto 1.4rem;
   padding: 0 1rem;
 }
 
 .projects-hero-header .section-tag {
   display: inline-block;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.4rem;
 }
 
 .projects-hero-title {
   font-family: var(--ff-h);
-  font-size: clamp(1.6rem, 3vw, 1.98rem); /* strictly <= 2rem */
+  font-size: clamp(1.5rem, 2.8vw, 1.95rem); /* strictly <= 2rem */
   font-weight: 700;
   color: var(--t1);
   line-height: 1.25;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.45rem;
 }
 
 .projects-hero-subtitle {
   font-family: var(--ff);
-  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+  font-size: 0.95rem;
   color: var(--t2);
-  line-height: 1.68;
+  line-height: 1.5;
   margin: 0 auto;
 }
 
@@ -51,7 +51,7 @@
 .projects-filter-wrap {
   display: flex;
   justify-content: center;
-  margin-bottom: clamp(2.5rem, 4vw, 3.5rem);
+  margin-bottom: 2rem;
 }
 
 .projects-filter-bar {

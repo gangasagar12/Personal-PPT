@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title><?= htmlspecialchars($page_title ?? 'All Projects & Engineering Archives — Ganga Sagar Joshi') ?></title>
-  <meta name="description" content="Complete portfolio and engineering archives of Ganga Sagar Joshi, featuring production dental platforms, scalable Django backend architectures, key academic projects, and developer utilities." />
+  <title><?= htmlspecialchars($page_title ?? 'Projects — Ganga Sagar Joshi') ?></title>
+  <meta name="description" content="Portfolio and projects of Ganga Sagar Joshi, featuring web applications, Django backends, and software solutions." />
 
   <!-- Favicon & Touch Icons -->
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -34,12 +34,12 @@
 
       <!-- Hero Header Block -->
       <section class="projects-hero-header">
-        <span class="section-tag">Portfolio &amp; Showcase</span>
+        <span class="section-tag">Portfolio</span>
         <h1 class="projects-hero-title">
-          All Projects &amp; <span class="gradient-text">Work Showcase</span>
+          All <span class="gradient-text">Projects</span>
         </h1>
         <p class="projects-hero-subtitle">
-          A collection of web applications, SaaS platforms, backend systems, and coursework projects I have built.
+          Web applications, backend systems, and projects I have built.
         </p>
       </section>
 

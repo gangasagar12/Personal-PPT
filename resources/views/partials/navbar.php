@@ -39,7 +39,7 @@ $is_home = ($active_page === 'home' && ($uri === '/' || $uri === '' || $uri === 
      
       <a href="<?= $is_home ? '#services' : '/#services' ?>" class="nav-link <?= $active_page === 'services' ? 'active' : '' ?>">Services</a>
       <a href="/projects" class="nav-link <?= $active_page === 'projects' ? 'active' : '' ?>">Projects</a>
-      <a href="/profile" class="nav-link <?= $active_page === 'profile' ? 'active' : '' ?>">Entrepreneur Profile</a>
+      <a href="/profile" class="nav-link <?= $active_page === 'profile' ? 'active' : '' ?>">Entrepreneurship Profile</a>
       <a href="/insights" class="nav-link <?= $active_page === 'insights' ? 'active' : '' ?>">Insights</a>
       <a href="<?= $is_home ? '#contact' : '/#contact' ?>" class="nav-link <?= $active_page === 'contact' ? 'active' : '' ?>">Contact</a>
     </nav>
@@ -83,7 +83,7 @@ $is_home = ($active_page === 'home' && ($uri === '/' || $uri === '' || $uri === 
     
     <a href="<?= $is_home ? '#services' : '/#services' ?>" class="drawer-link <?= $active_page === 'services' ? 'active' : '' ?>"><i class="bx bx-wrench"></i><span>Services</span></a>
     <a href="/projects" class="drawer-link <?= $active_page === 'projects' ? 'active' : '' ?>"><i class="bx bx-folder"></i><span>Projects</span></a>
-    <a href="/profile" class="drawer-link <?= $active_page === 'profile' ? 'active' : '' ?>"><i class="bx bx-user-pin"></i><span>Entrepreneur Profile</span></a>
+    <a href="/profile" class="drawer-link <?= $active_page === 'profile' ? 'active' : '' ?>"><i class="bx bx-user-pin"></i><span>Entrepreneurship Profile</span></a>
     <a href="/insights" class="drawer-link <?= $active_page === 'insights' ? 'active' : '' ?>"><i class="bx bx-bulb"></i><span>Insights</span></a>
     <a href="<?= $is_home ? '#contact' : '/#contact' ?>" class="drawer-link <?= $active_page === 'contact' ? 'active' : '' ?>"><i class="bx bx-envelope"></i><span>Contact</span></a>
   </nav>

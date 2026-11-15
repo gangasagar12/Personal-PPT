@@ -643,13 +643,17 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
                 <div class="skill-logo-tile tile-django"><i class="bx bxl-django" aria-hidden="true"></i></div>
                 <span class="skill-tile-name">Django</span>
               </div>
-              <div class="skill-tile-item" title="RESTful APIs & Microservices">
-                <div class="skill-logo-tile tile-cpp"><i class="bx bx-code-curly" aria-hidden="true"></i></div>
-                <span class="skill-tile-name">REST APIs</span>
+              <div class="skill-tile-item" title="PHP">
+                <div class="skill-logo-tile tile-php"><i class="bx bxl-php" aria-hidden="true"></i></div>
+                <span class="skill-tile-name">PHP</span>
               </div>
-              <div class="skill-tile-item" title="C++">
-                <div class="skill-logo-tile tile-cpp"><i class="bx bxl-c-plus-plus" aria-hidden="true"></i></div>
-                <span class="skill-tile-name">C++</span>
+              <div class="skill-tile-item" title=".NET">
+                <div class="skill-logo-tile tile-dotnet"><span class="dotnet-logo-mark">.NET</span></div>
+                <span class="skill-tile-name">.NET</span>
+              </div>
+              <div class="skill-tile-item" title="RESTful APIs">
+                <div class="skill-logo-tile tile-api"><i class="bx bx-code-curly" aria-hidden="true"></i></div>
+                <span class="skill-tile-name">REST APIs</span>
               </div>
             </div>
           </div>
@@ -666,6 +670,10 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
               </div>
             </div>
             <div class="skill-tiles-row">
+              <div class="skill-tile-item" title="React js">
+                <div class="skill-logo-tile tile-react"><i class="bx bxl-react" aria-hidden="true"></i></div>
+                <span class="skill-tile-name">React js</span>
+              </div>
               <div class="skill-tile-item" title="JavaScript">
                 <div class="skill-logo-tile tile-js"><i class="bx bxl-javascript" aria-hidden="true"></i></div>
                 <span class="skill-tile-name">JavaScript</span>
@@ -775,12 +783,6 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
               <p class="service-desc">
                 Building fast and secure server-side applications and REST APIs using Python and Django. Focused on reliable performance, clean code, and secure authentication.
               </p>
-              <div class="service-pills">
-                <span>Python &amp; Django</span>
-                <span>REST APIs</span>
-                <span>JWT Auth</span>
-                <span>Scalable Logic</span>
-              </div>
             </div>
           </article>
 
@@ -794,12 +796,6 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
               <p class="service-desc">
                 Designing well-structured database schemas and writing fast, optimized queries in PostgreSQL and MySQL to keep data safe, organized, and reliable.
               </p>
-              <div class="service-pills">
-                <span>PostgreSQL</span>
-                <span>MySQL</span>
-                <span>Schema Modeling</span>
-                <span>Query Tuning</span>
-              </div>
             </div>
           </article>
 
@@ -813,12 +809,6 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
               <p class="service-desc">
                 Creating specialized software for clinics and businesses (like dental practice platforms) with easy appointment scheduling, patient records, and billing tools.
               </p>
-              <div class="service-pills">
-                <span>Practice OS</span>
-                <span>Operatory Schedulers</span>
-                <span>EHR Systems</span>
-                <span>Billing Invoices</span>
-              </div>
             </div>
           </article>
 
@@ -832,12 +822,6 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
               <p class="service-desc">
                 Developing complete web applications from start to finish — combining user-friendly, responsive frontends with solid Django backend systems.
               </p>
-              <div class="service-pills">
-                <span>Full-Stack Solutions</span>
-                <span>Modern JavaScript</span>
-                <span>Responsive UI</span>
-                <span>Template Logic</span>
-              </div>
             </div>
           </article>
 
@@ -851,12 +835,6 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
               <p class="service-desc">
                 Setting up and maintaining web applications in the cloud using Docker, AWS, and Linux servers with automated backups to ensure high uptime.
               </p>
-              <div class="service-pills">
-                <span>AWS Cloud</span>
-                <span>Docker Containers</span>
-                <span>Linux Server</span>
-                <span>Deployment CI/CD</span>
-              </div>
             </div>
           </article>
 
@@ -870,12 +848,6 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
               <p class="service-desc">
                 Writing custom Python scripts and scrapers to automate repetitive tasks, import/export data, and save time for everyday business operations.
               </p>
-              <div class="service-pills">
-                <span>Python Scripting</span>
-                <span>Workflow Automation</span>
-                <span>Data Pipelines</span>
-                <span>Web Scraping</span>
-              </div>
             </div>
           </article>
 

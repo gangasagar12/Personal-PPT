@@ -19,7 +19,7 @@ class ProjectController {
             'featured_projects' => $featured,
             'academic_projects' => $academic,
             'other_projects' => $other,
-            'page_title' => 'All Projects & Engineering Archives — Ganga Sagar Joshi'
+            'page_title' => 'Projects — Ganga Sagar Joshi'
         ]);
     }
 

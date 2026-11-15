@@ -2739,6 +2739,51 @@ h6 {
   box-shadow: 0 16px 36px rgba(21, 114, 182, 0.18);
 }
 
+.tile-php i {
+  color: #777bb4;
+}
+
+.tile-php:hover {
+  border-color: rgba(119, 123, 180, 0.35);
+  box-shadow: 0 16px 36px rgba(119, 123, 180, 0.18);
+}
+
+.tile-react i {
+  color: #00d8ff;
+}
+
+.tile-react:hover {
+  border-color: rgba(0, 216, 255, 0.35);
+  box-shadow: 0 16px 36px rgba(0, 216, 255, 0.18);
+}
+
+.tile-dotnet .dotnet-logo-mark {
+  font-family: 'Poppins', var(--ff), sans-serif;
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: #512bd4;
+  letter-spacing: -0.5px;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.tile-dotnet:hover {
+  border-color: rgba(81, 43, 212, 0.35);
+  box-shadow: 0 16px 36px rgba(81, 43, 212, 0.18);
+}
+
+.tile-dotnet:hover .dotnet-logo-mark {
+  transform: scale(1.08);
+}
+
+.tile-api i {
+  color: #4B86A5;
+}
+
+.tile-api:hover {
+  border-color: rgba(75, 134, 165, 0.35);
+  box-shadow: 0 16px 36px rgba(75, 134, 165, 0.18);
+}
+
 
 /* ──────────────────────────────────────────────────────────────────
    SERVICES SECTION

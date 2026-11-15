@@ -92,7 +92,7 @@ class RouteTest {
         $controller->index();
         $output = ob_get_clean();
 
-        return strpos($output, 'All Projects &') !== false
+        return strpos($output, 'All Projects') !== false
             && strpos($output, 'Featured Projects') !== false
             && strpos($output, 'Key Academic Projects') !== false
             && strpos($output, 'Some Other Projects') !== false

@@ -1,7 +1,25 @@
 <?php
 if (session_status() === PHP_SESSION_NONE && !headers_sent()) {
+    $isSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'path'     => '/',
+        'domain'   => '',
+        'secure'   => $isSecure,
+        'httponly' => true,
+        'samesite' => 'Lax'
+    ]);
     session_start();
 }
+
+// Security headers
+if (!headers_sent()) {
+    header('X-Frame-Options: SAMEORIGIN');
+    header('X-Content-Type-Options: nosniff');
+    header('X-XSS-Protection: 1; mode=block');
+    header('Referrer-Policy: strict-origin-when-cross-origin');
+}
+
 require_once __DIR__ . '/../backend/db.php';
 require_once __DIR__ . '/../backend/functions.php';
 
@@ -27,28 +45,88 @@ $adminSelfUrl = !empty($requestPath) && $requestPath !== '/' && $requestPath !==
 
 // Handle Logout
 if (isset($_GET['action']) && $_GET['action'] === 'logout') {
-    unset($_SESSION['admin_logged_in']);
+    unset($_SESSION['admin_logged_in'], $_SESSION['admin_user'], $_SESSION['admin_csrf_token']);
     session_destroy();
     header('Location: ' . $adminSelfUrl);
     exit;
 }
 
-// Handle Login Form
-$login_error = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_submit'])) {
-    $username = trim($_POST['username'] ?? '');
-    $password = trim($_POST['password'] ?? '');
+// Generate CSRF token for login form
+if (empty($_SESSION['admin_login_csrf'])) {
+    $_SESSION['admin_login_csrf'] = bin2hex(random_bytes(32));
+}
 
-    if ($username === ADMIN_USER && $password === ADMIN_PASS) {
-        $_SESSION['admin_logged_in'] = true;
-        header('Location: ' . $adminSelfUrl);
-        exit;
+// Rate Limiting settings (5 max attempts, 15 minutes lockout)
+$max_attempts = 5;
+$lockout_seconds = 15 * 60;
+$login_error = '';
+
+// Check if currently locked out
+if (isset($_SESSION['login_locked_until'])) {
+    if (time() < $_SESSION['login_locked_until']) {
+        $minutes_left = max(1, (int)ceil(($_SESSION['login_locked_until'] - time()) / 60));
+        $login_error = "Too many failed attempts. Account temporarily locked. Please try again in {$minutes_left} minute(s).";
     } else {
-        $login_error = 'Invalid username or password.';
+        unset($_SESSION['login_locked_until'], $_SESSION['login_attempts']);
     }
 }
 
-// If not logged in, show Login Screen
+// Handle Login Form Submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_submit'])) {
+    if (isset($_SESSION['login_locked_until']) && time() < $_SESSION['login_locked_until']) {
+        $minutes_left = max(1, (int)ceil(($_SESSION['login_locked_until'] - time()) / 60));
+        $login_error = "Too many failed attempts. Account temporarily locked. Please try again in {$minutes_left} minute(s).";
+    } else {
+        // CSRF Verification
+        $submitted_csrf = $_POST['csrf_token'] ?? '';
+        if (empty($submitted_csrf) || !hash_equals($_SESSION['admin_login_csrf'] ?? '', $submitted_csrf)) {
+            $login_error = 'Security validation failed (invalid session token). Please refresh and try again.';
+        } else {
+            $username = trim((string)($_POST['username'] ?? ''));
+            $password = (string)($_POST['password'] ?? '');
+
+            // Constant-time check for username
+            $user_matches = hash_equals(ADMIN_USER, $username);
+
+            // Password check: supports both hashed password and plaintext fallback
+            $pass_matches = false;
+            if (password_get_info(ADMIN_PASS)['algo'] !== 0) {
+                $pass_matches = password_verify($password, ADMIN_PASS);
+            } else {
+                $pass_matches = hash_equals(ADMIN_PASS, $password);
+            }
+
+            if ($user_matches && $pass_matches) {
+                // Successful login: regenerate session id to prevent fixation
+                session_regenerate_id(true);
+                $_SESSION['admin_logged_in'] = true;
+                $_SESSION['admin_user'] = ADMIN_USER;
+                $_SESSION['admin_logged_at'] = time();
+                unset($_SESSION['login_attempts'], $_SESSION['login_locked_until'], $_SESSION['admin_login_csrf']);
+
+                // Create fresh CSRF token for dashboard CRUD operations
+                $_SESSION['admin_csrf_token'] = bin2hex(random_bytes(32));
+
+                header('Location: ' . $adminSelfUrl);
+                exit;
+            } else {
+                // Failed login attempt
+                $_SESSION['login_attempts'] = ($_SESSION['login_attempts'] ?? 0) + 1;
+                $remaining = $max_attempts - $_SESSION['login_attempts'];
+                if ($remaining <= 0) {
+                    $_SESSION['login_locked_until'] = time() + $lockout_seconds;
+                    $login_error = "Too many failed login attempts. Account locked for 15 minutes.";
+                } else {
+                    $login_error = "Invalid username or password. ({$remaining} attempt(s) remaining)";
+                }
+            }
+        }
+    }
+    // Refresh login CSRF token for subsequent attempt
+    $_SESSION['admin_login_csrf'] = bin2hex(random_bytes(32));
+}
+
+// If not logged in, show clean modern Login Screen
 if (empty($_SESSION['admin_logged_in'])) {
 ?>
 <!DOCTYPE html>
@@ -56,7 +134,7 @@ if (empty($_SESSION['admin_logged_in'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Admin Login — Ganga Sagar Joshi</title>
+    <title>Admin Login — Workspace</title>
     <!-- Favicon & Touch Icons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
@@ -65,52 +143,218 @@ if (empty($_SESSION['admin_logged_in'])) {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background: #0f172a; color: #f8fafc; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 1.5rem; }
-        .login-card { background: #1e293b; border: 1px solid #334155; border-radius: 20px; padding: 2.5rem; width: 100%; max-width: 420px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
-        .login-logo { font-family: 'Poppins', sans-serif; font-size: 1.4rem; font-weight: 700; color: #3b82f6; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.6rem; }
-        .login-title { font-size: 0.95rem; color: #94a3b8; margin-bottom: 1.8rem; }
-        .form-group { margin-bottom: 1.2rem; }
-        label { display: block; font-size: 0.85rem; font-weight: 600; color: #cbd5e1; margin-bottom: 0.4rem; }
-        input[type="text"], input[type="password"] { width: 100%; padding: 0.75rem 1rem; background: #0f172a; border: 1px solid #334155; border-radius: 10px; font-size: 0.95rem; color: #f8fafc; outline: none; transition: all 0.2s; }
-        input:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.25); }
-        .btn-submit { width: 100%; padding: 0.8rem; background: linear-gradient(135deg, #2563eb, #7c3aed); color: #fff; border: none; border-radius: 10px; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; margin-top: 0.5rem; }
-        .btn-submit:hover { filter: brightness(1.1); transform: translateY(-1px); }
-        .alert-error { background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #fca5a5; padding: 0.65rem 1rem; border-radius: 8px; font-size: 0.85rem; margin-bottom: 1.2rem; }
-        .credentials-pill { background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.25); border-radius: 10px; padding: 0.65rem 0.9rem; margin-bottom: 1.2rem; font-size: 0.84rem; color: #93c5fd; display: flex; align-items: center; gap: 0.5rem; }
-        .back-link { display: block; text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: #64748b; text-decoration: none; }
-        .back-link:hover { color: #3b82f6; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { 
+            background: #0b1329; 
+            color: #f8fafc; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            min-height: 100vh; 
+            padding: 1.5rem; 
+        }
+        .login-card { 
+            background: #131d36; 
+            border: 1px solid #1e293b; 
+            border-radius: 18px; 
+            padding: 2.25rem 2rem; 
+            width: 100%; 
+            max-width: 390px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.45); 
+        }
+        .login-header { 
+            text-align: center; 
+            margin-bottom: 1.75rem; 
+        }
+        .login-badge-icon { 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            width: 44px; 
+            height: 44px; 
+            border-radius: 12px; 
+            background: rgba(75, 134, 165, 0.15); 
+            color: #4B86A5; 
+            font-size: 1.35rem; 
+            margin-bottom: 0.75rem; 
+            border: 1px solid rgba(75, 134, 165, 0.25); 
+        }
+        .login-heading { 
+            font-family: 'Poppins', sans-serif; 
+            font-size: 1.35rem; 
+            font-weight: 700; 
+            color: #ffffff; 
+            letter-spacing: -0.01em; 
+            margin-bottom: 0.35rem; 
+        }
+        .login-subtitle { 
+            font-size: 0.86rem; 
+            color: #94a3b8; 
+        }
+        .form-group { 
+            margin-bottom: 1.25rem; 
+        }
+        label { 
+            display: block; 
+            font-size: 0.83rem; 
+            font-weight: 600; 
+            color: #cbd5e1; 
+            margin-bottom: 0.45rem; 
+        }
+        .input-wrap { 
+            position: relative; 
+            display: flex; 
+            align-items: center; 
+        }
+        .input-icon { 
+            position: absolute; 
+            left: 1rem; 
+            color: #64748b; 
+            font-size: 1.15rem; 
+            pointer-events: none; 
+        }
+        input[type="text"], input[type="password"] { 
+            width: 100%; 
+            padding: 0.75rem 2.5rem 0.75rem 2.65rem; 
+            background: #0b1329; 
+            border: 1px solid #28354f; 
+            border-radius: 10px; 
+            font-size: 0.92rem; 
+            color: #f8fafc; 
+            outline: none; 
+            transition: all 0.2s ease; 
+        }
+        input:focus { 
+            border-color: #4B86A5; 
+            box-shadow: 0 0 0 3px rgba(75, 134, 165, 0.22); 
+        }
+        .btn-toggle-pass { 
+            position: absolute; 
+            right: 0.85rem; 
+            background: none; 
+            border: none; 
+            color: #64748b; 
+            font-size: 1.15rem; 
+            cursor: pointer; 
+            padding: 0.2rem; 
+            display: flex; 
+            align-items: center; 
+            transition: color 0.2s; 
+        }
+        .btn-toggle-pass:hover { 
+            color: #cbd5e1; 
+        }
+        .btn-submit { 
+            width: 100%; 
+            padding: 0.8rem; 
+            background: linear-gradient(135deg, #4B86A5 0%, #2563eb 100%); 
+            color: #ffffff; 
+            border: none; 
+            border-radius: 10px; 
+            font-weight: 600; 
+            font-size: 0.92rem; 
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 0.5rem; 
+            margin-top: 0.6rem; 
+            box-shadow: 0 4px 14px rgba(75, 134, 165, 0.28); 
+        }
+        .btn-submit:hover { 
+            filter: brightness(1.1); 
+            transform: translateY(-1px); 
+        }
+        .alert-error { 
+            background: rgba(239,68,68,0.12); 
+            border: 1px solid rgba(239,68,68,0.4); 
+            color: #fca5a5; 
+            padding: 0.7rem 0.9rem; 
+            border-radius: 10px; 
+            font-size: 0.83rem; 
+            margin-bottom: 1.25rem; 
+            display: flex; 
+            align-items: center; 
+            gap: 0.55rem; 
+            line-height: 1.4; 
+        }
+        .alert-error i { 
+            font-size: 1.1rem; 
+            flex-shrink: 0; 
+        }
+        .back-link { 
+            display: block; 
+            text-align: center; 
+            margin-top: 1.5rem; 
+            font-size: 0.84rem; 
+            color: #64748b; 
+            text-decoration: none; 
+            transition: color 0.2s; 
+        }
+        .back-link:hover { 
+            color: #4B86A5; 
+        }
     </style>
 </head>
 <body>
     <div class="login-card">
-        <div class="login-logo">
-            <img src="/images/logo-square.png" alt="Ganga Sagar Joshi" style="width:38px; height:38px; border-radius:10px; object-fit:cover; border:1.5px solid rgba(59,130,246,0.3); flex-shrink:0;" />
-            <span>Portfolio Admin</span>
-        </div>
-        <p class="login-title">Sign in to manage projects &amp; dynamic content</p>
-        
-        <div class="credentials-pill">
-            <i class="bx bx-info-circle" style="font-size:1.1rem; flex-shrink:0;"></i>
-            <span>Default: <strong>admin</strong> / <strong>admin123</strong></span>
+        <div class="login-header">
+            <div class="login-badge-icon"><i class="bx bx-shield-quarter"></i></div>
+            <h1 class="login-heading">Admin Login</h1>
+            <p class="login-subtitle">Sign in to manage your portfolio</p>
         </div>
 
-        <?php if ($login_error): ?>
-            <div class="alert-error"><?= htmlspecialchars($login_error) ?></div>
+        <?php if (!empty($login_error)): ?>
+            <div class="alert-error" role="alert">
+                <i class="bx bx-error-circle"></i>
+                <span><?= htmlspecialchars($login_error) ?></span>
+            </div>
         <?php endif; ?>
-        <form method="POST" action="<?= htmlspecialchars($adminSelfUrl) ?>">
+
+        <form method="POST" action="<?= htmlspecialchars($adminSelfUrl) ?>" autocomplete="off">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['admin_login_csrf']) ?>">
+
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="admin" value="admin" required autofocus>
+                <div class="input-wrap">
+                    <i class="bx bx-user input-icon"></i>
+                    <input type="text" id="username" name="username" placeholder="Enter username" required autofocus autocomplete="username">
+                </div>
             </div>
+
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="••••••••" value="admin123" required>
+                <div class="input-wrap">
+                    <i class="bx bx-lock-alt input-icon"></i>
+                    <input type="password" id="password" name="password" placeholder="Enter password" required autocomplete="current-password">
+                    <button type="button" class="btn-toggle-pass" id="togglePass" aria-label="Toggle password visibility">
+                        <i class="bx bx-show" id="toggleIcon"></i>
+                    </button>
+                </div>
             </div>
-            <button type="submit" name="login_submit" class="btn-submit">Sign In to Dashboard</button>
+
+            <button type="submit" name="login_submit" class="btn-submit">
+                <span>Sign In</span>
+                <i class="bx bx-right-arrow-alt"></i>
+            </button>
         </form>
-        <a href="../index.php" class="back-link">&larr; Back to Portfolio Website</a>
+
+        <a href="/" class="back-link">&larr; Back to Portfolio Website</a>
     </div>
+
+    <script>
+        const togglePass = document.getElementById('togglePass');
+        const passInput = document.getElementById('password');
+        const toggleIcon = document.getElementById('toggleIcon');
+        if (togglePass && passInput) {
+            togglePass.addEventListener('click', function() {
+                const isPassword = passInput.type === 'password';
+                passInput.type = isPassword ? 'text' : 'password';
+                toggleIcon.className = isPassword ? 'bx bx-hide' : 'bx bx-show';
+            });
+        }
+    </script>
 </body>
 </html>
 <?php
@@ -125,23 +369,51 @@ $message_type = 'success';
 
 if (!function_exists('handle_admin_image_upload')) {
     /**
-     * Handle Local File Upload directly to public/images/uploads/
+     * Handle Secure Local File Upload directly to public/images/uploads/ and images/uploads/
      */
     function handle_admin_image_upload(string $file_key, string $fallback_key, string $default_image = 'images/projectcard1.jpg'): string {
         if (isset($_FILES[$file_key]) && is_array($_FILES[$file_key]) && $_FILES[$file_key]['error'] === UPLOAD_ERR_OK) {
             $file = $_FILES[$file_key];
             $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-            $allowed = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg'];
+            $allowed_exts = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg'];
             
-            if (in_array($ext, $allowed)) {
-                $upload_dir = dirname(__DIR__) . '/public/images/uploads';
-                if (!is_dir($upload_dir)) {
-                    mkdir($upload_dir, 0755, true);
+            // Limit file size to 8MB max
+            if ($file['size'] <= 8 * 1024 * 1024 && in_array($ext, $allowed_exts, true)) {
+                $tmp = $file['tmp_name'];
+                $is_safe = false;
+
+                if ($ext === 'svg') {
+                    $svg_content = file_get_contents($tmp);
+                    // Prevent stored XSS in SVG
+                    if ($svg_content !== false && !preg_match('/<script|javascript:|on\w+=/i', $svg_content)) {
+                        $is_safe = true;
+                    }
+                } else {
+                    $img_info = @getimagesize($tmp);
+                    $allowed_mimes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+                    if ($img_info !== false && in_array($img_info['mime'], $allowed_mimes, true)) {
+                        $is_safe = true;
+                    }
                 }
-                $safe_filename = 'upload_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
-                $dest = $upload_dir . '/' . $safe_filename;
-                if (move_uploaded_file($file['tmp_name'], $dest)) {
-                    return 'images/uploads/' . $safe_filename;
+
+                if ($is_safe) {
+                    $upload_dir_public = dirname(__DIR__) . '/public/images/uploads';
+                    $upload_dir_root = dirname(__DIR__) . '/images/uploads';
+                    if (!is_dir($upload_dir_public)) {
+                        mkdir($upload_dir_public, 0755, true);
+                    }
+                    if (!is_dir($upload_dir_root)) {
+                        mkdir($upload_dir_root, 0755, true);
+                    }
+
+                    $safe_filename = 'upload_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
+                    $dest_public = $upload_dir_public . '/' . $safe_filename;
+                    $dest_root = $upload_dir_root . '/' . $safe_filename;
+
+                    if (move_uploaded_file($tmp, $dest_public)) {
+                        @copy($dest_public, $dest_root);
+                        return 'images/uploads/' . $safe_filename;
+                    }
                 }
             }
         }
@@ -149,6 +421,8 @@ if (!function_exists('handle_admin_image_upload')) {
         // Check fallback text field / hidden existing image
         $fallback = trim($_POST[$fallback_key] ?? '');
         if (!empty($fallback)) {
+            // Prevent path traversal
+            $fallback = str_replace(['../', '..\\'], '', $fallback);
             return $fallback;
         }
         
