@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="author" content="Ganga Sagar Joshi" />
   <meta name="description"
     content="Official Company &amp; Entrepreneurship Profile of Strataflow Technologies Pvt. Ltd. and Ganga Sagar Joshi (Co-Founder &amp; Technical Lead)." />

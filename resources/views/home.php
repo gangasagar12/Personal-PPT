@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="google-site-verification" content="yC0FjFq6eXnCaYa6D_VLggwR7D7smVDaFGP6gQ3wn4w" />
 
   <meta name="author" content="Ganga Sagar Joshi" />

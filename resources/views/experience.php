@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Career Journey &amp; Awards — Ganga Sagar Joshi</title>
   <meta name="description" content="Detailed history of working, software engineering leadership, career milestones, and awards/recognitions earned by Ganga Sagar Joshi." />
 

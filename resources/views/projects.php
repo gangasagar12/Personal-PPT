@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><?= htmlspecialchars($page_title ?? 'All Projects & Engineering Archives — Ganga Sagar Joshi') ?></title>
   <meta name="description" content="Complete portfolio and engineering archives of Ganga Sagar Joshi, featuring production dental platforms, scalable Django backend architectures, key academic projects, and developer utilities." />
 

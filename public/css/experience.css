@@ -141,8 +141,8 @@
 
 .awards-gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: 1.75rem;
   max-width: 1140px;
   margin: 0 auto;
   width: 100%;
@@ -312,8 +312,21 @@
 }
 
 @media (max-width: 640px) {
+  .exp-hero-banner {
+    padding: calc(var(--nav-h) + 1.25rem) 0 2rem;
+  }
+  .exp-full-section {
+    padding: 3rem 0;
+  }
+  .awards-gallery-section {
+    padding: 3rem 0;
+  }
   .awards-gallery-grid {
     grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .award-image-wrap {
+    height: 190px;
   }
 }
 

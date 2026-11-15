@@ -55,7 +55,7 @@ if (empty($_SESSION['admin_logged_in'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Admin Login — Ganga Sagar Joshi</title>
     <!-- Favicon & Touch Icons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -403,7 +403,7 @@ $awards_list = \App\Models\Award::allWithDetails();
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Admin Workspace — Ganga Sagar Joshi</title>
     <!-- Favicon & Touch Icons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -1027,6 +1027,18 @@ $awards_list = \App\Models\Award::allWithDetails();
         }
 
         /* Responsive Breakpoints */
+        .admin-sidebar-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 1040;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
         @media (max-width: 1024px) {
             .kpi-row { grid-template-columns: repeat(2, 1fr); }
         }
@@ -1034,10 +1046,27 @@ $awards_list = \App\Models\Award::allWithDetails();
             :root { --sidebar-width: 0px; }
             .admin-sidebar {
                 transform: translateX(-100%);
-                width: 260px;
+                width: 270px;
+                max-width: 85vw;
+                z-index: 1050;
+                height: 100vh;
+                height: 100dvh;
             }
             .admin-sidebar.open {
                 transform: translateX(0);
+            }
+            .admin-sidebar-backdrop {
+                display: block;
+            }
+            .admin-sidebar-backdrop.open {
+                opacity: 1;
+                pointer-events: auto;
+            }
+            .admin-topbar {
+                padding: 0 1rem;
+            }
+            .topbar-actions span {
+                display: none;
             }
             .mobile-toggle {
                 display: block;
@@ -1055,7 +1084,16 @@ $awards_list = \App\Models\Award::allWithDetails();
                 grid-template-columns: 1fr;
             }
             .admin-canvas {
-                padding: 1.25rem;
+                padding: 1rem;
+            }
+            .panel-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.85rem;
+            }
+            .panel-header button {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
@@ -1150,6 +1188,7 @@ $awards_list = \App\Models\Award::allWithDetails();
             </div>
         </div>
     </aside>
+    <div class="admin-sidebar-backdrop" id="adminSidebarBackdrop" onclick="toggleSidebar()"></div>
 
     <!-- ─── MAIN CONTENT AREA ────────────────────────────── -->
     <div class="admin-main">
@@ -1994,15 +2033,25 @@ $awards_list = \App\Models\Award::allWithDetails();
                 location.hash = '#' + tabId;
             }
 
-            // Close mobile sidebar if open
+            // Close mobile sidebar and backdrop if open
             const sidebar = document.getElementById('adminSidebar');
-            if (sidebar.classList.contains('open')) {
+            const backdrop = document.getElementById('adminSidebarBackdrop');
+            if (sidebar && sidebar.classList.contains('open')) {
                 sidebar.classList.remove('open');
+            }
+            if (backdrop) {
+                backdrop.classList.remove('open');
             }
         }
 
         function toggleSidebar() {
-            document.getElementById('adminSidebar').classList.toggle('open');
+            const sidebar = document.getElementById('adminSidebar');
+            const backdrop = document.getElementById('adminSidebarBackdrop');
+            if (!sidebar) return;
+            sidebar.classList.toggle('open');
+            if (backdrop) {
+                backdrop.classList.toggle('open', sidebar.classList.contains('open'));
+            }
         }
 
         function toggleForm(formId) {

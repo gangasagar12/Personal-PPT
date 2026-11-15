@@ -62,6 +62,7 @@ function openDrawer() {
   hamburger.setAttribute('aria-expanded', 'true');
   drawer.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden'; // prevent background scrolling
+  document.documentElement.style.overflow = 'hidden';
 }
 
 function closeDrawer() {
@@ -72,6 +73,7 @@ function closeDrawer() {
   hamburger.setAttribute('aria-expanded', 'false');
   drawer.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
+  document.documentElement.style.overflow = '';
 }
 
 if (hamburger && drawer && backdrop) {
