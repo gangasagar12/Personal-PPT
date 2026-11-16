@@ -43,6 +43,25 @@ class Experience extends Model {
                     display_order INTEGER DEFAULT 0,
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
                 )");
+            }
+
+            // Check if table contains old placeholder records (e.g. Inovix) or is empty
+            $needsSync = false;
+            try {
+                $hasInovix = $db->query("SELECT 1 FROM experiences WHERE company LIKE '%Inovix%' LIMIT 1");
+                if ($hasInovix && $hasInovix->fetch()) {
+                    $needsSync = true;
+                } else {
+                    $count = (int)$db->query("SELECT COUNT(*) FROM experiences")->fetchColumn();
+                    if ($count === 0) {
+                        $needsSync = true;
+                    }
+                }
+            } catch (\Throwable $t) {}
+
+            if ($needsSync) {
+                // Remove legacy placeholder records and insert the real experiences
+                $db->exec("DELETE FROM experiences WHERE company LIKE '%Inovix%' OR company LIKE '%Strataflow%' OR company LIKE '%Independent%' OR id IN (1, 2, 3)");
 
                 $stmt = $db->prepare("INSERT INTO experiences (id, company, role, period, location, status, description, responsibilities, skills, display_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 foreach (self::defaults() as $d) {
@@ -89,55 +108,39 @@ class Experience extends Model {
                 'id' => 1,
                 'company' => 'Strataflow Technologies Pvt. Ltd.',
                 'role' => 'Co-Founder & Technical Lead',
-                'period' => '2024 – Present',
+                'period' => '2026 – Present',
                 'location' => 'Kathmandu, Nepal',
                 'status' => 'Active',
                 'company_url' => 'https://strataflowtechnologies.com',
                 'description' => 'Directing system architecture, database optimization, and scalable backend services for client institutions and in-house enterprise SaaS products.',
                 'responsibilities_array' => [
-                    'Architected and deployed Oralix and CareFirst Dental clinical practice OS platforms with multi-chair scheduling and EHR management.',
-                    'Engineered normalized PostgreSQL and MySQL database schemas handling clinical appointments, treatments, and automated billing calculation.',
-                    'Implemented stateless REST APIs, JWT authentication, and secure role-based access control (RBAC).',
-                    'Guided software product strategy, selecting high-performance technology stacks and leading code reviews.'
+                    'Lead the company technical strategy, software development direction, and overall technology operations.',
+                    'Oversee system architecture, technology selection, development standards, and the delivery of scalable software solutions.',
+                    'Drive product innovation, coordinate technical teams, and align technology initiatives with business goals and client requirements.'
+
                 ],
-                'skills_array' => ['Python', 'Django', 'PostgreSQL', 'REST Framework', 'AWS', 'System Architecture', 'MySQL'],
+                'skills_array' => ['Python', 'Django', 'PostgreSQL', 'REST Framework', 'AWS', 'System Architecture', 'MySQL','Linux'],
                 'display_order' => 1
             ],
-            [
-                'id' => 2,
-                'company' => 'Inovix Technologies',
-                'role' => 'Backend Developer & Co-Founder',
-                'period' => '2023 – 2024',
-                'location' => 'Kathmandu, Nepal',
-                'status' => 'Completed',
-                'company_url' => '',
-                'description' => 'Engineered backend platforms and APIs for healthcare, education, and institutional client applications.',
-                'responsibilities_array' => [
-                    'Built high-performance Django web platforms and integrated appointment queuing algorithms.',
-                    'Optimized ORM queries and indexing, cutting database query latency by over 35%.',
-                    'Developed automated invoice generators, PDF clinical reporting engines, and transactional email notification systems.',
-                    'Collaborated cross-functionally with UI designers and medical teams to translate clinic workflows into software.'
-                ],
-                'skills_array' => ['Python', 'Django', 'MySQL', 'Docker', 'REST APIs', 'Git', 'HTML5/CSS3'],
-                'display_order' => 2
-            ],
-            [
-                'id' => 3,
-                'company' => 'Independent Software Engineering',
-                'role' => 'Full-Stack Developer & Technical Consultant',
-                'period' => '2022 – 2023',
-                'location' => 'Remote / Nepal',
-                'status' => 'Completed',
-                'company_url' => '',
-                'description' => 'Delivered custom software systems, interactive e-commerce backends, and tailored database solutions for diverse businesses.',
-                'responsibilities_array' => [
-                    'Designed and deployed custom e-commerce and inventory tracking platforms with secure payment gateways.',
-                    'Built modern responsive storefronts and administrative control panels with intuitive UX.',
-                    'Delivered clean, maintainable codebases with structured documentation and robust error handling.'
-                ],
-                'skills_array' => ['Python', 'Django', 'JavaScript', 'SQLite', 'PostgreSQL', 'Web Security'],
-                'display_order' => 3
-            ]
+       
+[
+    'id' => 2,
+    'company' => 'Self-Employed',
+    'role' => 'Freelance Software Developer',
+    'period' => '2025 – 2026',
+    'location' => 'Kathmandu, Nepal',
+    'status' => 'Completed',
+    'company_url' => '',
+    'description' => 'Providing independent software development services, building custom web applications and backend solutions based on client requirements.',
+    'responsibilities_array' => [
+        'Developed custom web applications and backend solutions for individual clients and businesses.',
+        'Managed project requirements, development, testing, and delivery independently.',
+        'Collaborated with clients to understand their needs and implement practical software solutions.'
+    ],
+    'skills_array' => ['Python', 'Django', 'MySQL', 'PostgreSQL', 'REST APIs', 'Git'],
+    'display_order' => 2
+]
+           
         ];
     }
 }

@@ -631,6 +631,23 @@ if (isset($_GET['del_award'])) {
     exit;
 }
 
+// Action: Delete Work Experience
+if (isset($_GET['del_exp'])) {
+    $del_id = intval($_GET['del_exp']);
+    try {
+        require_once __DIR__ . '/../app/Core/Autoloader.php';
+        \App\Core\Autoloader::register();
+        \App\Models\Experience::ensureTable();
+        $stmt = $pdo->prepare("DELETE FROM experiences WHERE id = ?");
+        $stmt->execute([$del_id]);
+        $_SESSION['admin_message'] = 'Work Experience deleted successfully.';
+    } catch (\Throwable $e) {
+        $_SESSION['admin_error'] = 'Failed to delete experience: ' . $e->getMessage();
+    }
+    header('Location: ' . $adminSelfUrl . '#tab-experiences');
+    exit;
+}
+
 // Action: Toggle Promotion Status
 if (isset($_GET['toggle_promo'])) {
     $promo_id = intval($_GET['toggle_promo']);
@@ -713,6 +730,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_award'])) {
         'display_order' => $order
     ]);
     $message = "Award / Recognition '{$title}' saved successfully.";
+}
+
+// Action: Add / Update Work Experience
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_experience'])) {
+    require_once __DIR__ . '/../app/Core/Autoloader.php';
+    \App\Core\Autoloader::register();
+
+    $company = trim($_POST['company'] ?? '');
+    $role = trim($_POST['role'] ?? '');
+    $period = trim($_POST['period'] ?? '');
+    $location = trim($_POST['location'] ?? 'Kathmandu, Nepal');
+    $status = trim($_POST['status'] ?? 'Active');
+    $description = trim($_POST['description'] ?? '');
+    $responsibilities = trim($_POST['responsibilities'] ?? '');
+    $skills = trim($_POST['skills'] ?? '');
+    $order = intval($_POST['display_order'] ?? 0);
+    $exp_id = intval($_POST['exp_id'] ?? 0);
+
+    if (empty($company) || empty($role)) {
+        $_SESSION['admin_error'] = 'Company name and Role are required.';
+    } else {
+        $saved = \App\Models\Experience::saveItem([
+            'id' => $exp_id,
+            'company' => $company,
+            'role' => $role,
+            'period' => $period,
+            'location' => $location,
+            'status' => $status,
+            'description' => $description,
+            'responsibilities' => $responsibilities,
+            'skills' => $skills,
+            'display_order' => $order
+        ]);
+        if ($saved) {
+            $_SESSION['admin_message'] = $exp_id > 0 ? "Work Experience at '{$company}' updated successfully." : "New Work Experience at '{$company}' added.";
+        } else {
+            $_SESSION['admin_error'] = "Failed to save work experience.";
+        }
+    }
+    header('Location: ' . $adminSelfUrl . '#tab-experiences');
+    exit;
 }
 
 // Action: Add / Update Featured Project
@@ -872,6 +930,7 @@ $other_projects_list = \App\Models\OtherProject::allWithSkills();
 $blog_list = $pdo->query("SELECT * FROM blog_insights ORDER BY display_order ASC, id DESC")->fetchAll();
 $inquiries_list = $pdo->query("SELECT * FROM contact_inquiries ORDER BY id DESC")->fetchAll();
 $company_products_list = \App\Models\CompanyProduct::allWithFeaturesAndPills();
+$experiences_list = \App\Models\Experience::allWithDetails();
 $awards_list = \App\Models\Award::allWithDetails();
 $promotions_list = \App\Models\Promotion::allOrdered();
 ?>
@@ -1637,6 +1696,14 @@ $promotions_list = \App\Models\Promotion::allOrdered();
                     <span class="nav-badge"><?= count($academic_list) + count($other_projects_list) ?></span>
                 </button>
 
+                <button class="nav-link" onclick="switchTab('tab-experiences', 'Work Experiences', this)">
+                    <div class="nav-link-left">
+                        <i class="bx bx-briefcase-alt-2"></i>
+                        <span>Work Experience</span>
+                    </div>
+                    <span class="nav-badge"><?= count($experiences_list) ?></span>
+                </button>
+
                 <button class="nav-link" onclick="switchTab('tab-blog', 'Insights & Articles', this)">
                     <div class="nav-link-left">
                         <i class="bx bx-news"></i>
@@ -1946,6 +2013,134 @@ $promotions_list = \App\Models\Promotion::allOrdered();
             </section>
 
             <!-- ───────────────────────────────────────────────────────────── -->
+            <!-- COMPONENT TAB: WORK EXPERIENCES -->
+            <!-- ───────────────────────────────────────────────────────────── -->
+            <section id="tab-experiences" class="tab-panel">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <div class="panel-header-info">
+                            <h2>Work Experiences &amp; Roles</h2>
+                            <p>Professional engineering history, leadership positions, and client consultancy</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="toggleForm('form-add-experience')">
+                            <i class="bx bx-plus"></i> Add New Experience
+                        </button>
+                    </div>
+
+                    <!-- Collapsible Add/Edit Form for Experiences -->
+                    <div id="form-add-experience" class="form-drawer" style="display:none;">
+                        <form method="POST" action="">
+                            <input type="hidden" name="save_experience" value="1">
+                            <input type="hidden" name="exp_id" id="exp_id" value="0">
+
+                            <div class="form-grid">
+                                <div>
+                                    <label class="form-label">Company / Organization</label>
+                                    <input type="text" name="company" id="exp_company" class="form-control" required placeholder="e.g. Strataflow Technologies Pvt. Ltd.">
+                                </div>
+                                <div>
+                                    <label class="form-label">Role / Job Title</label>
+                                    <input type="text" name="role" id="exp_role" class="form-control" required placeholder="e.g. Co-Founder & Technical Lead">
+                                </div>
+                                <div>
+                                    <label class="form-label">Period / Duration</label>
+                                    <input type="text" name="period" id="exp_period" class="form-control" required placeholder="e.g. 2024 – Present or 2023 – 2024">
+                                </div>
+                                <div>
+                                    <label class="form-label">Location</label>
+                                    <input type="text" name="location" id="exp_location" class="form-control" placeholder="e.g. Kathmandu, Nepal or Remote">
+                                </div>
+                                <div>
+                                    <label class="form-label">Status</label>
+                                    <select name="status" id="exp_status" class="form-control">
+                                        <option value="Active">Active / Current</option>
+                                        <option value="Completed">Completed / Previous</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="form-label">Display Order</label>
+                                    <input type="number" name="display_order" id="exp_order" class="form-control" value="0">
+                                </div>
+                                <div class="form-col-full">
+                                    <label class="form-label">Technologies &amp; Key Skills (comma-separated)</label>
+                                    <input type="text" name="skills" id="exp_skills" class="form-control" placeholder="e.g. Python, Django, PostgreSQL, REST Framework, MySQL, AWS">
+                                </div>
+                                <div class="form-col-full">
+                                    <label class="form-label">Role Summary &amp; Overview</label>
+                                    <textarea name="description" id="exp_description" class="form-control" rows="3" required placeholder="High-level summary of your responsibilities, leadership, and technical focus..."></textarea>
+                                </div>
+                                <div class="form-col-full">
+                                    <label class="form-label">Key Responsibilities &amp; Impact (1 bullet point per line)</label>
+                                    <textarea name="responsibilities" id="exp_responsibilities" class="form-control" rows="4" placeholder="Architected and deployed enterprise clinic management platforms&#10;Engineered normalized relational database schemas handling high traffic&#10;Implemented stateless REST APIs with JWT authentication and RBAC"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary btn-sm">Save Experience</button>
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="resetAndCloseForm('form-add-experience', 'exp_id')">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Experiences Table -->
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Company &amp; Role</th>
+                                    <th>Period &amp; Status</th>
+                                    <th>Location</th>
+                                    <th>Skills</th>
+                                    <th>Order</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (empty($experiences_list)): ?>
+                                <tr>
+                                    <td colspan="6" style="text-align:center; padding:2rem; color:#64748b;">
+                                        No experiences added yet. Click &quot;Add New Experience&quot; to add your first position.
+                                    </td>
+                                </tr>
+                                <?php else: ?>
+                                    <?php foreach ($experiences_list as $exp): ?>
+                                    <tr>
+                                        <td>
+                                            <div style="font-weight:600; color:var(--text-main); font-size:0.95rem;"><?= htmlspecialchars($exp['company']) ?></div>
+                                            <div style="font-size:0.82rem; color:var(--primary); font-weight:500;"><?= htmlspecialchars($exp['role']) ?></div>
+                                        </td>
+                                        <td>
+                                            <div style="font-weight:500; font-size:0.86rem;"><?= htmlspecialchars($exp['period']) ?></div>
+                                            <span class="badge <?= ($exp['status'] ?? 'Active') === 'Active' ? 'badge-success' : 'badge-secondary' ?>">
+                                                <?= htmlspecialchars($exp['status'] ?? 'Active') ?>
+                                            </span>
+                                        </td>
+                                        <td style="font-size:0.85rem; color:#64748b;"><?= htmlspecialchars($exp['location'] ?? '—') ?></td>
+                                        <td style="max-width:240px;">
+                                            <div style="display:flex; flex-wrap:wrap; gap:4px;">
+                                                <?php 
+                                                $skillsArr = !empty($exp['skills']) ? array_slice(array_map('trim', explode(',', $exp['skills'])), 0, 4) : [];
+                                                foreach ($skillsArr as $sk): ?>
+                                                    <span class="tech-pill" style="font-size:0.7rem; padding:2px 6px;"><?= htmlspecialchars($sk) ?></span>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        </td>
+                                        <td><?= intval($exp['display_order'] ?? 0) ?></td>
+                                        <td>
+                                            <div class="actions-cell">
+                                                <button type="button" class="btn btn-secondary btn-sm" onclick="editExperience(<?= (int)$exp['id'] ?>)" title="Edit"><i class="bx bx-edit"></i></button>
+                                                <a href="?del_exp=<?= $exp['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Delete this experience?')" title="Delete"><i class="bx bx-trash"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ───────────────────────────────────────────────────────────── -->
             <!-- COMPONENT TAB 2: STRATAFLOW PRODUCTS -->
             <!-- ───────────────────────────────────────────────────────────── -->
             <section id="tab-products" class="tab-panel">
@@ -2062,6 +2257,134 @@ $promotions_list = \App\Models\Promotion::allOrdered();
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ───────────────────────────────────────────────────────────── -->
+            <!-- COMPONENT TAB: WORK EXPERIENCES -->
+            <!-- ───────────────────────────────────────────────────────────── -->
+            <section id="tab-experiences" class="tab-panel">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <div class="panel-header-info">
+                            <h2>Work Experiences &amp; Roles</h2>
+                            <p>Professional engineering history, leadership positions, and client consultancy</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="toggleForm('form-add-experience')">
+                            <i class="bx bx-plus"></i> Add New Experience
+                        </button>
+                    </div>
+
+                    <!-- Collapsible Add/Edit Form for Experiences -->
+                    <div id="form-add-experience" class="form-drawer" style="display:none;">
+                        <form method="POST" action="">
+                            <input type="hidden" name="save_experience" value="1">
+                            <input type="hidden" name="exp_id" id="exp_id" value="0">
+
+                            <div class="form-grid">
+                                <div>
+                                    <label class="form-label">Company / Organization</label>
+                                    <input type="text" name="company" id="exp_company" class="form-control" required placeholder="e.g. Strataflow Technologies Pvt. Ltd.">
+                                </div>
+                                <div>
+                                    <label class="form-label">Role / Job Title</label>
+                                    <input type="text" name="role" id="exp_role" class="form-control" required placeholder="e.g. Co-Founder & Technical Lead">
+                                </div>
+                                <div>
+                                    <label class="form-label">Period / Duration</label>
+                                    <input type="text" name="period" id="exp_period" class="form-control" required placeholder="e.g. 2024 – Present or 2023 – 2024">
+                                </div>
+                                <div>
+                                    <label class="form-label">Location</label>
+                                    <input type="text" name="location" id="exp_location" class="form-control" placeholder="e.g. Kathmandu, Nepal or Remote">
+                                </div>
+                                <div>
+                                    <label class="form-label">Status</label>
+                                    <select name="status" id="exp_status" class="form-control">
+                                        <option value="Active">Active / Current</option>
+                                        <option value="Completed">Completed / Previous</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="form-label">Display Order</label>
+                                    <input type="number" name="display_order" id="exp_order" class="form-control" value="0">
+                                </div>
+                                <div class="form-col-full">
+                                    <label class="form-label">Technologies &amp; Key Skills (comma-separated)</label>
+                                    <input type="text" name="skills" id="exp_skills" class="form-control" placeholder="e.g. Python, Django, PostgreSQL, REST Framework, MySQL, AWS">
+                                </div>
+                                <div class="form-col-full">
+                                    <label class="form-label">Role Summary &amp; Overview</label>
+                                    <textarea name="description" id="exp_description" class="form-control" rows="3" required placeholder="High-level summary of your responsibilities, leadership, and technical focus..."></textarea>
+                                </div>
+                                <div class="form-col-full">
+                                    <label class="form-label">Key Responsibilities &amp; Impact (1 bullet point per line)</label>
+                                    <textarea name="responsibilities" id="exp_responsibilities" class="form-control" rows="4" placeholder="Architected and deployed enterprise clinic management platforms&#10;Engineered normalized relational database schemas handling high traffic&#10;Implemented stateless REST APIs with JWT authentication and RBAC"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary btn-sm">Save Experience</button>
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="resetAndCloseForm('form-add-experience', 'exp_id')">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Experiences Table -->
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Company &amp; Role</th>
+                                    <th>Period &amp; Status</th>
+                                    <th>Location</th>
+                                    <th>Skills</th>
+                                    <th>Order</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (empty($experiences_list)): ?>
+                                <tr>
+                                    <td colspan="6" style="text-align:center; padding:2rem; color:#64748b;">
+                                        No experiences added yet. Click &quot;Add New Experience&quot; to add your first position.
+                                    </td>
+                                </tr>
+                                <?php else: ?>
+                                    <?php foreach ($experiences_list as $exp): ?>
+                                    <tr>
+                                        <td>
+                                            <div style="font-weight:600; color:var(--text-main); font-size:0.95rem;"><?= htmlspecialchars($exp['company']) ?></div>
+                                            <div style="font-size:0.82rem; color:var(--primary); font-weight:500;"><?= htmlspecialchars($exp['role']) ?></div>
+                                        </td>
+                                        <td>
+                                            <div style="font-weight:500; font-size:0.86rem;"><?= htmlspecialchars($exp['period']) ?></div>
+                                            <span class="badge <?= ($exp['status'] ?? 'Active') === 'Active' ? 'badge-success' : 'badge-secondary' ?>">
+                                                <?= htmlspecialchars($exp['status'] ?? 'Active') ?>
+                                            </span>
+                                        </td>
+                                        <td style="font-size:0.85rem; color:#64748b;"><?= htmlspecialchars($exp['location'] ?? '—') ?></td>
+                                        <td style="max-width:240px;">
+                                            <div style="display:flex; flex-wrap:wrap; gap:4px;">
+                                                <?php 
+                                                $skillsArr = !empty($exp['skills']) ? array_slice(array_map('trim', explode(',', $exp['skills'])), 0, 4) : [];
+                                                foreach ($skillsArr as $sk): ?>
+                                                    <span class="tech-pill" style="font-size:0.7rem; padding:2px 6px;"><?= htmlspecialchars($sk) ?></span>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        </td>
+                                        <td><?= intval($exp['display_order'] ?? 0) ?></td>
+                                        <td>
+                                            <div class="actions-cell">
+                                                <button type="button" class="btn btn-secondary btn-sm" onclick="editExperience(<?= (int)$exp['id'] ?>)" title="Edit"><i class="bx bx-edit"></i></button>
+                                                <a href="?del_exp=<?= $exp['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Delete this experience?')" title="Delete"><i class="bx bx-trash"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
@@ -2258,6 +2581,134 @@ $promotions_list = \App\Models\Promotion::allOrdered();
             </section>
 
             <!-- ───────────────────────────────────────────────────────────── -->
+            <!-- COMPONENT TAB: WORK EXPERIENCES -->
+            <!-- ───────────────────────────────────────────────────────────── -->
+            <section id="tab-experiences" class="tab-panel">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <div class="panel-header-info">
+                            <h2>Work Experiences &amp; Roles</h2>
+                            <p>Professional engineering history, leadership positions, and client consultancy</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="toggleForm('form-add-experience')">
+                            <i class="bx bx-plus"></i> Add New Experience
+                        </button>
+                    </div>
+
+                    <!-- Collapsible Add/Edit Form for Experiences -->
+                    <div id="form-add-experience" class="form-drawer" style="display:none;">
+                        <form method="POST" action="">
+                            <input type="hidden" name="save_experience" value="1">
+                            <input type="hidden" name="exp_id" id="exp_id" value="0">
+
+                            <div class="form-grid">
+                                <div>
+                                    <label class="form-label">Company / Organization</label>
+                                    <input type="text" name="company" id="exp_company" class="form-control" required placeholder="e.g. Strataflow Technologies Pvt. Ltd.">
+                                </div>
+                                <div>
+                                    <label class="form-label">Role / Job Title</label>
+                                    <input type="text" name="role" id="exp_role" class="form-control" required placeholder="e.g. Co-Founder & Technical Lead">
+                                </div>
+                                <div>
+                                    <label class="form-label">Period / Duration</label>
+                                    <input type="text" name="period" id="exp_period" class="form-control" required placeholder="e.g. 2024 – Present or 2023 – 2024">
+                                </div>
+                                <div>
+                                    <label class="form-label">Location</label>
+                                    <input type="text" name="location" id="exp_location" class="form-control" placeholder="e.g. Kathmandu, Nepal or Remote">
+                                </div>
+                                <div>
+                                    <label class="form-label">Status</label>
+                                    <select name="status" id="exp_status" class="form-control">
+                                        <option value="Active">Active / Current</option>
+                                        <option value="Completed">Completed / Previous</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="form-label">Display Order</label>
+                                    <input type="number" name="display_order" id="exp_order" class="form-control" value="0">
+                                </div>
+                                <div class="form-col-full">
+                                    <label class="form-label">Technologies &amp; Key Skills (comma-separated)</label>
+                                    <input type="text" name="skills" id="exp_skills" class="form-control" placeholder="e.g. Python, Django, PostgreSQL, REST Framework, MySQL, AWS">
+                                </div>
+                                <div class="form-col-full">
+                                    <label class="form-label">Role Summary &amp; Overview</label>
+                                    <textarea name="description" id="exp_description" class="form-control" rows="3" required placeholder="High-level summary of your responsibilities, leadership, and technical focus..."></textarea>
+                                </div>
+                                <div class="form-col-full">
+                                    <label class="form-label">Key Responsibilities &amp; Impact (1 bullet point per line)</label>
+                                    <textarea name="responsibilities" id="exp_responsibilities" class="form-control" rows="4" placeholder="Architected and deployed enterprise clinic management platforms&#10;Engineered normalized relational database schemas handling high traffic&#10;Implemented stateless REST APIs with JWT authentication and RBAC"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary btn-sm">Save Experience</button>
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="resetAndCloseForm('form-add-experience', 'exp_id')">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Experiences Table -->
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Company &amp; Role</th>
+                                    <th>Period &amp; Status</th>
+                                    <th>Location</th>
+                                    <th>Skills</th>
+                                    <th>Order</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (empty($experiences_list)): ?>
+                                <tr>
+                                    <td colspan="6" style="text-align:center; padding:2rem; color:#64748b;">
+                                        No experiences added yet. Click &quot;Add New Experience&quot; to add your first position.
+                                    </td>
+                                </tr>
+                                <?php else: ?>
+                                    <?php foreach ($experiences_list as $exp): ?>
+                                    <tr>
+                                        <td>
+                                            <div style="font-weight:600; color:var(--text-main); font-size:0.95rem;"><?= htmlspecialchars($exp['company']) ?></div>
+                                            <div style="font-size:0.82rem; color:var(--primary); font-weight:500;"><?= htmlspecialchars($exp['role']) ?></div>
+                                        </td>
+                                        <td>
+                                            <div style="font-weight:500; font-size:0.86rem;"><?= htmlspecialchars($exp['period']) ?></div>
+                                            <span class="badge <?= ($exp['status'] ?? 'Active') === 'Active' ? 'badge-success' : 'badge-secondary' ?>">
+                                                <?= htmlspecialchars($exp['status'] ?? 'Active') ?>
+                                            </span>
+                                        </td>
+                                        <td style="font-size:0.85rem; color:#64748b;"><?= htmlspecialchars($exp['location'] ?? '—') ?></td>
+                                        <td style="max-width:240px;">
+                                            <div style="display:flex; flex-wrap:wrap; gap:4px;">
+                                                <?php 
+                                                $skillsArr = !empty($exp['skills']) ? array_slice(array_map('trim', explode(',', $exp['skills'])), 0, 4) : [];
+                                                foreach ($skillsArr as $sk): ?>
+                                                    <span class="tech-pill" style="font-size:0.7rem; padding:2px 6px;"><?= htmlspecialchars($sk) ?></span>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        </td>
+                                        <td><?= intval($exp['display_order'] ?? 0) ?></td>
+                                        <td>
+                                            <div class="actions-cell">
+                                                <button type="button" class="btn btn-secondary btn-sm" onclick="editExperience(<?= (int)$exp['id'] ?>)" title="Edit"><i class="bx bx-edit"></i></button>
+                                                <a href="?del_exp=<?= $exp['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Delete this experience?')" title="Delete"><i class="bx bx-trash"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ───────────────────────────────────────────────────────────── -->
             <!-- COMPONENT TAB 4: BLOG & INSIGHTS -->
             <!-- ───────────────────────────────────────────────────────────── -->
             <section id="tab-blog" class="tab-panel">
@@ -2356,6 +2807,134 @@ $promotions_list = \App\Models\Promotion::allOrdered();
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ───────────────────────────────────────────────────────────── -->
+            <!-- COMPONENT TAB: WORK EXPERIENCES -->
+            <!-- ───────────────────────────────────────────────────────────── -->
+            <section id="tab-experiences" class="tab-panel">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <div class="panel-header-info">
+                            <h2>Work Experiences &amp; Roles</h2>
+                            <p>Professional engineering history, leadership positions, and client consultancy</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="toggleForm('form-add-experience')">
+                            <i class="bx bx-plus"></i> Add New Experience
+                        </button>
+                    </div>
+
+                    <!-- Collapsible Add/Edit Form for Experiences -->
+                    <div id="form-add-experience" class="form-drawer" style="display:none;">
+                        <form method="POST" action="">
+                            <input type="hidden" name="save_experience" value="1">
+                            <input type="hidden" name="exp_id" id="exp_id" value="0">
+
+                            <div class="form-grid">
+                                <div>
+                                    <label class="form-label">Company / Organization</label>
+                                    <input type="text" name="company" id="exp_company" class="form-control" required placeholder="e.g. Strataflow Technologies Pvt. Ltd.">
+                                </div>
+                                <div>
+                                    <label class="form-label">Role / Job Title</label>
+                                    <input type="text" name="role" id="exp_role" class="form-control" required placeholder="e.g. Co-Founder & Technical Lead">
+                                </div>
+                                <div>
+                                    <label class="form-label">Period / Duration</label>
+                                    <input type="text" name="period" id="exp_period" class="form-control" required placeholder="e.g. 2024 – Present or 2023 – 2024">
+                                </div>
+                                <div>
+                                    <label class="form-label">Location</label>
+                                    <input type="text" name="location" id="exp_location" class="form-control" placeholder="e.g. Kathmandu, Nepal or Remote">
+                                </div>
+                                <div>
+                                    <label class="form-label">Status</label>
+                                    <select name="status" id="exp_status" class="form-control">
+                                        <option value="Active">Active / Current</option>
+                                        <option value="Completed">Completed / Previous</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="form-label">Display Order</label>
+                                    <input type="number" name="display_order" id="exp_order" class="form-control" value="0">
+                                </div>
+                                <div class="form-col-full">
+                                    <label class="form-label">Technologies &amp; Key Skills (comma-separated)</label>
+                                    <input type="text" name="skills" id="exp_skills" class="form-control" placeholder="e.g. Python, Django, PostgreSQL, REST Framework, MySQL, AWS">
+                                </div>
+                                <div class="form-col-full">
+                                    <label class="form-label">Role Summary &amp; Overview</label>
+                                    <textarea name="description" id="exp_description" class="form-control" rows="3" required placeholder="High-level summary of your responsibilities, leadership, and technical focus..."></textarea>
+                                </div>
+                                <div class="form-col-full">
+                                    <label class="form-label">Key Responsibilities &amp; Impact (1 bullet point per line)</label>
+                                    <textarea name="responsibilities" id="exp_responsibilities" class="form-control" rows="4" placeholder="Architected and deployed enterprise clinic management platforms&#10;Engineered normalized relational database schemas handling high traffic&#10;Implemented stateless REST APIs with JWT authentication and RBAC"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary btn-sm">Save Experience</button>
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="resetAndCloseForm('form-add-experience', 'exp_id')">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Experiences Table -->
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Company &amp; Role</th>
+                                    <th>Period &amp; Status</th>
+                                    <th>Location</th>
+                                    <th>Skills</th>
+                                    <th>Order</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (empty($experiences_list)): ?>
+                                <tr>
+                                    <td colspan="6" style="text-align:center; padding:2rem; color:#64748b;">
+                                        No experiences added yet. Click &quot;Add New Experience&quot; to add your first position.
+                                    </td>
+                                </tr>
+                                <?php else: ?>
+                                    <?php foreach ($experiences_list as $exp): ?>
+                                    <tr>
+                                        <td>
+                                            <div style="font-weight:600; color:var(--text-main); font-size:0.95rem;"><?= htmlspecialchars($exp['company']) ?></div>
+                                            <div style="font-size:0.82rem; color:var(--primary); font-weight:500;"><?= htmlspecialchars($exp['role']) ?></div>
+                                        </td>
+                                        <td>
+                                            <div style="font-weight:500; font-size:0.86rem;"><?= htmlspecialchars($exp['period']) ?></div>
+                                            <span class="badge <?= ($exp['status'] ?? 'Active') === 'Active' ? 'badge-success' : 'badge-secondary' ?>">
+                                                <?= htmlspecialchars($exp['status'] ?? 'Active') ?>
+                                            </span>
+                                        </td>
+                                        <td style="font-size:0.85rem; color:#64748b;"><?= htmlspecialchars($exp['location'] ?? '—') ?></td>
+                                        <td style="max-width:240px;">
+                                            <div style="display:flex; flex-wrap:wrap; gap:4px;">
+                                                <?php 
+                                                $skillsArr = !empty($exp['skills']) ? array_slice(array_map('trim', explode(',', $exp['skills'])), 0, 4) : [];
+                                                foreach ($skillsArr as $sk): ?>
+                                                    <span class="tech-pill" style="font-size:0.7rem; padding:2px 6px;"><?= htmlspecialchars($sk) ?></span>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        </td>
+                                        <td><?= intval($exp['display_order'] ?? 0) ?></td>
+                                        <td>
+                                            <div class="actions-cell">
+                                                <button type="button" class="btn btn-secondary btn-sm" onclick="editExperience(<?= (int)$exp['id'] ?>)" title="Edit"><i class="bx bx-edit"></i></button>
+                                                <a href="?del_exp=<?= $exp['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Delete this experience?')" title="Delete"><i class="bx bx-trash"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
@@ -2518,6 +3097,134 @@ $promotions_list = \App\Models\Promotion::allOrdered();
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ───────────────────────────────────────────────────────────── -->
+            <!-- COMPONENT TAB: WORK EXPERIENCES -->
+            <!-- ───────────────────────────────────────────────────────────── -->
+            <section id="tab-experiences" class="tab-panel">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <div class="panel-header-info">
+                            <h2>Work Experiences &amp; Roles</h2>
+                            <p>Professional engineering history, leadership positions, and client consultancy</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="toggleForm('form-add-experience')">
+                            <i class="bx bx-plus"></i> Add New Experience
+                        </button>
+                    </div>
+
+                    <!-- Collapsible Add/Edit Form for Experiences -->
+                    <div id="form-add-experience" class="form-drawer" style="display:none;">
+                        <form method="POST" action="">
+                            <input type="hidden" name="save_experience" value="1">
+                            <input type="hidden" name="exp_id" id="exp_id" value="0">
+
+                            <div class="form-grid">
+                                <div>
+                                    <label class="form-label">Company / Organization</label>
+                                    <input type="text" name="company" id="exp_company" class="form-control" required placeholder="e.g. Strataflow Technologies Pvt. Ltd.">
+                                </div>
+                                <div>
+                                    <label class="form-label">Role / Job Title</label>
+                                    <input type="text" name="role" id="exp_role" class="form-control" required placeholder="e.g. Co-Founder & Technical Lead">
+                                </div>
+                                <div>
+                                    <label class="form-label">Period / Duration</label>
+                                    <input type="text" name="period" id="exp_period" class="form-control" required placeholder="e.g. 2024 – Present or 2023 – 2024">
+                                </div>
+                                <div>
+                                    <label class="form-label">Location</label>
+                                    <input type="text" name="location" id="exp_location" class="form-control" placeholder="e.g. Kathmandu, Nepal or Remote">
+                                </div>
+                                <div>
+                                    <label class="form-label">Status</label>
+                                    <select name="status" id="exp_status" class="form-control">
+                                        <option value="Active">Active / Current</option>
+                                        <option value="Completed">Completed / Previous</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="form-label">Display Order</label>
+                                    <input type="number" name="display_order" id="exp_order" class="form-control" value="0">
+                                </div>
+                                <div class="form-col-full">
+                                    <label class="form-label">Technologies &amp; Key Skills (comma-separated)</label>
+                                    <input type="text" name="skills" id="exp_skills" class="form-control" placeholder="e.g. Python, Django, PostgreSQL, REST Framework, MySQL, AWS">
+                                </div>
+                                <div class="form-col-full">
+                                    <label class="form-label">Role Summary &amp; Overview</label>
+                                    <textarea name="description" id="exp_description" class="form-control" rows="3" required placeholder="High-level summary of your responsibilities, leadership, and technical focus..."></textarea>
+                                </div>
+                                <div class="form-col-full">
+                                    <label class="form-label">Key Responsibilities &amp; Impact (1 bullet point per line)</label>
+                                    <textarea name="responsibilities" id="exp_responsibilities" class="form-control" rows="4" placeholder="Architected and deployed enterprise clinic management platforms&#10;Engineered normalized relational database schemas handling high traffic&#10;Implemented stateless REST APIs with JWT authentication and RBAC"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary btn-sm">Save Experience</button>
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="resetAndCloseForm('form-add-experience', 'exp_id')">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Experiences Table -->
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Company &amp; Role</th>
+                                    <th>Period &amp; Status</th>
+                                    <th>Location</th>
+                                    <th>Skills</th>
+                                    <th>Order</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (empty($experiences_list)): ?>
+                                <tr>
+                                    <td colspan="6" style="text-align:center; padding:2rem; color:#64748b;">
+                                        No experiences added yet. Click &quot;Add New Experience&quot; to add your first position.
+                                    </td>
+                                </tr>
+                                <?php else: ?>
+                                    <?php foreach ($experiences_list as $exp): ?>
+                                    <tr>
+                                        <td>
+                                            <div style="font-weight:600; color:var(--text-main); font-size:0.95rem;"><?= htmlspecialchars($exp['company']) ?></div>
+                                            <div style="font-size:0.82rem; color:var(--primary); font-weight:500;"><?= htmlspecialchars($exp['role']) ?></div>
+                                        </td>
+                                        <td>
+                                            <div style="font-weight:500; font-size:0.86rem;"><?= htmlspecialchars($exp['period']) ?></div>
+                                            <span class="badge <?= ($exp['status'] ?? 'Active') === 'Active' ? 'badge-success' : 'badge-secondary' ?>">
+                                                <?= htmlspecialchars($exp['status'] ?? 'Active') ?>
+                                            </span>
+                                        </td>
+                                        <td style="font-size:0.85rem; color:#64748b;"><?= htmlspecialchars($exp['location'] ?? '—') ?></td>
+                                        <td style="max-width:240px;">
+                                            <div style="display:flex; flex-wrap:wrap; gap:4px;">
+                                                <?php 
+                                                $skillsArr = !empty($exp['skills']) ? array_slice(array_map('trim', explode(',', $exp['skills'])), 0, 4) : [];
+                                                foreach ($skillsArr as $sk): ?>
+                                                    <span class="tech-pill" style="font-size:0.7rem; padding:2px 6px;"><?= htmlspecialchars($sk) ?></span>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        </td>
+                                        <td><?= intval($exp['display_order'] ?? 0) ?></td>
+                                        <td>
+                                            <div class="actions-cell">
+                                                <button type="button" class="btn btn-secondary btn-sm" onclick="editExperience(<?= (int)$exp['id'] ?>)" title="Edit"><i class="bx bx-edit"></i></button>
+                                                <a href="?del_exp=<?= $exp['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Delete this experience?')" title="Delete"><i class="bx bx-trash"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
