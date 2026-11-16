@@ -122,6 +122,39 @@ CREATE TABLE IF NOT EXISTS `other_projects` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------------------------------------------------------
+-- Table: experiences
+-- Professional work and startup leadership history
+-- ----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `experiences` (
+  `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `company` VARCHAR(255) NOT NULL,
+  `role` VARCHAR(255) NOT NULL,
+  `period` VARCHAR(255) NOT NULL,
+  `location` VARCHAR(255) NOT NULL,
+  `status` VARCHAR(255) DEFAULT 'Active',
+  `description` LONGTEXT NOT NULL,
+  `responsibilities` LONGTEXT NOT NULL,
+  `skills` VARCHAR(255) NOT NULL,
+  `display_order` INT DEFAULT 0,
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------------------------------------------------------
+-- Table: awards
+-- Honors, recognitions, hackathons and verified awards gallery
+-- ----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `awards` (
+  `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `title` VARCHAR(255) NOT NULL,
+  `issuer` VARCHAR(255) NOT NULL,
+  `date` VARCHAR(255) NOT NULL,
+  `image` VARCHAR(255) NOT NULL,
+  `description` LONGTEXT NOT NULL,
+  `display_order` INT DEFAULT 0,
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------------------------------------------------------
 -- Table: promotions
 -- Promotional Offer Pop-ups
 -- ----------------------------------------------------------------------------

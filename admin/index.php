@@ -618,7 +618,11 @@ if (isset($_GET['del_msg'])) {
 if (isset($_GET['del_award'])) {
     $del_id = intval($_GET['del_award']);
     try {
-        $pdo->prepare("DELETE FROM awards WHERE id = ?")->execute([$del_id]);
+        require_once __DIR__ . '/../app/Core/Autoloader.php';
+        \App\Core\Autoloader::register();
+        \App\Models\Award::ensureTable();
+        $stmt = $pdo->prepare("DELETE FROM awards WHERE id = ?");
+        $stmt->execute([$del_id]);
         $_SESSION['admin_message'] = 'Award / Recognition deleted successfully.';
     } catch (\Throwable $e) {
         $_SESSION['admin_error'] = 'Failed to delete award: ' . $e->getMessage();

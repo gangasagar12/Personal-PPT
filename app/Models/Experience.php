@@ -5,12 +5,70 @@ namespace App\Models;
 
 class Experience extends Model {
     protected static string $table = 'experiences';
+    private static bool $schemaChecked = false;
+
+    /**
+     * Ensure table exists in MySQL and seed initial records only on first creation
+     */
+    public static function ensureTable(): void {
+        if (self::$schemaChecked) return;
+        self::$schemaChecked = true;
+
+        try {
+            $db = self::db();
+            $driver = $db->getAttribute(\PDO::ATTR_DRIVER_NAME);
+            $autoIncrement = ($driver === 'sqlite') ? 'INTEGER PRIMARY KEY AUTOINCREMENT' : 'INT AUTO_INCREMENT PRIMARY KEY';
+            $textType = ($driver === 'sqlite') ? 'TEXT' : 'VARCHAR(255)';
+            $longTextType = ($driver === 'sqlite') ? 'TEXT' : 'LONGTEXT';
+
+            $tableExists = false;
+            try {
+                $check = $db->query("SELECT 1 FROM experiences LIMIT 1");
+                if ($check !== false) $tableExists = true;
+            } catch (\Throwable $t) {
+                $tableExists = false;
+            }
+
+            if (!$tableExists) {
+                $db->exec("CREATE TABLE IF NOT EXISTS experiences (
+                    id {$autoIncrement},
+                    company {$textType} NOT NULL,
+                    role {$textType} NOT NULL,
+                    period {$textType} NOT NULL,
+                    location {$textType} NOT NULL,
+                    status {$textType} DEFAULT 'Active',
+                    description {$longTextType} NOT NULL,
+                    responsibilities {$longTextType} NOT NULL,
+                    skills {$textType} NOT NULL,
+                    display_order INTEGER DEFAULT 0,
+                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+                )");
+
+                $stmt = $db->prepare("INSERT INTO experiences (id, company, role, period, location, status, description, responsibilities, skills, display_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                foreach (self::defaults() as $d) {
+                    $stmt->execute([
+                        $d['id'],
+                        $d['company'],
+                        $d['role'],
+                        $d['period'],
+                        $d['location'],
+                        $d['status'] ?? 'Active',
+                        $d['description'],
+                        implode("\n", $d['responsibilities_array'] ?? []),
+                        implode(', ', $d['skills_array'] ?? []),
+                        $d['display_order']
+                    ]);
+                }
+            }
+        } catch (\Throwable $e) {}
+    }
 
     /**
      * Retrieve all experiences with formatted arrays for skills and responsibilities.
      */
     public static function allWithDetails(): array {
         try {
+            self::ensureTable();
             $items = self::all('display_order ASC, id ASC');
             foreach ($items as &$item) {
                 $item['skills_array'] = !empty($item['skills']) ? array_map('trim', explode(',', $item['skills'])) : [];
@@ -18,7 +76,7 @@ class Experience extends Model {
             }
             return $items;
         } catch (\Throwable $e) {
-            return self::defaults();
+            return [];
         }
     }
 

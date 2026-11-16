@@ -5,15 +5,69 @@ namespace App\Models;
 
 class Award extends Model {
     protected static string $table = 'awards';
+    private static bool $schemaChecked = false;
 
     /**
-     * Retrieve all awards/recognitions with fallback defaults.
+     * Ensure table exists in MySQL and seed initial records only on first creation
+     */
+    public static function ensureTable(): void {
+        if (self::$schemaChecked) return;
+        self::$schemaChecked = true;
+
+        try {
+            $db = self::db();
+            $driver = $db->getAttribute(\PDO::ATTR_DRIVER_NAME);
+            $autoIncrement = ($driver === 'sqlite') ? 'INTEGER PRIMARY KEY AUTOINCREMENT' : 'INT AUTO_INCREMENT PRIMARY KEY';
+            $textType = ($driver === 'sqlite') ? 'TEXT' : 'VARCHAR(255)';
+            $longTextType = ($driver === 'sqlite') ? 'TEXT' : 'LONGTEXT';
+
+            $tableExists = false;
+            try {
+                $check = $db->query("SELECT 1 FROM awards LIMIT 1");
+                if ($check !== false) $tableExists = true;
+            } catch (\Throwable $t) {
+                $tableExists = false;
+            }
+
+            if (!$tableExists) {
+                $db->exec("CREATE TABLE IF NOT EXISTS awards (
+                    id {$autoIncrement},
+                    title {$textType} NOT NULL,
+                    issuer {$textType} NOT NULL,
+                    date {$textType} NOT NULL,
+                    image {$textType} NOT NULL,
+                    description {$longTextType} NOT NULL,
+                    display_order INTEGER DEFAULT 0,
+                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+                )");
+
+                // Insert initial default records once so they are real deletable database rows
+                $stmt = $db->prepare("INSERT INTO awards (id, title, issuer, date, image, description, display_order) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                foreach (self::defaults() as $d) {
+                    $stmt->execute([
+                        $d['id'],
+                        $d['title'],
+                        $d['issuer'],
+                        $d['date'],
+                        $d['image'],
+                        $d['description'],
+                        $d['display_order']
+                    ]);
+                }
+            }
+        } catch (\Throwable $e) {}
+    }
+
+    /**
+     * Retrieve all awards from database.
+     * When records are deleted, it returns the remaining records (even if empty []).
      */
     public static function allWithDetails(): array {
         try {
+            self::ensureTable();
             return self::all('display_order ASC, id ASC');
         } catch (\Throwable $e) {
-            return self::defaults();
+            return [];
         }
     }
 
