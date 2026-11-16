@@ -149,7 +149,7 @@ class FeaturedProject extends Model {
         $impact = trim($data['impact'] ?? '');
         $image = trim($data['image'] ?? 'images/projectcard1.jpg');
         $skills = trim($data['skills'] ?? '');
-        $live_url = trim($data['live_url'] ?? 'https://github.com/gangasaagar');
+        $live_url = trim($data['live_url'] ?? 'https://github.com/gangasagar12');
         $display_order = intval($data['display_order'] ?? 0);
 
         // Normalize features into JSON

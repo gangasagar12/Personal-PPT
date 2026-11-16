@@ -88,7 +88,7 @@ $projects = [
         'short_description' => 'Specialized clinical management suite designed to streamline dental front-desk check-ins, chair appointment queues, and dental inventory with relational database consistency.',
         'description' => 'CareFirst Dental Management is a specialized clinical operations suite built to optimize patient intake workflows, reduce front-desk waiting times, and maintain relational data integrity across doctor schedules, operatory room reservations, and inventory consumption. Engineered with Python and Django, the platform replaces fragmented manual paperwork with automated electronic scheduling and real-time waiting queue displays.',
         'skills' => 'Django, Python, MySQL, HTML5, CSS3, JavaScript',
-        'live_url' => 'https://github.com/gangasaagar',
+        'live_url' => 'https://github.com/gangasagar12',
         'display_order' => 2,
         'features' => [
             'Fast-track front-desk patient intake and token queue display',
@@ -118,7 +118,7 @@ $projects = [
         'short_description' => 'End-to-end automated library cataloging and circulation tracking portal. Handles book inventory categorization, student member checkouts, and fine calculation engines.',
         'description' => 'Smart Library Management System is a centralized institutional automation portal engineered to modernize traditional library operations. By eliminating manual paper-based registers, the system empowers librarians and students with instant digital book lookups, barcode circulation, reservation queues, and automated fine calculation engines.',
         'skills' => 'Django, Python, SQLite, JavaScript, Bootstrap, HTML5, CSS3',
-        'live_url' => 'https://github.com/gangasaagar',
+        'live_url' => 'https://github.com/gangasagar12',
         'display_order' => 3,
         'features' => [
             'Barcode-driven book check-in and check-out circulation',
@@ -146,7 +146,7 @@ $projects = [
         'short_description' => 'High-throughput backend microservices built with Django REST Framework and JWT authentication, designed for resilient e-commerce checkout and inventory locking.',
         'description' => 'Scalable E-Commerce REST APIs represents a production-grade e-commerce backend architecture built for high-concurrency ordering events. Implements 3NF normalized database tables, decoupled JWT stateless authentication, Redis cached product catalogs, and transactional order dispatching.',
         'skills' => 'Python, Django, PostgreSQL, REST APIs, Docker, Redis',
-        'live_url' => 'https://github.com/gangasaagar',
+        'live_url' => 'https://github.com/gangasagar12',
         'display_order' => 4,
         'features' => [
             'Stateless dual-token JWT authentication with token blacklisting',
@@ -176,7 +176,7 @@ $projects = [
         'short_description' => 'Interactive exploratory analytics dashboard designed to parse and visualize multi-dimensional datasets with Plotly, automated aggregations, and exportable reports.',
         'description' => 'Interactive business intelligence dashboard engineered to ingest raw operational spreadsheets and database records, perform statistical data aggregation, and generate dynamic visual insights across revenue, customer retention, and latency metrics.',
         'skills' => 'Python, Django, PostgreSQL, HTML5, CSS3, JavaScript',
-        'live_url' => 'https://github.com/gangasaagar',
+        'live_url' => 'https://github.com/gangasagar12',
         'display_order' => 5,
         'features' => [
             'Real-time multi-dimensional data aggregation and outlier filtering',
@@ -204,7 +204,7 @@ $projects = [
         'short_description' => 'Civic technology portal built to centralize government procedures, citizenship documentation requirements, and public service checklists for everyday citizens.',
         'description' => 'Digital governance public service portal developed to eliminate bureaucratic confusion by centralizing municipal documentation requirements, citizenship registration steps, licensing prerequisites, and official fee structures into an intuitive searchable platform.',
         'skills' => 'Python, Django, SQLite, HTML5, CSS3, JavaScript',
-        'live_url' => 'https://github.com/gangasaagar',
+        'live_url' => 'https://github.com/gangasagar12',
         'display_order' => 6,
         'features' => [
             'Step-by-step verified checklists for government and municipal paperwork',

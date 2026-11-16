@@ -65,7 +65,7 @@ class SEO {
                 'addressCountry' => 'NP'
             ],
             'sameAs' => [
-                'https://github.com/gangasaagar',
+                'https://github.com/gangasagar12',
                 'https://www.linkedin.com/in/ganga-sagar15'
             ],
             'knowsAbout' => [

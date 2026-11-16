@@ -89,7 +89,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
           <div class="hero-social-block">
             <span class="social-caption">Connect with me:</span>
             <div class="hero-social-links">
-              <a href="https://github.com/gangasaagar" aria-label="GitHub Profile" target="_blank"
+              <a href="https://github.com/gangasagar12" aria-label="GitHub Profile" target="_blank"
                 rel="noopener noreferrer" class="social-icon">
                 <i class="bx bxl-github" aria-hidden="true"></i>
               </a>
@@ -1182,7 +1182,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
             </div>
 
             <div class="contact-social">
-              <a href="https://github.com/gangasaagar" aria-label="GitHub" target="_blank" rel="noopener noreferrer"><i
+              <a href="https://github.com/gangasagar12" aria-label="GitHub" target="_blank" rel="noopener noreferrer"><i
                   class="bx bxl-github" aria-hidden="true"></i></a>
               <a href="https://www.linkedin.com/in/ganga-sagar15" aria-label="LinkedIn" target="_blank"
                 rel="noopener noreferrer"><i class="bx bxl-linkedin" aria-hidden="true"></i></a>

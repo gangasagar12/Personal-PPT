@@ -22,7 +22,19 @@ class Database {
                     self::$instance = new PDO("sqlite:" . $conn['database']);
                 } else {
                     $dsn = "mysql:host={$conn['host']};port={$conn['port']};dbname={$conn['database']};charset={$conn['charset']}";
-                    self::$instance = new PDO($dsn, $conn['username'], $conn['password']);
+                    try {
+                        self::$instance = new PDO($dsn, $conn['username'], $conn['password']);
+                    } catch (PDOException $pe) {
+                        // If database does not exist (error 1049), create it automatically
+                        if ($pe->getCode() == 1049 || strpos($pe->getMessage(), 'Unknown database') !== false) {
+                            $rootDsn = "mysql:host={$conn['host']};port={$conn['port']};charset={$conn['charset']}";
+                            $initPdo = new PDO($rootDsn, $conn['username'], $conn['password']);
+                            $initPdo->exec("CREATE DATABASE IF NOT EXISTS `{$conn['database']}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+                            self::$instance = new PDO($dsn, $conn['username'], $conn['password']);
+                        } else {
+                            throw $pe;
+                        }
+                    }
                 }
 
                 self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -100,7 +112,23 @@ class Database {
             id {$autoIncrement},
             title {$textType} NOT NULL,
             description {$longTextType} NOT NULL,
+            detailed_description {$longTextType} NULL,
+            image {$textType} DEFAULT 'images/projectcard1.jpg',
             skills {$textType} NOT NULL,
+            display_order INTEGER DEFAULT 0,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )");
+
+        $pdo->exec("CREATE TABLE IF NOT EXISTS other_projects (
+            id {$autoIncrement},
+            title {$textType} NOT NULL,
+            category {$textType} NOT NULL,
+            description {$longTextType} NOT NULL,
+            detailed_description {$longTextType} NULL,
+            image {$textType} DEFAULT 'images/projectcard3.webp',
+            skills {$textType} NOT NULL,
+            github_url {$textType} DEFAULT 'https://github.com/gangasagar12',
+            live_url {$textType} DEFAULT 'https://github.com/gangasagar12',
             display_order INTEGER DEFAULT 0,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )");
@@ -168,6 +196,18 @@ class Database {
             description {$longTextType} NOT NULL,
             display_order INTEGER DEFAULT 0,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )");
+
+        $pdo->exec("CREATE TABLE IF NOT EXISTS promotions (
+            id {$autoIncrement},
+            title {$textType} NOT NULL,
+            description {$longTextType} NOT NULL,
+            image {$textType} NOT NULL,
+            button_text {$textType} DEFAULT 'Claim Offer',
+            button_url {$textType} DEFAULT '#contact',
+            is_active INTEGER DEFAULT 1,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )");
     }
 }

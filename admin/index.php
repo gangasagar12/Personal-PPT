@@ -592,7 +592,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_featured'])) {
         'screenshots' => trim($_POST['screenshots'] ?? ''),
         'image' => $image,
         'skills' => trim($_POST['skills'] ?? ''),
-        'live_url' => trim($_POST['live_url'] ?? 'https://github.com/gangasaagar'),
+        'live_url' => trim($_POST['live_url'] ?? 'https://github.com/gangasagar12'),
         'display_order' => intval($_POST['display_order'] ?? 0),
     ];
 
@@ -688,7 +688,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_company_product'
     $status_text = trim($_POST['status_text'] ?? 'Live Product');
     $features = trim($_POST['features'] ?? '');
     $tech_pills = trim($_POST['tech_pills'] ?? '');
-    $link_url = trim($_POST['link_url'] ?? 'https://github.com/gangasaagar');
+    $link_url = trim($_POST['link_url'] ?? 'https://github.com/gangasagar12');
     $link_text = trim($_POST['link_text'] ?? 'View Details');
     $order = intval($_POST['display_order'] ?? 0);
     $prod_id = intval($_POST['prod_id'] ?? 0);
@@ -1654,7 +1654,7 @@ $promotions_list = \App\Models\Promotion::allOrdered();
                                 </div>
                                 <div>
                                     <label class="form-label">Live Site URL</label>
-                                    <input type="text" name="live_url" id="feat_live_url" class="form-control" required value="https://github.com/gangasaagar">
+                                    <input type="text" name="live_url" id="feat_live_url" class="form-control" required value="https://github.com/gangasagar12">
                                 </div>
                                 <div>
                                     <label class="form-label">Cover Image </label>
@@ -1799,7 +1799,7 @@ $promotions_list = \App\Models\Promotion::allOrdered();
                                 </div>
                                 <div>
                                     <label class="form-label">Product Website / Demo URL</label>
-                                    <input type="text" name="link_url" id="prod_link_url" class="form-control" required value="https://github.com/gangasaagar">
+                                    <input type="text" name="link_url" id="prod_link_url" class="form-control" required value="https://github.com/gangasagar12">
                                 </div>
                                 <div>
                                     <label class="form-label">Button Label</label>

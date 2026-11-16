@@ -120,7 +120,7 @@ if ($count == 0) {
             'Multi-chair clinical operations platform engineered for modern dental practices. Unifies real-time operatory chair scheduling, electronic health records (EHR), dental charting, and automated billing.',
             'images/projectcard1.jpg',
             'Python, Django, PostgreSQL, REST APIs, Docker',
-            'https://github.com/gangasaagar',
+            'https://github.com/gangasagar12',
             1
         ],
         [
@@ -128,7 +128,7 @@ if ($count == 0) {
             'Specialized clinical management suite designed to streamline dental front-desk check-ins, chair appointment queues, and dental inventory with relational database consistency.',
             'images/projectcard2.jpg',
             'Django, Python, MySQL, HTML5 / CSS3, JavaScript',
-            'https://github.com/gangasaagar',
+            'https://github.com/gangasagar12',
             2
         ],
         [
@@ -136,7 +136,7 @@ if ($count == 0) {
             'End-to-end automated library cataloging and circulation tracking portal. Handles book inventory categorization, student member checkouts, and fine calculation engines.',
             'images/project1.jpg',
             'Django, Python, SQLite, JavaScript, Bootstrap',
-            'https://github.com/gangasaagar',
+            'https://github.com/gangasagar12',
             3
         ],
         [
@@ -144,7 +144,7 @@ if ($count == 0) {
             'High-throughput enterprise e-commerce backend built with Django REST Framework. Architected with normalized PostgreSQL models, stateless JWT authentication, and order transactions.',
             'images/project2.jpg',
             'Django REST, Python, PostgreSQL, JWT Auth, Redis',
-            'https://github.com/gangasaagar',
+            'https://github.com/gangasagar12',
             4
         ],
         [
@@ -152,7 +152,7 @@ if ($count == 0) {
             'Interactive exploratory analytics dashboard designed to parse, clean, and visualize multi-dimensional datasets with Pandas, Plotly, and Matplotlib.',
             'images/project3.jpg',
             'Python, Pandas, Plotly, NumPy, Matplotlib',
-            'https://github.com/gangasaagar',
+            'https://github.com/gangasagar12',
             5
         ],
         [
@@ -160,7 +160,7 @@ if ($count == 0) {
             'Civic technology information portal built to centralize government procedures, municipal document checklists, public service requirements, and citizen inquiry guidelines.',
             'images/projectcard3.webp',
             'Django, Python, PostgreSQL, Modern JS, Responsive UI',
-            'https://github.com/gangasaagar/sarkari-information-portal.git',
+            'https://github.com/gangasagar12/sarkari-information-portal.git',
             6
         ]
     ];

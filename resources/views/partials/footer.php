@@ -42,7 +42,7 @@ $is_home = ($uri === '/' || $uri === '' || $uri === '/index.php');
 
       <div class="footer-actions">
         <div class="footer-social">
-          <a href="https://github.com/gangasaagar" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+          <a href="https://github.com/gangasagar12" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
             <i class="bx bxl-github" aria-hidden="true"></i>
           </a>
           <a href="https://www.linkedin.com/in/ganga-sagar15" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">

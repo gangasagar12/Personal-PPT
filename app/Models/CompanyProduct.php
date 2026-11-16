@@ -49,7 +49,7 @@ class CompanyProduct extends Model {
                 'status_text' => 'Live Product',
                 'features' => "Patient Records & Medical History\nReal-time Appointment Scheduling\nDental Treatment & Charting Logs\nAutomated Billing & Invoicing\nClinic Expense & Stock Tracking\nFinancial Analytics & Reports",
                 'tech_pills' => 'Python, Django, PostgreSQL, REST APIs, Docker',
-                'link_url' => 'https://github.com/gangasaagar',
+                'link_url' => 'https://github.com/gangasagar12',
                 'link_text' => 'View Details',
                 'display_order' => 1
             ],
@@ -61,7 +61,7 @@ class CompanyProduct extends Model {
                 'status_text' => 'Live Product',
                 'features' => "Front-Desk Patient Intake & Queue\nConsumables & Medicine Inventory\nAutomated Recall Reminders\nRelational ACID Schema",
                 'tech_pills' => 'Django, Python, MySQL, JavaScript',
-                'link_url' => 'https://github.com/gangasaagar',
+                'link_url' => 'https://github.com/gangasagar12',
                 'link_text' => 'View Details',
                 'display_order' => 2
             ],
@@ -73,7 +73,7 @@ class CompanyProduct extends Model {
                 'status_text' => 'Deployed System',
                 'features' => "Itemized Billing & Tax Calculation\nMulti-Payment Ledger Tracking\nAutomated PDF Receipt Dispatch\nReal-time Revenue Summaries",
                 'tech_pills' => 'Django REST, PostgreSQL, Redis, JWT Auth',
-                'link_url' => 'https://github.com/gangasaagar',
+                'link_url' => 'https://github.com/gangasagar12',
                 'link_text' => 'View Details',
                 'display_order' => 3
             ]

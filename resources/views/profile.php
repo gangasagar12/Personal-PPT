@@ -285,7 +285,7 @@
                         <?php endforeach; ?>
                       </div>
                     <?php endif; ?>
-                    <a href="<?= htmlspecialchars($prod['link_url'] ?: 'https://github.com/gangasaagar') ?>" target="_blank" rel="noopener noreferrer" class="product-live-link">
+                    <a href="<?= htmlspecialchars($prod['link_url'] ?: 'https://github.com/gangasagar12') ?>" target="_blank" rel="noopener noreferrer" class="product-live-link">
                       <span><?= htmlspecialchars($prod['link_text'] ?: 'View Details') ?></span>
                       <i class="bx bx-right-arrow-alt"></i>
                     </a>
