@@ -10,17 +10,25 @@ class Promotion extends Model {
      * Get the latest active promotion for frontend pop-up display
      */
     public static function getActive(): ?array {
-        $stmt = self::db()->query("SELECT * FROM promotions WHERE is_active = 1 ORDER BY id DESC LIMIT 1");
-        $row = $stmt->fetch();
-        return $row ?: null;
+        try {
+            $stmt = self::db()->query("SELECT * FROM promotions WHERE is_active = 1 ORDER BY id DESC LIMIT 1");
+            $row = $stmt ? $stmt->fetch() : null;
+            return $row ?: null;
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
 
     /**
      * Get all promotions for admin management
      */
     public static function allOrdered(): array {
-        $stmt = self::db()->query("SELECT * FROM promotions ORDER BY id DESC");
-        return $stmt->fetchAll();
+        try {
+            $stmt = self::db()->query("SELECT * FROM promotions ORDER BY id DESC");
+            return $stmt ? $stmt->fetchAll() : [];
+        } catch (\Throwable $e) {
+            return [];
+        }
     }
 
     /**

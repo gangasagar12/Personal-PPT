@@ -7,15 +7,20 @@
     # Prevent direct access to sensitive files and directories
     RewriteRule ^(\.env|\.git|composer\.(json|lock)|database/.*\.sqlite|app/|config/|storage/) - [F,L,NC]
 
-    # If public directory exists and isn't requested, rewrite to public/
-    RewriteCond %{REQUEST_URI} !^/public/
-    RewriteCond %{REQUEST_URI} !^/css/
-    RewriteCond %{REQUEST_URI} !^/js/
-    RewriteCond %{REQUEST_URI} !^/images/
-    RewriteCond %{REQUEST_URI} !^/admin/
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
+    # 1. If requested file exists directly in root, serve it directly
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
+
+    # 2. If requested static file exists in public/ (e.g. public/css/, public/images/), serve from public/
+    RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -f
     RewriteRule ^(.*)$ public/$1 [L]
+
+    # 3. If requested directory exists in root, allow direct directory access
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # 4. Route all other requests (clean URLs like /profile, /projects, /experience) to public/index.php
+    RewriteRule ^(.*)$ public/index.php [L]
 </IfModule>
 
 # Block access to hidden files

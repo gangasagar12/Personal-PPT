@@ -103,3 +103,37 @@ CREATE TABLE `company_products` (
   INDEX `idx_company_products_order` (`display_order`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- ----------------------------------------------------------------------------
+-- Table: other_projects
+-- Some Other Projects
+-- ----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `other_projects` (
+  `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `title` VARCHAR(255) NOT NULL,
+  `category` VARCHAR(255) NOT NULL,
+  `description` LONGTEXT NOT NULL,
+  `detailed_description` LONGTEXT NULL,
+  `image` VARCHAR(255) DEFAULT 'images/projectcard3.webp',
+  `skills` VARCHAR(500) NOT NULL,
+  `github_url` VARCHAR(500) DEFAULT 'https://github.com/gangasagar12',
+  `live_url` VARCHAR(500) DEFAULT 'https://github.com/gangasagar12',
+  `display_order` INT DEFAULT 0,
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------------------------------------------------------
+-- Table: promotions
+-- Promotional Offer Pop-ups
+-- ----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `promotions` (
+  `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `title` VARCHAR(255) NOT NULL,
+  `description` LONGTEXT NOT NULL,
+  `image` VARCHAR(255) NOT NULL,
+  `button_text` VARCHAR(255) DEFAULT 'Claim Offer',
+  `button_url` VARCHAR(255) DEFAULT '#contact',
+  `is_active` TINYINT(1) DEFAULT 1,
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+

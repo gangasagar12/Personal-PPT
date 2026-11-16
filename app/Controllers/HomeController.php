@@ -10,11 +10,35 @@ use App\Core\View;
 
 class HomeController {
     public function index(): void {
-        $featured_projects = FeaturedProject::allWithSkills();
-        $academic_projects = AcademicProject::allWithSkills();
-        $blog_insights = BlogInsight::published();
-        $experiences = Experience::allWithDetails();
-        $active_promotion = Promotion::getActive();
+        try {
+            $featured_projects = FeaturedProject::allWithSkills();
+        } catch (\Throwable $e) {
+            $featured_projects = [];
+        }
+
+        try {
+            $academic_projects = AcademicProject::allWithSkills();
+        } catch (\Throwable $e) {
+            $academic_projects = [];
+        }
+
+        try {
+            $blog_insights = BlogInsight::published();
+        } catch (\Throwable $e) {
+            $blog_insights = [];
+        }
+
+        try {
+            $experiences = Experience::allWithDetails();
+        } catch (\Throwable $e) {
+            $experiences = [];
+        }
+
+        try {
+            $active_promotion = Promotion::getActive();
+        } catch (\Throwable $e) {
+            $active_promotion = null;
+        }
 
         View::render('home', [
             'featured_projects' => $featured_projects,

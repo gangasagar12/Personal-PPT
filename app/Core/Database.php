@@ -21,19 +21,72 @@ class Database {
                     }
                     self::$instance = new PDO("sqlite:" . $conn['database']);
                 } else {
-                    $dsn = "mysql:host={$conn['host']};port={$conn['port']};dbname={$conn['database']};charset={$conn['charset']}";
-                    try {
-                        self::$instance = new PDO($dsn, $conn['username'], $conn['password']);
-                    } catch (PDOException $pe) {
-                        // If database does not exist (error 1049), create it automatically
-                        if ($pe->getCode() == 1049 || strpos($pe->getMessage(), 'Unknown database') !== false) {
-                            $rootDsn = "mysql:host={$conn['host']};port={$conn['port']};charset={$conn['charset']}";
-                            $initPdo = new PDO($rootDsn, $conn['username'], $conn['password']);
-                            $initPdo->exec("CREATE DATABASE IF NOT EXISTS `{$conn['database']}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-                            self::$instance = new PDO($dsn, $conn['username'], $conn['password']);
-                        } else {
-                            throw $pe;
+                    $host = !empty($conn['host']) ? $conn['host'] : 'localhost';
+                    $db = $conn['database'] ?? '';
+                    $user = $conn['username'] ?? 'root';
+                    $pass = $conn['password'] ?? '';
+                    $charset = $conn['charset'] ?? 'utf8mb4';
+                    $port = !empty($conn['port']) ? $conn['port'] : 3306;
+
+                    // Build candidate DSNs to guarantee connectivity across environments (cPanel/Linux vs Local/Windows)
+                    $dsnCandidates = [];
+
+                    if (!empty($conn['socket'])) {
+                        $dsnCandidates[] = "mysql:unix_socket={$conn['socket']};dbname={$db};charset={$charset}";
+                    }
+
+                    if ($host === 'localhost') {
+                        $dsnCandidates[] = "mysql:host=localhost;dbname={$db};charset={$charset}";
+                        $dsnCandidates[] = "mysql:host=127.0.0.1;port={$port};dbname={$db};charset={$charset}";
+                    } elseif ($host === '127.0.0.1') {
+                        $dsnCandidates[] = "mysql:host=127.0.0.1;port={$port};dbname={$db};charset={$charset}";
+                        $dsnCandidates[] = "mysql:host=localhost;dbname={$db};charset={$charset}";
+                    } else {
+                        $dsnCandidates[] = "mysql:host={$host};port={$port};dbname={$db};charset={$charset}";
+                        $dsnCandidates[] = "mysql:host=localhost;dbname={$db};charset={$charset}";
+                    }
+
+                    // Common Linux cPanel unix socket fallbacks if TCP connection is refused
+                    $commonSockets = ['/var/lib/mysql/mysql.sock', '/tmp/mysql.sock', '/var/run/mysqld/mysqld.sock'];
+                    foreach ($commonSockets as $sock) {
+                        if (@file_exists($sock)) {
+                            $dsnCandidates[] = "mysql:unix_socket={$sock};dbname={$db};charset={$charset}";
                         }
+                    }
+
+                    $connected = false;
+                    $lastException = null;
+
+                    foreach ($dsnCandidates as $candidateDsn) {
+                        try {
+                            self::$instance = new PDO($candidateDsn, $user, $pass, [
+                                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                                PDO::ATTR_TIMEOUT => 4
+                            ]);
+                            $connected = true;
+                            break;
+                        } catch (PDOException $pe) {
+                            $lastException = $pe;
+                            // If error is 1049 (Unknown database), try auto-creating if privileges permit
+                            if ($pe->getCode() == 1049 || strpos($pe->getMessage(), 'Unknown database') !== false) {
+                                try {
+                                    $rootDsn = preg_replace('/dbname=[^;]+;?/', '', $candidateDsn);
+                                    $initPdo = new PDO($rootDsn, $user, $pass);
+                                    $initPdo->exec("CREATE DATABASE IF NOT EXISTS `{$db}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+                                    self::$instance = new PDO($candidateDsn, $user, $pass, [
+                                        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                                        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+                                    ]);
+                                    $connected = true;
+                                    break;
+                                } catch (\Throwable $t) {}
+                            }
+                        }
+                    }
+
+                    if (!$connected) {
+                        throw $lastException ?? new PDOException("Could not connect to MySQL database.");
                     }
                 }
 
