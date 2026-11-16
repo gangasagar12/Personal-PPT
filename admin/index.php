@@ -368,7 +368,9 @@ exit;
 // ─────────────────────────────────────────────────────────────
 // LOGGED IN ACTIONS (CRUD Operations)
 // ─────────────────────────────────────────────────────────────
-$message = '';
+$message = $_SESSION['admin_message'] ?? '';
+$error = $_SESSION['admin_error'] ?? '';
+unset($_SESSION['admin_message'], $_SESSION['admin_error']);
 $message_type = 'success';
 
 if (!function_exists('handle_admin_image_upload')) {
@@ -434,84 +436,225 @@ if (!function_exists('handle_admin_image_upload')) {
     }
 }
 
+if (!function_exists('handle_admin_screenshot_uploads')) {
+    /**
+     * Handle Multiple Desktop Screenshot Uploads + Captions for Featured Projects
+     */
+    function handle_admin_screenshot_uploads(): array {
+        $results = [];
+        $captions = $_POST['screenshot_captions'] ?? [];
+        $existing = $_POST['screenshot_existing_paths'] ?? [];
+        $files = $_FILES['screenshot_files'] ?? null;
+
+        $totalItems = max(
+            is_array($captions) ? count($captions) : 0,
+            is_array($existing) ? count($existing) : 0,
+            (isset($files['name']) && is_array($files['name'])) ? count($files['name']) : 0
+        );
+
+        $upload_dir_public = dirname(__DIR__) . '/public/images/uploads';
+        $upload_dir_root = dirname(__DIR__) . '/images/uploads';
+        if (!is_dir($upload_dir_public)) {
+            @mkdir($upload_dir_public, 0755, true);
+        }
+        if (!is_dir($upload_dir_root)) {
+            @mkdir($upload_dir_root, 0755, true);
+        }
+
+        for ($i = 0; $i < $totalItems; $i++) {
+            $caption = trim($captions[$i] ?? 'Project Screenshot');
+            if (empty($caption)) {
+                $caption = 'Project Screenshot';
+            }
+            $savedPath = '';
+
+            // Check if user uploaded a file from desktop for this row
+            if (
+                isset($files['error'][$i]) &&
+                $files['error'][$i] === UPLOAD_ERR_OK &&
+                !empty($files['name'][$i])
+            ) {
+                $ext = strtolower(pathinfo($files['name'][$i], PATHINFO_EXTENSION));
+                $allowed = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg'];
+                if ($files['size'][$i] <= 10 * 1024 * 1024 && in_array($ext, $allowed, true)) {
+                    $tmp = $files['tmp_name'][$i];
+                    $safe_filename = 'shot_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
+                    $dest_public = $upload_dir_public . '/' . $safe_filename;
+                    $dest_root = $upload_dir_root . '/' . $safe_filename;
+
+                    if (move_uploaded_file($tmp, $dest_public)) {
+                        @copy($dest_public, $dest_root);
+                        $savedPath = 'images/uploads/' . $safe_filename;
+                    }
+                }
+            }
+
+            // If no new file uploaded from desktop, keep existing image path
+            if (empty($savedPath) && !empty($existing[$i])) {
+                $safeExisting = str_replace(['../', '..\\'], '', trim($existing[$i]));
+                if (!empty($safeExisting)) {
+                    $savedPath = $safeExisting;
+                }
+            }
+
+            if (!empty($savedPath)) {
+                $results[] = [
+                    'src' => $savedPath,
+                    'title' => $caption
+                ];
+            }
+        }
+
+        // Fallback: legacy text format if desktop upload rows were not used
+        if (empty($results) && !empty($_POST['screenshots'])) {
+            require_once __DIR__ . '/../app/Models/FeaturedProject.php';
+            return \App\Models\FeaturedProject::parseScreenshots((string)$_POST['screenshots']);
+        }
+
+        return $results;
+    }
+}
+
 // Action: Delete Company Product (Strataflow)
 if (isset($_GET['del_prod'])) {
     $del_id = intval($_GET['del_prod']);
-    $pdo->prepare("DELETE FROM company_products WHERE id = ?")->execute([$del_id]);
-    $message = 'Strataflow Product deleted successfully.';
+    try {
+        $stmt = $pdo->prepare("DELETE FROM company_products WHERE id = ?");
+        $stmt->execute([$del_id]);
+        $_SESSION['admin_message'] = 'Strataflow Product deleted successfully.';
+    } catch (\Throwable $e) {
+        $_SESSION['admin_error'] = 'Failed to delete product: ' . $e->getMessage();
+    }
+    header('Location: ' . $adminSelfUrl . '#tab-products');
+    exit;
 }
 
 // Action: Delete Featured Project
 if (isset($_GET['del_feat'])) {
     $del_id = intval($_GET['del_feat']);
-    $pdo->prepare("DELETE FROM featured_projects WHERE id = ?")->execute([$del_id]);
-    $message = 'Featured Project deleted successfully.';
+    try {
+        $stmt = $pdo->prepare("DELETE FROM featured_projects WHERE id = ?");
+        $stmt->execute([$del_id]);
+        $_SESSION['admin_message'] = 'Featured Project deleted successfully.';
+    } catch (\Throwable $e) {
+        $_SESSION['admin_error'] = 'Failed to delete featured project: ' . $e->getMessage();
+    }
+    header('Location: ' . $adminSelfUrl . '#tab-featured');
+    exit;
 }
 
 // Action: Delete Combined Project (Academic or Other)
 if (isset($_GET['del_combined']) && isset($_GET['type'])) {
     $del_id = intval($_GET['del_combined']);
     $type = trim($_GET['type']);
-    if ($type === 'academic') {
-        $pdo->prepare("DELETE FROM academic_projects WHERE id = ?")->execute([$del_id]);
-        $message = 'Academic Project deleted successfully.';
-    } else {
-        $pdo->prepare("DELETE FROM other_projects WHERE id = ?")->execute([$del_id]);
-        $message = 'Other Project deleted successfully.';
+    try {
+        if ($type === 'academic') {
+            $pdo->prepare("DELETE FROM academic_projects WHERE id = ?")->execute([$del_id]);
+            $_SESSION['admin_message'] = 'Academic Project deleted successfully.';
+        } else {
+            $pdo->prepare("DELETE FROM other_projects WHERE id = ?")->execute([$del_id]);
+            $_SESSION['admin_message'] = 'Other Project deleted successfully.';
+        }
+    } catch (\Throwable $e) {
+        $_SESSION['admin_error'] = 'Failed to delete project: ' . $e->getMessage();
     }
+    header('Location: ' . $adminSelfUrl . '#tab-academic-other');
+    exit;
 }
 
 // Action: Delete Academic Project (Legacy fallback)
 if (isset($_GET['del_acad'])) {
     $del_id = intval($_GET['del_acad']);
-    $pdo->prepare("DELETE FROM academic_projects WHERE id = ?")->execute([$del_id]);
-    $message = 'Academic Project deleted successfully.';
+    try {
+        $pdo->prepare("DELETE FROM academic_projects WHERE id = ?")->execute([$del_id]);
+        $_SESSION['admin_message'] = 'Academic Project deleted successfully.';
+    } catch (\Throwable $e) {
+        $_SESSION['admin_error'] = 'Failed to delete academic project: ' . $e->getMessage();
+    }
+    header('Location: ' . $adminSelfUrl . '#tab-academic-other');
+    exit;
 }
 
 // Action: Delete Other Project (Legacy fallback)
 if (isset($_GET['del_other'])) {
     $del_id = intval($_GET['del_other']);
-    $pdo->prepare("DELETE FROM other_projects WHERE id = ?")->execute([$del_id]);
-    $message = 'Other Project deleted successfully.';
+    try {
+        $pdo->prepare("DELETE FROM other_projects WHERE id = ?")->execute([$del_id]);
+        $_SESSION['admin_message'] = 'Other Project deleted successfully.';
+    } catch (\Throwable $e) {
+        $_SESSION['admin_error'] = 'Failed to delete other project: ' . $e->getMessage();
+    }
+    header('Location: ' . $adminSelfUrl . '#tab-academic-other');
+    exit;
 }
 
 // Action: Delete Blog Post
 if (isset($_GET['del_blog'])) {
     $del_id = intval($_GET['del_blog']);
-    $pdo->prepare("DELETE FROM blog_insights WHERE id = ?")->execute([$del_id]);
-    $message = 'Insight / Blog post deleted successfully.';
+    try {
+        $pdo->prepare("DELETE FROM blog_insights WHERE id = ?")->execute([$del_id]);
+        $_SESSION['admin_message'] = 'Insight / Blog post deleted successfully.';
+    } catch (\Throwable $e) {
+        $_SESSION['admin_error'] = 'Failed to delete blog post: ' . $e->getMessage();
+    }
+    header('Location: ' . $adminSelfUrl . '#tab-blog');
+    exit;
 }
 
 // Action: Delete Contact Message
 if (isset($_GET['del_msg'])) {
     $del_id = intval($_GET['del_msg']);
-    $pdo->prepare("DELETE FROM contact_inquiries WHERE id = ?")->execute([$del_id]);
-    $message = 'Contact inquiry removed.';
+    try {
+        $pdo->prepare("DELETE FROM contact_inquiries WHERE id = ?")->execute([$del_id]);
+        $_SESSION['admin_message'] = 'Contact inquiry removed.';
+    } catch (\Throwable $e) {
+        $_SESSION['admin_error'] = 'Failed to delete inquiry: ' . $e->getMessage();
+    }
+    header('Location: ' . $adminSelfUrl . '#tab-inquiries');
+    exit;
 }
 
 // Action: Delete Award / Recognition
 if (isset($_GET['del_award'])) {
     $del_id = intval($_GET['del_award']);
-    $pdo->prepare("DELETE FROM awards WHERE id = ?")->execute([$del_id]);
-    $message = 'Award / Recognition deleted successfully.';
+    try {
+        $pdo->prepare("DELETE FROM awards WHERE id = ?")->execute([$del_id]);
+        $_SESSION['admin_message'] = 'Award / Recognition deleted successfully.';
+    } catch (\Throwable $e) {
+        $_SESSION['admin_error'] = 'Failed to delete award: ' . $e->getMessage();
+    }
+    header('Location: ' . $adminSelfUrl . '#tab-awards');
+    exit;
 }
 
 // Action: Toggle Promotion Status
 if (isset($_GET['toggle_promo'])) {
     $promo_id = intval($_GET['toggle_promo']);
-    require_once __DIR__ . '/../app/Core/Autoloader.php';
-    \App\Core\Autoloader::register();
-    \App\Models\Promotion::toggleStatus($promo_id);
-    $message = 'Promotional Offer status updated.';
+    try {
+        require_once __DIR__ . '/../app/Core/Autoloader.php';
+        \App\Core\Autoloader::register();
+        \App\Models\Promotion::toggleStatus($promo_id);
+        $_SESSION['admin_message'] = 'Promotional Offer status updated.';
+    } catch (\Throwable $e) {
+        $_SESSION['admin_error'] = 'Failed to update promotion status: ' . $e->getMessage();
+    }
+    header('Location: ' . $adminSelfUrl . '#tab-promotions');
+    exit;
 }
 
 // Action: Delete Promotion
 if (isset($_GET['del_promo'])) {
     $promo_id = intval($_GET['del_promo']);
-    require_once __DIR__ . '/../app/Core/Autoloader.php';
-    \App\Core\Autoloader::register();
-    \App\Models\Promotion::delete($promo_id);
-    $message = 'Promotional Offer deleted successfully.';
+    try {
+        require_once __DIR__ . '/../app/Core/Autoloader.php';
+        \App\Core\Autoloader::register();
+        \App\Models\Promotion::delete($promo_id);
+        $_SESSION['admin_message'] = 'Promotional Offer deleted successfully.';
+    } catch (\Throwable $e) {
+        $_SESSION['admin_error'] = 'Failed to delete promotion: ' . $e->getMessage();
+    }
+    header('Location: ' . $adminSelfUrl . '#tab-promotions');
+    exit;
 }
 
 // Action: Add / Update Promotional Offer Pop-up
@@ -575,6 +718,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_featured'])) {
 
     $title = trim($_POST['title'] ?? '');
     $image = handle_admin_image_upload('feat_image_file', 'image', 'images/projectcard1.jpg');
+    $screenshotsArray = handle_admin_screenshot_uploads();
 
     $saveData = [
         'id' => intval($_POST['feat_id'] ?? 0),
@@ -589,7 +733,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_featured'])) {
         'description' => trim($_POST['description'] ?? ''),
         'impact' => trim($_POST['impact'] ?? ''),
         'features' => trim($_POST['features'] ?? ''),
-        'screenshots' => trim($_POST['screenshots'] ?? ''),
+        'screenshots' => $screenshotsArray,
         'image' => $image,
         'skills' => trim($_POST['skills'] ?? ''),
         'live_url' => trim($_POST['live_url'] ?? 'https://github.com/gangasagar12'),
@@ -597,10 +741,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_featured'])) {
     ];
 
     if (\App\Models\FeaturedProject::saveItem($saveData)) {
-        $message = "Project '{$title}' saved successfully with complete dynamic details.";
+        $_SESSION['admin_message'] = "Project '{$title}' saved successfully with complete dynamic details.";
     } else {
-        $error = "Failed to save project.";
+        $_SESSION['admin_error'] = "Failed to save project.";
     }
+    header('Location: ' . $adminSelfUrl . '#tab-featured');
+    exit;
 }
 
 // Action: Add / Update Combined Project (Academic & Other Projects Unified)
@@ -1253,6 +1399,18 @@ $promotions_list = \App\Models\Promotion::allOrdered();
         .form-col-full {
             grid-column: span 2;
         }
+        .screenshot-row {
+            display: grid;
+            grid-template-columns: 56px minmax(180px, 1.1fr) minmax(180px, 1.4fr) auto;
+            gap: 0.75rem;
+            align-items: center;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 0.6rem 0.75rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+            margin-bottom: 0.25rem;
+        }
         .form-label {
             display: block;
             font-size: 0.82rem;
@@ -1407,6 +1565,10 @@ $promotions_list = \App\Models\Promotion::allOrdered();
             .form-col-full {
                 grid-column: span 1;
             }
+            .screenshot-row {
+                grid-template-columns: 1fr !important;
+                gap: 0.5rem !important;
+            }
             .kpi-row {
                 grid-template-columns: 1fr;
             }
@@ -1550,9 +1712,15 @@ $promotions_list = \App\Models\Promotion::allOrdered();
         <main class="admin-canvas">
 
             <!-- Flash Success / Error Notification -->
-            <?php if ($message): ?>
-                <div class="alert-bar">
+            <?php if (!empty($message)): ?>
+                <div class="alert-bar" style="background:#059669; color:#fff;">
                     <span><i class="bx bx-check-circle" style="vertical-align:middle; font-size:1.15rem; margin-right:0.3rem;"></i> <?= htmlspecialchars($message) ?></span>
+                    <span style="cursor:pointer; font-size:1.2rem;" onclick="this.parentElement.style.display='none';">&times;</span>
+                </div>
+            <?php endif; ?>
+            <?php if (!empty($error)): ?>
+                <div class="alert-bar" style="background:#dc2626; color:#fff;">
+                    <span><i class="bx bx-error-circle" style="vertical-align:middle; font-size:1.15rem; margin-right:0.3rem;"></i> <?= htmlspecialchars($error) ?></span>
                     <span style="cursor:pointer; font-size:1.2rem;" onclick="this.parentElement.style.display='none';">&times;</span>
                 </div>
             <?php endif; ?>
@@ -1691,8 +1859,26 @@ $promotions_list = \App\Models\Promotion::allOrdered();
                                     <textarea name="impact" id="feat_impact" class="form-control" rows="3" placeholder="Measurable outcomes, improvements, operational results..."></textarea>
                                 </div>
                                 <div class="form-col-full">
-                                    <label class="form-label">Demo Screenshots (Format: image_path | Caption per line, or JSON array)</label>
-                                    <textarea name="screenshots" id="feat_screenshots" class="form-control" rows="3" placeholder="images/dental_preview1.jpg | Video Guides & Patient Care&#10;images/dental_preview2.jpg | Treatment Pricing & Procedures"></textarea>
+                                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+                                        <label class="form-label" style="margin-bottom:0; font-weight:600; display:flex; align-items:center; gap:0.4rem;">
+                                            <i class="bx bx-images" style="color:#0ea5e9; font-size:1.15rem;"></i>
+                                            <span>Demo Screenshots (Upload Images from Desktop)</span>
+                                        </label>
+                                        <button type="button" class="btn btn-secondary btn-sm" onclick="addScreenshotRow()" style="padding:0.3rem 0.75rem; font-size:0.8rem; display:inline-flex; align-items:center; gap:4px;">
+                                            <i class="bx bx-plus"></i> Add Screenshot
+                                        </button>
+                                    </div>
+                                    <p style="font-size:0.8rem; color:#64748b; margin-bottom:0.75rem;">
+                                        Select and upload screenshot images directly from your computer / desktop. Add an optional caption / title for each screenshot.
+                                    </p>
+
+                                    <!-- Dynamic Screenshot Upload Rows Container -->
+                                    <div id="screenshots_container" style="display:flex; flex-direction:column; gap:0.75rem;">
+                                        <!-- Dynamically generated rows via JavaScript -->
+                                    </div>
+
+                                    <!-- Hidden input for backward compatibility -->
+                                    <input type="hidden" name="screenshots" id="feat_screenshots" value="">
                                 </div>
                             </div>
                             <div class="form-actions">
@@ -2528,7 +2714,14 @@ $promotions_list = \App\Models\Promotion::allOrdered();
         function toggleForm(formId) {
             const form = document.getElementById(formId);
             if (!form) return;
-            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            const willShow = form.style.display === 'none';
+            form.style.display = willShow ? 'block' : 'none';
+            if (willShow && formId === 'form-add-featured') {
+                const idInput = document.getElementById('feat_id');
+                if (!idInput || idInput.value === '0' || idInput.value === '') {
+                    resetScreenshotContainer();
+                }
+            }
         }
 
         function resetAndCloseForm(formId, idField) {
@@ -2541,6 +2734,9 @@ $promotions_list = \App\Models\Promotion::allOrdered();
             formContainer.querySelectorAll('img[id$="_preview_img"]').forEach(img => {
                 img.src = '/images/projectcard1.jpg';
             });
+            if (formId === 'form-add-featured') {
+                resetScreenshotContainer();
+            }
             formContainer.style.display = 'none';
         }
 
@@ -2549,6 +2745,88 @@ $promotions_list = \App\Models\Promotion::allOrdered();
             const slugInput = document.getElementById('feat_slug');
             if (idInput && (idInput.value === '0' || idInput.value === '')) {
                 slugInput.value = val.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+            }
+        }
+
+        // ─── DYNAMIC SCREENSHOTS UPLOADER (DESKTOP FILES) ──────────
+        function addScreenshotRow(src = '', title = '') {
+            const container = document.getElementById('screenshots_container');
+            if (!container) return;
+
+            const row = document.createElement('div');
+            row.className = 'screenshot-row';
+            row.style.cssText = 'display:grid; grid-template-columns: 56px minmax(180px, 1.1fr) minmax(180px, 1.4fr) auto; gap:0.75rem; align-items:center; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:0.6rem 0.75rem; box-shadow:0 1px 2px rgba(0,0,0,0.03); margin-bottom:0.25rem;';
+
+            const cleanSrc = src ? ('/' + src.replace(/^\/+/, '')) : '/images/projectcard1.jpg';
+            const cleanTitle = (title || '').replace(/"/g, '&quot;');
+            const existingVal = (src || '').replace(/"/g, '&quot;');
+
+            row.innerHTML = `
+                <div style="width:56px; height:42px; border-radius:6px; overflow:hidden; border:1px solid #cbd5e1; background:#fff; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                    <img class="shot-preview" src="${cleanSrc}" alt="" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='/images/projectcard1.jpg'">
+                </div>
+                <div>
+                    <label style="font-size:0.72rem; font-weight:600; color:#475569; display:block; margin-bottom:3px;">
+                        <i class="bx bx-upload" style="vertical-align:middle;"></i> Choose File (Desktop)
+                    </label>
+                    <input type="file" name="screenshot_files[]" class="form-control shot-file-input" accept="image/*" onchange="previewScreenshotFile(this)" style="font-size:0.78rem; padding:0.35rem 0.5rem; height:auto;">
+                </div>
+                <div>
+                    <label style="font-size:0.72rem; font-weight:600; color:#475569; display:block; margin-bottom:3px;">
+                        <i class="bx bx-text" style="vertical-align:middle;"></i> Caption / Title
+                    </label>
+                    <input type="text" name="screenshot_captions[]" class="form-control shot-caption-input" placeholder="e.g. Booking Screen or Patient Chart" value="${cleanTitle}" style="font-size:0.82rem;">
+                    <input type="hidden" name="screenshot_existing_paths[]" class="shot-existing-path" value="${existingVal}">
+                </div>
+                <div>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="removeScreenshotRow(this)" title="Remove this screenshot" style="height:36px; padding:0 0.65rem; margin-top:14px; display:inline-flex; align-items:center; justify-content:center;">
+                        <i class="bx bx-trash" style="font-size:1.05rem;"></i>
+                    </button>
+                </div>
+            `;
+
+            container.appendChild(row);
+        }
+
+        function removeScreenshotRow(btn) {
+            const row = btn.closest('.screenshot-row');
+            if (row) {
+                const container = document.getElementById('screenshots_container');
+                row.remove();
+                if (container && container.children.length === 0) {
+                    addScreenshotRow();
+                }
+            }
+        }
+
+        function previewScreenshotFile(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const row = input.closest('.screenshot-row');
+                if (!row) return;
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = row.querySelector('.shot-preview');
+                    if (img) img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+
+                // Auto-fill caption if currently empty
+                const captionInput = row.querySelector('.shot-caption-input');
+                if (captionInput && !captionInput.value.trim()) {
+                    let name = file.name.replace(/\.[^/.]+$/, '');
+                    name = name.replace(/[_-]+/g, ' ').replace(/\s+/g, ' ').trim();
+                    captionInput.value = name.replace(/\b\w/g, c => c.toUpperCase());
+                }
+            }
+        }
+
+        function resetScreenshotContainer() {
+            const container = document.getElementById('screenshots_container');
+            if (container) {
+                container.innerHTML = '';
+                addScreenshotRow();
             }
         }
 
@@ -2603,7 +2881,40 @@ $promotions_list = \App\Models\Promotion::allOrdered();
             }
             document.getElementById('feat_features').value = featText;
 
-            // Format screenshots
+            // Populate Dynamic Screenshot Rows (Uploadable from Desktop)
+            const container = document.getElementById('screenshots_container');
+            if (container) {
+                container.innerHTML = '';
+                let shots = [];
+                if (Array.isArray(item.screenshots_array) && item.screenshots_array.length > 0) {
+                    shots = item.screenshots_array;
+                } else if (Array.isArray(item.screenshots)) {
+                    shots = item.screenshots;
+                } else if (typeof item.screenshots === 'string') {
+                    try {
+                        const parsed = JSON.parse(item.screenshots);
+                        if (Array.isArray(parsed)) shots = parsed;
+                    } catch(e) {}
+                    if (shots.length === 0 && item.screenshots.trim()) {
+                        shots = item.screenshots.split('\n').map(line => {
+                            const parts = line.split('|');
+                            return { src: parts[0]?.trim() || '', title: parts[1]?.trim() || 'Project Screenshot' };
+                        }).filter(s => s.src);
+                    }
+                }
+
+                if (shots.length > 0) {
+                    shots.forEach(s => {
+                        const src = typeof s === 'string' ? s : (s.src || s.image || s.url || '');
+                        const title = typeof s === 'string' ? 'Project Screenshot' : (s.title || s.caption || 'Project Screenshot');
+                        addScreenshotRow(src, title);
+                    });
+                } else {
+                    addScreenshotRow();
+                }
+            }
+
+            // Also keep hidden fallback value
             let shotText = '';
             if (Array.isArray(item.screenshots_array) && item.screenshots_array.length > 0) {
                 shotText = item.screenshots_array.map(s => (s.src || '') + ' | ' + (s.title || '')).join('\n');
@@ -2619,7 +2930,8 @@ $promotions_list = \App\Models\Promotion::allOrdered();
                     shotText = item.screenshots;
                 }
             }
-            document.getElementById('feat_screenshots').value = shotText;
+            const fallbackInput = document.getElementById('feat_screenshots');
+            if (fallbackInput) fallbackInput.value = shotText;
 
             drawer.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
@@ -2865,8 +3177,13 @@ $promotions_list = \App\Models\Promotion::allOrdered();
             document.getElementById('promo_form_title').textContent = 'Upload Promotional Offer';
         }
 
-        // On Page Load: Restore tab from hash if present
+        // On Page Load: Restore tab from hash if present & initialize screenshots uploader
         window.addEventListener('DOMContentLoaded', () => {
+            const shotContainer = document.getElementById('screenshots_container');
+            if (shotContainer && shotContainer.children.length === 0) {
+                addScreenshotRow();
+            }
+
             const hash = window.location.hash.replace('#', '');
             if (hash) {
                 const map = {

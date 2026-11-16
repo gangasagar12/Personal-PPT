@@ -18,3 +18,4 @@ if (file_exists($root . '/app/Core/Autoloader.php')) {
 
 $pdo = \App\Core\Database::getConnection();
 $GLOBALS['pdo'] = $pdo;
+    

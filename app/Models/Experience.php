@@ -12,16 +12,14 @@ class Experience extends Model {
     public static function allWithDetails(): array {
         try {
             $items = self::all('display_order ASC, id ASC');
-            if (!empty($items)) {
-                foreach ($items as &$item) {
-                    $item['skills_array'] = !empty($item['skills']) ? array_map('trim', explode(',', $item['skills'])) : [];
-                    $item['responsibilities_array'] = !empty($item['responsibilities']) ? array_filter(array_map('trim', explode("\n", $item['responsibilities']))) : [];
-                }
-                return $items;
+            foreach ($items as &$item) {
+                $item['skills_array'] = !empty($item['skills']) ? array_map('trim', explode(',', $item['skills'])) : [];
+                $item['responsibilities_array'] = !empty($item['responsibilities']) ? array_filter(array_map('trim', explode("\n", $item['responsibilities']))) : [];
             }
-        } catch (\Throwable $e) {}
-
-        return self::defaults();
+            return $items;
+        } catch (\Throwable $e) {
+            return self::defaults();
+        }
     }
 
     /**

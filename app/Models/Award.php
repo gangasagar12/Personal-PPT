@@ -11,13 +11,10 @@ class Award extends Model {
      */
     public static function allWithDetails(): array {
         try {
-            $items = self::all('display_order ASC, id ASC');
-            if (!empty($items)) {
-                return $items;
-            }
-        } catch (\Throwable $e) {}
-
-        return self::defaults();
+            return self::all('display_order ASC, id ASC');
+        } catch (\Throwable $e) {
+            return self::defaults();
+        }
     }
 
     /**

@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . '/db.php';
-require_once __DIR__ . '/init_db.php';
 
 function _get_db_connection() {
     global $pdo;

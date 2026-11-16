@@ -11,8 +11,6 @@ class CompanyProduct extends Model {
      * Fetch all products ordered by display_order with parsed features and tech pills
      */
     public static function allWithFeaturesAndPills(): array {
-        self::seedInitialIfEmpty();
-
         $pdo = Database::getConnection();
         $stmt = $pdo->query("SELECT * FROM " . static::$table . " ORDER BY display_order ASC, id ASC");
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
