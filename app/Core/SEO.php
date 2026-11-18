@@ -45,7 +45,13 @@ class SEO {
             'name' => 'Ganga Sagar Joshi',
             'alternateName' => ['Ganga Sagar', 'Ganga Joshi'],
             'url' => $base,
-            'image' => $base . '/images/ganga-sagar-joshi.png',
+            'image' => [
+                '@type' => 'ImageObject',
+                '@id' => $base . '/#profile-image',
+                'url' => $base . '/images/ganga-sagar-joshi-profile.jpeg',
+                'contentUrl' => $base . '/images/ganga-sagar-joshi-profile.jpeg',
+                'caption' => 'Ganga Sagar Joshi'
+            ],
             'jobTitle' => 'Software Developer & Backend Engineer',
             'description' => 'Software Developer and Co-Founder at Strataflow Technologies, specializing in Python, Django backend engineering, scalable relational databases, and enterprise systems.',
             'worksFor' => [
@@ -79,6 +85,29 @@ class SEO {
                 'Machine Learning',
                 'Relational Database Architecture',
                 'SaaS Product Engineering'
+            ]
+        ];
+    }
+
+    /**
+     * Get ProfilePage Schema (JSON-LD) - Helps Google index author as person entity with image
+     */
+    public static function profilePageSchema(): array {
+        $base = self::baseUrl();
+        return [
+            '@context' => 'https://schema.org',
+            '@type' => 'ProfilePage',
+            '@id' => $base . '/#profilepage',
+            'url' => $base,
+            'name' => 'Ganga Sagar Joshi — Software Developer & Django Backend Engineer',
+            'description' => 'Official portfolio and profile of Ganga Sagar Joshi, Software Developer & Technology Entrepreneur.',
+            'primaryImageOfPage' => [
+                '@type' => 'ImageObject',
+                '@id' => $base . '/#profile-image',
+                'url' => $base . '/images/ganga-sagar-joshi-profile.jpeg'
+            ],
+            'mainEntity' => [
+                '@id' => $base . '/#person'
             ]
         ];
     }

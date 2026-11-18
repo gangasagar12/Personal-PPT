@@ -57,8 +57,11 @@ $noindex = !empty($seo_noindex);
   <meta name="twitter:image" content="<?= htmlspecialchars($imageUrl) ?>" />
   <meta name="twitter:image:alt" content="<?= htmlspecialchars($title) ?>" />
 
-  <!-- Favicon & Touch Icons -->
+  <!-- Favicon & Touch Icons (Google Multiple-of-48px Compliant) -->
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="48x48" href="/images/favicon-48x48.png" />
+  <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192x192.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
@@ -70,10 +73,11 @@ $noindex = !empty($seo_noindex);
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <!-- Structured Data: Person & WebSite Schema (JSON-LD) -->
+  <!-- Structured Data: Person, ProfilePage & WebSite Schema (JSON-LD) -->
 <?php
   $schemas = [
       SEO::personSchema(),
+      SEO::profilePageSchema(),
       SEO::websiteSchema()
   ];
   if (!empty($seo_custom_schema) && is_array($seo_custom_schema)) {

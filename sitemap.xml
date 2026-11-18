@@ -3,9 +3,19 @@
   <!-- Core Public Pages -->
   <url>
     <loc>https://gangasagar.com.np/</loc>
-    <lastmod>2026-11-15</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://gangasagar.com.np/images/ganga-sagar-joshi-profile.jpeg</image:loc>
+      <image:title>Ganga Sagar Joshi — Software Developer &amp; Django Backend Engineer</image:title>
+      <image:caption>Official portrait of Ganga Sagar Joshi, Software Developer &amp; Co-Founder at Strataflow Technologies in Kathmandu, Nepal</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://gangasagar.com.np/images/ganga-sagar-joshi.png</image:loc>
+      <image:title>Ganga Sagar Joshi Portrait</image:title>
+      <image:caption>Ganga Sagar Joshi, Software Engineer and Technology Entrepreneur</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://gangasagar.com.np/profile</loc>
