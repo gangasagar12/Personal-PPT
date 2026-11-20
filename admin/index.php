@@ -19,18 +19,60 @@ if (!headers_sent()) {
     header('Referrer-Policy: strict-origin-when-cross-origin');
 }
 
-require_once __DIR__ . '/../backend/db.php';
-require_once __DIR__ . '/../backend/functions.php';
+// Robust database and autoloader bootstrap
+$possibleRoots = [
+    dirname(__DIR__),
+    __DIR__,
+    dirname(__DIR__) . '/public_html',
+    dirname($_SERVER['DOCUMENT_ROOT'] ?? ''),
+    ($_SERVER['DOCUMENT_ROOT'] ?? ''),
+];
+
+$root = dirname(__DIR__);
+foreach ($possibleRoots as $cand) {
+    if ($cand && is_dir($cand . '/app') && file_exists($cand . '/config/database.php')) {
+        $root = realpath($cand) ?: $cand;
+        break;
+    }
+}
+
+if (file_exists($root . '/backend/db.php')) {
+    require_once $root . '/backend/db.php';
+} elseif (file_exists(__DIR__ . '/../backend/db.php')) {
+    require_once __DIR__ . '/../backend/db.php';
+}
+
+if (file_exists($root . '/backend/functions.php')) {
+    require_once $root . '/backend/functions.php';
+} elseif (file_exists(__DIR__ . '/../backend/functions.php')) {
+    require_once __DIR__ . '/../backend/functions.php';
+}
 
 if (!isset($pdo) || !$pdo) {
-    require_once __DIR__ . '/../app/Core/Database.php';
-    $pdo = \App\Core\Database::getConnection();
+    if (file_exists($root . '/config/env.php')) {
+        require_once $root . '/config/env.php';
+    }
+    if (file_exists($root . '/app/Core/Autoloader.php')) {
+        require_once $root . '/app/Core/Autoloader.php';
+        \App\Core\Autoloader::register();
+    }
+    if (class_exists(\App\Core\Database::class)) {
+        $pdo = \App\Core\Database::getConnection();
+    }
 }
-$GLOBALS['pdo'] = $pdo;
+$GLOBALS['pdo'] = $pdo ?? null;
 
 // Authentication Config (Loaded from .env / config/app.php with fallback)
-require_once __DIR__ . '/../config/env.php';
-$app_config = file_exists(__DIR__ . '/../config/app.php') ? require __DIR__ . '/../config/app.php' : [];
+if (file_exists($root . '/config/env.php')) {
+    require_once $root . '/config/env.php';
+} elseif (file_exists(__DIR__ . '/../config/env.php')) {
+    require_once __DIR__ . '/../config/env.php';
+} elseif (!function_exists('env')) {
+    function env($key, $default = null) {
+        return $_ENV[$key] ?? $_SERVER[$key] ?? getenv($key) ?: $default;
+    }
+}
+$app_config = file_exists($root . '/config/app.php') ? require $root . '/config/app.php' : (file_exists(__DIR__ . '/../config/app.php') ? require __DIR__ . '/../config/app.php' : []);
 if (!defined('ADMIN_USER')) {
     define('ADMIN_USER', $app_config['admin']['user'] ?? env('ADMIN_USERNAME', 'admin'));
 }
@@ -82,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_submit'])) {
     $allowed_usernames = [
         strtolower(ADMIN_USER),
         'admin',
-        'gangasaagar62@gmail.com'
+        'info@gangasagar.com.np'
     ];
     $user_matches = in_array(strtolower($username), $allowed_usernames, true);
 

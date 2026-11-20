@@ -354,8 +354,8 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
                 <a href="tel:+9779746332963" class="signature-contact-item">
                   <i class="bx bx-phone" aria-hidden="true"></i> +977 9746332963
                 </a>
-                <a href="mailto:gangasaagar62@gmail.com" class="signature-contact-item">
-                  <i class="bx bx-envelope" aria-hidden="true"></i> gangasaagar62@gmail.com
+                <a href="mailto:info@gangasagar.com.np" class="signature-contact-item">
+                  <i class="bx bx-envelope" aria-hidden="true"></i> info@gangasagar.com.np
                 </a>
               </div>
             </div>
@@ -1161,7 +1161,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
               <div class="info-icon"><i class="bx bx-envelope" aria-hidden="true"></i></div>
               <div class="info-text">
                 <h3>Email</h3>
-                <a href="mailto:gangasaagar62@gmail.com">gangasaagar62@gmail.com</a>
+                <a href="mailto:info@gangasagar.com.np">info@gangasagar.com.np</a>
               </div>
             </div>
 

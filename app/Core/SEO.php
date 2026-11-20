@@ -45,6 +45,7 @@ class SEO {
             'name' => 'Ganga Sagar Joshi',
             'alternateName' => ['Ganga Sagar', 'Ganga Joshi'],
             'url' => $base,
+            'email' => 'mailto:info@gangasagar.com.np',
             'image' => [
                 '@type' => 'ImageObject',
                 '@id' => $base . '/#profile-image',

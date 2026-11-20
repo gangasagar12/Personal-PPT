@@ -48,7 +48,7 @@ $is_home = ($uri === '/' || $uri === '' || $uri === '/index.php');
           <a href="https://www.linkedin.com/in/ganga-sagar15" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
             <i class="bx bxl-linkedin" aria-hidden="true"></i>
           </a>
-          <a href="mailto:gangasaagar62@gmail.com" aria-label="Email" title="Email">
+          <a href="mailto:info@gangasagar.com.np" aria-label="Email" title="Email">
             <i class="bx bx-envelope" aria-hidden="true"></i>
           </a>
         </div>
