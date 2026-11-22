@@ -258,7 +258,9 @@
             <?php foreach ($company_products as $prod): ?>
               <article class="product-feature-card">
                 <div class="product-thumb-wrap">
-                  <img src="/<?= ltrim(htmlspecialchars($prod['image'] ?: 'images/projectcard1.jpg'), '/') ?>" alt="<?= htmlspecialchars($prod['title']) ?>" loading="lazy" onerror="this.onerror=null; this.src='/images/projectcard1.jpg'" />
+                  <a href="/<?= ltrim(htmlspecialchars($prod['image'] ?: 'images/projectcard1.jpg'), '/') ?>" target="_blank" rel="noopener noreferrer" title="Click to view full image" class="product-img-lightbox-link">
+                    <img src="/<?= ltrim(htmlspecialchars($prod['image'] ?: 'images/projectcard1.jpg'), '/') ?>" alt="<?= htmlspecialchars($prod['title']) ?>" loading="lazy" onerror="this.onerror=null; this.src='/images/projectcard1.jpg'" />
+                  </a>
                   <span class="product-status-badge">
                     <i class="bx bx-check-circle"></i> <?= htmlspecialchars($prod['status_text'] ?: 'Active Product') ?>
                   </span>

@@ -1216,12 +1216,10 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
              alt="<?= htmlspecialchars($active_promotion['title']) ?>" 
              class="promo-popup-img"
              onerror="this.src='/images/projectcard1.jpg'" />
-        <span class="promo-popup-badge"><i class="bx bxs-hot" aria-hidden="true"></i> Special Offer</span>
       </div>
       <?php endif; ?>
 
       <div class="promo-popup-body">
-        <span class="promo-popup-kicker">Announcement &amp; Promotion</span>
         <h3 class="promo-popup-title" id="promoPopupTitle">
           <?= htmlspecialchars($active_promotion['title']) ?>
         </h3>

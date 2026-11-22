@@ -365,14 +365,39 @@ body.insights-page-body {
   margin-bottom: 1.25rem;
 }
 
-.article-body-content h3 {
+.article-body-content h2,
+.article-body-content h3,
+.article-body-content h4,
+.article-body-content h5 {
   font-family: var(--font-heading);
-  font-size: 1.15rem;
-  font-weight: 700;
   color: var(--color-text-main);
-  margin: 1.85rem 0 0.75rem 0;
+  font-weight: 700;
   line-height: 1.35;
   letter-spacing: -0.01em;
+  margin: 1.85rem 0 0.75rem 0;
+}
+
+.article-body-content h2 {
+  font-size: 1.28rem;
+}
+
+.article-body-content h3 {
+  font-size: 1.15rem;
+}
+
+.article-body-content h4,
+.article-body-content h5 {
+  font-size: 1.05rem;
+}
+
+.article-body-content blockquote {
+  border-left: 3px solid var(--color-primary);
+  background: #f8fafc;
+  padding: 0.85rem 1.25rem;
+  margin: 1.25rem 0;
+  border-radius: 0 8px 8px 0;
+  color: #475569;
+  font-style: italic;
 }
 
 .article-body-content ul,

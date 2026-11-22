@@ -101,7 +101,14 @@
 
             <!-- Full Article Body (Small, professional typography) -->
             <div class="article-body-content" id="articleContent">
-              <?= $post['content'] ?? nl2br(htmlspecialchars($post['excerpt'] ?? '')) ?>
+              <?php 
+                $rawContent = $post['content'] ?? ($post['excerpt'] ?? '');
+                if (class_exists(\App\Core\Markdown::class)) {
+                    echo \App\Core\Markdown::parse($rawContent);
+                } else {
+                    echo nl2br(htmlspecialchars($rawContent));
+                }
+              ?>
             </div>
 
             <!-- Footer Return Link -->

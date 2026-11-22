@@ -5706,15 +5706,21 @@ h6 {
 .promo-popup-media {
   position: relative;
   width: 100%;
-  height: 200px;
-  background: #0b1329;
+  height: auto;
+  max-height: 280px;
+  background: #ffffff;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
 }
 
 .promo-popup-img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  max-height: 280px;
+  object-fit: contain;
   display: block;
 }
 
@@ -5828,7 +5834,11 @@ h6 {
     text-align: center;
   }
   .promo-popup-media {
-    height: 160px;
+    max-height: 220px;
+    height: auto;
+  }
+  .promo-popup-img {
+    max-height: 220px;
   }
 }
 

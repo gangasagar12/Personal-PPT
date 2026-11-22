@@ -48,13 +48,23 @@ if (file_exists($root . '/backend/functions.php')) {
     require_once __DIR__ . '/../backend/functions.php';
 }
 
+// Register PSR-4 Autoloader safely
+if (!class_exists(\App\Core\Autoloader::class)) {
+    if (file_exists($root . '/app/Core/Autoloader.php')) {
+        require_once $root . '/app/Core/Autoloader.php';
+    } elseif (file_exists(__DIR__ . '/../app/Core/Autoloader.php')) {
+        require_once __DIR__ . '/../app/Core/Autoloader.php';
+    } elseif (file_exists(__DIR__ . '/app/Core/Autoloader.php')) {
+        require_once __DIR__ . '/app/Core/Autoloader.php';
+    }
+}
+if (class_exists(\App\Core\Autoloader::class)) {
+    \App\Core\Autoloader::register();
+}
+
 if (!isset($pdo) || !$pdo) {
     if (file_exists($root . '/config/env.php')) {
         require_once $root . '/config/env.php';
-    }
-    if (file_exists($root . '/app/Core/Autoloader.php')) {
-        require_once $root . '/app/Core/Autoloader.php';
-        \App\Core\Autoloader::register();
     }
     if (class_exists(\App\Core\Database::class)) {
         $pdo = \App\Core\Database::getConnection();
@@ -660,9 +670,9 @@ if (isset($_GET['del_msg'])) {
 if (isset($_GET['del_award'])) {
     $del_id = intval($_GET['del_award']);
     try {
-        require_once __DIR__ . '/../app/Core/Autoloader.php';
-        \App\Core\Autoloader::register();
-        \App\Models\Award::ensureTable();
+        if (class_exists(\App\Models\Award::class)) {
+            \App\Models\Award::ensureTable();
+        }
         $stmt = $pdo->prepare("DELETE FROM awards WHERE id = ?");
         $stmt->execute([$del_id]);
         $_SESSION['admin_message'] = 'Award / Recognition deleted successfully.';
@@ -677,9 +687,9 @@ if (isset($_GET['del_award'])) {
 if (isset($_GET['del_exp'])) {
     $del_id = intval($_GET['del_exp']);
     try {
-        require_once __DIR__ . '/../app/Core/Autoloader.php';
-        \App\Core\Autoloader::register();
-        \App\Models\Experience::ensureTable();
+        if (class_exists(\App\Models\Experience::class)) {
+            \App\Models\Experience::ensureTable();
+        }
         $stmt = $pdo->prepare("DELETE FROM experiences WHERE id = ?");
         $stmt->execute([$del_id]);
         $_SESSION['admin_message'] = 'Work Experience deleted successfully.';
@@ -694,9 +704,9 @@ if (isset($_GET['del_exp'])) {
 if (isset($_GET['toggle_promo'])) {
     $promo_id = intval($_GET['toggle_promo']);
     try {
-        require_once __DIR__ . '/../app/Core/Autoloader.php';
-        \App\Core\Autoloader::register();
-        \App\Models\Promotion::toggleStatus($promo_id);
+        if (class_exists(\App\Models\Promotion::class)) {
+            \App\Models\Promotion::toggleStatus($promo_id);
+        }
         $_SESSION['admin_message'] = 'Promotional Offer status updated.';
     } catch (\Throwable $e) {
         $_SESSION['admin_error'] = 'Failed to update promotion status: ' . $e->getMessage();
@@ -709,9 +719,9 @@ if (isset($_GET['toggle_promo'])) {
 if (isset($_GET['del_promo'])) {
     $promo_id = intval($_GET['del_promo']);
     try {
-        require_once __DIR__ . '/../app/Core/Autoloader.php';
-        \App\Core\Autoloader::register();
-        \App\Models\Promotion::delete($promo_id);
+        if (class_exists(\App\Models\Promotion::class)) {
+            \App\Models\Promotion::delete($promo_id);
+        }
         $_SESSION['admin_message'] = 'Promotional Offer deleted successfully.';
     } catch (\Throwable $e) {
         $_SESSION['admin_error'] = 'Failed to delete promotion: ' . $e->getMessage();
@@ -722,9 +732,6 @@ if (isset($_GET['del_promo'])) {
 
 // Action: Add / Update Promotional Offer Pop-up
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_promotion'])) {
-    require_once __DIR__ . '/../app/Core/Autoloader.php';
-    \App\Core\Autoloader::register();
-
     $title = trim($_POST['title'] ?? '');
     $desc = trim($_POST['description'] ?? '');
     $image = handle_admin_image_upload('promo_image_file', 'image', 'images/projectcard1.jpg');
@@ -751,9 +758,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_promotion'])) {
 
 // Action: Add / Update Award
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_award'])) {
-    require_once __DIR__ . '/../app/Core/Autoloader.php';
-    \App\Core\Autoloader::register();
-
     $title = trim($_POST['title'] ?? '');
     $issuer = trim($_POST['issuer'] ?? '');
     $date = trim($_POST['date'] ?? '');
@@ -776,9 +780,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_award'])) {
 
 // Action: Add / Update Work Experience
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_experience'])) {
-    require_once __DIR__ . '/../app/Core/Autoloader.php';
-    \App\Core\Autoloader::register();
-
     $company = trim($_POST['company'] ?? '');
     $role = trim($_POST['role'] ?? '');
     $period = trim($_POST['period'] ?? '');
@@ -817,9 +818,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_experience'])) {
 
 // Action: Add / Update Featured Project
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_featured'])) {
-    require_once __DIR__ . '/../app/Core/Autoloader.php';
-    \App\Core\Autoloader::register();
-
     $title = trim($_POST['title'] ?? '');
     $image = handle_admin_image_upload('feat_image_file', 'image', 'images/projectcard1.jpg');
     $screenshotsArray = handle_admin_screenshot_uploads();
@@ -943,9 +941,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_company_product'
     $order = intval($_POST['display_order'] ?? 0);
     $prod_id = intval($_POST['prod_id'] ?? 0);
 
-    require_once __DIR__ . '/../app/Core/Autoloader.php';
-    \App\Core\Autoloader::register();
-
     \App\Models\CompanyProduct::saveItem([
         'title' => $title,
         'category' => $category,
@@ -962,10 +957,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_company_product'
     $message = $prod_id > 0 ? "Strataflow Product '{$title}' updated." : "New Strataflow Product '{$title}' added.";
 }
 
-// Autoloader & fetch all current data
-require_once __DIR__ . '/../app/Core/Autoloader.php';
-\App\Core\Autoloader::register();
-
+// Fetch all current data for Admin Dashboard
 $featured_list = \App\Models\FeaturedProject::allWithSkills();
 $academic_list = \App\Models\AcademicProject::allWithSkills();
 $other_projects_list = \App\Models\OtherProject::allWithSkills();
@@ -2807,8 +2799,34 @@ $promotions_list = \App\Models\Promotion::allOrdered();
                                     <textarea name="excerpt" id="blog_excerpt" class="form-control" required placeholder="A brief summary for the card..."></textarea>
                                 </div>
                                 <div class="form-col-full">
-                                    <label class="form-label">Full Article Content (HTML / Markdown supported)</label>
-                                    <textarea name="content" id="blog_content" class="form-control" style="min-height:160px;" placeholder="Full markdown or text..."></textarea>
+                                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
+                                        <label class="form-label" style="margin-bottom:0;">Full Article Content (Markdown / Text supported)</label>
+                                        <span style="font-size:0.75rem; color:#64748b;">Supports Headings, Bullets &amp; Paragraphs</span>
+                                    </div>
+                                    <div class="editor-toolbar" style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:0.4rem; padding:0.4rem 0.6rem; background:#f1f5f9; border:1px solid #cbd5e1; border-radius:6px;">
+                                        <button type="button" class="btn btn-secondary btn-sm" style="padding:0.2rem 0.55rem; font-size:0.75rem;" onclick="insertArticleTag('### ', '')" title="Section Heading"><strong>H3 Title</strong></button>
+                                        <button type="button" class="btn btn-secondary btn-sm" style="padding:0.2rem 0.55rem; font-size:0.75rem;" onclick="insertArticleTag('#### ', '')" title="Subheading"><strong>H4 Subtitle</strong></button>
+                                        <button type="button" class="btn btn-secondary btn-sm" style="padding:0.2rem 0.55rem; font-size:0.75rem;" onclick="insertArticleTag('**', '**')" title="Bold"><strong>B</strong></button>
+                                        <button type="button" class="btn btn-secondary btn-sm" style="padding:0.2rem 0.55rem; font-size:0.75rem;" onclick="insertArticleTag('*', '*')" title="Italic"><em>I</em></button>
+                                        <button type="button" class="btn btn-secondary btn-sm" style="padding:0.2rem 0.55rem; font-size:0.75rem;" onclick="insertArticleTag('- ', '')" title="Bullet Point">&bull; Bullet</button>
+                                        <button type="button" class="btn btn-secondary btn-sm" style="padding:0.2rem 0.55rem; font-size:0.75rem;" onclick="insertArticleTag('1. ', '')" title="Numbered List">1. Number</button>
+                                        <button type="button" class="btn btn-secondary btn-sm" style="padding:0.2rem 0.55rem; font-size:0.75rem;" onclick="insertArticleTag('```\n', '\n```')" title="Code Block">&lt;/&gt; Code</button>
+                                        <button type="button" class="btn btn-secondary btn-sm" style="padding:0.2rem 0.55rem; font-size:0.75rem;" onclick="insertArticleTag('> ', '')" title="Quote">&ldquo; Quote</button>
+                                    </div>
+                                    <textarea name="content" id="blog_content" class="form-control" style="min-height:220px; font-family:monospace; font-size:0.9rem; line-height:1.6;" placeholder="Write your article here...
+
+### 1. Section Title
+This is paragraph one. Leave a blank line for a new paragraph.
+
+Key Highlights:
+- Bullet item 1
+- Bullet item 2
+
+1. Numbered step 1
+2. Numbered step 2"></textarea>
+                                    <div style="font-size:0.78rem; color:#64748b; margin-top:0.35rem; line-height:1.4;">
+                                        💡 <strong>Formatting Guide:</strong> Leave an empty line between paragraphs. Use <code>### Title</code> for section headings, <code>- Item</code> for bullet points, and <code>**bold**</code> for bold text. All formatting will be rendered automatically.
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-actions">
@@ -3928,6 +3946,20 @@ $promotions_list = \App\Models\Promotion::allOrdered();
             document.getElementById('promo_button_url').value = '#contact';
             document.getElementById('promo_is_active').checked = true;
             document.getElementById('promo_form_title').textContent = 'Upload Promotional Offer';
+        }
+
+        // Insert markdown or formatting tags into blog_content textarea
+        function insertArticleTag(before, after) {
+            const textarea = document.getElementById('blog_content');
+            if (!textarea) return;
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selText = textarea.value.substring(start, end);
+            const replacement = before + (selText || '') + (after || '');
+            textarea.value = textarea.value.substring(0, start) + replacement + textarea.value.substring(end);
+            textarea.focus();
+            textarea.selectionStart = start + before.length;
+            textarea.selectionEnd = start + before.length + (selText ? selText.length : 0);
         }
 
         // On Page Load: Restore tab from hash if present & initialize screenshots uploader
