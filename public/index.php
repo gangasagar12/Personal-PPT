@@ -8,6 +8,13 @@
 
 declare(strict_types=1);
 
+// Debug mode toggle via query parameter (?debug=1)
+if (isset($_GET['debug']) && $_GET['debug'] === '1') {
+    ini_set('display_errors', '1');
+    ini_set('display_startup_errors', '1');
+    error_reporting(E_ALL);
+}
+
 // Static asset fallback handler (serves css, js, images on CLI server & Apache rewrites)
 $uriPath = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
 $rootPath = dirname(__DIR__);
@@ -113,7 +120,17 @@ if (file_exists($projectRoot . '/app/Core/Autoloader.php')) {
 // 3. Load Web Routes & Dispatch Request
 if (file_exists($projectRoot . '/routes/web.php')) {
     require_once $projectRoot . '/routes/web.php';
-    \App\Core\Router::dispatch();
+    try {
+        \App\Core\Router::dispatch();
+    } catch (\Throwable $e) {
+        http_response_code(200);
+        echo "<!DOCTYPE html><html><head><title>System Diagnostic</title><style>body{font-family:sans-serif;padding:2rem;background:#0b1329;color:#fff;}pre{background:#1e293b;padding:1rem;border-radius:8px;overflow:auto;color:#38bdf8;}</style></head><body>";
+        echo "<h2>System Diagnostic Notice:</h2>";
+        echo "<p><strong>Message:</strong> " . htmlspecialchars($e->getMessage()) . "</p>";
+        echo "<p><strong>File:</strong> " . htmlspecialchars($e->getFile()) . " (Line " . $e->getLine() . ")</p>";
+        echo "<h3>Stack Trace:</h3><pre>" . htmlspecialchars($e->getTraceAsString()) . "</pre>";
+        echo "</body></html>";
+    }
 } else {
     die("System Error: routes/web.php could not be found in {$projectRoot}. Please ensure all project folders (app, routes, resources, config) are uploaded to your hosting server.");
 }

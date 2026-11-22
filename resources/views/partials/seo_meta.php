@@ -4,9 +4,15 @@
  */
 use App\Core\SEO;
 
-$baseUrl = SEO::baseUrl();
+$baseUrl = 'https://gangasagar.com.np';
+try {
+    if (class_exists(SEO::class)) {
+        $baseUrl = SEO::baseUrl();
+    }
+} catch (\Throwable $t) {}
+
 $canonicalPath = $seo_path ?? parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
-$canonicalUrl = $seo_canonical ?? SEO::url($canonicalPath);
+$canonicalUrl = $seo_canonical ?? $baseUrl . ($canonicalPath === '/' ? '' : $canonicalPath);
 $title = $seo_title ?? 'Ganga Sagar Joshi — Software Developer & Django Backend Engineer';
 $desc = $seo_desc ?? "Portfolio of Ganga Sagar Joshi, Software Developer & Co-Founder at Strataflow Technologies specializing in Python, Django, scalable REST APIs, relational databases, and AI systems in Kathmandu, Nepal.";
 $imageRel = !empty($seo_image) ? '/' . ltrim($seo_image, '/') : '/images/logo-square.png';

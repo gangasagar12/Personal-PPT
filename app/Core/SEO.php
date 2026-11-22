@@ -6,7 +6,17 @@ class SEO {
      * Get preferred canonical base URL (from .env APP_URL or default production domain)
      */
     public static function baseUrl(): string {
-        $appUrl = rtrim((string)env('APP_URL', ''), '/');
+        $appUrl = '';
+        if (function_exists('env')) {
+            $appUrl = rtrim((string)env('APP_URL', ''), '/');
+        } elseif (function_exists('\\env')) {
+            $appUrl = rtrim((string)\env('APP_URL', ''), '/');
+        } elseif (isset($_ENV['APP_URL'])) {
+            $appUrl = rtrim((string)$_ENV['APP_URL'], '/');
+        } elseif (getenv('APP_URL')) {
+            $appUrl = rtrim((string)getenv('APP_URL'), '/');
+        }
+
         if (!empty($appUrl) && $appUrl !== 'http://localhost:8000') {
             return $appUrl;
         }

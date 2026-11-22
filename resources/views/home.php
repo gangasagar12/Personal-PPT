@@ -11,7 +11,7 @@
   \App\Core\View::partial('seo_meta', [
       'seo_title' => 'Ganga Sagar Joshi — Software Developer & Django Backend Engineer',
       'seo_desc' => 'Official portfolio of Ganga Sagar Joshi, Software Developer & Co-Founder at Strataflow Technologies specializing in Python, Django, scalable REST APIs, and full-stack software systems in Kathmandu, Nepal.',
-      'seo_canonical' => \App\Core\SEO::url('/'),
+      'seo_canonical' => 'https://gangasagar.com.np',
       'seo_image' => '/images/ganga-sagar-joshi-profile.jpeg',
       'seo_type' => 'website'
   ]);
@@ -921,23 +921,23 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
         <!-- Projects Grid -->
         <div class="home-projects-grid">
           <?php 
-          $displayProjects = array_slice($featured_projects, 0, 6);
+          $displayProjects = array_slice($featured_projects ?? [], 0, 6);
           foreach ($displayProjects as $p): 
-            $shortDesc = !empty($p['short_description']) ? $p['short_description'] : $p['description'];
-            $slug = !empty($p['slug']) ? $p['slug'] : \App\Models\FeaturedProject::slugify($p['title']);
+            $shortDesc = !empty($p['short_description']) ? $p['short_description'] : ($p['description'] ?? '');
+            $slug = !empty($p['slug']) ? $p['slug'] : \App\Models\FeaturedProject::slugify($p['title'] ?? 'project');
             $detailUrl = "/works/" . urlencode($slug);
           ?>
           <article class="home-project-card">
-            <a href="<?= $detailUrl ?>" class="home-project-image-link" aria-label="<?= htmlspecialchars($p['title']) ?>">
+            <a href="<?= $detailUrl ?>" class="home-project-image-link" aria-label="<?= htmlspecialchars($p['title'] ?? '') ?>">
               <div class="home-project-image">
-                <img src="/<?= ltrim(htmlspecialchars($p['image']), '/') ?>" alt="<?= htmlspecialchars($p['title']) ?>" loading="lazy" onerror="this.onerror=null; this.src='/images/projectcard1.jpg'" />
+                <img src="/<?= ltrim(htmlspecialchars($p['image'] ?? 'images/projectcard1.jpg'), '/') ?>" alt="<?= htmlspecialchars($p['title'] ?? '') ?>" loading="lazy" onerror="this.onerror=null; this.src='/images/projectcard1.jpg'" />
               </div>
             </a>
 
             <div class="home-project-body">
               <h3 class="home-project-title">
                 <a href="<?= $detailUrl ?>" class="project-title-link">
-                  <?= htmlspecialchars($p['title']) ?>
+                  <?= htmlspecialchars($p['title'] ?? '') ?>
                 </a>
               </h3>
               
@@ -947,7 +947,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
 
               <!-- Footer with Live Site link (no technology pills on card face) -->
               <div class="home-project-footer">
-                <a href="<?= htmlspecialchars($p['live_url']) ?>" target="_blank" rel="noopener noreferrer" class="live-site-link">
+                <a href="<?= htmlspecialchars($p['live_url'] ?? '#') ?>" target="_blank" rel="noopener noreferrer" class="live-site-link">
                   <span>Live Site</span>
                   <i class="bx bx-link-external" aria-hidden="true"></i>
                 </a>
@@ -976,7 +976,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
           </div>
 
           <div class="home-projects-grid academic-projects-grid">
-            <?php foreach ($academic_projects as $a): 
+            <?php foreach (($academic_projects ?? []) as $a): 
               $acadImage = !empty($a['image']) ? $a['image'] : 'images/projectcard1.jpg';
               $acadShortDesc = $a['description'];
               $acadDetailedDesc = !empty($a['detailed_description']) ? $a['detailed_description'] : $a['description'];
@@ -1080,7 +1080,7 @@ As Co-Founder of Strataflow Technologies, I work on turning real-world business 
 
         <!-- Insights Grid (Image & Title Cards) -->
         <div class="insights-cards-grid">
-          <?php foreach ($blog_insights as $post): ?>
+          <?php foreach (($blog_insights ?? []) as $post): ?>
           <a href="/insights/<?= urlencode($post['slug']) ?>" class="blog-post-card" title="<?= htmlspecialchars($post['title']) ?>">
             <div class="blog-card-image-wrap">
               <img src="/<?= ltrim(htmlspecialchars($post['image'] ?? 'images/projectcard1.jpg'), '/') ?>" 
